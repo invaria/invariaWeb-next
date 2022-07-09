@@ -252,7 +252,7 @@ const Privacy = () => {
             .
           </p>
         </div>
-        <div className="md:col-span-3 hidden md:block fixed top-[117px] right-6 xl:right-40">
+        <div className="md:col-span-3 hidden md:block top-[117px] right-6 xl:right-40">
           <div className="bg-invar-dark px-6 pt-6 pb-3 rounded text-invar-light-grey">
             {titleList.map((item, index) => (
               <div key={index} className="pb-3" id={item.id}>

@@ -417,8 +417,8 @@ const Terms = () => {
             including but not limited to class action lawsuits involving any such dispute.
           </p>
         </div>
-        <div className="md:col-span-3 hidden md:block fixed top-[117px] right-6 xl:right-40">
-          <div className="bg-invar-dark px-6 pt-6 pb-3 rounded text-invar-light-grey">
+        <div className="md:col-span-3 hidden md:block top-[117px] right-6 xl:right-40">
+          <div className="sticky bg-invar-dark px-6 pt-6 pb-3 rounded text-invar-light-grey">
             {titleList.map((item, index) => (
               <div key={index} className="pb-3" id={item.id}>
                 <a href={`#${item.id}`}>{item.title}</a>
