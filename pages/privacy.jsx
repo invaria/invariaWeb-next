@@ -1,6 +1,7 @@
 import { ButtonMailto } from '../components/icons/Link';
 import Image from 'next/image'
 import Link from 'next/link'
+import { ScrollToTop, Footer } from '../components';
 
 const Privacy = () => {
   
@@ -45,6 +46,7 @@ const Privacy = () => {
 
   return (
     <div>
+      <ScrollToTop />
       <div className="h-20 bg-invar-dark grid place-content-center text-[#030F2B]">
         <Link href="/">
           <Image className='cursor-pointer' width={95} height={34} src='/logo_white.svg' />
@@ -260,6 +262,7 @@ const Privacy = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

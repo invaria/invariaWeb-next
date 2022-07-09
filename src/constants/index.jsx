@@ -17,10 +17,10 @@ export const faqList = [
     question: 'How does InVaria 2222 work?',
     answer: (
       <p>
-        InVaria 2222 utilizes blockchain technology (smart contract ERC-1155, -721 & Staking) to
+        InVaria 2222 utilizes blockchain technology (smart contract ERC-1155, -721 & staking) to
         release the potential of real-world-assets (RWAs), and bring new use cases of tokenization to more users.
-        Within InVaria, the utilities and benefits originated from NFTs are organized under proof of equity interest,
-        which ensure NFT staking more reliable and sustainable
+        Within InVaria, the utilities and benefits originated from NFTs are organized under
+        under proof of ownership and legitimate entity, which ensure NFT staking more reliable and sustainable.
       </p>
     ),
   },

@@ -22,9 +22,17 @@ function App() {
       <Navbar headerBackground={headerBackground} />
       <ModalStory />
       <div className="w-full flex flex-col justify-center items-center h-0 ">
-        <label htmlFor="my-modal-1" className="btn modal-button w-[183px] md:w-min btnShadow px-6 py-3 text-sm text-info rounded absolute top-[272px] md:top-[408px] md:left-[245px] z-20 normal-case border-none">
-          Storyline</label>
-        <a href={`#faq`} className='btn w-[183px] md:w-max btnShadow px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded absolute top-[328px] md:top-[280px] md:right-1/4 normal-case border-none z-20 ' >
+        <label
+          htmlFor="my-modal-1"
+          className="
+            btn modal-button w-[183px] bg-white opacity-80 hover:bg-white hover:opacity-100 md:w-min btnShadow px-6 py-3 text-sm text-info rounded absolute
+            top-[272px] md:top-[408px] md:left-[245px] z-20 normal-case border-none">
+          Storyline
+        </label>
+        <a
+          href={`#faq`}
+          className="btn w-[183px] md:w-max bg-white opacity-80 hover:bg-white hover:opacity-100 btnShadow px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded
+          absolute top-[328px] md:top-[280px] md:right-1/4 normal-case border-none z-20" >
           FAQ & Tutorials</a>
       </div>
       <div className="relative">

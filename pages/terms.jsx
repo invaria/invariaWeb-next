@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { ScrollToTop, Footer } from '../components';
 
 const Terms = () => {
 
@@ -52,6 +53,7 @@ const Terms = () => {
 
   return (
     <div>
+      <ScrollToTop />
       <div className="h-20 bg-invar-dark grid place-content-center text-[#030F2B]">
         <Link href="/">
           <img className='cursor-pointer w-[95px]' src='/logo_white.svg' />
@@ -425,6 +427,7 @@ const Terms = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

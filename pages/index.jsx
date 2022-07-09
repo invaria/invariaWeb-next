@@ -15,7 +15,8 @@ function App() {
         </p>
         <Link href='phase1'>
           <button className="z-50 btn w-max h-12 text-center bg-invar-dark hover:bg-invar-dark normal-case text-sm md:text-base text-white font-semibold mt-6 md:mt-4 px-7 rounded border-none">
-            Launch App</button>
+            Launch App
+          </button>
         </Link>
       </div>
 
