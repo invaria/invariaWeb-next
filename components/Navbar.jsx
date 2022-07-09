@@ -99,13 +99,21 @@ const Navbar = ({ headerBackground }) => {
       </nav>
       {(toggleMenu) &&
         <div className=" fixed top-[60px] z-30 w-full h-screen py-[34px] px-[16px] flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]">
-          <label htmlFor="my-modal-1" className=" modal-button hover:underline font-semibold text-base mb-9">
-            Storyline</label>
-          <h1 className="font-semibold text-base mb-9">FAQ & Tutorials</h1>
+          <label htmlFor="my-modal-1" className="modal-button hover:underline font-semibold text-base mb-9">
+            Storyline
+          </label>
+          <h1
+            className="font-semibold text-base mb-9 cursor-pointer"
+            onClick={() => setToggleMenu(!toggleMenu)}
+          >
+            <a href={`#faq`}>
+              FAQ & Tutorials
+            </a>
+          </h1>
           <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
           {language && <h1 className="font-semibold text-base mb-[27px] mx-2">English</h1>}
           {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>}
-          <h1 className="font-semibold text-base mb-8">Dashbosrd</h1>
+          <h1 className="font-semibold text-base mb-8">Dashboard</h1>
           {!address && <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" onClick={() => setToggleWallet(true)}>Connect Wallet</button>}
           {address &&
             <>

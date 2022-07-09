@@ -145,13 +145,15 @@ export const faqList = [
   {
     question: 'Smart contracts and addresses you may want to know?',
     answer: (
-      <ul className="list-disc pl-6">
-        <li>InVaria 2222 smart contracts:</li>
-        NFT (ERC-1155) <br />
-        Staking
-        <li>InVaria 2222 operating account:</li>
-        <span className="text-invar-purple font-semibold">0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C</span> <br />
-      </ul>
+        <ul className="list-disc pl-6">
+          <li>InVaria 2222 smart contracts:</li>
+          NFT (ERC-1155) <br />
+          Staking
+          <li>InVaria 2222 operating account:</li>
+          <p className="text-invar-purple font-semibold break-all">
+            0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C
+          </p> <br />
+        </ul>
     ),
   },
   {
