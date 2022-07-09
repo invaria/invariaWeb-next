@@ -34,7 +34,7 @@ const ModalStory = () => {
           </div>
           {/* story 1 */}
           {/* story 2 */}
-          <div className="h-[188px] w-full flex px-[36px] pt-[54px] justify-start items-start">
+          {/* <div className="h-[188px] w-full flex px-[36px] pt-[54px] justify-start items-start">
             <img className="h-[86px] w-[154px] mr-[44px]" src='/story/img_story2.png' alt="" />
             <div className='flex flex-col items-center justify-center mr-6'>
               <span className="flex h-3 w-3 justify-center items-center">
@@ -46,10 +46,10 @@ const ModalStory = () => {
             <div className=" w-[485px] font-noraml text-sm">
               A tribe of humans find out a device with “CRYPTIC REFLECTOR” words carved on it, there is an unclear description shows…「Connecting…Connecting…, Connect to Real World, the Reflector Indicate Power… Asset will…」
             </div>
-          </div>
+          </div> */}
           {/* story 2 */}
           {/* story 3 */}
-          <div className="h-[188px] w-full flex px-[36px] pt-[34px] bg-primary justify-start items-start">
+          {/* <div className="h-[188px] w-full flex px-[36px] pt-[34px] bg-primary justify-start items-start">
             <img className="h-[86px] w-[154px] mr-[44px]" src='/story/img_story3.png' alt="" />
             <div className='flex flex-col items-center justify-center mr-6'>
               <span className="flex h-3 w-3 justify-center items-center">
@@ -61,10 +61,10 @@ const ModalStory = () => {
             <div className=" w-[485px] font-noraml text-sm">
               The researcher found that the building named Amwaj20, which was built in the Persian Gulf region in 2015... Electronic parts and documents are scattered at the entrance, especially, the texts on the documents are sorted out and translated... One of the paragraphs reads &quot;... First priority, enter your address codes in the device, also with desire of property resources... You may get an unexpected prizes…&quot;
             </div>
-          </div>
+          </div> */}
           {/* story 3 */}
           {/* story 4 */}
-          <div className="h-[188px] w-full flex px-[36px] pt-[44px] justify-start items-start">
+          {/* <div className="h-[188px] w-full flex px-[36px] pt-[44px] justify-start items-start">
             <img className="h-[86px] w-[154px] mr-[44px]" src='/story/img_story4.png' alt="" />
             <div className='flex flex-col items-center justify-center mr-6'>
               <span className="flex h-3 w-3 justify-center items-center">
@@ -76,10 +76,10 @@ const ModalStory = () => {
             <div className=" w-[485px] font-noraml text-sm">
               Hopely, through NFT technology, Amwaj20 property ownership is fractionalized and waiting to distribute. The lasting time of operating furnace is near closed... We should seize the time to mint Amwaj20 NFT to avoid losing the rights belonging to us. For details and mechanism of fractionalized NFT, please visit the FAQ or related information channels.
             </div>
-          </div>
+          </div> */}
           {/* story 4 */}
           {/* story 5 */}
-          <div className="h-[188px] w-full flex px-[36px] pt-[24px] bg-primary justify-start items-start">
+          {/* <div className="h-[188px] w-full flex px-[36px] pt-[24px] bg-primary justify-start items-start">
             <img className="h-[86px] w-[154px] mr-[44px]" src='/story/img_story5.png' alt="" />
             <div className='flex flex-col items-center justify-center mr-6'>
               <span className="flex h-3 w-3 justify-center items-center">
@@ -91,7 +91,7 @@ const ModalStory = () => {
             <div className=" w-[485px] font-noraml text-sm">
             &quot;...Pioneer Advantages... Amwaj20 will Activate the Portal to... this Device Can be Used in Different Scenario... Like Derivative of Power…&quot;, an unknown message unexpectedly appeared on REFLECTOR. After translation by the researcher, it was found that the device has the function of collecting information; meanwhile, the device is processing sort of formulas from previous data and surrounding events... Possibly, something is going to be reflected…
             </div>
-          </div>
+          </div> */}
           {/* story 5 */}
         </div>
         
@@ -125,7 +125,7 @@ const ModalStory = () => {
           </div>
           {/* story 1 */}
           {/* story 2 */}
-          <div className=" relative w-full flex px-[24px] py-[24px] justify-start items-start">
+          {/* <div className=" relative w-full flex px-[24px] py-[24px] justify-start items-start">
             <div className='flex flex-col items-center justify-center mr-6'>
               <span className="flex h-3 w-3 justify-center items-center z-20">
                 <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
@@ -139,10 +139,10 @@ const ModalStory = () => {
                 A tribe of humans find out a device with “CRYPTIC REFLECTOR” words carved on it, there is an unclear description shows…「Connecting…Connecting…, Connect to Real World, the Reflector Indicate Power… Asset will…」
             </div>
             </div>
-          </div>
+          </div> */}
           {/* story 2 */}
           {/* story 3 */}
-          <div className=" relative w-full flex px-[24px] py-[24px] bg-primary justify-start items-start">
+          {/* <div className=" relative w-full flex px-[24px] py-[24px] bg-primary justify-start items-start">
             <div className='flex flex-col items-center justify-center mr-6'>
               <span className="flex h-3 w-3 justify-center items-center z-20">
                 <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
@@ -156,11 +156,10 @@ const ModalStory = () => {
                 The researcher found that the building named Amwaj20, which was built in the Persian Gulf region in 2015... Electronic parts and documents are scattered at the entrance, especially, the texts on the documents are sorted out and translated... One of the paragraphs reads &quot;... First priority, enter your address codes in the device, also with desire of property resources... You may get an unexpected prizes…&quot;
             </div>
             </div>
-          </div>
+          </div> */}
           {/* story 3 */}
           {/* story 4 */}
-          <div className=" relative w-full flex px-[24px] py-[24px] justify-start items-start">
-
+          {/* <div className=" relative w-full flex px-[24px] py-[24px] justify-start items-start">
             <div className='flex flex-col items-center justify-center mr-6'>
               <span className="flex h-3 w-3 justify-center items-center z-20">
                 <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
@@ -175,10 +174,10 @@ const ModalStory = () => {
                 Hopely, through NFT technology, Amwaj20 property ownership is fractionalized and waiting to distribute. The lasting time of operating furnace is near closed... We should seize the time to mint Amwaj20 NFT to avoid losing the rights belonging to us. For details and mechanism of fractionalized NFT, please visit the FAQ or related information channels.
             </div>
             </div>
-          </div>
+          </div> */}
           {/* story 4 */}
           {/* story 5 */}
-          <div className=" relative w-full flex px-[24px] py-[24px] bg-primary justify-start items-start">
+          {/* <div className=" relative w-full flex px-[24px] py-[24px] bg-primary justify-start items-start">
             <div className='flex flex-col items-center justify-center mr-6'>
               <span className="flex h-3 w-3 justify-center items-center z-20">
                 <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
@@ -192,7 +191,7 @@ const ModalStory = () => {
               &quot;...Pioneer Advantages... Amwaj20 will Activate the Portal to... this Device Can be Used in Different Scenario... Like Derivative of Power…&quot;, an unknown message unexpectedly appeared on REFLECTOR. After translation by the researcher, it was found that the device has the function of collecting information; meanwhile, the device is processing sort of formulas from previous data and surrounding events... Possibly, something is going to be reflected…
             </div>
             </div>
-          </div>
+          </div> */}
           {/* story 5 */}
         </div>
 
