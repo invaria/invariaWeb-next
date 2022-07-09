@@ -20,7 +20,7 @@ export const faqList = [
         InVaria 2222 utilizes blockchain technology (smart contract ERC-1155, -721 & staking) to
         release the potential of real-world-assets (RWAs), and bring new use cases of tokenization to more users.
         Within InVaria, the utilities and benefits originated from NFTs are organized under
-        under proof of ownership and legitimate entity, which ensure NFT staking more reliable and sustainable.
+        proof of ownership and legitimate entity, which ensure NFT staking more reliable and sustainable.
       </p>
     ),
   },
@@ -33,7 +33,7 @@ export const faqList = [
         there are still some guidelines we should follow.
         <div>
           <br />
-          <p>*Check <span className="text-invar-purple font-semibold hover:underline"><Link href="/terms" >Terms & Conditions</Link></span> for more policy.</p>
+          <p>*Check <span className="text-invar-purple font-semibold hover:underline"><Link href="/terms" >Terms & Conditions</Link></span> for more policies.</p>
         </div>
       </div>
     ),
@@ -76,10 +76,10 @@ export const faqList = [
         In general, <span className="text-invar-grey font-semibold"> NFT minting cost is priced at 10,000
         <OpenLink link="https://coinmarketcap.com/currencies/usd-coin/"> USDC </OpenLink> (ERC-20)
         </span>
-        <span>, and </span>
+        <span>, and the </span>
         <span>
           <OpenLink link="https://ethereum.org/en/developers/docs/gas/">
-            the gas fee is calculated by the network status of Ethereum
+            gas fee is calculated by the network status of Ethereum
           </OpenLink>
         </span>
         . The additional cost may incur if an unexpected event or false execution happens.
@@ -130,11 +130,12 @@ export const faqList = [
     question: 'The future plans about the funds and development?',
     answer: (
       <p>
-        <span className="text-invar-grey font-semibold">About fund management,</span> 80% of funds go directly to FlowBay Financial Holdings,
-        a financial group with property management unit and fund management team;
+        <span className="text-invar-grey font-semibold">About fund management, </span>80% of funds go directly to FlowBay Financial Holdings, 
+        a financial group with property management unit and fund management team
+        to support yield generating and RWA management;
         20% of funds will transfer to staking smart contract.
         <br /> <br /> 
-        <span className=" text-invar-grey font-semibold">About project development,</span>
+        <span className=" text-invar-grey font-semibold">About project development, </span>
         tokenization of RWAs is only our first step, most of the funds will
         be utilized to generate more profits through property management and development,
         small amount will be used in hybrid finance development.
@@ -169,7 +170,7 @@ export const faqList = [
             Discord
           </OpenLink>
         </span>
-        {`) to follow the latest news or you can email `}
+        {`) to follow the latest news or email `}
         <ButtonMailto />
         {` to talk partnerships.`}
       </p>

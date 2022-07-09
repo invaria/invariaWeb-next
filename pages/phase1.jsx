@@ -74,8 +74,9 @@ function App() {
           </div>
           <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] font-normal">
             <p>
-              InVaria 2222 is a crypto-based, conceptual world with the goal of constructing connections
-              between economies through tokenization. Also, InVaria 2222 is positioned as an experiment MVP of InVar Finance.
+              InVaria 2222 is a RWA-based, tokenization world with the goal of constructing connections between
+              real-world and digital economies. In addition, InVaria 2222 is positioned as an experiment
+              flagship of InVar Finance.
               Inside InVaria, a huge amount of opportunity and wealth are waiting for humanity to find out and enjoy;
               no one knows the whole picture of this world...
             </p>
@@ -83,7 +84,7 @@ function App() {
             <p>
               In phase one, a group of InVariants will build a tokenized real estate model first,
               <span id='faq'></span>
-              then... the narrative and journey begin...
+              then... the story and journey begin...
             </p>
           </div>
 
