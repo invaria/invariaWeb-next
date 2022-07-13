@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import Footer from '../components/Footer'
 const Terms = () => {
@@ -51,16 +52,16 @@ const Terms = () => {
   ]
 
   return (
-    <div>
+    <div className='bg-gradient-to-b from-[#44334C] to-[#1E1722] '>
       <div className="h-20 bg-invar-dark grid place-content-center text-[#030F2B]">
         <Link href="invaria2222">
-          <img className='cursor-pointer w-[95px]' src='/logo_white.svg' />
+          <Image className='cursor-pointer' width={95} height={34} src='/logo_white.svg' />
         </Link>
       </div>
-      <div className="bg-gradient-to-b from-[#44334C] to-[#1E1722] py-8 px-6 xl:px-40 grid grid-cols-8 gap-12">
-        <div className="container text-white col-span-8 md:col-span-5">
-          <p className="text-xl xl:text-[32px] font-semibold">{`Terms & Conditions`}</p>
-          <p className="py-3">Last Updated: June 20th, 2022</p>
+      <div className="py-16 px-6 xl:px-56 grid grid-cols-8 gap-12">
+        <div className="container text-white col-span-8 md:col-span-5 text-base font-normal">
+          <p className="text-[32px] leading-[38.4px] font-semibold">{`Terms & Conditions`}</p>
+          <p className="pt-3 pb-6 ">Last Updated: June 20th, 2022</p>
           <p>
             InVaria 2222 is a collection of digital artworks (NFTs) running on the Ethereum network.
             This website is only an interface allowing participants to purchase digital collectibles.
@@ -76,8 +77,7 @@ const Terms = () => {
             By using this website you are accepting sole responsibility for any and
             all transactions involving InVaria 2222 digital collectibles.
           </p>
-          <br />
-          <p className="text-xl font-semibold" id="1">1. Ownership</p>
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="1">1. Ownership</p>
           <p>
             A. You Own the NFT. Each InVaria 2222 is an NFT on the Ethereum blockchain.
             When you purchase an NFT, you own the underlying InVaria 2222 NFT, the Art, completely.
@@ -143,8 +143,7 @@ const Terms = () => {
             and you shall be liable for any breach thereof and all damages incurred by InVar or the other rights holders of
             the intellectual property rights.
           </p>
-          <br />
-          <p className="text-xl font-semibold" id="2">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="2">
             2. Your Obligations
           </p>
           <p>
@@ -169,8 +168,7 @@ const Terms = () => {
             without notice to you, and without limiting any of our other rights or remedies at law or in equity,
             immediately suspend or terminate your user account.
           </p>
-          <br />
-          <p className="text-xl font-semibold" id="3">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="3">
             3. Fees and Payment
           </p>
           <p>
@@ -188,8 +186,7 @@ const Terms = () => {
             occurs on the Ethereum network. The Gas Fee funds the network of computers that
             run the decentralized Ethereum network. This means that you will need to pay a Gas Fee for each transaction.
           </p>
-          <br />
-          <p className="text-xl font-semibold" id="4">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="4">
             4. Disclaimers
           </p>
           <p>
@@ -259,8 +256,7 @@ const Terms = () => {
             To the extent we may not, as a matter of applicable law, disclaim any implied warranty or limit our liabilities,
             the scope and duration of such warranty and the extent of our liability will be the minimum permitted by applicable law.
           </p>
-          <br />
-          <p className="text-xl font-semibold" id="5">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="5">
             5. Limitation of Liability
           </p>
           <p>
@@ -281,9 +277,7 @@ const Terms = () => {
             in reliance upon the warranty disclaimers and limitations of liability set forth herein.
             We would not be able to provide the site to you without these limitations.
           </p>
-          <br />
-
-          <p className="text-xl  font-semibold" id="6">
+          <p className="text-xl  font-semibold mt-[46px] mb-3" id="6">
             6. KYC & AML Regulations
           </p>
           <p>
@@ -320,9 +314,7 @@ const Terms = () => {
             InVar may, from time to time, implement policies restricting verification levels by nationality,
             country of residence, or any other factor.
           </p>
-          <br />
-
-          <p className="text-xl  font-semibold" id="7">
+          <p className="text-xl  font-semibold mt-[46px] mb-3" id="7">
             7. Risk Assumption
           </p>
 
@@ -358,15 +350,13 @@ const Terms = () => {
             E. You assume all responsibility for any adverse effects of disruptions or other issues
             impacting Ethereum or the Ethereum platform.
           </p>
-          <br />
-          <p className="text-xl font-semibold" id="8">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="8">
             8. Indemnification
           </p>
           <p>
             You agree to hold harmless and indemnify InVar and its subsidiaries, affiliates, officers, agents, employees, advertisers, licensors, suppliers or partners from and against any claim, liability, loss, damage (actual and consequential) of any kind or nature, suit, judgment, litigation cost, and reasonable attorneys`&apos;` fees arising out of or in any way related to (i) your breach of these Terms, (ii) your misuse of the Site, or (iii) your violation of applicable laws, rules or regulations in connection with your access to or use of the Site.
           </p>
-          <br />
-          <p className="text-xl font-semibold" id="9">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="9">
             9. Changes to the Terms and Conditions
           </p>
           <p>
@@ -375,8 +365,7 @@ const Terms = () => {
             access to or use after the Terms have been updated will constitute your binding acceptance of the updates.
             If you do not agree to any revised Terms, you may not access or use the Site.
           </p>
-          <br />
-          <p className="text-xl font-semibold" id="10">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="10">
             10. Children
           </p>
           <p>
@@ -385,8 +374,7 @@ const Terms = () => {
             If you are under 21 years old you are not permitted to use this Site for any reason.
             By accessing the Site, you represent and warrant that you are at least 21 years of age.
           </p>
-          <br />
-          <p className="text-xl font-semibold" id="11">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="11">
             11. Dispute Resolution, Arbitration
           </p>
           <p>
@@ -413,10 +401,10 @@ const Terms = () => {
             including but not limited to class action lawsuits involving any such dispute.
           </p>
         </div>
-        <div className="md:col-span-3 hidden md:block fixed top-[117px] right-6 xl:right-40">
+        <div className="md:col-span-3 hidden md:block fixed top-[149px] right-6 xl:right-52">
           <div className="bg-invar-dark px-6 pt-6 pb-3 rounded text-invar-light-grey">
             {titleList.map((item, index) => (
-              <div key={index} className="pb-3" id={item.id}>
+              <div key={index} className="pb-3 hover:underline" id={item.id}>
                 <a href={`#${item.id}`}>{item.title}</a>
               </div>
             ))}
