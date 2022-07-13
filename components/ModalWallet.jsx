@@ -105,10 +105,15 @@ const ModalWallet = () => {
           <input type="checkbox" id="my-modal-3" className="modal-toggle" />
           <div className="modal bg-[#000000b6]">
             <div className="modal-box w-[375px] h-[230px] absolute top-[73px] right-[85px] rounded-[4px] bg-gradient-to-b from-primary to-[#1E1722] p-6">
-              <label htmlFor="my-modal-3" className="btn btn-sm absolute top-3 right-3 rounded-[4px] bg-opacity-0 hover:bg-opacity-0 text-[#fff] border-none">
+              {/* <label htmlFor="my-modal-3" className="btn btn-sm absolute top-3 right-3 rounded-[4px] bg-opacity-0 hover:bg-opacity-0 text-[#fff] border-none">
+                <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
+              </label> */}
+              <div className="flex justify-between">
+              <h3 className="text-2xl font-semibold text-white mb-[22px]">Connect Wallet</h3>
+              <label htmlFor="my-modal-3" className="btn btn-sm pr-0 rounded-[4px] bg-opacity-0 hover:bg-opacity-0 text-[#fff] border-none">
                 <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
               </label>
-              <h3 className="text-2xl font-semibold text-white mb-[22px]">Connect Wallet</h3>
+              </div>
               <button className="btn btn-primary relative w-[327px] h-[56px] rounded flex justify-center items-center border-none normal-case" onClick={connectWithMetamask}>
                 <img className="absolute top-[13px] left-4 h-[30px] w-[30px]" src='/icons/ic_metamask.png' alt="" />
                 <p className=" font-semibold text-accent">MetaMask</p>

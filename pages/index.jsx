@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -8,15 +8,16 @@ function App() {
       <div className="absolute top-20 xl:top-20 left-0 right-0 ml-auto mr-auto w-[134px] md:w-[223.33px] ">
         <Image width={223.33} height={80} src='/logo_white.svg' />
       </div>
-      <Image className="w-full min-h-screen max-h-full h-screen object-cover object-left-top overflow-hidden " src='/bg/cover_new.png' alt="cover" priority />
+      <img className="w-full min-h-screen max-h-full h-screen object-cover object-left-top overflow-hidden " src='/bg/cover_new.jpeg' alt="cover" />
       <div className="absolute top-40 md:top-60 left-0 right-0 ml-auto mr-auto text-center">
         <p className="text-[#E3D5FA] text-3xl mx-6 xl:mx-0 md:text-5xl font-semibold">
           Explore Crypto Desert on Next-Gen
         </p>
-        <Link href='phase1'>
-          <button className="z-50 btn w-max h-12 text-center bg-invar-dark hover:bg-invar-dark normal-case text-sm md:text-base text-white font-semibold mt-6 md:mt-4 px-7 rounded border-none">
-            Launch App
-          </button>
+        <Link href='/invaria2222' target="_blank">
+          <a target="_blank">
+            <button className="z-50 btn w-max h-12 text-center bg-invar-dark hover:bg-invar-dark normal-case text-sm md:text-base text-white font-semibold mt-6 md:mt-4 px-7 rounded border-none">
+              Launch App</button>
+          </a>
         </Link>
       </div>
 

@@ -107,3 +107,36 @@ body, html {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   background: rgba(255, 255, 255, 0.8);
 }
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide Calendar Icon In Chrome */
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity:0;  
+    -webkit-appearance: none;
+}
+
+
+.errorMessage {
+  background-color: white;
+  width: 143px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-left: 107px;
+  visibility: hidden;
+  border-radius: 10px;
+  position: relative;
+  float: left;
+  }

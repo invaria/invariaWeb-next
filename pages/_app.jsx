@@ -2,7 +2,7 @@ import '../styles/globals.css'
 import reportWebVitals from '../src/reportWebVitals';
 import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 
-const desiredChainId = ChainId.Rinkeby;
+const desiredChainId = ChainId.Mainnet;
 
 function MyApp({ Component, pageProps }) {
   return (

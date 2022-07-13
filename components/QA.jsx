@@ -19,9 +19,9 @@ const QA = ({ question, answer }) => {
 
         <div>
           {isExpanded ? (
-            <MinusIcon className="w-6 ml-6" />
+            <MinusIcon className="w-6" />
           ) : (
-            <PlusIcon className="w-6 ml-6" />
+            <PlusIcon className="w-6" />
           )}
         </div>
       </div>

@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { ScrollToTop, Footer } from '../components';
-
+import Footer from '../components/Footer'
 const Terms = () => {
 
   const titleList = [
@@ -53,18 +52,15 @@ const Terms = () => {
 
   return (
     <div>
-      <ScrollToTop />
       <div className="h-20 bg-invar-dark grid place-content-center text-[#030F2B]">
-        <Link href="/">
+        <Link href="invaria2222">
           <img className='cursor-pointer w-[95px]' src='/logo_white.svg' />
         </Link>
       </div>
       <div className="bg-gradient-to-b from-[#44334C] to-[#1E1722] py-8 px-6 xl:px-40 grid grid-cols-8 gap-12">
         <div className="container text-white col-span-8 md:col-span-5">
-          <p className="text-xl xl:text-2xl font-semibold">{`Terms & Conditions`}</p>
-          <br />
-          <p>Last Updated: June 20th, 2022</p>
-          <br />
+          <p className="text-xl xl:text-[32px] font-semibold">{`Terms & Conditions`}</p>
+          <p className="py-3">Last Updated: June 20th, 2022</p>
           <p>
             InVaria 2222 is a collection of digital artworks (NFTs) running on the Ethereum network.
             This website is only an interface allowing participants to purchase digital collectibles.
@@ -417,8 +413,8 @@ const Terms = () => {
             including but not limited to class action lawsuits involving any such dispute.
           </p>
         </div>
-        <div className="md:col-span-3 hidden md:block top-[117px] right-6 xl:right-40">
-          <div className="sticky bg-invar-dark px-6 pt-6 pb-3 rounded text-invar-light-grey">
+        <div className="md:col-span-3 hidden md:block fixed top-[117px] right-6 xl:right-40">
+          <div className="bg-invar-dark px-6 pt-6 pb-3 rounded text-invar-light-grey">
             {titleList.map((item, index) => (
               <div key={index} className="pb-3" id={item.id}>
                 <a href={`#${item.id}`}>{item.title}</a>

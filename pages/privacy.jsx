@@ -1,10 +1,10 @@
 import { ButtonMailto } from '../components/icons/Link';
 import Image from 'next/image'
 import Link from 'next/link'
-import { ScrollToTop, Footer } from '../components';
+import Footer from '../components/Footer'
 
 const Privacy = () => {
-  
+
   const titleList = [
     {
       id: '1',
@@ -46,9 +46,8 @@ const Privacy = () => {
 
   return (
     <div>
-      <ScrollToTop />
       <div className="h-20 bg-invar-dark grid place-content-center text-[#030F2B]">
-        <Link href="/">
+        <Link href="invaria2222">
           <Image className='cursor-pointer' width={95} height={34} src='/logo_white.svg' />
         </Link>
       </div>
@@ -57,7 +56,7 @@ const Privacy = () => {
           <p className="text-xl xl:text-2xl font-semibold">Privacy Policy Statement</p>
           <br />
           <p>Last Updated: June 20th, 2022</p>
-          <br/>
+          <br />
           <p>
             You are very welcome to use this website. In order to allow you to use the services and
             information of this website with peace of mind, we hereby explain to you the privacy
@@ -87,7 +86,7 @@ const Privacy = () => {
             we work with a third-party payment processor who may collect additional identifiers and
             payment information to complete the transaction.
           </p>
-          <br/>
+          <br />
           <p>
             B. Information We Collect Automatically
             <br></br>
@@ -115,7 +114,7 @@ const Privacy = () => {
             and understand usage and campaign effectiveness. For more information about cookies and how to disable them,
             see the Your Choices section below.
           </p>
-          <br/>
+          <br />
           <p>
             C.  Information We Collect from Other Sources
             <br />
@@ -125,7 +124,7 @@ const Privacy = () => {
             in accordance with the platforms’ terms of use and privacy policy.
             We may also collect information about you through other websites that provide identity verification services.
           </p>
-          <br/>
+          <br />
           <p>
             D.  Information We Derive
             <br />
@@ -140,39 +139,39 @@ const Privacy = () => {
           <p>
             We may use the information we collect to create an account for you on our websites, process a transaction, to communicate with you, to learn more about our users, and for marketing purposes. We also use the information we collect to:
             </p>
-          <br/>
+          <br />
           <p>
             A.  Provide, maintain, improve, and develop our Services, including to debug and repair errors in our Services;
             </p>
-          <br/>
+          <br />
           <p>
             B.  Personalize your experience with us;
             </p>
-          <br/>
+          <br />
           <p>
             C.  Send you technical notices, security alerts, support messages and other transactional or relationship messages;
             </p>
-          <br/>
+          <br />
           <p>
             D.  Communicate with you about our Services and events and provide news and information that we think will interest you (see the Your Choices section below for information about how to opt out of these communications at any time);
             </p>
-          <br/>
+          <br />
           <p>
             E.  Monitor and analyze trends, usage, and activities in connection with our Services;
             </p>
-          <br/>
+          <br />
           <p>
             F.  Detect, investigate, and help prevent security incidents and other malicious, deceptive, fraudulent, or illegal activity and help protect the rights and property of InVar and others;
             </p>
-          <br/>
+          <br />
           <p>
             G.  Comply with our legal and financial obligations;
             </p>
-          <br/>
+          <br />
           <p>
             H.  Create de-identified, anonymized or aggregated information;
             </p>
-          <br/>
+          <br />
           <p>
             I.  Carry out any other purpose described to you at the time the information was collected.
           </p>
@@ -183,8 +182,9 @@ const Privacy = () => {
           <p>
             The host of this website is equipped with various information security equipment and necessary security protection measures, such as firewalls and anti-virus systems. To protect the website and your personal data, strict protection measures have been adopted. Only authorized personnel can access your personal data and relevant processing personnel has signed a confidentiality agreement. Anyone who violated the obligation of confidentiality will be subject to relevant legal sanctions.
           </p>
+          <br />
           <p>
-          If it is necessary to entrust other units to provide services due to business needs, this website will also strictly require them to comply with confidentiality obligations and take necessary inspection procedures to determine that they will indeed comply.
+            If it is necessary to entrust other units to provide services due to business needs, this website will also strictly require them to comply with confidentiality obligations and take necessary inspection procedures to determine that they will indeed comply.
           </p>
           <br />
           <p className="text-xl font-semibold" id="5">
@@ -200,31 +200,31 @@ const Privacy = () => {
           <p>
             We may share personal information in the following circumstances or as otherwise described in this policy:
             </p>
-          <br/>
+          <br />
           <p>
             A.  We share personal information with vendors that access personal information to perform work for us, such as companies that assist us with web hosting, payment processing, identity verification, fraud prevention, marketing, and technical support.
             </p>
-          <br/>
+          <br />
           <p>
             B.  We may disclose personal information if we believe that disclosure is in accordance with, or required by, any applicable law or legal process, including lawful requests by public authorities to meet national security or law enforcement requirements and during other legal proceedings.
             </p>
-          <br/>
+          <br />
           <p>
             C.  We may share personal information if we believe that your actions are inconsistent with our user agreements or policies, if we believe that you have violated the law, or if we believe it is necessary to protect the rights, property, and safety of InVar, our users, the public, or others.
             </p>
-          <br/>
+          <br />
           <p>
             D.  We share personal information with our lawyers and other professional advisors where necessary to obtain advice or otherwise protect and manage our business interests.
             </p>
-          <br/>
+          <br />
           <p>
             E.  We may share personal information in connection with, or during negotiations concerning, any merger, sale of company assets, financing, or acquisition of all or a portion of our business by another company.
             </p>
-          <br/>
+          <br />
           <p>
             F.  We share personal information with your consent or at your direction.
             </p>
-          <br/>
+          <br />
           <p>
             We may also share aggregated or de-identified information that cannot reasonably be used to identify you.
           </p>
@@ -252,11 +252,11 @@ const Privacy = () => {
             .
           </p>
         </div>
-        <div className="md:col-span-3 hidden md:block top-[117px] right-6 xl:right-40">
+        <div className="md:col-span-3 hidden md:block fixed top-[117px] right-6 xl:right-40">
           <div className="bg-invar-dark px-6 pt-6 pb-3 rounded text-invar-light-grey">
             {titleList.map((item, index) => (
-              <div key={index} className="pb-3" id={item.id}>
-                <a href={`#${item.id}`}>{item.title}</a>
+              <div key={index} className="pb-3 " id={item.id}>
+                <a href={`#${item.id}`} className="pb-3 hover:underline">{item.title}</a>
               </div>
             ))}
           </div>

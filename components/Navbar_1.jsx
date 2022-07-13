@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ModalWallet, ModalStory } from './'
+import { ModalWallet, ModalStory } from '.'
 import { ethers } from 'ethers'
 import { shortenAddress } from '../src/utils/shortenAddress'
 import { useNetwork, useAddress, useMetamask, useWalletConnect, useDisconnect } from "@thirdweb-dev/react";
@@ -8,7 +8,7 @@ import { fetchPrice } from '../src/utils/fetchPrice'
 import Link from 'next/link'
 import { disableScroll, enableScroll } from '../src/utils/disableScroll'
 
-const Navbar = ({ headerBackground }) => {
+const Navbar_1 = ({ headerBackground }) => {
   const address = useAddress();
   const network = useNetwork();
   const [getCoinPrice, setgetCoinPrice] = useState()
@@ -85,10 +85,9 @@ const Navbar = ({ headerBackground }) => {
                 Connect Wallet</label>
             ) : (
               <>
-                <Link href="/dashboard">
-                  <button className="btn btn-sm btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
-                    Dashboard</button>
-                </Link>
+                {/* <label htmlFor="my-modal-4" className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
+                  Dashboard
+                </label> */}
                 <label htmlFor="my-modal-4" className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                   {shortenAddress(address)}
                 </label>
@@ -103,7 +102,7 @@ const Navbar = ({ headerBackground }) => {
       </nav>
       {(toggleMenu) &&
         <div className=" fixed top-[60px] z-30 w-full h-screen py-[34px] px-[16px] flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]">
-          <label htmlFor="my-modal-1" className=" modal-button hover:underline font-semibold text-base mb-9">
+          <label htmlFor="my-modal-1"  className=" modal-button hover:underline font-semibold text-base mb-9">
             Storyline</label>
           <a href={`#faq`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>FAQ & Tutorials</a>
           <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
@@ -171,4 +170,4 @@ const Navbar = ({ headerBackground }) => {
 }
 
 
-export default Navbar
+export default Navbar_1
