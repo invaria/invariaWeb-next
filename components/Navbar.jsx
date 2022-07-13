@@ -85,10 +85,10 @@ const Navbar = ({ headerBackground }) => {
                 Connect Wallet</label>
             ) : (
               <>
-                <Link href="/dashboard">
+                {/* <Link href="/dashboard">
                   <button className="btn btn-sm btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                     Dashboard</button>
-                </Link>
+                </Link> */}
                 <label htmlFor="my-modal-4" className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                   {shortenAddress(address)}
                 </label>

@@ -43,14 +43,16 @@ const ModalWallet = () => {
     let chainId = await ethereum.request({ method: 'eth_chainId' });
     console.log("Connected to chain " + chainId);
     const rinkebyChainId = "0x4";
-    if (chainId !== rinkebyChainId) {
+    const mainnetChainId = "0x1";
+    if (chainId !== mainnetChainId) {
       console.log("You are not connected to the Rinkeby Test Network!");
     } else {
       setEthBalance((+ethers.utils.formatEther(await signer.getBalance())).toFixed(3))
       const usdcAddr = "0x002fF2aD81F0Fa36387eC6F4565B9667516C5342"
       const usdcContract = new ethers.Contract(usdcAddr, erc20ABI, provider);
-      const decimals = await usdcContract.decimals();
-      setUsdcBalance((+(ethers.utils.formatUnits(await usdcContract.balanceOf(address), decimals))).toFixed(3))  //.toNumber()  //.toFixed(1)
+      // const decimals = await usdcContract.decimals();
+      const decimals = 6
+      // setUsdcBalance((+(ethers.utils.formatUnits(await usdcContract.balanceOf(address), decimals))).toFixed(3))  //.toNumber()  //.toFixed(1)
       setgetCoinPrice(await fetchPrice("ethereum"))
     }
   }
@@ -109,10 +111,10 @@ const ModalWallet = () => {
                 <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
               </label> */}
               <div className="flex justify-between">
-              <h3 className="text-2xl font-semibold text-white mb-[22px]">Connect Wallet</h3>
-              <label htmlFor="my-modal-3" className="btn btn-sm pr-0 rounded-[4px] bg-opacity-0 hover:bg-opacity-0 text-[#fff] border-none">
-                <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
-              </label>
+                <h3 className="text-2xl font-semibold text-white mb-[22px]">Connect Wallet</h3>
+                <label htmlFor="my-modal-3" className="btn btn-sm pr-0 rounded-[4px] bg-opacity-0 hover:bg-opacity-0 text-[#fff] border-none">
+                  <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
+                </label>
               </div>
               <button className="btn btn-primary relative w-[327px] h-[56px] rounded flex justify-center items-center border-none normal-case" onClick={connectWithMetamask}>
                 <img className="absolute top-[13px] left-4 h-[30px] w-[30px]" src='/icons/ic_metamask.png' alt="" />
@@ -141,9 +143,9 @@ const ModalWallet = () => {
                   <p>ETH</p>
                 </div>
                 <span className=" flex flex-col justify-center items-end text-white font-semibold">
-                  <p>{ethBalance}</p>
+                  <p>{ethBalance ? ethBalance : "0"}</p>
                   <p className=" text-sm font-normal text-neutral">
-                    ${(ethBalance * (getCoinPrice?.ethereum.usd)).toFixed(3)} USD</p>
+                    ${ethBalance ? ((ethBalance * (getCoinPrice?.ethereum.usd)).toFixed(3)) : "0"} USD</p>
                 </span>
               </div>
               <div className=" relative w-full mt-[14px] flex justify-between items-center group">
@@ -152,13 +154,17 @@ const ModalWallet = () => {
                   <p>USDC</p>
                 </div>
                 <span className=" flex flex-col justify-center items-end text-white font-semibold transition-opacity group-hover:opacity-0">
-                  <p className=" text-base">{usdcBalance}</p>
-                  {getCoinPrice && <p className=" text-sm font-normal text-neutral">
-                    ${(usdcBalance * (getCoinPrice["usd-coin"].usd)).toFixed(3)} USD</p>}
+                  {/* <p className=" text-base">{usdcBalance ? usdcBalance : "0"}</p> */}
+                  <p className=" text-base">{"0"}</p>
+                  {/* {getCoinPrice ? (<p className=" text-sm font-normal text-neutral">
+                    ${usdcBalance ? (usdcBalance * (getCoinPrice["usd-coin"].usd)).toFixed(3) : "0"} USD</p>
+                  ) : (<p className=" text-sm font-normal text-neutral">$0 USD</p>)} */}
+                  <p className=" text-sm font-normal text-neutral">
+                    $0 USD</p>
                 </span>
                 <button className="btn btn-sm btn-outline border-[#E6E7EA] absolute w-[90px] h-[28px] bottom-[6px] right-0 
                   ransition-opacity opacity-0 group-hover:opacity-100 text-xs font-semibold px-3 py-[6px] rounded normal-case 
-                  hover:border-[#E6E7EA] text-white hover:text-white" onClick={()=>addTokenFunction()}>
+                  hover:border-[#E6E7EA] text-white hover:text-white" onClick={() => addTokenFunction()}>
                   Add Token</button>
               </div>
               <button className="btn btn-primary relative w-[327px] h-[56px] mt-[14px] rounded flex justify-center items-center border-none normal-case" onClick={disconnectWallet}>
