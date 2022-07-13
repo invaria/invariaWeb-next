@@ -402,7 +402,7 @@ const Terms = () => {
           </p>
         </div>
         <div className="md:col-span-3 hidden md:block fixed top-[149px] right-6 xl:right-52">
-          <div className="bg-invar-dark px-6 pt-6 pb-3 rounded text-invar-light-grey">
+          <div className=" bg-invar-dark px-6 pt-6 pb-3 rounded text-invar-light-grey">
             {titleList.map((item, index) => (
               <div key={index} className="pb-3 hover:underline" id={item.id}>
                 <a href={`#${item.id}`}>{item.title}</a>

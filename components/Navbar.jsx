@@ -109,7 +109,7 @@ const Navbar = ({ headerBackground }) => {
           <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
           {language && <h1 className="font-semibold text-base mb-[27px] mx-2">English</h1>}
           {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>}
-          <h1 className="font-semibold text-base mb-8">Dashbosrd</h1>
+          <h1 className="font-semibold text-base mb-8">Dashboard</h1>
           {!address && <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" onClick={() => setToggleWallet(true)}>Connect Wallet</button>}
           {address &&
             <>
