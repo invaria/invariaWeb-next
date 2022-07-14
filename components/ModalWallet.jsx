@@ -48,11 +48,11 @@ const ModalWallet = () => {
       console.log("You are not connected to the Rinkeby Test Network!");
     } else {
       setEthBalance((+ethers.utils.formatEther(await signer.getBalance())).toFixed(3))
-      const usdcAddr = "0x002fF2aD81F0Fa36387eC6F4565B9667516C5342"
+      const usdcAddr = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
       const usdcContract = new ethers.Contract(usdcAddr, erc20ABI, provider);
-      // const decimals = await usdcContract.decimals();
-      const decimals = 6
-      // setUsdcBalance((+(ethers.utils.formatUnits(await usdcContract.balanceOf(address), decimals))).toFixed(3))  //.toNumber()  //.toFixed(1)
+      const decimals = await usdcContract.decimals();
+      // const decimals = 6
+      setUsdcBalance((+(ethers.utils.formatUnits(await usdcContract.balanceOf(address), decimals))).toFixed(3))  //.toNumber()  //.toFixed(1)
       setgetCoinPrice(await fetchPrice("ethereum"))
     }
   }
@@ -154,13 +154,13 @@ const ModalWallet = () => {
                   <p>USDC</p>
                 </div>
                 <span className=" flex flex-col justify-center items-end text-white font-semibold transition-opacity group-hover:opacity-0">
-                  {/* <p className=" text-base">{usdcBalance ? usdcBalance : "0"}</p> */}
-                  <p className=" text-base">{"0"}</p>
-                  {/* {getCoinPrice ? (<p className=" text-sm font-normal text-neutral">
+                  <p className=" text-base">{usdcBalance ? usdcBalance : "0"}</p>
+                  {/* <p className=" text-base">{"0"}</p> */}
+                  {getCoinPrice ? (<p className=" text-sm font-normal text-neutral">
                     ${usdcBalance ? (usdcBalance * (getCoinPrice["usd-coin"].usd)).toFixed(3) : "0"} USD</p>
-                  ) : (<p className=" text-sm font-normal text-neutral">$0 USD</p>)} */}
-                  <p className=" text-sm font-normal text-neutral">
-                    $0 USD</p>
+                  ) : (<p className=" text-sm font-normal text-neutral">$0 USD</p>)}
+                  {/* <p className=" text-sm font-normal text-neutral">
+                    $0 USD</p> */}
                 </span>
                 <button className="btn btn-sm btn-outline border-[#E6E7EA] absolute w-[90px] h-[28px] bottom-[6px] right-0 
                   ransition-opacity opacity-0 group-hover:opacity-100 text-xs font-semibold px-3 py-[6px] rounded normal-case 

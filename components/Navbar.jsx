@@ -80,7 +80,7 @@ const Navbar = ({ headerBackground }) => {
               </button>}
           </div>
           <div className="navbar-end hidden md:flex flex-row">
-            {/* {!address ? (
+            {!address ? (
               <label htmlFor="my-modal-3" className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                 Connect Wallet</label>
             ) : (
@@ -97,7 +97,7 @@ const Navbar = ({ headerBackground }) => {
             }
             <button className="btn btn-sm btn-outline rounded h-[40px] w-[40px] my-[24px] mr-[24px] px-[4px] py-[4px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
               <img className="h-[20px] w-[20px]" src='/icons/ic_language.svg' alt="" />
-            </button> */}
+            </button>
           </div>
         </div>
       </nav>
@@ -110,7 +110,7 @@ const Navbar = ({ headerBackground }) => {
           {language && <h1 className="font-semibold text-base mb-[27px] mx-2">English</h1>}
           {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>}
           <h1 className="font-semibold text-base mb-8">Dashboard</h1>
-          {/* {!address && <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" onClick={() => setToggleWallet(true)}>Connect Wallet</button>} */}
+          {!address && <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" onClick={() => setToggleWallet(true)}>Connect Wallet</button>}
           {address &&
             <>
               <div className="w-full flex flex-row justify-between items-end">
