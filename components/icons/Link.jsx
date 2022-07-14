@@ -1,12 +1,12 @@
 
 export const Twitter = () => (
-  <a className='mr-3 w-10 h-10 btnShadow rounded flex justify-center items-center' href='https://twitter.com/InVarFinance' target="_blank" rel="noopener noreferrer">
+  <a className='mr-3 w-10 h-10 btnShadow bg-white opacity-80 hover:bg-white rounded flex justify-center items-center' href='https://twitter.com/InVarFinance' target="_blank" rel="noopener noreferrer">
     <img className="w-[18px]" src="/twitter_1.svg" alt="Logo" />
   </a>
 );
 
 export const Discord = () => (
-  <a className='mr-3 w-[40px] btnShadow rounded flex justify-center items-center ' href='https://discord.gg/BrzPWYut4p' target="_blank" rel="noopener noreferrer">
+  <a className='mr-3 w-[40px] btnShadow bg-white opacity-80 hover:bg-white rounded flex justify-center items-center ' href='https://discord.gg/BrzPWYut4p' target="_blank" rel="noopener noreferrer">
     <img className=" w-[18px]" src="/discord_1.svg" alt="Logo" />
   </a>
 );
