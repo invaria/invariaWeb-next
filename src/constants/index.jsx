@@ -19,8 +19,8 @@ export const faqList = [
       <p>
         InVaria 2222 utilizes blockchain technology (smart contract ERC-1155, -721 & staking) to
         release the potential of real-world-assets (RWAs), and bring new use cases of tokenization to more users.
-        Within InVaria, the utilities and benefits originated from NFTs are organized under
-        proof of ownership and legitimate entity, which ensure NFT staking more reliable and sustainable.
+        Within InVaria, the utilities and benefits originated from NFTs are organized under under proof of ownership and legitimate entity, 
+        which ensure NFT staking more reliable and sustainable
       </p>
     ),
   },
@@ -130,13 +130,13 @@ export const faqList = [
     question: 'The future plans about the funds and development?',
     answer: (
       <p>
-        <span className="text-invar-grey font-semibold">About fund management, </span>80% of funds go directly to FlowBay Financial Holdings, 
+        <span className="text-invar-grey font-semibold">About fund management,</span> 80% of funds go directly to FlowBay Financial Holdings, 
         a financial group with property management unit and fund management team
         to support yield generating and RWA management;
         20% of funds will transfer to staking smart contract.
         <br /> <br /> 
         <span className=" text-invar-grey font-semibold">About project development, </span>
-        tokenization of RWAs is only our first step, most of the funds will
+         tokenization of RWAs is only our first step, most of the funds will
         be utilized to generate more profits through property management and development,
         small amount will be used in hybrid finance development.
       </p>
@@ -145,15 +145,14 @@ export const faqList = [
   {
     question: 'Smart contracts and addresses you may want to know?',
     answer: (
-        <ul className="list-disc pl-6">
-          <li>InVaria 2222 smart contracts:</li>
-          NFT (ERC-1155) <br />
-          Staking
-          <li>InVaria 2222 operating account:</li>
-          <p className="text-invar-purple font-semibold break-all">
-            0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C
-          </p> <br />
-        </ul>
+      <ul className="list-disc pl-6">
+        <li>InVaria 2222 smart contracts:</li>
+        NFT (ERC-1155) <br />
+        Staking
+        <li>InVaria 2222 operating account:</li>
+        <p className="text-invar-purple font-semibold break-all ">0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C</p> 
+        <br />
+      </ul>
     ),
   },
   {
