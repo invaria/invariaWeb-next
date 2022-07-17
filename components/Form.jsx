@@ -12,6 +12,7 @@ const Form = () => {
   const [inputs, setInputs] = useState({ ["address"]: address });
   const [isAdult, setIsAdult] = useState(true);
   const [emailChange, setEmailChange] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   function createSiweMessage(address, statement) {
     const message = new SiweMessage({
@@ -30,9 +31,6 @@ const Form = () => {
       'Sign in with Ethereum.'
     );
     const nonce = { ["nonce"]: await signer.signMessage(message) }
-    // if (nonce) {
-    // setInputs(async (values) => ({ ...values, ["nonce"]: address }))
-    // }
     console.log(nonce);
   }
   useEffect(() => {
@@ -49,6 +47,7 @@ const Form = () => {
     event.preventDefault()
     await signInWithEthereum()
     await createUser(address, inputs)
+    setIsSubmitted(true)
     console.log("submitted!")
   }
 
@@ -83,10 +82,15 @@ const Form = () => {
 
   let btnSubmit
   if ((inputs.selectDate !== undefined) && (isAdult == true)
-    && (validateEmail(inputs.inputEmail)) && (address)) {
+    && (validateEmail(inputs.inputEmail)) && (address) && !isSubmitted) {
     btnSubmit = <input
       type="submit" value="Next"
       className="btn inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
+    />
+  } else if (isSubmitted) {
+    btnSubmit = <input
+      type="submit" value="Submitted"
+      className="btn btn-disabled inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
     />
   } else {
     btnSubmit = <input
