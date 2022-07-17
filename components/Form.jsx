@@ -1,9 +1,57 @@
 import React, { useState, useEffect } from 'react'
+import { ethers } from 'ethers'
+import { useAddress, useNetwork } from '@thirdweb-dev/react'
+import { SiweMessage } from 'siwe'
+import { createUser } from "../src/utils/storeFirebase";
+
 
 const Form = () => {
-  const [inputs, setInputs] = useState({});
+  let domain, provider, signer
+  const address = useAddress();
+  const network = useNetwork();
+  const [inputs, setInputs] = useState({ ["address"]: address });
   const [isAdult, setIsAdult] = useState(true);
   const [emailChange, setEmailChange] = useState(false)
+
+  function createSiweMessage(address, statement) {
+    const message = new SiweMessage({
+      domain,
+      address,
+      statement,
+      uri: origin,
+      version: '1',
+      chainId: '1'
+    });
+    return message.prepareMessage();
+  }
+  async function signInWithEthereum() {
+    const message = createSiweMessage(
+      address,
+      'Sign in with Ethereum.'
+    );
+    const nonce = { ["nonce"]: await signer.signMessage(message) }
+    // if (nonce) {
+    // setInputs(async (values) => ({ ...values, ["nonce"]: address }))
+    // }
+    console.log(nonce);
+  }
+  useEffect(() => {
+    if (!address) return
+    if (inputs.address !== address) {
+      setInputs((values) => ({ ...values, ["address"]: address }))
+    }
+    domain = window.location.host;
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    signer = provider.getSigner()
+  }, [address, network]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    await signInWithEthereum()
+    await createUser(address, inputs)
+    console.log("submitted!")
+  }
+
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -16,11 +64,6 @@ const Form = () => {
     if (inputs.inputEmail == undefined) return
     setEmailChange(true)
   }, [inputs.inputEmail])
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(inputs);
-  }
 
   const handleBirthDate = (birth) => {
     let today = new Date();
@@ -39,8 +82,8 @@ const Form = () => {
   }
 
   let btnSubmit
-  if ((inputs.selectDate !== undefined) && (isAdult == true) && (validateEmail(inputs.inputEmail))
-  ) {
+  if ((inputs.selectDate !== undefined) && (isAdult == true)
+    && (validateEmail(inputs.inputEmail)) && (address)) {
     btnSubmit = <input
       type="submit" value="Next"
       className="btn inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
@@ -151,7 +194,6 @@ const Form = () => {
           required className="block bg-invar-main-purple w-full h-12 rounded focus:border border-white focus:outline-none text-white font-normal px-4 focus:px-[15px]"
         />
       </label>
-
       {btnSubmit}
     </form>
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navbar, Form, Footer } from '../components/'
 
 const dashboard = () => {
@@ -30,7 +30,6 @@ const dashboard = () => {
           </div>
         </div>
         <Footer />
-
       </div>
     </div>
   )

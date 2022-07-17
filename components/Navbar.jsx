@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { ModalWallet, ModalStory } from './'
+import Link from 'next/link'
 import { ethers } from 'ethers'
+import { useNetwork, useAddress, useMetamask, useWalletConnect, useDisconnect } from '@thirdweb-dev/react'
+import { SiweMessage } from 'siwe'
+import { ModalWallet, ModalStory } from './'
 import { shortenAddress } from '../src/utils/shortenAddress'
-import { useNetwork, useAddress, useMetamask, useWalletConnect, useDisconnect } from "@thirdweb-dev/react";
 import erc20ABI from '../src/utils/erc20ABI.json'
 import { fetchPrice } from '../src/utils/fetchPrice'
-import Link from 'next/link'
 import { disableScroll, enableScroll } from '../src/utils/disableScroll'
 
 const Navbar = ({ headerBackground }) => {
@@ -20,13 +21,14 @@ const Navbar = ({ headerBackground }) => {
   const connectWithMetamask = useMetamask();
   const connectWithWalletConnect = useWalletConnect();
   const disconnectWallet = useDisconnect();
+  let domain, ethereum, provider, signer
 
   const checkIfWalletIsConnected = async () => {
-    const { ethereum } = window;
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const signer = provider.getSigner()
-    if (!ethereum) return;
-    let chainId = await ethereum.request({ method: 'eth_chainId' });
+    ethereum = window?.ethereum
+    if (!ethereum) return
+    provider = new ethers.providers.Web3Provider(ethereum);
+    signer = provider.getSigner()
+    let chainId = await ethereum.request({ method: 'eth_chainId' })
     const rinkebyChainId = "0x4";
     if (chainId == rinkebyChainId) {
       setEthBalance((+ethers.utils.formatEther(await signer.getBalance())).toFixed(3))
@@ -39,16 +41,17 @@ const Navbar = ({ headerBackground }) => {
   }
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (!address) return
-      setToggleWallet(false)
-      enableScroll()
-    }
+    // if (typeof window !== "undefined") {
+    if (!address) return
+    setToggleWallet(false)
+    enableScroll()
+    // }
   }, [address]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (!address) return
+      domain = window.location.host;
       checkIfWalletIsConnected()
     }
   }, [address, network]);
@@ -56,8 +59,7 @@ const Navbar = ({ headerBackground }) => {
   return (
     <>
       <nav className={`fixed flex items-center justify-between w-full h-[3.75rem] bg-invar-dark md:h-[5rem] z-50
-          ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}
-      >
+        ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}>
         <ModalWallet />
         <ModalStory />
         <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[88px] flex">
