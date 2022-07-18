@@ -34,7 +34,7 @@ const ModalStory = () => {
           </div>
           {/* story 1 */}
           {/* story 2 */}
-          {/* <div className="h-[188px] w-full flex px-[36px] pt-[54px] justify-start items-start">
+          <div className="h-[188px] w-full flex px-[36px] pt-[54px] justify-start items-start">
             <img className="h-[86px] w-[154px] mr-[44px]" src='/story/img_story2.png' alt="" />
             <div className='flex flex-col items-center justify-center mr-6'>
               <span className="flex h-3 w-3 justify-center items-center">
@@ -46,7 +46,7 @@ const ModalStory = () => {
             <div className=" w-[485px] font-noraml text-sm">
               A tribe of humans find out a device with &quot;CRYPTIC REFLECTOR&quot; words carved on it, there is an unclear description shows…「Connecting…Connecting…, Connect to Real World, the Reflector Indicate Power… Asset will…」
             </div>
-          </div> */}
+          </div>
           {/* story 2 */}
           {/* story 3 */}
           {/* <div className="h-[188px] w-full flex px-[36px] pt-[34px] bg-primary justify-start items-start">
@@ -125,7 +125,7 @@ const ModalStory = () => {
           </div>
           {/* story 1 */}
           {/* story 2 */}
-          {/* <div className=" relative w-full flex px-[24px] py-[24px] justify-start items-start">
+          <div className=" relative w-full flex px-[24px] py-[24px] justify-start items-start">
             <div className='flex flex-col items-center justify-center mr-6'>
               <span className="flex h-3 w-3 justify-center items-center z-20">
                 <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
@@ -139,7 +139,7 @@ const ModalStory = () => {
                 A tribe of humans find out a device with “CRYPTIC REFLECTOR” words carved on it, there is an unclear description shows…「Connecting…Connecting…, Connect to Real World, the Reflector Indicate Power… Asset will…」
               </div>
             </div>
-          </div> */}
+          </div>
           {/* story 2 */}
           {/* story 3 */}
           {/* <div className=" relative w-full flex px-[24px] py-[24px] bg-primary justify-start items-start">

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { ethers } from 'ethers'
 import { useNetwork, useAddress, useMetamask, useWalletConnect, useDisconnect } from '@thirdweb-dev/react'
 import { SiweMessage } from 'siwe'
@@ -10,6 +11,7 @@ import { fetchPrice } from '../src/utils/fetchPrice'
 import { disableScroll, enableScroll } from '../src/utils/disableScroll'
 
 const Navbar = ({ headerBackground }) => {
+  const router = useRouter()
   const address = useAddress();
   const network = useNetwork();
   const [getCoinPrice, setgetCoinPrice] = useState()
@@ -22,7 +24,11 @@ const Navbar = ({ headerBackground }) => {
   const connectWithWalletConnect = useWalletConnect();
   const disconnectWallet = useDisconnect();
   let domain, ethereum, provider, signer
+  if (typeof window !== 'undefined') {
+    const hostname = window.location.host;
+    console.log("fsf", router.pathname, hostname)
 
+  }
   const checkIfWalletIsConnected = async () => {
     ethereum = window?.ethereum
     if (!ethereum) return
@@ -62,8 +68,18 @@ const Navbar = ({ headerBackground }) => {
         ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}>
         <ModalWallet />
         <ModalStory />
-        <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[88px] flex">
-          <div className="navbar-start"></div>
+        <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[80px] flex">
+          <div className="navbar-start h-[80px] flex justify-start items-center">
+            {(router.pathname == "/dashboard") &&
+              <>
+                <label htmlFor="my-modal-1" className="btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] ml-4 font-semibold text-sm text-invar-light-grey normal-case hover:underline">
+                  Storyline</label>
+                <Link href='invaria2222/#faq'>
+                  <p className="btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-invar-light-grey normal-case hover:underline" >FAQ & Tutorials</p>
+                </Link>
+              </>
+            }
+          </div>
           <div className="navbar-center">
             <Link href='invaria2222'>
               <img className="m-6 h-[2.5rem] w-24 xl:w-32 cursor-pointer" src='/logo_white.svg' />
