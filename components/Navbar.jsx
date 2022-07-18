@@ -24,11 +24,7 @@ const Navbar = ({ headerBackground }) => {
   const connectWithWalletConnect = useWalletConnect();
   const disconnectWallet = useDisconnect();
   let domain, ethereum, provider, signer
-  if (typeof window !== 'undefined') {
-    const hostname = window.location.host;
-    console.log("fsf", router.pathname, hostname)
-
-  }
+  
   const checkIfWalletIsConnected = async () => {
     ethereum = window?.ethereum
     if (!ethereum) return
