@@ -80,21 +80,21 @@ const Navbar = ({ headerBackground }) => {
               </button>}
           </div>
           <div className="navbar-end hidden md:flex flex-row">
-            {!address ? (
+            {/* {!address ? (
               <label htmlFor="my-modal-3" className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                 Connect Wallet</label>
             ) : (
               <>
-                {/* <Link href="/dashboard">
+                <Link href="/dashboard">
                   <button className="btn btn-sm btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                     Dashboard</button>
-                </Link> */}
+                </Link>
                 <label htmlFor="my-modal-4" className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                   {shortenAddress(address)}
                 </label>
               </>
             )
-            }
+            } */}
             {/* <button className="btn btn-sm btn-outline rounded h-[40px] w-[40px] my-[24px] mr-[24px] px-[4px] py-[4px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
               <img className="h-[20px] w-[20px]" src='/icons/ic_language.svg' alt="" />
             </button> */}
@@ -102,16 +102,16 @@ const Navbar = ({ headerBackground }) => {
         </div>
       </nav>
       {(toggleMenu) &&
-        <div className=" fixed top-[60px] z-30 w-full h-screen py-[34px] px-[16px] flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]">
+        <div className=" fixed top-[60px] w-full h-screen py-[34px] px-[16px] flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722] z-50">
           <label htmlFor="my-modal-1" className=" modal-button hover:underline font-semibold text-base mb-9">
             Storyline</label>
           <a href={`#faq`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>FAQ & Tutorials</a>
           <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
           {language && <h1 className="font-semibold text-base mb-[27px] mx-2">English</h1>}
           {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>}
-          <h1 className="font-semibold text-base mb-8">Dashboard</h1>
-          {!address && <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" onClick={() => setToggleWallet(true)}>Connect Wallet</button>}
-          {address &&
+          {/* <h1 className="font-semibold text-base mb-8">Dashboard</h1> */}
+          {/* {!address && <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" onClick={() => setToggleWallet(true)}>Connect Wallet</button>} */}
+          {/* {address &&
             <>
               <div className="w-full flex flex-row justify-between items-end">
                 <h3 className="text-lg font-semibold text-white">My Wallet</h3>
@@ -144,7 +144,7 @@ const Navbar = ({ headerBackground }) => {
                 <p className=" font-semibold text-white">Disconnect</p>
               </button>
             </>
-          }
+          } */}
         </div>
       }
       {(toggleMenu && toggleWallet && !address) &&

@@ -19,8 +19,8 @@ export const faqList = [
       <p>
         InVaria 2222 utilizes blockchain technology (smart contract ERC-1155, -721 & staking) to
         release the potential of real-world-assets (RWAs), and bring new use cases of tokenization to more users.
-        Within InVaria, the utilities and benefits originated from NFTs are organized under under proof of ownership and legitimate entity, 
-        which ensure NFT staking more reliable and sustainable
+        Within InVaria, the utilities and benefits originated from NFTs are organized under proof of ownership and legitimate entity, 
+        which ensure NFT staking more reliable and sustainable.
       </p>
     ),
   },
@@ -150,7 +150,7 @@ export const faqList = [
         NFT (ERC-1155) <br />
         Staking
         <li>InVaria 2222 operating account:</li>
-        <p className="text-invar-purple font-semibold break-all ">0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C</p> 
+        <p className=" text-invar-grey font-semibold break-all ">0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C</p> 
         <br />
       </ul>
     ),

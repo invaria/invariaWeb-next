@@ -45,18 +45,18 @@ const ModalWallet = () => {
     const rinkebyChainId = "0x4";
     const mainnetChainId = "0x1";
     if (chainId !== mainnetChainId) {
-      console.log("You are not connected to the Rinkeby Test Network!");
+      console.log("You are not connected to the main Network!");
     } else {
       setEthBalance((+ethers.utils.formatEther(await signer.getBalance())).toFixed(3))
-      const usdcAddr = "0x002fF2aD81F0Fa36387eC6F4565B9667516C5342"
+      const usdcAddr = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
       const usdcContract = new ethers.Contract(usdcAddr, erc20ABI, provider);
       // const decimals = await usdcContract.decimals();
       const decimals = 6
-      // setUsdcBalance((+(ethers.utils.formatUnits(await usdcContract.balanceOf(address), decimals))).toFixed(3))  //.toNumber()  //.toFixed(1)
+      setUsdcBalance((+(ethers.utils.formatUnits(await usdcContract.balanceOf(address), decimals))).toFixed(3))  //.toNumber()  //.toFixed(1)
       setgetCoinPrice(await fetchPrice("ethereum"))
     }
   }
-  const usdcAddr = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" //LFG 0x002fF2aD81F0Fa36387eC6F4565B9667516C5342
+  const usdcAddr = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48" //LFG 0x002fF2aD81F0Fa36387eC6F4565B9667516C5342
   const tokenSymbol = 'USDC';
   const tokenDecimals = 6;
   const tokenImage = 'https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png';
