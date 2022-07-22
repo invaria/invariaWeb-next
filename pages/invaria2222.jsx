@@ -22,14 +22,14 @@ function App() {
     <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
       <ScrollToTop />
       <Navbar headerBackground={headerBackground} />
-      <ModalStory /> 
+      <ModalStory />
       <ModalProperty />
       <ModalPremint />
       <div className="w-full flex flex-col justify-center items-center h-0 ">
         <label htmlFor="my-modal-1" onClick={() => disableScroll()}
           className="btn modal-button w-[183px] md:w-min btnShadow bg-white 
             opacity-80 hover:bg-white px-6  text-sm text-info rounded absolute 
-            top-[188px] md:top-[408px] md:left-[245px] z-20 normal-case border-none">
+            top-[188px] md:top-[408px] md:left-[245px] z-30 normal-case border-none">
           Storyline</label>
         <a href={`#mindmap`} className='btn w-[183px] md:w-max btnShadow bg-white 
           opacity-80 hover:bg-white px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded 
@@ -43,22 +43,22 @@ function App() {
           opacity-80 hover:bg-white px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 '>
           Property Infos</label>
-          <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
+        <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
           opacity-80 hover:bg-invar-success px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-          rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-20 ' >
+          rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-30 ' >
           Pre-Sale Minting</label>
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
         <img className=' z-0 h-screen min-h-screen w-full object-cover overflow-hidden' draggable="false" src='/bg/bg.png' alt="bg" />
-        <img className=' w-[26%] hidden absolute bottom-0 left-14 z-30 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" />
+        <img className=' w-[26%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" />
         <label htmlFor="property-modal" onClick={() => disableScroll()} className=" hidden z-30 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[57%] right-[53%] md:flex justify-end items-start">
           <div className=" hidden md:flex justify-center items-center">
             <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
             <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
           </div>
         </label>
-        <div className=" hidden absolute bottom-0 left-0 right-0 z-20 md:flex justify-center items-center">
-          <div className="flex justify-start items-start text-start w-[826px] h-[108px] m-6 p-6 bg-invar-main-purple 
+        <div className=" hidden absolute bottom-0 left-0 right-0 z-0 md:flex justify-center items-center">
+          <div className=" flex justify-start items-start text-start w-[826px] h-[108px] m-6 p-6 bg-invar-main-purple 
             bg-opacity-60 text-white text-sm font-normal leading-[19.6px] rounded-lg border-4 border-invar-light-purple 
             border-opacity-60 animate-fade-in-up">
             <div className="text-start flex justify-start">
@@ -167,7 +167,7 @@ function App() {
             <ul className="list-disc pl-6">
               <li>Launch InVariant - An PFP & Pass NFT</li>
               <li>Release Hybrid Finance Concept</li>
-              <li>Release Second Real Estate Fractionalization NFT</li>         
+              <li>Release Second Real Estate Fractionalization NFT</li>
             </ul>
           </div>
           <span className=" absolute bottom-[60px] " id='faq'></span>

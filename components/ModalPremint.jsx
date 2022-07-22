@@ -164,10 +164,6 @@ const ModalPremint = () => {
     btnAction =
       <div className="w-full h-[76px] mt-6 bg-invar-dark p-4 text-sm text-invar-error font-normal flex justify-between items-center rounded shadow animate-fade-in-left">
         <p>You are not in the white list.</p>
-        {/* <button className="ml-4 mr-2 h-[24px] w-[24px] min-w-max font-semibold text-sm text-white "
-          onClick={() => { setBtnState("mint"), checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice) }}>
-          <img className="h-[24px] w-[24px]" src='/icons/ic_close.svg' alt="" />
-        </button> */}
       </div>
   }
 
