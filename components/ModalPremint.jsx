@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useCallback } from 'react'
+import Link from 'next/link'
 import { ethers } from 'ethers'
 import {
   useMetamask, useWalletConnect, useCoinbaseWallet,
   useNetwork, useAddress, useDisconnect,
 } from "@thirdweb-dev/react";
 import erc20ABI from '../src/utils/erc20ABI.json'
-import testUsdcJSON from '../src/utils/erc20ABI.json'
+import inVariaJSON from '../src/utils/InVaria.json'
 import { shortenAddress } from '../src/utils/shortenAddress'
 import { enableScroll } from '../src/utils/disableScroll'
 import { checkIfWalletIsConnected, addTokenFunction, usdcAddress, nftAddress } from '../src/utils/web3utils'
-import { sign } from 'crypto';
-import { OpenLink, ButtonMailto } from '../components/icons/Link';
+import { OpenLink } from '../components/icons/Link';
 
 let pervState = []
 
@@ -37,6 +37,12 @@ const ModalPremint = () => {
     const signer = provider.getSigner()
     const usdcContract = new ethers.Contract(usdcAddress, erc20ABI, signer);
     getusdcAllowance = +(ethers.utils.formatUnits(await usdcContract.allowance(address, nftAddress), decimal))
+    const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, signer);
+    const iswhite = await nftContract.WhiteList(address)
+    console.log(iswhite)
+    if (iswhite == false) {
+      setBtnState("notwhite")
+    } else {setBtnState("")}
     setUsdcAllowance(getusdcAllowance)
   }
 
@@ -55,17 +61,39 @@ const ModalPremint = () => {
       setBtnState("approve")
       console.log(error)
     }
+  }
+
+  const mintNft = async () => {
+    if (mintNum <= 0) return
+    setBtnState("minting")
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner()
+    const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, signer);
+    try {
+      const mint = await nftContract.mintNFT(mintNum)
+      await mint.wait()
+      setBtnState("minted")
+    } catch (error) {
+      setBtnState("mint")
+      console.log(error)
+    }
     console.log("btnState", btnState)
   }
 
   function handleMintNum(c) {
+    if (btnState == "minting") return
     if (c == "+" && mintNum < 1000) {
       setMintNum(mintNum + 1)
     } else if (c == "-" && mintNum > 0) {
       setMintNum(mintNum - 1)
     } else {
-      if (c < 0) return
-      setMintNum(c)
+      if (c < 0) {
+        setMintNum(0)
+      } else if (c > 1000) {
+        setMintNum(1000)
+      } else {
+        setMintNum(+(c))
+      }
     }
   }
 
@@ -85,13 +113,15 @@ const ModalPremint = () => {
   }, [address, network])
 
   useEffect(() => {
+    console.log(usdcAllowance)
     if (usdcAllowance == null) return
-    if (usdcAllowance < 10000000) {
-      setBtnState("approve")
-    } else if (+usdcBalance >= (mintNum * 10000)) {
-      setBtnState("mint")
-    } else if (+usdcBalance < (mintNum * 10000)) {
+    if (btnState == "notwhite") return
+    if (+usdcBalance < (mintNum * 10000)) {
       setBtnState("nofund")
+    } else if (usdcAllowance < 10000) {
+      setBtnState("approve")
+    } else {
+      setBtnState("mint")
     }
   }, [usdcAllowance, usdcBalance, mintNum])
 
@@ -110,16 +140,35 @@ const ModalPremint = () => {
         Approving</button>
   } else if (btnState == "mint") {
     btnAction =
-      <button className="btn mt-6 bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded">
+      <button className="btn mt-6 bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded"
+        onClick={() => mintNft()}>
         {`Mint (${mintNum})`}</button>
   } else if (btnState == "minting") {
     btnAction =
       <button className="btn loading mt-6 bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded">
         Minting</button>
+  } else if (btnState == "minted") {
+    btnAction =
+      <div className="w-full h-[76px] mt-6 bg-invar-dark p-4 text-sm text-invar-success font-normal flex justify-between items-center rounded shadow animate-fade-in-left">
+        <p>Transaction Successful! You can check NFT in Dashboard / Wallet.</p>
+        <button className="ml-4 mr-2 h-[24px] w-[24px] min-w-max font-semibold text-sm text-white "
+          onClick={() => { setBtnState("mint"), checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice) }}>
+          <img className="h-[24px] w-[24px]" src='/icons/ic_close.svg' alt="" />
+        </button>
+      </div>
   } else if (btnState == "nofund") {
     btnAction =
       <div className="btn btn-disabled mt-6 bg-invar-disabled w-full h-[48px] font-semibold text-sm text-invar-light-grey border-none normal-case rounded" >
         Insufficient Fund</div>
+  } else if (btnState == "notwhite") {
+    btnAction =
+      <div className="w-full h-[76px] mt-6 bg-invar-dark p-4 text-sm text-invar-error font-normal flex justify-between items-center rounded shadow animate-fade-in-left">
+        <p>You are not in the white list.</p>
+        {/* <button className="ml-4 mr-2 h-[24px] w-[24px] min-w-max font-semibold text-sm text-white "
+          onClick={() => { setBtnState("mint"), checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice) }}>
+          <img className="h-[24px] w-[24px]" src='/icons/ic_close.svg' alt="" />
+        </button> */}
+      </div>
   }
 
   return (
@@ -197,7 +246,7 @@ const ModalPremint = () => {
               <p className=" text-sm font-normal text-invar-light-grey ">Mint Time</p>
               <p className=" text-base font-semibold text-white ">July 24 ~ July 26, 2022 </p>
             </div>
-            {(address && usdcAllowance >= 10000000) &&
+            {(address && usdcAllowance >= 10000) &&
               <>
                 <p className=" mt-3 text-sm font-normal text-invar-light-grey ">Fill in the number of NFTs you want to mint</p>
                 <div className="relative " >
@@ -227,7 +276,7 @@ const ModalPremint = () => {
             }
             {btnAction}
             <div className="my-6 w-full h-[1px] border-b border-b-invar-main-purple"></div>
-            <ul className="list-decimal pl-3 text-xs font-normal text-invar-light-grey">
+            <ul className="list-decimal pl-3 text-xs font-normal text-invar-light-grey mb-3">
               <li>Please make sure the wallet is connected to the Ethereum Mainnet.</li>
               <li>Minting NFT requires payment of gas fee (ETH, the amount determined by chain activities).</li>
               <li>Minting NFT requires an uncertain time of processing, please do not double-click during a short time, you can browse Etherscan to check transaction status.</li>
@@ -242,10 +291,9 @@ const ModalPremint = () => {
               }
             </ul>
             {!readmore &&
-            <>
-            {/* <br/> */}
-              <p className="mt-3 text-invar-light-grey text-xs font-semibold cursor-pointer" onClick={()=>setReadmore(true)}>Read More</p>
-            </>
+              <>
+                <p className="my-3 text-invar-light-grey text-xs font-semibold cursor-pointer hover:underline" onClick={() => setReadmore(true)}>Read More</p>
+              </>
             }
           </div>
         </div>

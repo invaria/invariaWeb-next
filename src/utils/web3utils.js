@@ -15,7 +15,7 @@ export const fetchPrice = async (coin) => {
   }
 }
 
-export const nftAddress = "0xD180AA27403Bf3Bd0251007A17c09037F827013f"
+export const nftAddress = "0x853ab458A9a86108Be75995a1a94236B7803cEaB"
 export const usdcAddress ="0x38eFbd7A5A03d8AC9886140Ad5b393e39c85049d" 
 //testUSDC 0x38eFbd7A5A03d8AC9886140Ad5b393e39c85049d  //lfg 0x002fF2aD81F0Fa36387eC6F4565B9667516C5342
 //USDC(eth) 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
