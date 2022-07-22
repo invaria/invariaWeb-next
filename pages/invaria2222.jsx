@@ -1,7 +1,7 @@
 // FIXME: path alias
 import { useEffect, useState } from "react";
 import { Twitter, Discord } from '../components/icons/Link'
-import { ScrollToTop, QA, Footer, Navbar, ModalStory } from '../components';
+import { ScrollToTop, QA, Footer, Navbar, ModalStory, ModalProperty, ModalPremint } from '../components';
 import { tutorialsList, faqList } from "../src/constants";
 import Image from 'next/image'
 import { disableScroll } from '../src/utils/disableScroll'
@@ -22,7 +22,9 @@ function App() {
     <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
       <ScrollToTop />
       <Navbar headerBackground={headerBackground} />
-      <ModalStory />
+      <ModalStory /> 
+      <ModalProperty />
+      <ModalPremint />
       <div className="w-full flex flex-col justify-center items-center h-0 ">
         <label htmlFor="my-modal-1" onClick={() => disableScroll()}
           className="btn modal-button w-[183px] md:w-min btnShadow bg-white 
@@ -37,17 +39,24 @@ function App() {
           opacity-80 hover:bg-white px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[300px] md:top-[280px] md:right-1/4 normal-case border-none z-20 '>
           FAQ & Tutorials</a>
-        <a href={`#faq`} className=' md:hidden btn w-[183px] md:w-max btnShadow bg-white 
+        <label htmlFor="property-modal" onClick={() => disableScroll()} className=' md:hidden btn modal-button w-[183px] md:w-max btnShadow bg-white 
           opacity-80 hover:bg-white px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 '>
-          Property Infos</a>
-        <a href={`#faq`} className='btn w-[183px] md:w-max btnShadow bg-invar-success 
+          Property Infos</label>
+          <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
           opacity-80 hover:bg-invar-success px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-20 ' >
-          Pre-Sale Minting</a>
+          Pre-Sale Minting</label>
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
         <img className=' z-0 h-screen min-h-screen w-full object-cover overflow-hidden' draggable="false" src='/bg/bg.png' alt="bg" />
+        <img className=' w-[26%] hidden absolute bottom-0 left-14 z-30 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" />
+        <label htmlFor="property-modal" onClick={() => disableScroll()} className=" hidden z-30 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[57%] right-[53%] md:flex justify-end items-start">
+          <div className=" hidden md:flex justify-center items-center">
+            <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
+          </div>
+        </label>
         <div className=" hidden absolute bottom-0 left-0 right-0 z-20 md:flex justify-center items-center">
           <div className="flex justify-start items-start text-start w-[826px] h-[108px] m-6 p-6 bg-invar-main-purple 
             bg-opacity-60 text-white text-sm font-normal leading-[19.6px] rounded-lg border-4 border-invar-light-purple 
@@ -143,10 +152,10 @@ function App() {
           <div className=" hidden md:block w-1/2 h-full"></div>
         </div>
         <img className="mt-[44px] md:mt-0 h-[300px] md:h-[599px] md:absolute top-[1488px] left-[-129px] z-0 object-cover  " src="/bg/mindmap_03.png" draggable="false" alt="" />
-        <div className=" relative w-full pb-[218px] flex z-10 ">
+        <div className=" relative w-full md:pb-[218px] flex z-10 ">
           <div className=" hidden md:block w-1/2 h-full"></div>
-          <div className=" ml-8 h-[162px] w-[478px] text-base font-normal text-white mr-[55px] md:mr-0">
-            <p className=" md:font-semibold md:text-invar-grey  ">MAY. 2023</p>
+          <div className=" ml-8 md:h-[162px] w-[478px] text-base font-normal text-white mr-[55px] md:mr-0">
+            <p className=" md:font-semibold md:text-invar-grey ">MAY. 2023</p>
             <p className=" text-2xl md:text-[32px] md:leading-[38.4px] font-semibold text-white mt-[4px] md:mt-[10px] mb-6 md:mb-0">Integration</p>
             <p>
               <br className="hidden md:block" />
@@ -158,9 +167,10 @@ function App() {
             <ul className="list-disc pl-6">
               <li>Launch InVariant - An PFP & Pass NFT</li>
               <li>Release Hybrid Finance Concept</li>
-              <li>Release Second Real Estate Fractionalization NFT</li>
+              <li>Release Second Real Estate Fractionalization NFT</li>         
             </ul>
           </div>
+          <span className=" absolute bottom-[60px] " id='faq'></span>
         </div>
         <div className="relative text-white ">
           <p className="pt-10 md:pt-16 pb-6 text-3xl font-semibold text-center">

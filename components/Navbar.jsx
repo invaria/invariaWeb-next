@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
 import { useNetwork, useAddress, useMetamask, useWalletConnect, useDisconnect } from '@thirdweb-dev/react'
-import { SiweMessage } from 'siwe'
 import { ModalWallet, ModalStory } from './'
 import { shortenAddress } from '../src/utils/shortenAddress'
-import erc20ABI from '../src/utils/erc20ABI.json'
-import { fetchPrice } from '../src/utils/fetchPrice'
 import { disableScroll, enableScroll } from '../src/utils/disableScroll'
+import { checkIfWalletIsConnected, addTokenFunction } from '../src/utils/web3utils'
+
+let pervState = []
 
 const Navbar = ({ headerBackground }) => {
   const router = useRouter()
@@ -23,24 +22,7 @@ const Navbar = ({ headerBackground }) => {
   const connectWithMetamask = useMetamask();
   const connectWithWalletConnect = useWalletConnect();
   const disconnectWallet = useDisconnect();
-  let domain, ethereum, provider, signer
-  
-  const checkIfWalletIsConnected = async () => {
-    ethereum = window?.ethereum
-    if (!ethereum) return
-    provider = new ethers.providers.Web3Provider(ethereum);
-    signer = provider.getSigner()
-    let chainId = await ethereum.request({ method: 'eth_chainId' })
-    const rinkebyChainId = "0x4";
-    if (chainId == rinkebyChainId) {
-      setEthBalance((+ethers.utils.formatEther(await signer.getBalance())).toFixed(3))
-      const usdcAddr = "0x002fF2aD81F0Fa36387eC6F4565B9667516C5342"
-      const usdcContract = new ethers.Contract(usdcAddr, erc20ABI, provider);
-      const decimals = await usdcContract.decimals();
-      setUsdcBalance((+(ethers.utils.formatUnits(await usdcContract.balanceOf(address), decimals))).toFixed(3))  //.toNumber()  //.toFixed(1)
-      setgetCoinPrice(await fetchPrice("ethereum"))
-    }
-  }
+  let domain
 
   useEffect(() => {
     // if (typeof window !== "undefined") {
@@ -52,11 +34,19 @@ const Navbar = ({ headerBackground }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      if (!address) return
+      // 當scroll時，不知為何network == undefined
       domain = window.location.host;
-      checkIfWalletIsConnected()
+      if (network[0].data.chain == undefined) {
+        return
+      } else {
+        if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
+      }
+      pervState[0] = network[0].data.chain.name
+      pervState[1] = address
+      console.log(network[0].data.chain.name, pervState)
+      checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice) 
     }
-  }, [address, network]);
+  }, [address, network])
 
   return (
     <>
@@ -95,7 +85,8 @@ const Navbar = ({ headerBackground }) => {
           </div>
           <div className="navbar-end hidden md:flex flex-row">
             {!address ? (
-              <label htmlFor="my-modal-3" className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
+              <label htmlFor="my-modal-3" 
+                className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                 Connect Wallet</label>
             ) : (
               <>
