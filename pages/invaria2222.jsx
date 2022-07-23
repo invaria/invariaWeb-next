@@ -7,7 +7,7 @@ import Image from 'next/image'
 import {disableScroll} from '../src/utils/disableScroll'
 
 function App() {
-  const [headerBackground, setHeaderBackground] = useState(true);
+  const [headerBackground, setHeaderBackground] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {

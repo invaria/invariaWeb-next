@@ -20,6 +20,7 @@ const Navbar = ({ headerBackground }) => {
   const connectWithMetamask = useMetamask();
   const connectWithWalletConnect = useWalletConnect();
   const disconnectWallet = useDisconnect();
+  console.log(headerBackground)
 
   const checkIfWalletIsConnected = async () => {
     const { ethereum } = window;
@@ -49,7 +50,7 @@ const Navbar = ({ headerBackground }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (!address) return
-      checkIfWalletIsConnected()
+      // checkIfWalletIsConnected()
     }
   }, [address, network]);
 
