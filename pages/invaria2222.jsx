@@ -12,7 +12,7 @@ const  ModalStory  = dynamic(import("../components/ModalStory"));
 const  ModalProperty  = dynamic(import("../components/ModalProperty"));
 
 function App() {
-  const [headerBackground, setHeaderBackground] = useState(true);
+  const [headerBackground, setHeaderBackground] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {

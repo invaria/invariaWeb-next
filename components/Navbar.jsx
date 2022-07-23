@@ -58,10 +58,10 @@ const Navbar = ({ headerBackground }) => {
           <div className="navbar-start h-[80px] flex justify-start items-center">
             {(router.pathname == "/dashboard") &&
               <>
-                <label htmlFor="my-modal-1" className="btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] ml-4 font-semibold text-sm text-invar-light-grey normal-case hover:underline">
+                <label htmlFor="my-modal-1" className="hidden md:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] ml-4 font-semibold text-sm text-invar-light-grey normal-case hover:underline">
                   Storyline</label>
                 <Link href='invaria2222/#faq'>
-                  <p className="btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-invar-light-grey normal-case hover:underline" >FAQ & Tutorials</p>
+                  <p className="hidden md:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-invar-light-grey normal-case hover:underline" >FAQ & Tutorials</p>
                 </Link>
               </>
             }

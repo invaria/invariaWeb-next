@@ -4,7 +4,6 @@ import { useAddress, useNetwork } from '@thirdweb-dev/react'
 import { SiweMessage } from 'siwe'
 import { createUser } from "../src/utils/storeFirebase";
 
-
 const Form = () => {
   let domain, provider, signer
   const address = useAddress();
@@ -12,7 +11,7 @@ const Form = () => {
   const [inputs, setInputs] = useState({ ["address"]: address });
   const [isAdult, setIsAdult] = useState(true);
   const [emailChange, setEmailChange] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitState, setSubmitState] = useState("")
 
   function createSiweMessage(address, statement) {
     const message = new SiweMessage({
@@ -43,15 +42,34 @@ const Form = () => {
     signer = provider.getSigner()
   }, [address, network]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => { //資料符合才會跑以下
     event.preventDefault()
-    await signInWithEthereum()
-    await createUser(address, inputs)
-    setIsSubmitted(true)
+    setSubmitState("submitting")
+    console.log("submitting...", inputs, submitState)
+    try {
+      await signInWithEthereum()
+      await createUser(address, inputs)
+      setInputs((values) => ({ ...values, ["callbackUrl"]: "https://test.add1" }))
+    } catch (error) {
+      console.log(error)
+      setSubmitState("")
+    }
     console.log("submitted!")
   }
 
+  useEffect(() => {
+    if (inputs?.callbackUrl == undefined) return
+    setTimeout(async () => {
+      console.log("createUsering...", inputs)
+      await createUser(address, inputs)
+      // await createUser(address, inputs)
+      console.log("createUsered")
+      setSubmitState("submitted")
+    }, 25000);
+  }, [inputs?.callbackUrl])
+
   const handleChange = (event) => {
+    if (submitState!="") return
     const name = event.target.name;
     const value = event.target.value;
     setInputs(values => ({ ...values, [name]: value }))
@@ -59,6 +77,7 @@ const Form = () => {
       handleBirthDate(value)
     }
   }
+
   useEffect(() => {
     if (inputs.inputEmail == undefined) return
     setEmailChange(true)
@@ -81,17 +100,21 @@ const Form = () => {
   }
 
   let btnSubmit
-  if ((inputs.selectDate !== undefined) && (isAdult == true)
-    && (validateEmail(inputs.inputEmail)) && (address) && !isSubmitted) {
+  if ((inputs.selectDate !== undefined) && (isAdult == true)  //年紀、信箱先過濾，後讓內建submit過濾
+    && (validateEmail(inputs.inputEmail)) && (address) && (submitState == "")) {
     btnSubmit = <input
       type="submit" value="Next"
       className="btn inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
     />
-  } else if (isSubmitted) {
+  } else if (submitState == "submitted") {
     btnSubmit = <input
       type="submit" value="Submitted"
       className="btn btn-disabled inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
     />
+  } else if (submitState == "submitting") {
+    btnSubmit = <button
+      className="btn loading bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
+    >Submitting</button>
   } else {
     btnSubmit = <input
       type="submit" value="Next"
