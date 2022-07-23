@@ -1,11 +1,15 @@
 // FIXME: path alias
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { Twitter, Discord } from '../components/icons/Link'
-import { ScrollToTop, QA, Footer, Navbar, ModalStory, ModalProperty, ModalPremint } from '../components';
+import { ScrollToTop, QA, Footer, Navbar } from '../components';
 import { tutorialsList, faqList } from "../src/constants";
 import Image from 'next/image'
 import { disableScroll } from '../src/utils/disableScroll'
 import Typewriter from 'typewriter-effect';
+const  ModalPremint  = dynamic(import("../components/ModalPremint"));
+const  ModalStory  = dynamic(import("../components/ModalStory"));
+const  ModalProperty  = dynamic(import("../components/ModalProperty"));
 
 function App() {
   const [headerBackground, setHeaderBackground] = useState(true);

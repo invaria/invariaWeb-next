@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import dynamic from "next/dynamic";
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useNetwork, useAddress, useMetamask, useWalletConnect, useDisconnect } from '@thirdweb-dev/react'
-import { ModalWallet, ModalStory } from './'
+const  ModalStory  = dynamic(import("./ModalStory"));
+const  ModalWallet  = dynamic(import("./ModalWallet"));
 import { shortenAddress } from '../src/utils/shortenAddress'
 import { disableScroll, enableScroll } from '../src/utils/disableScroll'
-import { checkIfWalletIsConnected, addTokenFunction } from '../src/utils/web3utils'
+import { checkIfWalletIsConnected } from '../src/utils/web3utils'
 
 let pervState = []
 
@@ -22,7 +24,6 @@ const Navbar = ({ headerBackground }) => {
   const connectWithMetamask = useMetamask();
   const connectWithWalletConnect = useWalletConnect();
   const disconnectWallet = useDisconnect();
-  let domain
 
   useEffect(() => {
     // if (typeof window !== "undefined") {
@@ -35,7 +36,6 @@ const Navbar = ({ headerBackground }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       // 當scroll時，不知為何network == undefined
-      domain = window.location.host;
       if (network[0].data.chain == undefined) {
         return
       } else {
@@ -100,7 +100,7 @@ const Navbar = ({ headerBackground }) => {
               </>
             )
             }
-            <button className="btn btn-sm btn-outline rounded h-[40px] w-[40px] my-[24px] mr-[24px] px-[4px] py-[4px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
+            <button className=" hidden btn btn-sm btn-outline rounded h-[40px] w-[40px] my-[24px] mr-[24px] px-[4px] py-[4px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
               <img className="h-[20px] w-[20px]" src='/icons/ic_language.svg' alt="" />
             </button>
           </div>
