@@ -7,3 +7,4 @@ export {default as QA} from './QA';
 export {default as ScrollToTop} from './ScrollToTop';
 export {default as Navbar} from './Navbar';
 export {default as Form} from './Form';
+export {default as SelectLocale} from './SelectLocale';

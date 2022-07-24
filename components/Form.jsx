@@ -3,6 +3,8 @@ import { ethers } from 'ethers'
 import { useAddress, useNetwork } from '@thirdweb-dev/react'
 import { SiweMessage } from 'siwe'
 import { createUser } from "../src/utils/storeFirebase";
+import { handleKyc } from "../src/utils/handleKyc";
+import SelectLocale from './SelectLocale'
 
 const Form = () => {
   let domain, provider, signer
@@ -49,7 +51,11 @@ const Form = () => {
     try {
       await signInWithEthereum()
       await createUser(address, inputs)
-      setInputs((values) => ({ ...values, ["callbackUrl"]: "https://test.add1" }))
+      handleKyc(inputs)
+      setTimeout(async () => {
+        await createUser(address, { capital: "nyc2" })
+      }, 15000)
+      // setInputs((values) => ({ ...values, ["callbackUrl"]: "https://test.add1" }))
     } catch (error) {
       console.log(error)
       setSubmitState("")
@@ -58,18 +64,19 @@ const Form = () => {
   }
 
   useEffect(() => {
+
     if (inputs?.callbackUrl == undefined) return
-    setTimeout(async () => {
-      console.log("createUsering...", inputs)
-      await createUser(address, inputs)
-      // await createUser(address, inputs)
-      console.log("createUsered")
-      setSubmitState("submitted")
-    }, 25000);
+    // setTimeout(async () => {
+    console.log("createUsering...", inputs)
+    // await createUser(address, inputs)
+    console.log("createUsered")
+    setSubmitState("")
+    // setSubmitState("submitted")
+    // }, 25000);
   }, [inputs?.callbackUrl])
 
   const handleChange = (event) => {
-    if (submitState!="") return
+    if (submitState != "") return
     const name = event.target.name;
     const value = event.target.value;
     setInputs(values => ({ ...values, [name]: value }))
@@ -132,12 +139,7 @@ const Form = () => {
           <select name="selectCountryRegion" onChange={handleChange} value={inputs.selectCountryRegion || ""}
             required className="appearance-none block bg-invar-main-purple w-full h-12 rounded 
             focus:border border-white focus:outline-none text-white font-normal px-[15px]">
-            <option value="">Select</option>
-            <option value="TW">Taiwan</option>
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
+            <SelectLocale />
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>

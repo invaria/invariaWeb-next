@@ -1,15 +1,49 @@
-import { useState, useEffect } from "react";
-import { db } from "./firebase-config";
+// import { useState, useEffect } from "react";
 import {
   collection, getDocs, addDoc, updateDoc,
   deleteDoc, doc, setDoc, query, where
 } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "@firebase/firestore";
 
+const firebaseConfig = {
+  apiKey: "AIzaSyBRiQkgj41SwnVlchsl161dKmbRhSWIIEo",
+  authDomain: "reactform-a757a.firebaseapp.com",
+  databaseURL: "https://reactform-a757a-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "reactform-a757a",
+  storageBucket: "reactform-a757a.appspot.com",
+  messagingSenderId: "387652735491",
+  appId: "1:387652735491:web:042987a9a61cef021cf436",
+  measurementId: "G-EV49MZYV79"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 export const createUser = async (user, data) => {
   const usersCollectionRef = collection(db, "invaria");
-  await setDoc(doc(usersCollectionRef, String(user)), data );
+  await setDoc(doc(usersCollectionRef, String(user)), data, { merge: true } );
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // export const storeFirebase = ({user, data}) => {
 //   const [newName, setNewName] = useState("");
