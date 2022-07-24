@@ -7,7 +7,7 @@ export default async function handler(req, res) {
       res.status(201).json("crearted")
 
     } catch (error) {
-      res.status(417).json("failed")
+      res.status(417).json(error)
     }
   }
 }
