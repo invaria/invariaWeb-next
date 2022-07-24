@@ -35,7 +35,8 @@ const Home = () => {
           },
           body: JSON.stringify({
             "name": "wesley",
-            "job": "zion resident"
+            "job": "zion residenthuikhjk",
+            "job2": "zion residentdfgx"
           })
         }
         );
@@ -54,21 +55,25 @@ const Home = () => {
       try {
         const res = await fetch("/api/callback"
         , {
-          method: 'PUT',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'GOFACT-API-TOKEN' :'hello'
+            'GOFACT-API-TOKEN' :'hello',
           },
           body: JSON.stringify({
             "name": "wesley",
-            "job": "zion resident"
+            "job": "zion resident",
+            "job": "zion residenthuikhjk",
+            "job2": "zion residentdfgx",
+            'idv_task_id':'env local -qwea'
           })
         }
         );
         const data = await res.text();
         setResultCors(data);
+        console.log("sd",process.env.NEXT_PUBLIC_FIREBASE_API_KEY)
       } catch (error) {
-        setResultCors(error.toString());
+        setResultCors(error);
       }
     }
   };
@@ -171,27 +176,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// export default function SearchBar() {
-//   const [query, setQuery] = useState("");
-//   const [address, setAddress] = useState("");
-//   const fetcher = async (url) => await axios.get(url, { params: {q: query } }).then((res) => res.data);
-//   const { data, error } = useSWR(address, fetcher);
-
-//   const handleSubmit = (e) => {
-//     setAddress(`/api/tryswr`);
-//     e.preventDefault();
-//   };
-
-//   return (
-//     <>
-//       <Form onSubmit={handleSubmit}>
-//         <Input
-//           onChange={(e) => setQuery(e.target.value)}
-//         />
-//         <SearchButton type="submit">Search</SearchButton>
-//       </Form>
-//     </>
-//   );
-// }
-

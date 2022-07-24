@@ -1,4 +1,3 @@
-// import { useState, useEffect } from "react";
 import {
   collection, getDocs, addDoc, updateDoc,
   deleteDoc, doc, setDoc, query, where
@@ -7,7 +6,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBRiQkgj41SwnVlchsl161dKmbRhSWIIEo",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "reactform-a757a.firebaseapp.com",
   databaseURL: "https://reactform-a757a-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "reactform-a757a",
@@ -21,6 +20,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const createUser = async (user, data) => {
+  console.log("gyug")
   const usersCollectionRef = collection(db, "invaria");
   await setDoc(doc(usersCollectionRef, String(user)), data, { merge: true } );
 };

@@ -1,0 +1,1 @@
+export const NEXT_PUBLIC_FIREBASE_API_KEY = "AIzaSyBRiQkgj41SwnVlchsl161dKmbRhSWIIEo"
