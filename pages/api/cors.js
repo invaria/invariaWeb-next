@@ -6,14 +6,14 @@ const Cors = async (req, res) => {
   // 物件經過headers會變小寫所以是req.headers['content-type']，不是Content-Type(印出req.headers可知)
   // 直接用上一層fetch的req.headers去fetch會出現ＳＳＬ錯誤
   /* default config */
-  let configs = {
+  let header = {
     'Content-Type': 'application/json'
   }
   /* default config */
 
   /* 過濾出是gofact的fetch，加上api key */
   if (req.headers['gofact-api-token'] !== undefined) {
-    configs.additem = req.headers['gofact-api-token']
+    header['GOFACT-API-TOKEN'] = req.headers['gofact-api-token']
   }
   /* 過濾出是gofact的fetch，加上api key */
 
@@ -21,7 +21,7 @@ const Cors = async (req, res) => {
     const resProxy = await fetch(url
       , {
         method: req.method,
-        headers: configs,
+        headers: header,
         body: JSON.stringify(req.body),
         redirect: 'follow'
       }

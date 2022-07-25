@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useAddress, useNetwork } from '@thirdweb-dev/react'
 import { SiweMessage } from 'siwe'
-import { createUser } from "../src/utils/storeFirebase";
 import { handleKyc } from "../src/utils/handleKyc";
-import SelectLocale from './SelectLocale'
+import { SelectLocale, SelectCountryRegion } from './SelectOptions'
 
 const Form = () => {
   let domain, provider, signer
@@ -50,30 +49,29 @@ const Form = () => {
     console.log("submitting...", inputs, submitState)
     try {
       await signInWithEthereum()
-      await createUser(address, inputs)
-      handleKyc(inputs)
-      setTimeout(async () => {
-        await createUser(address, { capital: "nyc2" })
-      }, 15000)
+      // await createUser(address, inputs)
+      const kycLink = await handleKyc(inputs)
+      console.log("kycLink",kycLink)
+      setSubmitState("")
       // setInputs((values) => ({ ...values, ["callbackUrl"]: "https://test.add1" }))
     } catch (error) {
       console.log(error)
       setSubmitState("")
     }
-    console.log("submitted!")
+    // console.log("submitted!")
   }
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (inputs?.callbackUrl == undefined) return
-    // setTimeout(async () => {
-    console.log("createUsering...", inputs)
-    // await createUser(address, inputs)
-    console.log("createUsered")
-    setSubmitState("")
-    // setSubmitState("submitted")
-    // }, 25000);
-  }, [inputs?.callbackUrl])
+  //   if (inputs?.callbackUrl == undefined) return
+  //   // setTimeout(async () => {
+  //   console.log("createUsering...", inputs)
+  //   // await createUser(address, inputs)
+  //   console.log("createUsered")
+  //   setSubmitState("")
+  //   // setSubmitState("submitted")
+  //   // }, 25000);
+  // }, [inputs?.callbackUrl])
 
   const handleChange = (event) => {
     if (submitState != "") return
@@ -131,6 +129,21 @@ const Form = () => {
 
   return (
     <form name="kycForm" className=" flex-grow pb-[117px]" onSubmit={handleSubmit}>
+      {/* <label className="w-full mb-6 block">
+        <p className="block text-invar-light-grey text-sm leading-4 font-normal mb-3">
+          Language
+        </p>
+        <div className="relative">
+          <select name="selectLanguage" onChange={handleChange} value={inputs.selectLanguage || ""}
+            required className="appearance-none block bg-invar-main-purple w-full h-12 rounded 
+            focus:border border-white focus:outline-none text-white font-normal px-[15px]">
+            <SelectLocale />
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+          </div>
+        </div>
+      </label> */}
       <label className="w-full mb-6 block">
         <p className="block text-invar-light-grey text-sm leading-4 font-normal mb-3">
           Country/Region
@@ -139,7 +152,7 @@ const Form = () => {
           <select name="selectCountryRegion" onChange={handleChange} value={inputs.selectCountryRegion || ""}
             required className="appearance-none block bg-invar-main-purple w-full h-12 rounded 
             focus:border border-white focus:outline-none text-white font-normal px-[15px]">
-            <SelectLocale />
+            <SelectCountryRegion />
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
@@ -164,9 +177,9 @@ const Form = () => {
             required className="appearance-none block bg-invar-main-purple w-full h-12 rounded 
             focus:border border-white focus:outline-none text-white font-normal px-[15px]">
             <option value="">Select</option>
-            <option value="id">ID</option>
-            <option value="passport">Passport</option>
-            <option value="drivingLicense">Driving license</option>
+            <option value="ID_CARD">ID card</option>
+            <option value="PASSPORT">Passport</option>
+            <option value="DRIVING_LICENSE">Driving license</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>

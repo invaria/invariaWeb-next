@@ -28,7 +28,7 @@ const Home = () => {
       try {
         const res = await fetch("/api/callback?url=https://reqres.in/api/users/2"
         , {
-          method: 'PUT',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'GOFACT-API-TOKEN' :'hello'

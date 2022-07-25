@@ -1,17 +1,20 @@
-import axios from 'axios'
+import fetch from "isomorphic-unfetch";  //used for SSR
+import { createUser } from "../../src/utils/storeFirebase";
 
 export const handleKyc = async (formdata) => {
   const { selectIDtype, selectCountryRegion, inputName, selectDate, inputIDnumber } = formdata
 
-  // var data = JSON.stringify(formdata)
-
-  var data = JSON.stringify({
-    "id_type": selectIDtype,
-    "locale": "zh-HK",
-    "workflow_id": 200,
-    "success_url": null,
-    "error_url": null,
+  const data = JSON.stringify({
     "country": "TWN",
+    "id_type": "ID_CARD",
+    "id_image": "iVBORw0KGgoAAA...",
+    "id_mime_type": "image/jpeg",
+    "id_back_image": "iVBORw0KGgoAAA...",
+    "id_back_mime_type": "image/jpeg",
+    "face_image": "iVBORw0KGgoAAA...",
+    "face_mime_type": "image/jpeg",
+    "id_and_face_image": "iVBORw0KGgoAAA...",
+    "id_and_face_mime_type": "image/jpeg",
     "expected_name": "王又曾",
     "expected_birthday": "1990-06-21",
     "expected_id_number": "A123456789",
@@ -22,22 +25,38 @@ export const handleKyc = async (formdata) => {
     "dd_task_search_setting_id": 120
   });
 
+  // const data = JSON.stringify({
+  //   "id_type": selectIDtype,
+  //   "locale": "en",
+  //   "workflow_id": 201,
+  //   "success_url": process.env.NEXT_PUBLIC_URL,
+  //   "error_url": process.env.NEXT_PUBLIC_URL,
+  //   "country": selectCountryRegion,
+  //   "expected_name": inputName,
+  //   "expected_birthday": selectDate,
+  //   "expected_id_number": inputIDnumber,
+  //   "callback_url": process.env.NEXT_PUBLIC_URL + "/api/callback",
+  //   "customer_reference": "000000123",
+  //   "auto_create_dd_task": false,
+  //   "dd_task_callback_url": process.env.NEXT_PUBLIC_URL + "/api/callback",
+  // });
 
-  var config = {
-    method: 'post',
-    url: 'https://external-api.kryptogo.com/idv/init',
-    headers: {
-      'GOFACT-API-TOKEN': '7a691e9e-372d-440e-b4be-50beeb0cf5b3',
-      'Content-Type': 'application/json'
-    },
-    data: data
-  };
+  try {
+    const resData = await fetch("/api/cors?url=https://external-api.kryptogo.com/idv/init"
+      , {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'GOFACT-API-TOKEN': process.env.NEXT_PUBLIC_GOFACT_API_TOKEN,
+        },
+        body: data
+      }
+    );
 
-  // axios(config)
-  //   .then(function (response) {
-  //     console.log(JSON.stringify(response.data));
-  //   })
-  //   .catch(function (error) {
-  //     console.log(error);
-  //   });
-}
+    const resText = await resData.text();
+    // await createUser()
+    console.log("res", resText,"body",data)
+  } catch (error) {
+    console.log(error);
+  }
+};

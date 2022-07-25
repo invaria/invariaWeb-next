@@ -20,7 +20,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const createUser = async (user, data) => {
-  console.log("gyug")
+  console.log("createUser")
   const usersCollectionRef = collection(db, "invaria");
   await setDoc(doc(usersCollectionRef, String(user)), data, { merge: true } );
 };
