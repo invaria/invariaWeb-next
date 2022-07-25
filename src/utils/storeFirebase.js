@@ -7,22 +7,22 @@ import { getFirestore } from "@firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: "reactform-a757a.firebaseapp.com",
-  databaseURL: "https://reactform-a757a-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "reactform-a757a",
-  storageBucket: "reactform-a757a.appspot.com",
-  messagingSenderId: "387652735491",
-  appId: "1:387652735491:web:042987a9a61cef021cf436",
-  measurementId: "G-EV49MZYV79"
+  authDomain: "invaria-kyc.firebaseapp.com",
+  projectId: "invaria-kyc",
+  storageBucket: "invaria-kyc.appspot.com",
+  messagingSenderId: "657214210738",
+  appId: "1:657214210738:web:ac00d0316118c02ae4bfab",
+  measurementId: "G-GG5K9WCNRQ"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 export const createUser = async (user, data) => {
-  console.log("createUser")
   const usersCollectionRef = collection(db, "invaria");
-  await setDoc(doc(usersCollectionRef, String(user)), data, { merge: true } );
+  await setDoc(doc(usersCollectionRef, String(user)), data, { merge: true });
+  console.log("createUser")
+  return "created"
 };
 
 

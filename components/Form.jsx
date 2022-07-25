@@ -9,7 +9,7 @@ const Form = () => {
   let domain, provider, signer
   const address = useAddress();
   const network = useNetwork();
-  const [inputs, setInputs] = useState({ ["address"]: address });
+  const [inputs, setInputs] = useState({ ["address"]: address, ["time"]: new Date(Date.now()) });
   const [isAdult, setIsAdult] = useState(true);
   const [emailChange, setEmailChange] = useState(false)
   const [submitState, setSubmitState] = useState("")
@@ -35,10 +35,10 @@ const Form = () => {
   }
   useEffect(() => {
     if (!address) return
-    if (inputs.address !== address) {
-      setInputs((values) => ({ ...values, ["address"]: address }))
-    }
     domain = window.location.host;
+    if (inputs.address !== address) {
+      setInputs((values) => ({ ...values, ["address"]: address, ["domain"]: window.location.href }))
+    }
     provider = new ethers.providers.Web3Provider(window.ethereum);
     signer = provider.getSigner()
   }, [address, network]);
@@ -49,29 +49,15 @@ const Form = () => {
     console.log("submitting...", inputs, submitState)
     try {
       await signInWithEthereum()
-      // await createUser(address, inputs)
       const kycLink = await handleKyc(inputs)
       console.log("kycLink",kycLink)
-      setSubmitState("")
-      // setInputs((values) => ({ ...values, ["callbackUrl"]: "https://test.add1" }))
+      // setSubmitState("")
+      window.open(kycLink, 'kycLink')
     } catch (error) {
       console.log(error)
       setSubmitState("")
     }
-    // console.log("submitted!")
   }
-
-  // useEffect(() => {
-
-  //   if (inputs?.callbackUrl == undefined) return
-  //   // setTimeout(async () => {
-  //   console.log("createUsering...", inputs)
-  //   // await createUser(address, inputs)
-  //   console.log("createUsered")
-  //   setSubmitState("")
-  //   // setSubmitState("submitted")
-  //   // }, 25000);
-  // }, [inputs?.callbackUrl])
 
   const handleChange = (event) => {
     if (submitState != "") return
@@ -146,7 +132,7 @@ const Form = () => {
       </label> */}
       <label className="w-full mb-6 block">
         <p className="block text-invar-light-grey text-sm leading-4 font-normal mb-3">
-          Country/Region
+          Country/Region{inputs.domain}
         </p>
         <div className="relative">
           <select name="selectCountryRegion" onChange={handleChange} value={inputs.selectCountryRegion || ""}

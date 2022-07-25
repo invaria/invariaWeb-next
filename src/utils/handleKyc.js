@@ -3,30 +3,13 @@ import { createUser } from "../../src/utils/storeFirebase";
 
 export const handleKyc = async (formdata) => {
   const { selectIDtype, selectCountryRegion, inputName, selectDate, inputIDnumber } = formdata
-
-  // const data = JSON.stringify({
-  //   "id_type": "ID_CARD",
-  //   "locale": "zh-HK",
-  //   "workflow_id": 200,
-  //   "success_url": null,
-  //   "error_url": null,
-  //   "country": "TWN",
-  //   "expected_name": "王又曾",
-  //   "expected_birthday": "1990-06-21",
-  //   "expected_id_number": "A123456789",
-  //   "callback_url": "https://myserver.com/send/callback/here",
-  //   "customer_reference": "000000123",
-  //   "auto_create_dd_task": true,
-  //   "dd_task_callback_url": "https://myserver.com/send/callback/here",
-  //   "dd_task_search_setting_id": 120
-  // });
-
+  let kycURL
   const data = JSON.stringify({
     "id_type": selectIDtype,
     "locale": "en",
     "workflow_id": 200,
-    "success_url": process.env.NEXT_PUBLIC_URL,
-    "error_url": process.env.NEXT_PUBLIC_URL,
+    "success_url": process.env.NEXT_PUBLIC_URL + "/dashboard",
+    "error_url": process.env.NEXT_PUBLIC_URL + "/dashboard",
     "country": selectCountryRegion,
     "expected_name": inputName,
     "expected_birthday": selectDate,
@@ -49,12 +32,23 @@ export const handleKyc = async (formdata) => {
       }
     );
 
-    const resText = await resData.text();
-    // await createUser()
-    console.log("req body:", data)
-    console.log("res:", resText)
-    console.log("res:", JSON.parse(resText))
+    const resText = await resData.text();  //.text()!==.toString(), .text() invokes body text.
+    console.log("domain:", window.location.href)
+    // console.log("req body data:", data)
+    // console.log("resDATA:",resData)
+    console.log("resTEXT:", resText)
+    console.log("resTEXTJSON:", JSON.parse(resText))
+    // console.log("resDATAJSON:", JSON.parse(resData))   //fail
+
+    const resJSON = JSON.parse(resText)
+    await createUser(resJSON.idv_task_id, resJSON)
+    await createUser(resJSON.idv_task_id, formdata)
+
+    kycURL = resJSON.url
+
   } catch (error) {
     console.log(error);
+    return error
   }
+  return kycURL
 };

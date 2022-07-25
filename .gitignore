@@ -28,6 +28,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+### .env cannot be ignore if you want to host by using gh repo on vercel or ghpage.
 # .env
 # .env.local
 .env.development.local
