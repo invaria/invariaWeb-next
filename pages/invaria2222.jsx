@@ -54,8 +54,8 @@ function App() {
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
         {/* <img className=' z-0 h-screen min-h-screen w-full object-cover overflow-hidden' draggable="false" src='/bg/bg.png' alt="bg" /> */}
-         <div className="z-0 h-screen min-h-screen w-full object-cover overflow-hidden">
-        <Image width={1440} height={768} layout="fill" objectFit="cover" draggable="false" src='/bg/bg.png' />
+         <div className=" relative z-0 h-screen min-h-screen w-full object-cover overflow-hidden">
+        <Image layout="fill" objectFit="cover" draggable="false" src='/bg/bg.png' />
         </div>
         <img className=' w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" />
         <label htmlFor="property-modal" onClick={() => disableScroll()} className=" hidden z-30 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[57%] right-[53%] md:flex justify-end items-start">
@@ -91,7 +91,7 @@ function App() {
         {/* <img className="absolute top-[px] left-0" src="/bg/mindmap_02.png" draggable="false" alt=""/>
         <img className="absolute top-[px] left-0" src="/bg/mindmap_03.png" draggable="false" alt=""/> */}
         <p className="pt-10 md:pt-16 pb-6 text-2xl md:text-3xl font-semibold text-center mx-16 md:mx-0">
-          Explore Crypto Desert on Next-Gen
+          Explore Crypto Desert on Next-Gen{process.env.NEXT_PUBLIC_URL}
         </p>
         <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] font-normal">
           <p>
