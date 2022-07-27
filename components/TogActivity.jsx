@@ -96,9 +96,9 @@ const TogActivity = () => {
           </div>
           {/* <div {...getCollapseProps()} className="py-6 z-50 font-normal "> */}
           <div  className="py-6 z-50 font-normal ">
-            <div className="flex"></div>
-            {transactions && transactions.map(i => (
-              <div className=" min-h-max w-full flex flex-row mb-10">
+            {/* <div className="flex"></div> */}
+            {transactions && transactions.map((i, index) => (
+              <div key={index} className=" min-h-max w-full flex flex-row mb-10">
                 <div className=" m-0 w-[214px] h-[187px]">
                   <Image className=" rounded" layout='fixed' width={241} height={187} src='/bg/bg_building.jpeg' />
                 </div>
