@@ -25,6 +25,25 @@ export const createUser = async (user, data) => {
   return "created"
 };
 
+export const getUser = async (address) => {
+  const usersCollectionRef = collection(db, "invaria");
+  const q = query(usersCollectionRef, where("address", "==", address));
+  console.log("q", q)
+  const querySnapshota = await getDocs(q);
+  let state
+  querySnapshota.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log("gujvgh", querySnapshota);
+
+    console.log(doc.id, " => ", doc.data().audit_status);
+    state = doc.data().audit_status
+  });
+
+  return state
+}
+
+
+
 
 
 

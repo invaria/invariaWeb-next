@@ -50,7 +50,7 @@ const Form = () => {
     try {
       await signInWithEthereum()
       const kycLink = await handleKyc(inputs)
-      console.log("kycLink",kycLink)
+      console.log("kycLink", kycLink)
       // setSubmitState("")
       window.open(kycLink, 'kycLink')
     } catch (error) {

@@ -1,10 +1,32 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { ethers } from 'ethers'
+import { useAddress, useNetwork } from '@thirdweb-dev/react'
 import { Navbar,TogActivity, Form, Footer } from '../components/'
+import { getUser } from "../src/utils/storeFirebase";
 
 const Dashboard = () => {
   const headerBackground = true
   const [tabState, setTabState] = useState("activity")
+  const address = useAddress();
+  const network = useNetwork();
+  const [verify, setVerify] = useState()
 
+  async function getdata() {
+    const state = await getUser(address)
+    console.log(state)
+    setVerify(state)
+  }
+  useEffect(() => {
+    if (!address) return
+    // domain = window.location.host;
+    // if (inputs.address !== address) {
+    //   setInputs((values) => ({ ...values, ["address"]: address, ["domain"]: window.location.href }))
+    // }
+    // provider = new ethers.providers.Web3Provider(window.ethereum);
+    // signer = provider.getSigner()  
+    getdata()
+
+  }, [address, network]);
   return (
     <div>
       <Navbar headerBackground={headerBackground} />
@@ -34,7 +56,7 @@ const Dashboard = () => {
                 <p className="mt-[39px] text-center">My verification status</p>
               </div>
               <div className=" h-[46px] w-full bg-invar-dark bg-opacity-[0.13] flex justify-center items-center text-center font-semibold text-lg text-invar-error">
-                Unverified</div>
+                {verify}</div>
             </div>
             <div className="md:ml-[52px] w-full">
               <p className=" text-2xl font-semibold mb-[33px]">Identity Verification</p>
