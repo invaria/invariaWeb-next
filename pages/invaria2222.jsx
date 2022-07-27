@@ -7,9 +7,9 @@ import { tutorialsList, faqList } from "../src/constants";
 import Image from 'next/image'
 import { disableScroll } from '../src/utils/disableScroll'
 import Typewriter from 'typewriter-effect';
-const  ModalPremint  = dynamic(import("../components/ModalPremint"));
-const  ModalStory  = dynamic(import("../components/ModalStory"));
-const  ModalProperty  = dynamic(import("../components/ModalProperty"));
+const ModalPremint = dynamic(import("../components/ModalPremint"));
+const ModalStory = dynamic(import("../components/ModalStory"));
+const ModalProperty = dynamic(import("../components/ModalProperty"));
 
 function App() {
   const [headerBackground, setHeaderBackground] = useState(false);
@@ -54,8 +54,8 @@ function App() {
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
         {/* <img className=' z-0 h-screen min-h-screen w-full object-cover overflow-hidden' draggable="false" src='/bg/bg.png' alt="bg" /> */}
-         <div className=" relative z-0 h-screen min-h-screen w-full object-cover overflow-hidden">
-        <Image layout="fill" objectFit="cover" draggable="false" src='/bg/bg.png' />
+        <div className=" relative z-0 h-screen min-h-screen w-full object-cover overflow-hidden">
+          <Image layout="fill" objectFit="cover" draggable="false" src='/bg/bg.png' />
         </div>
         <img className=' w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" />
         <label htmlFor="property-modal" onClick={() => disableScroll()} className=" hidden z-30 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[57%] right-[53%] md:flex justify-end items-start">
