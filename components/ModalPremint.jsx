@@ -23,7 +23,7 @@ const ModalPremint = () => {
   const [getCoinPrice, setgetCoinPrice] = useState(0)
   const [mintNum, setMintNum] = useState(1)
   const [usdcAllowance, setUsdcAllowance] = useState(null)
-  const [btnState, setBtnState] = useState()
+  const [btnState, setBtnState] = useState("")
   const [readmore, setReadmore] = useState(false)
   const address = useAddress()
   const network = useNetwork()
@@ -117,7 +117,7 @@ const ModalPremint = () => {
     if (btnState == "notwhite") return
     if (+usdcBalance < (mintNum * 10000)) {
       setBtnState("nofund")
-    } else if (usdcAllowance < 10000) {
+    } else if (+usdcAllowance < 10000) {
       setBtnState("approve")
     } else {
       setBtnState("mint")
