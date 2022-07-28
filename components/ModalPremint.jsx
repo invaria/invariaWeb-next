@@ -117,7 +117,7 @@ const ModalPremint = () => {
     if (btnState == "notwhite") return
     if (+usdcBalance < (mintNum * 10000)) {
       setBtnState("nofund")
-    } else if (usdcAllowance < 10000) {
+    } else if (+usdcAllowance < 10000) {
       setBtnState("approve")
     } else {
       setBtnState("mint")
