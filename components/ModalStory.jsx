@@ -25,7 +25,7 @@ const ModalStory = () => {
                 <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
               </span>
-              <div className='h-[220px] w-[1px] border-l bg-white -mt-1 z-0'></div>
+              <div className='h-[202px] w-[1px] border-l bg-white -mt-1 z-0'></div>
             </div>
             <div className=" w-[485px] font-noraml text-sm">「Year… 2222, Location… InVaria, Weather… Radiation Fog and Cold」Something is happening in this world…
               <br /> <br />
@@ -41,7 +41,7 @@ const ModalStory = () => {
                 <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
               </span>
-              <div className='h-[175px] w-[1px] border-l bg-white -mt-1 z-0'></div>
+              <div className='h-[192px] w-[1px] border-l bg-white -mt-1 z-0'></div>
             </div>
             <div className=" w-[485px] font-noraml text-sm">
               A tribe of humans find out a device with &quot;CRYPTIC REFLECTOR&quot; words carved on it, there is an unclear description shows…「Connecting…Connecting…, Connect to Real World, the Reflector Indicate Power… Asset will…」

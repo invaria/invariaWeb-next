@@ -1,10 +1,66 @@
 import React, { useState, useEffect } from 'react'
+import { ethers } from 'ethers'
+import { useAddress, useNetwork } from '@thirdweb-dev/react'
+import { SiweMessage } from 'siwe'
+import { handleKyc } from "../src/utils/handleKyc";
+import { SelectLocale, SelectCountryRegion } from './SelectOptions'
 
 const Form = () => {
-  const [inputs, setInputs] = useState({});
+  let domain, provider, signer
+  const address = useAddress();
+  const network = useNetwork();
+  const [inputs, setInputs] = useState({ ["address"]: address, ["time"]: new Date(Date.now()) });
   const [isAdult, setIsAdult] = useState(true);
   const [emailChange, setEmailChange] = useState(false)
+  const [submitState, setSubmitState] = useState("")
+
+  function createSiweMessage(address, statement) {
+    const message = new SiweMessage({
+      domain,
+      address,
+      statement,
+      uri: origin,
+      version: '1',
+      chainId: '1'
+    });
+    return message.prepareMessage();
+  }
+  async function signInWithEthereum() {
+    const message = createSiweMessage(
+      address,
+      'Sign in with Ethereum.'
+    );
+    const nonce = { ["nonce"]: await signer.signMessage(message) }
+    console.log(nonce);
+  }
+  useEffect(() => {
+    if (!address) return
+    domain = window.location.host;
+    if (inputs.address !== address) {
+      setInputs((values) => ({ ...values, ["address"]: address, ["domain"]: window.location.href }))
+    }
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    signer = provider.getSigner()
+  }, [address, network]);
+
+  const handleSubmit = async (event) => { //資料符合才會跑以下
+    event.preventDefault()
+    setSubmitState("submitting")
+    console.log("submitting...", inputs, submitState)
+    try {
+      await signInWithEthereum()
+      const kycLink = await handleKyc(inputs)
+      console.log("kycLink", kycLink)
+      // setSubmitState("")
+      window.open(kycLink, 'kycLink')
+    } catch (error) {
+      console.log(error)
+      setSubmitState("")
+    }
+  }
+
   const handleChange = (event) => {
+    if (submitState != "") return
     const name = event.target.name;
     const value = event.target.value;
     setInputs(values => ({ ...values, [name]: value }))
@@ -12,15 +68,11 @@ const Form = () => {
       handleBirthDate(value)
     }
   }
+
   useEffect(() => {
     if (inputs.inputEmail == undefined) return
     setEmailChange(true)
   }, [inputs.inputEmail])
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(inputs);
-  }
 
   const handleBirthDate = (birth) => {
     let today = new Date();
@@ -39,12 +91,21 @@ const Form = () => {
   }
 
   let btnSubmit
-  if ((inputs.selectDate !== undefined) && (isAdult == true) && (validateEmail(inputs.inputEmail))
-  ) {
+  if ((inputs.selectDate !== undefined) && (isAdult == true)  //年紀、信箱先過濾，後讓內建submit過濾
+    && (validateEmail(inputs.inputEmail)) && (address) && (submitState == "")) {
     btnSubmit = <input
       type="submit" value="Next"
       className="btn inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
     />
+  } else if (submitState == "submitted") {
+    btnSubmit = <input
+      type="submit" value="Submitted"
+      className="btn btn-disabled inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
+    />
+  } else if (submitState == "submitting") {
+    btnSubmit = <button
+      className="btn loading bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
+    >Submitting</button>
   } else {
     btnSubmit = <input
       type="submit" value="Next"
@@ -54,20 +115,30 @@ const Form = () => {
 
   return (
     <form name="kycForm" className=" flex-grow pb-[117px]" onSubmit={handleSubmit}>
+      {/* <label className="w-full mb-6 block">
+        <p className="block text-invar-light-grey text-sm leading-4 font-normal mb-3">
+          Language
+        </p>
+        <div className="relative">
+          <select name="selectLanguage" onChange={handleChange} value={inputs.selectLanguage || ""}
+            required className="appearance-none block bg-invar-main-purple w-full h-12 rounded 
+            focus:border border-white focus:outline-none text-white font-normal px-[15px]">
+            <SelectLocale />
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+          </div>
+        </div>
+      </label> */}
       <label className="w-full mb-6 block">
         <p className="block text-invar-light-grey text-sm leading-4 font-normal mb-3">
-          Country/Region
+          Country/Region{inputs.domain}
         </p>
         <div className="relative">
           <select name="selectCountryRegion" onChange={handleChange} value={inputs.selectCountryRegion || ""}
             required className="appearance-none block bg-invar-main-purple w-full h-12 rounded 
             focus:border border-white focus:outline-none text-white font-normal px-[15px]">
-            <option value="">Select</option>
-            <option value="TW">Taiwan</option>
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
+            <SelectCountryRegion />
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
@@ -92,9 +163,9 @@ const Form = () => {
             required className="appearance-none block bg-invar-main-purple w-full h-12 rounded 
             focus:border border-white focus:outline-none text-white font-normal px-[15px]">
             <option value="">Select</option>
-            <option value="id">ID</option>
-            <option value="passport">Passport</option>
-            <option value="drivingLicense">Driving license</option>
+            <option value="ID_CARD">ID card</option>
+            <option value="PASSPORT">Passport</option>
+            <option value="DRIVING_LICENSE">Driving license</option>
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
@@ -151,7 +222,6 @@ const Form = () => {
           required className="block bg-invar-main-purple w-full h-12 rounded focus:border border-white focus:outline-none text-white font-normal px-4 focus:px-[15px]"
         />
       </label>
-
       {btnSubmit}
     </form>
 
