@@ -4,21 +4,23 @@ import { createUser } from "../../src/utils/storeFirebase";
 export const handleKyc = async (formdata) => {
   const { selectIDtype, selectCountryRegion, inputName, selectDate, inputIDnumber } = formdata
   let kycURL
+  let origin = window.location.origin
   const data = JSON.stringify({
     "id_type": selectIDtype,
     "locale": "en",
     "workflow_id": 200,
-    "success_url": process.env.NEXT_PUBLIC_URL + "/dashboard",
-    "error_url": process.env.NEXT_PUBLIC_URL + "/dashboard",
+    "success_url": origin + "/dashboard",
+    "error_url": origin + "/dashboard",
     "country": selectCountryRegion,
     "expected_name": inputName,
     "expected_birthday": selectDate,
     "expected_id_number": inputIDnumber,
-    "callback_url": process.env.NEXT_PUBLIC_URL + "/api/callback",
+    "callback_url": origin + "/api/callback",
     "customer_reference": "000000123",
     "auto_create_dd_task": false,
-    "dd_task_callback_url": process.env.NEXT_PUBLIC_URL + "/api/callback",
+    "dd_task_callback_url": origin + "/api/callback",
   });
+  console.log(data)
 
   try {
     const resData = await fetch("/api/cors?url=https://external-api.kryptogo.com/idv/init"

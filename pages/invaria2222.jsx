@@ -13,9 +13,10 @@ const ModalProperty = dynamic(import("../components/ModalProperty"));
 
 function App() {
   const [headerBackground, setHeaderBackground] = useState(false);
-
+  const [origin, setorigin] = useState()
   useEffect(() => {
     if (typeof window !== "undefined") {
+      setorigin( window.location.origin)
       window.addEventListener("scroll", () =>
         setHeaderBackground(window.pageYOffset > 20)
       );
@@ -91,7 +92,7 @@ function App() {
         {/* <img className="absolute top-[px] left-0" src="/bg/mindmap_02.png" draggable="false" alt=""/>
         <img className="absolute top-[px] left-0" src="/bg/mindmap_03.png" draggable="false" alt=""/> */}
         <p className="pt-10 md:pt-16 pb-6 text-2xl md:text-3xl font-semibold text-center mx-16 md:mx-0">
-          Explore Crypto Desert on Next-Gen{process.env.NEXT_PUBLIC_URL}
+          Explore Crypto Desert on Next-Gen
         </p>
         <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] font-normal">
           <p>

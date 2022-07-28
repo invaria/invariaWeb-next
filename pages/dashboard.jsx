@@ -18,7 +18,7 @@ const Dashboard = () => {
   }
   useEffect(() => {
     if (!address) return
-    // domain = window.location.host;
+    // domain = window.location.origin;
     // if (inputs.address !== address) {
     //   setInputs((values) => ({ ...values, ["address"]: address, ["domain"]: window.location.href }))
     // }
