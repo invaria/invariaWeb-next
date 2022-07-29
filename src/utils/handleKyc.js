@@ -5,20 +5,21 @@ export const handleKyc = async (formdata) => {
   const { selectIDtype, selectCountryRegion, inputName, selectDate, inputIDnumber } = formdata
   let kycURL
   let origin = window.location.origin
+  let originString = origin.toString()
   const data = JSON.stringify({
     "id_type": selectIDtype,
     "locale": "en",
     "workflow_id": 200,
-    "success_url": origin + "/dashboard",
-    "error_url": origin + "/dashboard",
+    "success_url": originString+"/api/callback",
+    "error_url": originString+"/api/callback",
     "country": selectCountryRegion,
     "expected_name": inputName,
     "expected_birthday": selectDate,
     "expected_id_number": inputIDnumber,
-    "callback_url": origin + "/api/callback",
+    "callback_url":originString+"/api/callback",
     "customer_reference": "000000123",
     "auto_create_dd_task": false,
-    "dd_task_callback_url": origin + "/api/callback",
+    "dd_task_callback_url": originString+"/api/callback",
   });
   console.log(data)
 
