@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useAddress, useNetwork } from '@thirdweb-dev/react'
-import { Navbar,TogActivity, Form, Footer } from '../components/'
+import { Navbar, TogActivity, Form, Footer } from '../components/'
 import { getUser } from "../src/utils/storeFirebase";
 
 const Dashboard = () => {
@@ -28,13 +28,15 @@ const Dashboard = () => {
 
   }, [address, network]);
   return (
-    <div>
+    <div >
       <Navbar headerBackground={headerBackground} />
       <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full bg-gradient-to-b from-[#44334C] to-[#1E1722]
          text-white">
+        <img className=' hidden md:flex absolute top-14 right-[-158px] w-[685px] h-[359px] z-0 ' src="/bg/bg_03.png" alt="" />
+        <img className=' hidden md:flex absolute bottom-0 -left-1/4 w-[800px] h-[400px] z-0 ' src="/bg/bg_05.png" alt="" />
         <div className=" px-4 md:px-16 lg:px-[231px] pt-[60px] md:pt-[80px]">
           <div className=' mt-[32px] md:mt-[45px] font-semibold text-2xl'>Dashboard</div>
-          <div className="flex">
+          <div className="flex z-10">
             <button className={"pb-2 mr-9 mt-[29px] h-[36px] w-[58px] text-sm font-semibold text-center"
               + (tabState == "activity" ? ' text-white border-b-2 border-t-2 border-t-transparent' : ' text-invar-light-grey hover:text-white border-0  ')}
               onClick={() => setTabState("activity")}>
@@ -49,7 +51,7 @@ const Dashboard = () => {
           <TogActivity />
         }
         {(tabState == "profile") &&
-          <div className="px-4 md:px-16 lg:px-[231px] pt-[36px] border-t border-invar-main-purple flex flex-col md:flex-row">
+          <div className="px-4 md:px-16 lg:px-[231px] pt-[36px] border-t border-invar-main-purple flex flex-col md:flex-row z-30">
             <div className="mb-[32px] w-full md:w-[214px] md:min-w-[214px] h-[214px] flex flex-col justify-start items-center rounded">
               <div className="h-[168px] w-full flex flex-col justify-start items-center bg-invar-main-purple ">
                 <img className=' mt-[40px] w-10 h-10' src="/icons/ic_unverified.png" alt="" />

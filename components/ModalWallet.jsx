@@ -19,15 +19,15 @@ const ModalWallet = () => {
   const [getCoinPrice, setgetCoinPrice] = useState()
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      // 當scroll時，不知為何network == undefined
-      if (network[0].data.chain == undefined) {
-        return
-      } else {
-        if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
-      }
-      pervState[0] = network[0].data.chain.name
-      pervState[1] = address
+    if (typeof window !== "undefined" && network[0].data.chain !== undefined) {
+      // // 當scroll時，不知為何network == undefined
+      // if (network[0].data.chain == undefined) {
+      //   return
+      // } else {
+      //   if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
+      // }
+      // pervState[0] = network[0].data.chain.name
+      // pervState[1] = address
       checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice) 
     }
   }, [address, network])
