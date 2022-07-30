@@ -4,6 +4,7 @@ import { createUser } from "../../src/utils/storeFirebase";
 export const handleKyc = async (formdata) => {
   const { selectIDtype, selectCountryRegion, inputName, selectDate, inputIDnumber } = formdata
   let kycURL
+  //kryptogo 會檢查url是可行的，所以用localhost測試會失敗，實際部署後沒問題。
   let origin = window.location.origin
   let originString = origin.toString()
   const data = JSON.stringify({

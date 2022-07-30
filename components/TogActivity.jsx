@@ -17,6 +17,7 @@ let pervState = []
 const TogActivity = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
+  const [collapse, setCollapse] = useState(true)
   const address = useAddress()
   const network = useNetwork()
   const [transactions, setTransactions] = useState([{}])
@@ -55,7 +56,7 @@ const TogActivity = () => {
     // const blockTime = new Date((block.timestamp) * 1000)
     console.log(items)
     console.log(query)
-    console.log("trans",transactions)
+    console.log("trans", transactions)
 
     // nftContract.on("TransferSingle", (operator, from, to, id, value) => {
     //   console.log("from, value.toNumber()")
@@ -83,62 +84,62 @@ const TogActivity = () => {
   }, [address, network])
 
   return (
-    <div className="relative flex mb-20 w-full border-t border-invar-main-purple">
-      <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] w-full z-10 mt-12 ">
-        <div className={" bg-invar-main-purple px-6 rounded text-white cursor-pointer"} {...getToggleProps({ onClick: toggleCollapse })}>
-          <div className="py-6 flex justify-between z-30 border-b border-[#37293E]">
+    <div className="relative flex min-h-[400px] w-full border-t border-invar-main-purple">
+      <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] w-full z-10 mt-12 mb-10">
+        <div className={" bg-invar-main-purple px-6 rounded text-white "} >
+          <div className="py-6 flex justify-between z-30 border-b border-[#37293E] cursor-pointer"  onClick={()=>setCollapse(!collapse)}>
             <p className=" text-xl font-semibold">
               Pre-Sale Minting Stage
             </p>
             <div>
-              {isExpanded ? (<MinusIcon className="w-6 ml-6" />) : (<PlusIcon className="w-6 ml-6" />)}
+              {collapse ? (<MinusIcon className="w-6 ml-6" />) : (<PlusIcon className="w-6 ml-6" />)}
             </div>
           </div>
-          {/* <div {...getCollapseProps()} className="py-6 z-50 font-normal "> */}
-          <div  className="py-6 z-50 font-normal ">
-            {/* <div className="flex"></div> */}
-            {transactions && transactions.map((i, index) => (
-              <div key={index} className=" min-h-max w-full flex flex-row mb-10">
-                <div className=" m-0 w-[214px] h-[187px]">
-                  <Image className=" rounded" layout='fixed' width={241} height={187} src='/bg/bg_building.jpeg' />
+          {!collapse &&
+            <div className="py-6 z-50 font-normal animate-fade-in-down">
+              {transactions && transactions.map((i, index) => (
+                <div key={index} className=" min-h-max w-full flex flex-row mb-10">
+                  <div className=" m-0 w-[214px] h-[187px]">
+                    <Image className=" rounded" layout='fixed' width={241} height={187} src='/bg/bg_building.jpeg' />
+                  </div>
+                  <div className=" grow ml-12 grid grid-cols-2 md:grid-cols-3 gap-0 font-[350] font tracking-wider">
+                    <div className=" h-[45px] ">
+                      <p className=" text-sm text-invar-light-grey mb-1 ">NFT</p>
+                      <p className=" text-base text-white font-light " >Amwaj20</p>
+                    </div>
+                    <div className=" h-[45px] ">
+                      <p className=" text-sm text-invar-light-grey mb-1 ">Address</p>
+                      <p className=" text-base text-white font-light " >{address ? (shortenAddress(address)) : ""}</p>
+                    </div>
+                    <div className=" h-[45px] ">
+                      <p className=" text-sm text-invar-light-grey mb-1 ">Result</p>
+                      <p className=" text-base text-white font-light ">Complete</p>
+                    </div>
+                    <div className=" h-[45px] mt-[20px] ">
+                      <p className=" text-sm text-invar-light-grey mb-1 ">Amount</p>
+                      <p className=" text-base text-white font-light ">{i.value}</p>
+                    </div>
+                    <div className=" h-[45px] mt-[20px] ">
+                      <p className=" text-sm text-invar-light-grey mb-1 ">Value</p>
+                      <p className=" text-base text-white font-light ">{(10000 * i.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USDC</p>
+                    </div>
+                    <div className=" h-[45px] mt-[20px] ">
+                      <p className=" text-sm text-invar-light-grey mb-1 ">Date & Time</p>
+                      <p className=" text-base text-white font-light ">{i.date}</p>
+                    </div>
+                    <div className=" h-[45px] mt-[20px] ">
+                      <p className=" text-sm text-invar-light-grey mb-1 ">TXID</p>
+                      <p className=" text-base text-white font-light ">d86ebfcedf46...3da91</p>
+                    </div>
+                    <div className=" h-[45px] mt-[20px] ">
+                      <p className=" text-sm text-invar-light-grey mb-1 ">View on</p>
+                      <p className=" text-base text-white font-light " onClick={() => { navigator.clipboard.writeText("gyufyu") }}>Amwaj20</p>
+                    </div>
+                  </div>
                 </div>
-                <div className=" grow ml-12 grid grid-cols-2 md:grid-cols-3 gap-0 font-[350] font tracking-wider">
-                  <div className=" h-[45px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">NFT</p>
-                    <p className=" text-base text-white font-light " >Amwaj20</p>
-                  </div>
-                  <div className=" h-[45px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">Address</p>
-                    <p className=" text-base text-white font-light " >{address?(shortenAddress(address)):""}</p>
-                  </div>
-                  <div className=" h-[45px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">Result</p>
-                    <p className=" text-base text-white font-light ">Complete</p>
-                  </div>
-                  <div className=" h-[45px] mt-[20px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">Amount</p>
-                    <p className=" text-base text-white font-light ">{i.value}</p>
-                  </div>
-                  <div className=" h-[45px] mt-[20px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">Value</p>
-                    <p className=" text-base text-white font-light ">{(10000*i.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USDC</p>
-                  </div>
-                  <div className=" h-[45px] mt-[20px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">Date & Time</p>
-                    <p className=" text-base text-white font-light ">{i.date}</p>
-                  </div>
-                  <div className=" h-[45px] mt-[20px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">TXID</p>
-                    <p className=" text-base text-white font-light ">d86ebfcedf46...3da91</p>
-                  </div>
-                  <div className=" h-[45px] mt-[20px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">View on</p>
-                    <p className=" text-base text-white font-light " onClick={() => { navigator.clipboard.writeText("gyufyu") }}>Amwaj20</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          }
         </div>
       </div>
     </div>

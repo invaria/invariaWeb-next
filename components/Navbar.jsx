@@ -3,8 +3,8 @@ import dynamic from "next/dynamic";
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useNetwork, useAddress, useMetamask, useWalletConnect, useDisconnect } from '@thirdweb-dev/react'
-const  ModalStory  = dynamic(import("./ModalStory"));
-const  ModalWallet  = dynamic(import("./ModalWallet"));
+const ModalStory = dynamic(import("./ModalStory"));
+const ModalWallet = dynamic(import("./ModalWallet"));
 import { shortenAddress } from '../src/utils/shortenAddress'
 import { disableScroll, enableScroll } from '../src/utils/disableScroll'
 import { checkIfWalletIsConnected } from '../src/utils/web3utils'
@@ -44,7 +44,7 @@ const Navbar = ({ headerBackground }) => {
       pervState[0] = network[0].data.chain.name
       pervState[1] = address
       console.log(network[0].data.chain.name, pervState)
-      checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice) 
+      checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
     }
   }, [address, network])
 
@@ -88,7 +88,7 @@ const Navbar = ({ headerBackground }) => {
           </div>
           <div className="navbar-end hidden md:flex flex-row">
             {!address ? (
-              <label htmlFor="my-modal-3" 
+              <label htmlFor="my-modal-3"
                 className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                 Connect Wallet</label>
             ) : (
@@ -117,7 +117,10 @@ const Navbar = ({ headerBackground }) => {
           <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
           {language && <h1 className="font-semibold text-base mb-[27px] mx-2">English</h1>}
           {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>}
-          <h1 className="font-semibold text-base mb-8">Dashboard</h1>
+          <Link href="/dashboard">
+            <button className="font-semibold text-base mb-8" onClick={() => { setToggleMenu(false); enableScroll(); }}>
+              Dashboard</button>
+          </Link>
           {!address && <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" onClick={() => setToggleWallet(true)}>Connect Wallet</button>}
           {address &&
             <>

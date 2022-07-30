@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
+import Link from 'next/link'
 import { ethers } from 'ethers'
 import {
   useMetamask, useWalletConnect, useCoinbaseWallet,
@@ -41,7 +42,7 @@ const ModalPremint = () => {
     console.log(iswhite)
     if (iswhite == false) {
       setBtnState("notwhite")
-    } else {setBtnState("")}
+    } else { setBtnState("") }
     setUsdcAllowance(getusdcAllowance)
   }
 
@@ -161,9 +162,11 @@ const ModalPremint = () => {
         Insufficient Fund</div>
   } else if (btnState == "notwhite") {
     btnAction =
-      <div className="w-full h-[76px] mt-6 bg-invar-dark p-4 text-sm text-invar-error font-normal flex justify-between items-center rounded shadow animate-fade-in-left">
-        <p>You are not in the white list.</p>
+      <div className="w-full ">
       </div>
+    //   <div className="w-full h-[76px] mt-6 bg-invar-dark p-4 text-sm text-invar-error font-normal flex justify-between items-center rounded shadow animate-fade-in-left">
+    //   <p>You are not in the white list.</p>
+    // </div>
   }
 
   return (
@@ -179,9 +182,11 @@ const ModalPremint = () => {
                 <p className=" ml-6 text-invar-error font-normal text-sm">
                   Complete your verification
                 </p>
-                <button className=" w-[72px] h-[32px] btn btn-sm btn-outline bg-transparent text-white border-white mr-3 rounded normal-case my-3">
-                  Verify
-                </button>
+                <Link href='/dashboard'>
+                  <button className=" w-[72px] h-[32px] btn btn-sm btn-outline bg-transparent text-white border-white mr-3 rounded normal-case my-3">
+                    Verify
+                  </button>
+                </Link>
               </div>
               <label htmlFor="premint-modal" onClick={() => enableScroll()} className="btn btn-sm p-0 absolute right-[32px] top-[79px] bg-transparent border-none hover:bg-transparent">
                 <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
@@ -201,9 +206,23 @@ const ModalPremint = () => {
                 Connect Wallet
               </button>
             ) : (
-              <button className="btn bg-primary btn-disabled font-semibold text-sm text-white w-full h-[40px] rounded border-none normal-case" onClick={connectWithMetamask}>
-                {shortenAddress(address)}
-              </button>
+              <>
+                {btnState == "notwhite" ? (
+                  <div className="btn btn-disabled flex w-full min-h-max bg-primary h-[68px] normal-case rounded border-none">
+                    <button className=" mt-[10px] font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
+                      {shortenAddress(address)}
+                    </button>
+                    <p className=" mb-[10px] text-invar-validation text-sm font-normal">You are not in the Pre-Sale list.</p>
+                  </div>
+                ) : (
+                  <div className="btn btn-disabled w-full min-h-max bg-primary h-[40px] normal-case rounded border-none">
+                    <button className=" font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
+                      {shortenAddress(address)}
+                    </button>
+                  </div>
+                )
+                }
+              </>
             )}
             <div className="mt-1 w-full p-4 bg-invar-main-purple rounded">
               <div className=" w-full flex justify-between items-center ">

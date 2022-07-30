@@ -34,7 +34,7 @@ function App() {
         <label htmlFor="my-modal-1" onClick={() => disableScroll()}
           className="btn modal-button w-[183px] md:w-min btnShadow bg-white 
             opacity-80 hover:bg-white px-6  text-sm text-info rounded absolute 
-            top-[188px] md:top-[408px] md:left-[245px] z-30 normal-case border-none">
+            top-[188px] md:top-[408px] md:left-[245px] z-20 normal-case border-none">
           Storyline</label>
         <a href={`#mindmap`} className='btn w-[183px] md:w-max btnShadow bg-white 
           opacity-80 hover:bg-white px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded 
@@ -50,7 +50,7 @@ function App() {
           Property Infos</label>
         <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
           opacity-80 hover:bg-invar-success px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-          rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-30 ' >
+          rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-20 ' >
           Pre-Sale Minting</label>
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
@@ -58,7 +58,7 @@ function App() {
         <div className=" relative z-0 h-screen min-h-screen w-full object-cover overflow-hidden">
           <Image layout="fill" objectFit="cover" draggable="false" src='/bg/bg.png' />
         </div>
-        <img className=' w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" />
+        <img className=' w-[23%] hidden absolute bottom-0 left-14 z-10 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" />
         <label htmlFor="property-modal" onClick={() => disableScroll()} className=" hidden z-30 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[57%] right-[53%] md:flex justify-end items-start">
           <div className=" hidden md:flex justify-center items-center">
             <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
