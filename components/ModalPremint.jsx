@@ -102,8 +102,8 @@ const ModalPremint = () => {
       // 當scroll時，不知為何network == undefined
       if (network[0].data.chain == undefined) {
         return
-      } else {
-        if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
+      } else if (pervState[0] == network[0].data.chain.name && pervState[1] == address) {
+        return
       }
       pervState[0] = network[0].data.chain.name
       pervState[1] = address

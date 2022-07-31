@@ -38,15 +38,23 @@ const Navbar = ({ headerBackground }) => {
       // 當scroll時，不知為何network == undefined
       if (network[0].data.chain == undefined) {
         return
+      } else if (pervState[0] == network[0].data.chain.name && pervState[1] == address) {
+        return
       } else {
-        if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
+        pervState[0] = network[0].data.chain.name
+        pervState[1] = address
+        console.log(network[0].data.chain.name, pervState,ethBalance)
+        checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
       }
-      pervState[0] = network[0].data.chain.name
-      pervState[1] = address
-      console.log(network[0].data.chain.name, pervState)
-      checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
     }
   }, [address, network])
+
+  useEffect(() => {
+    console.log("ethBalance", ethBalance)
+  }, [ethBalance])
+
+
+
 
   return (
     <>

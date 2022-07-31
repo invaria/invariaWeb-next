@@ -17,7 +17,7 @@ const itemActivity = ({ i }) => {
     }, 2000);
   }
   return (
-    <div className="py-6  min-h-max w-full flex flex-row  border-t border-[#37293E] ">
+    <div className="py-6 min-h-max w-full flex flex-col md:flex-row border-t border-[#37293E] ">
       <div className=" m-0 w-[214px] h-[187px]">
         <Image className=" rounded" layout='fixed' width={241} height={187} src='/bg/bg_building.jpeg' />
       </div>

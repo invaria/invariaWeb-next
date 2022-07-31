@@ -33,9 +33,9 @@ export const getUser = async (address) => {
   let state
   querySnapshota.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    console.log("gujvgh", doc.data());
+    // console.log("gujvgh", doc.data());
 
-    console.log(doc.id, " => ", doc.data().audit_status);
+    // console.log(doc.id, " => ", doc.data().audit_status);
     state = doc.data().audit_status
   });
 
