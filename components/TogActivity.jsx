@@ -8,7 +8,6 @@ import { nftAddress } from '../src/utils/web3utils'
 import Image from 'next/image'
 import { MinusIcon, PlusIcon } from '@heroicons/react/outline'
 import { shortenAddress } from '../src/utils/shortenAddress'
-import desiredChainId from '../pages/_app'
 import { ItemActivity } from '../components'
 
 let pervState = []
@@ -47,19 +46,19 @@ const TogActivity = () => {
     setTransactions(items)
     console.log(items)
     console.log(query)
-    console.log("trans", transactions,transactions.length)
+    console.log("trans", transactions, transactions.length)
   }
 
   useEffect(() => {
     if (typeof window !== "undefined" && network[0].data.chain !== undefined) {
       // 當scroll時，不知為何network == undefined
-      if (network[0].data.chain == undefined) {
-        return
-      } else {
-        if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
-      }
-      pervState[0] = network[0].data.chain.name
-      pervState[1] = address
+      // if (network[0].data.chain == undefined) {
+      //   return
+      // } else {
+      //   if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
+      // }
+      // pervState[0] = network[0].data.chain.name
+      // pervState[1] = address
       getActivity()
       if (pervState[0] == 'Rinkeby') {
         etherScan = 'https://rinkeby.etherscan.io/tx/'
@@ -69,12 +68,13 @@ const TogActivity = () => {
         openSea = 'https://opensea.io/assets/ethereum/'
       }
     }
-  }, [address, network])
+    // }, [address, network])
+  }, [])
 
   return (
-    <div className="relative flex min-h-[400px] w-full border-t border-invar-main-purple">
+    <div className="relative flex min-h-[98vw] w-full border-t border-invar-main-purple">
       <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] w-full z-10 mt-12 mb-10">
-        {(address&&transactions.length>0) ?(
+        {(address && transactions.length > 0) ? (
           <div className={" bg-invar-main-purple px-6 rounded text-white "} >
             <div className="py-6 flex justify-between z-30 cursor-pointer" onClick={() => setCollapse(!collapse)}>
               <p className=" text-xl font-semibold">
@@ -92,12 +92,12 @@ const TogActivity = () => {
               </div>
             }
           </div>
-        ):(
+        ) : (
           <div className="w-full h-full flex justify-center items-center">
             <div>
               <Image width={162} height={200} src='/icons/ic_light.png' />
               <p className=" text-lg font-normal text-center text-invar-light-grey">No Activity Found</p>
-              </div>
+            </div>
           </div>
         )
         }

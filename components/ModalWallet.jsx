@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
-  useMetamask, useWalletConnect, useCoinbaseWallet,
+  useMetamask, useWalletConnect, 
   useNetwork, useAddress, useDisconnect,
 } from "@thirdweb-dev/react";
 import { shortenAddress } from '../src/utils/shortenAddress'

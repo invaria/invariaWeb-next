@@ -18,10 +18,11 @@ const itemActivity = ({ i }) => {
   }
   return (
     <div className="py-6 min-h-max w-full flex flex-col md:flex-row border-t border-[#37293E] ">
-      <div className=" m-0 w-[214px] h-[187px]">
-        <Image className=" rounded" layout='fixed' width={241} height={187} src='/bg/bg_building.jpeg' />
+      <div className=" m-0 w-full md:w-[214px] md:h-[187px]">
+        {/* <Image className=" rounded" layout='fixed' width={214} height={187} src='/bg/bg_building.jpeg' /> */}
+        <img className="w-full " src='/bg/bg_building.jpeg' />
       </div>
-      <div className=" grow ml-12 grid grid-cols-2 md:grid-cols-3 gap-0 font-[350] font tracking-wider">
+      <div className=" grow mt-6 md:mt-0 md:ml-12 grid grid-cols-2 md:grid-cols-3 gap-0 font-[350] font tracking-wider">
         <div className=" h-[45px] ">
           <p className=" text-sm text-invar-light-grey mb-1 ">NFT</p>
           <p className=" text-base text-white font-light " >Amwaj20</p>
@@ -42,7 +43,7 @@ const itemActivity = ({ i }) => {
           <p className=" text-sm text-invar-light-grey mb-1 ">Value</p>
           <p className=" text-base text-white font-light ">{(10000 * i.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USDC</p>
         </div>
-        <div className=" h-[45px] mt-[20px] ">
+        <div className=" md:h-[45px] mt-[20px] ">
           <p className=" text-sm text-invar-light-grey mb-1 ">Date & Time</p>
           <p className=" text-base text-white font-light ">{i.date}</p>
         </div>

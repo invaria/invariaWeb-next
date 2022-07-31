@@ -50,11 +50,10 @@ const Navbar = ({ headerBackground }) => {
   }, [address, network])
 
   useEffect(() => {
+    if (!address) return
     console.log("ethBalance", ethBalance)
-  }, [ethBalance])
-
-
-
+    checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
+  }, [])
 
   return (
     <>
