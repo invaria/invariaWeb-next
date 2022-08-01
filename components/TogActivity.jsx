@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { ethers } from 'ethers'
 import { useNetwork, useAddress } from "@thirdweb-dev/react";
@@ -9,6 +9,7 @@ import Image from 'next/image'
 import { MinusIcon, PlusIcon } from '@heroicons/react/outline'
 import { shortenAddress } from '../src/utils/shortenAddress'
 import { ItemActivity } from '../components'
+import { async } from '@firebase/util';
 
 let pervState = []
 let etherScan
@@ -20,7 +21,7 @@ const TogActivity = () => {
   const network = useNetwork()
   const [transactions, setTransactions] = useState([{}])
 
-  const getActivity = async () => {
+  async function getActivity() {
     if (!address) return
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner()
@@ -29,9 +30,16 @@ const TogActivity = () => {
     const query = await nftContract.queryFilter(filter)
     const items = await Promise.all(query?.map(async i => {
       const block = (await provider.getBlock(i.blockHash))
-      const blockTime = new Date((block.timestamp) * 1000).toString()
+      const blockTime = new Date((block.timestamp) * 1000)
+      let utcDate = new Date(blockTime.toLocaleString('en-US', { timeZone: "UTC" }))
+
       const item = {
-        date: blockTime,
+        date: blockTime.toString(),
+        year: blockTime.getFullYear(),
+        month: blockTime.getMonth()+1,
+        day:blockTime.getDate(),
+        // zone:blockTime.get
+        utcDate : utcDate.toISOString(),
         from: i.args.from,
         to: i.args.to,
         operator: i.args.operator,
@@ -50,7 +58,7 @@ const TogActivity = () => {
   }
 
   useEffect(() => {
-    if (typeof window !== "undefined" && network[0].data.chain !== undefined) {
+    if (typeof window !== "undefined" ) return
       // 當scroll時，不知為何network == undefined
       // if (network[0].data.chain == undefined) {
       //   return
@@ -59,7 +67,7 @@ const TogActivity = () => {
       // }
       // pervState[0] = network[0].data.chain.name
       // pervState[1] = address
-      getActivity()
+      // getActivity()
       if (pervState[0] == 'Rinkeby') {
         etherScan = 'https://rinkeby.etherscan.io/tx/'
         openSea = 'https://testnets.opensea.io/assets/rinkeby/'
@@ -67,15 +75,15 @@ const TogActivity = () => {
         etherScan = 'https://etherscan.io/tx/'
         openSea = 'https://opensea.io/assets/ethereum/'
       }
-    }
+    
     // }, [address, network])
-  }, [])
+  }, [address])
 
   return (
-    <div className="relative flex min-h-[98vw] w-full border-t border-invar-main-purple">
+    <div className="relative flex min-h-[70vw] w-full border-t border-invar-main-purple">
       <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] w-full z-10 mt-12 mb-10">
         {(address && transactions.length > 0) ? (
-          <div className={" bg-invar-main-purple px-6 rounded text-white "} >
+          <div className={" bg-invar-main-purple px-6 rounded text-white "+(collapse?"mb-[436px]":"")} >
             <div className="py-6 flex justify-between z-30 cursor-pointer" onClick={() => setCollapse(!collapse)}>
               <p className=" text-xl font-semibold">
                 Pre-Sale Minting Stage
@@ -95,7 +103,7 @@ const TogActivity = () => {
         ) : (
           <div className="w-full h-full flex justify-center items-center">
             <div>
-              <Image width={162} height={200} src='/icons/ic_light.png' />
+              <Image width={162} height={200} src='/icons/ic_light.png' alt="" />
               <p className=" text-lg font-normal text-center text-invar-light-grey">No Activity Found</p>
             </div>
           </div>

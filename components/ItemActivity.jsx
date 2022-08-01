@@ -1,15 +1,11 @@
 // 為了讓copy state能在每個item獨立，所以要針對每個item設state
 
 import React, { useState } from 'react'
-import { useAddress, useNetwork } from '@thirdweb-dev/react'
 import { shortenAddress } from '../src/utils/shortenAddress'
 import Image from 'next/image'
 
-const itemActivity = ({ i }) => {
+const ItemActivity = ({ i }) => {
   const [copy, setCopy] = useState(false)
-  const address = useAddress();
-
-  console.log(address, i)
   function handleCopy() {
     setCopy(true)
     setTimeout(() => {
@@ -20,7 +16,7 @@ const itemActivity = ({ i }) => {
     <div className="py-6 min-h-max w-full flex flex-col md:flex-row border-t border-[#37293E] ">
       <div className=" m-0 w-full md:w-[214px] md:h-[187px]">
         {/* <Image className=" rounded" layout='fixed' width={214} height={187} src='/bg/bg_building.jpeg' /> */}
-        <img className="w-full " src='/bg/bg_building.jpeg' />
+        <img className="w-full md:w-[214px] md:h-[187px] rounded" src='/bg/bg_building.jpeg' />
       </div>
       <div className=" grow mt-6 md:mt-0 md:ml-12 grid grid-cols-2 md:grid-cols-3 gap-0 font-[350] font tracking-wider">
         <div className=" h-[45px] ">
@@ -43,7 +39,7 @@ const itemActivity = ({ i }) => {
           <p className=" text-sm text-invar-light-grey mb-1 ">Value</p>
           <p className=" text-base text-white font-light ">{(10000 * i.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USDC</p>
         </div>
-        <div className=" md:h-[45px] mt-[20px] ">
+        <div className=" md:h-[45px] mt-[20px] md:w-32 ">
           <p className=" text-sm text-invar-light-grey mb-1 ">Date & Time</p>
           <p className=" text-base text-white font-light ">{i.date}</p>
         </div>
@@ -51,7 +47,7 @@ const itemActivity = ({ i }) => {
           <p className=" text-sm text-invar-light-grey mb-1 ">TXID</p>
           {i.txid ? (
             <div className=" relative flex justify-start items-center">
-              <a href={i.etherScanUrl} target="_blank" className=" text-base text-white font-light hover:underline ">
+              <a href={i.etherScanUrl} target="_blank" rel="noreferrer"  className=" text-base text-white font-light hover:underline ">
                 {i.txid ? shortenAddress(i.txid) : ""}
               </a>
               {copy ? (
@@ -69,7 +65,7 @@ const itemActivity = ({ i }) => {
         </div>
         <div className=" h-[45px] mt-[20px] ">
           <p className=" text-sm text-invar-light-grey mb-1 ">View on</p>
-          <a href={i.openSeaUrl} target="_blank" className="flex">
+          <a href={i.openSeaUrl} target="_blank" rel="noreferrer"  className="flex">
             <div className=" h-6 w-6 mr-2 ">
               <img src="/icons/opensea.svg" alt="" />
             </div>
@@ -81,4 +77,4 @@ const itemActivity = ({ i }) => {
   )
 }
 
-export default itemActivity
+export default ItemActivity

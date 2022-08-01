@@ -33,23 +33,23 @@ function App() {
       <div className="w-full flex flex-col justify-center items-center h-0 ">
         <label htmlFor="my-modal-1" onClick={() => disableScroll()}
           className="btn modal-button w-[183px] md:w-min btnShadow bg-white 
-            opacity-80 hover:bg-white px-6  text-sm text-info rounded absolute 
+            opacity-80 hover:bg-white hover:opacity-100 px-6  text-sm text-info rounded absolute 
             top-[188px] md:top-[408px] md:left-[245px] z-20 normal-case border-none">
           Storyline</label>
         <a href={`#mindmap`} className='btn w-[183px] md:w-max btnShadow bg-white 
-          opacity-80 hover:bg-white px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded 
+          opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded 
           absolute top-[236px] md:top-[232px] md:right-1/2 normal-case border-none z-20 ' >
           Mindmap</a>
         <a href={`#faq`} className='btn w-[183px] md:w-max btnShadow bg-white 
-          opacity-80 hover:bg-white px-6 py-3 mt-4 md:mt-0 text-sm text-info 
+          opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[300px] md:top-[280px] md:right-1/4 normal-case border-none z-20 '>
           FAQ & Tutorials</a>
         <label htmlFor="property-modal" onClick={() => disableScroll()} className=' md:hidden btn modal-button w-[183px] md:w-max btnShadow bg-white 
-          opacity-80 hover:bg-white px-6 py-3 mt-4 md:mt-0 text-sm text-info 
+          opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 '>
           Property Infos</label>
         <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
-          opacity-80 hover:bg-invar-success px-6 py-3 mt-4 md:mt-0 text-sm text-info 
+          opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-20 ' >
           Pre-Sale Minting</label>
       </div>
@@ -122,7 +122,7 @@ function App() {
         <div className=" relative md:h-[625px] w-full md:pt-[115px] pb-[53px] md:pb-[228px] flex ">
           <div className=" hidden md:block w-1/2 h-full"></div>
           <div className=" ml-8 text-base font-normal text-white mr-[55px] md:mr-0">
-            <p className=" md:font-semibold md:text-invar-grey ">Phase One - APR. ~ DEC. 2022</p>
+            <p className=" md:font-semibold md:text-invar-light-grey ">Phase One - APR. ~ DEC. 2022</p>
             <p className=" text-2xl md:text-[32px] md:leading-[38.4px] font-semibold text-white mt-[4px] md:mt-[10px] mb-6 md:mb-0">Experiment / Exploration</p>
             <p>
               <br className="hidden md:block" />
@@ -142,7 +142,7 @@ function App() {
         <img className=" h-[300px] md:h-[500px] md:absolute top-[988px] right-[-256.48px] z-0 object-cover object-left-top " src="/bg/mindmap_01.png" draggable="false" alt="" />
         <div className=" relative w-full md:pb-[326px] md:mr-[47px] flex justify-end ">
           <div className=" md:h-[272px] md:w-[478px] ml-8 text-base font-normal text-white mr-[55px] md:mr-0">
-            <p className=" md:font-semibold md:text-invar-grey ">Phase Two - NOV. 2022 ~ MAY. 2023</p>
+            <p className=" md:font-semibold md:text-invar-light-grey ">Phase Two - NOV. 2022 ~ MAY. 2023</p>
             <p className=" text-2xl md:text-[32px] md:leading-[38.4px] font-semibold text-white mt-[4px] md:mt-[10px] mb-6 md:mb-0">Diversification / Segmentation</p>
             <p>
               <br className="hidden md:block" />
@@ -163,7 +163,7 @@ function App() {
         <div className=" relative w-full md:pb-[218px] flex z-10 ">
           <div className=" hidden md:block w-1/2 h-full"></div>
           <div className=" ml-8 md:h-[162px] w-[478px] text-base font-normal text-white mr-[55px] md:mr-0">
-            <p className=" md:font-semibold md:text-invar-grey ">MAY. 2023</p>
+            <p className=" md:font-semibold md:text-invar-light-grey ">MAY. 2023</p>
             <p className=" text-2xl md:text-[32px] md:leading-[38.4px] font-semibold text-white mt-[4px] md:mt-[10px] mb-6 md:mb-0">Integration</p>
             <p>
               <br className="hidden md:block" />
@@ -173,9 +173,7 @@ function App() {
             </p>
             <br />
             <ul className="list-disc pl-6">
-              <li>Launch InVariant - An PFP & Pass NFT</li>
-              <li>Release Hybrid Finance Concept</li>
-              <li>Release Second Real Estate Fractionalization NFT</li>
+              <li>Invar Integration</li>
             </ul>
           </div>
           <span className=" absolute bottom-[60px] " id='faq'></span>

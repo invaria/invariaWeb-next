@@ -183,7 +183,8 @@ const ModalPremint = () => {
                   Complete your verification
                 </p>
                 <Link href='/dashboard'>
-                  <button className=" w-[72px] h-[32px] btn btn-sm btn-outline bg-transparent text-white border-white mr-3 rounded normal-case my-3">
+                  <button className=" w-[72px] h-[32px] btn btn-sm btn-outline bg-transparent text-white border-white mr-3 rounded normal-case my-3"
+                    onClick={() => enableScroll()}>
                     Verify
                   </button>
                 </Link>
@@ -297,8 +298,7 @@ const ModalPremint = () => {
               {readmore &&
                 <>
                   <li>After the transaction succeeds, you can view your NFT on the Dashboard Page, as well as your wallet.</li>
-                  <li>Due to the amount of InVaria 2222 NFT is limited, there is no guarantee of successful minting or any amount, even though whitelist.</li>
-                  <li>Whitelist is distributed through the campaign, partnership or official social media.</li>
+                  <li>The pre-sale stage is designed for partners and early-investors, you may experience a relatively longer time till staking is open.</li>
                   <li>If you have any questions, please contact: <OpenLink link="info@invar.finance">
                     info@invar.finance</OpenLink>.</li>
                 </>

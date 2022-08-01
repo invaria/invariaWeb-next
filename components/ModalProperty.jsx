@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { enableScroll } from '../src/utils/disableScroll'
 
 const ModalProperty = () => {
@@ -6,7 +7,7 @@ const ModalProperty = () => {
     <div>
       <input type="checkbox" id="property-modal" className="modal-toggle" />
       <div className="modal bg-[#000000b6] text-2xl text-white">
-        <div className="modal-box relative px-[36px] pt-[56px] md:flex flex-col h-screen max-h-screen w-full max-w-5xl md:w-[375px] md:h-[230px] md:absolute md:top-[24px] md:right-[24px] rounded-none md:rounded-[4px] bg-gradient-to-b from-primary to-[#1E1722] mx-0 md:p-6 md:pt-[56px] scrollbar-hide">
+        <div className="modal-box relative px-[36px] pt-[56px] md:flex flex-col h-screen max-h-screen w-full max-w-5xl md:w-[375px] md:h-min md:absolute md:top-[24px] md:right-[24px] rounded-none md:rounded-[4px] bg-gradient-to-b from-primary to-[#1E1722] mx-0 md:p-6 md:pt-[56px] scrollbar-hide">
           <label htmlFor="property-modal" onClick={() => enableScroll()} className="btn btn-sm p-0 absolute right-[32px] top-[12px] bg-transparent border-none hover:bg-transparent">
             <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
           </label>
@@ -39,9 +40,12 @@ const ModalProperty = () => {
           <p className="mb-[22px] text-base font-normal text-white">
             FlowBay Property Management
           </p>
-          <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" >
-            Learn More
-          </button>
+          <Link href='/propertyinfo'>
+            <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" 
+             onClick={() => enableScroll()}>
+              Learn More
+            </button>
+          </Link>
         </div>
       </div>
     </div>
