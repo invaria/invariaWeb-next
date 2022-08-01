@@ -7,24 +7,49 @@ const PropertyInfo = () => {
   const headerBackground = true
   const [tabState, setTabState] = useState("property")
 
+  const fixedinfo =
+    <div className=' mb-9'>
+      <img className="w-full" src='/bg/amwaj20.png' alt="" />
+      <a className="w-full h-[72px] mt-3 rounded py-4 px-6 bg-invar-main-purple 
+        flex justify-between items-center"
+        href="https://drive.google.com/file/d/1mhizTtoZxGI_4YEJxXKRTz4A61DthVsy/view"
+        rel="noreferrer"
+        target="_blank"
+        >
+        <div className=" text-white font-semibold text-base">
+          Letter of Authorization
+          <p className=" text-sm font-normal text-invar-light-grey">(The Property is Own and Manage by FlowBay)</p>
+        </div>
+        <img src="/icons/upright.svg" alt="" />
+      </a>
+      <div className="w-full h-[72px] mt-3 rounded py-4 px-6 bg-invar-main-purple 
+        flex justify-between items-center">
+        <div className=" text-white font-semibold text-base">
+          Property Brochure
+        </div>
+        <img src="/icons/upright.svg" alt="" />
+      </div>
+    </div>
+
   return (
     <div >
       <Navbar headerBackground={headerBackground} />
       <div className=" min-w-full max-w-full relative overflow-hidden h-full bg-gradient-to-b from-[#44334C] to-[#1E1722]
        text-white">
+        <div className=" fixed mt-[135px] right-1/2 w-[466px] hidden md:block md:mx-3">
+          {fixedinfo}
+        </div>
         <img className=' hidden lg:flex absolute top-[400px] right-[-158px] w-[685px] h-[359px] z-0 ' src="/bg/bg_03.png" alt="" />
         <img className=' hidden lg:flex absolute bottom-0 -left-1/4 w-[800px] h-[400px] z-0 ' src="/bg/bg_05.png" alt="" />
-        <div className=" relative px-[30px] sm:px-8 md:px-16 lg:px-[231px] pt-[60px] md:pt-[80px] flex flex-col md:flex-row mt-[32px] md:mt-[45px]">
+        <div className=" px-[30px] sm:px-8 md:px-16 lg:px-[231px] pt-[60px] md:pt-[80px] flex flex-col md:flex-row mt-[32px] md:mt-[45px]">
           <div className=" w-full md:w-1/2 md:max-w-1/2">
-            <div className=" relative md:mx-3">
-              <img className="w-full" src='/bg/amwaj20.png' alt="" />
-              <div className="w-full h-[72px] mt-6 bg-invar-main-purple">
-              </div>
+            <div className="block md:hidden md:mx-3">
+              {fixedinfo}
             </div>
           </div>
           <div className=' w-full md:w-1/2 md:pl-3'>
-            <p className=" font-semibold text-3xl"> The First Luxury Property from 2015</p>
-            <p className=" mt-2 text-xl mb-[38px]"> Amwaj20 · Amwaj Islands, Bahrain</p>
+            <p className=" font-semibold text-2xl md:text-3xl"> The First Luxury Property from 2015</p>
+            <p className=" mt-2 text-base md:text-xl mb-[38px]"> Amwaj20 · Amwaj Islands, Bahrain</p>
             <div className="flex z-10 border-b-2 border-invar-main-purple">
               <button className={"pb-2 mr-9 h-[36px] w-[110px] text-sm font-semibold text-center"
                 + (tabState == "property" ? ' text-white border-b-2 border-t-2 border-t-transparent' : ' text-invar-light-grey hover:text-white border-0  ')}
@@ -127,7 +152,7 @@ const PropertyInfo = () => {
                     <div className=" ml-9 text-base font-normal text-white">
                       <p className=" text-invar-light-grey font-normal text-xs">Market</p>
                       <span className=" text-2xl font-semibold">$1.67</span>
-                      tn, 
+                      tn,
                       <span className=" text-2xl font-semibold"> 54</span>
                       mn consumers
                     </div>

@@ -8,7 +8,7 @@ const ModalProperty = () => {
       <input type="checkbox" id="property-modal" className="modal-toggle" />
       <div className="modal bg-[#000000b6] text-2xl text-white">
         <div className="modal-box relative px-[36px] pt-[56px] md:flex flex-col h-screen max-h-screen w-full max-w-5xl md:w-[375px] md:h-min md:absolute md:top-[24px] md:right-[24px] rounded-none md:rounded-[4px] bg-gradient-to-b from-primary to-[#1E1722] mx-0 md:p-6 md:pt-[56px] scrollbar-hide">
-          <label htmlFor="property-modal" onClick={() => enableScroll()} className="btn btn-sm p-0 absolute right-[32px] top-[12px] bg-transparent border-none hover:bg-transparent">
+          <label htmlFor="property-modal" onClick={() => enableScroll()} className="btn btn-sm p-0 absolute right-[24px] top-[12px] bg-transparent border-none hover:bg-transparent">
             <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
           </label>
           <img className="w-full" src='/bg/amwaj20.png' alt="" />
@@ -41,7 +41,7 @@ const ModalProperty = () => {
             FlowBay Property Management
           </p>
           <Link href='/propertyinfo'>
-            <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" 
+            <button className=" btn w-full h-[48px] font-semibold text-base bg-invar-dark text-white rounded text-center normal-case border-none mb-6" 
              onClick={() => enableScroll()}>
               Learn More
             </button>

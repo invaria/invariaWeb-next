@@ -42,7 +42,7 @@ const ModalPremint = () => {
     console.log(iswhite)
     if (iswhite == false) {
       setBtnState("notwhite")
-    } else { setBtnState("") }
+    }
     setUsdcAllowance(getusdcAllowance)
   }
 
@@ -111,6 +111,20 @@ const ModalPremint = () => {
       checkAllowance()
     }
   }, [address, network])
+
+  useEffect(() => {
+    if (address == undefined) return
+    console.log("btnState", btnState)
+
+    checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
+    checkAllowance()
+  }, [])
+  
+  // useEffect(() => {
+  //   console.log("btnState", btnState)
+
+  // }, [btnState])
+  
 
   useEffect(() => {
     console.log(usdcAllowance)

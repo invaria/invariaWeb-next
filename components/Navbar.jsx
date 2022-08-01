@@ -63,7 +63,7 @@ const Navbar = ({ headerBackground }) => {
         <ModalStory />
         <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[80px] flex">
           <div className="navbar-start h-[80px] flex justify-start items-center mt-6">
-            {(router.pathname == "/dashboard" || router.pathname == "/propertyinfo") &&
+            {(router.pathname == "/dashboard" || router.pathname == "/propertyinfo" || router.pathname == "/terms"  || router.pathname == "/privacy") &&
               <>
                 <label htmlFor="my-modal-1" className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] ml-4 font-semibold text-sm text-invar-light-grey normal-case">
                   Storyline</label>

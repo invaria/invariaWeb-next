@@ -1,7 +1,7 @@
 import { ButtonMailto } from '../components/icons/Link';
 import Image from 'next/image'
 import Link from 'next/link'
-import Footer from '../components/Footer'
+import { Navbar, Footer } from '../components'
 
 const Privacy = () => {
 
@@ -43,16 +43,17 @@ const Privacy = () => {
       title: '9. Contacting Us'
     },
   ]
-
+  const headerBackground = true
   return (
     <div className='bg-gradient-to-b from-[#44334C] to-[#1E1722] '>
-      <div className="h-20 bg-invar-dark grid place-content-center text-[#030F2B]">
+      {/* <div className="h-20 bg-invar-dark grid place-content-center text-[#030F2B]">
         <Link href="invaria2222">
           <Image className='cursor-pointer' width={95} height={34} src='/logo_white.svg' />
         </Link>
-      </div>
+      </div> */}
+      <Navbar headerBackground={headerBackground} />
       <div className="py-16 px-6 xl:px-56 grid grid-cols-8 gap-12">
-        <div className="container text-white col-span-8 md:col-span-5 text-base font-normal">
+        <div className="container mt-20 text-white col-span-8 md:col-span-5 text-base font-normal">
           <p className="text-[32px] leading-[38.4px] font-semibold">Privacy Policy Statement</p>
           <p className='pt-3 pb-6 '>Last Updated: June 20th, 2022</p>
           <p>
@@ -135,39 +136,39 @@ const Privacy = () => {
           </p>
           <p>
             We may use the information we collect to create an account for you on our websites, process a transaction, to communicate with you, to learn more about our users, and for marketing purposes. We also use the information we collect to:
-            </p>
+          </p>
           <br />
           <p>
             A.  Provide, maintain, improve, and develop our Services, including to debug and repair errors in our Services;
-            </p>
+          </p>
           <br />
           <p>
             B.  Personalize your experience with us;
-            </p>
+          </p>
           <br />
           <p>
             C.  Send you technical notices, security alerts, support messages and other transactional or relationship messages;
-            </p>
+          </p>
           <br />
           <p>
             D.  Communicate with you about our Services and events and provide news and information that we think will interest you (see the Your Choices section below for information about how to opt out of these communications at any time);
-            </p>
+          </p>
           <br />
           <p>
             E.  Monitor and analyze trends, usage, and activities in connection with our Services;
-            </p>
+          </p>
           <br />
           <p>
             F.  Detect, investigate, and help prevent security incidents and other malicious, deceptive, fraudulent, or illegal activity and help protect the rights and property of InVar and others;
-            </p>
+          </p>
           <br />
           <p>
             G.  Comply with our legal and financial obligations;
-            </p>
+          </p>
           <br />
           <p>
             H.  Create de-identified, anonymized or aggregated information;
-            </p>
+          </p>
           <br />
           <p>
             I.  Carry out any other purpose described to you at the time the information was collected.
@@ -196,31 +197,31 @@ const Privacy = () => {
           </p>
           <p>
             We may share personal information in the following circumstances or as otherwise described in this policy:
-            </p>
+          </p>
           <br />
           <p>
             A.  We share personal information with vendors that access personal information to perform work for us, such as companies that assist us with web hosting, payment processing, identity verification, fraud prevention, marketing, and technical support.
-            </p>
+          </p>
           <br />
           <p>
             B.  We may disclose personal information if we believe that disclosure is in accordance with, or required by, any applicable law or legal process, including lawful requests by public authorities to meet national security or law enforcement requirements and during other legal proceedings.
-            </p>
+          </p>
           <br />
           <p>
             C.  We may share personal information if we believe that your actions are inconsistent with our user agreements or policies, if we believe that you have violated the law, or if we believe it is necessary to protect the rights, property, and safety of InVar, our users, the public, or others.
-            </p>
+          </p>
           <br />
           <p>
             D.  We share personal information with our lawyers and other professional advisors where necessary to obtain advice or otherwise protect and manage our business interests.
-            </p>
+          </p>
           <br />
           <p>
             E.  We may share personal information in connection with, or during negotiations concerning, any merger, sale of company assets, financing, or acquisition of all or a portion of our business by another company.
-            </p>
+          </p>
           <br />
           <p>
             F.  We share personal information with your consent or at your direction.
-            </p>
+          </p>
           <br />
           <p>
             We may also share aggregated or de-identified information that cannot reasonably be used to identify you.
