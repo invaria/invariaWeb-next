@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { enableScroll } from '../src/utils/disableScroll'
 
 const ModalProperty = () => {
@@ -6,17 +7,45 @@ const ModalProperty = () => {
     <div>
       <input type="checkbox" id="property-modal" className="modal-toggle" />
       <div className="modal bg-[#000000b6] text-2xl text-white">
-        <div className="modal-box relative md:flex flex-col h-screen max-h-screen w-full max-w-5xl md:w-[375px] md:h-[230px] md:absolute md:top-[24px] md:right-[24px] rounded-none md:rounded-[4px] bg-gradient-to-b from-primary to-[#1E1722] mx-0 p-0  md:p-6  scrollbar-hide">
-          <label htmlFor="property-modal" onClick={() => enableScroll()} className="btn btn-sm p-0 absolute right-[32px] top-[35px] bg-transparent border-none hover:bg-transparent">
+        <div className="modal-box relative px-[36px] pt-[56px] md:flex flex-col h-screen max-h-screen w-full max-w-5xl md:w-[375px] md:h-min md:absolute md:top-[24px] md:right-[24px] rounded-none md:rounded-[4px] bg-gradient-to-b from-primary to-[#1E1722] mx-0 md:p-6 md:pt-[56px] scrollbar-hide">
+          <label htmlFor="property-modal" onClick={() => enableScroll()} className="btn btn-sm p-0 absolute right-[32px] top-[12px] bg-transparent border-none hover:bg-transparent">
             <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
           </label>
-          <h3 className="text-2xl font-semibold m-[36px] mb-5">Storyline</h3>
-          <p className="py-4 text-sm font-normal mx-[36px] mb-[24px]">InVaria, the unexplored desert which full of noises and uncertainty…
-            <br /> <br />
-            Tribes of humanity are desperate to pursue freedom, creation and fulfillment of endless desire. Some of them aggressively explore the wealth behind the dark fog, some are the first try to find the safe harbor to survive…year in 2222…
-            <br /> <br />
-            One tribe discovered a mystic device that could mirror real-world assets from 200 years ago; by connecting with it, human beings will be able to obtain the resources and benefits…
+          <img className="w-full" src='/bg/amwaj20.png' alt="" />
+          <h3 className="text-2xl font-semibold mt-5">Amwaj20</h3>
+          <p className="pt-1 pb-3 text-sm font-normal border-b border-invar-main-purple">
+            Luxury residential tower built on Amwaj Island in the Kingdom of Bahrain.
           </p>
+          <p className="mt-3 mb-1 text-xs font-normal text-invar-light-grey">
+            Value (MV)
+          </p>
+          <p className="mb-[10px] text-base font-normal text-white">
+            $38,000,000 USD
+          </p>
+          <p className="mt-3 mb-1 text-xs font-normal text-invar-light-grey">
+            Estimate Investment Return (APR)
+          </p>
+          <p className="mb-[10px] text-base font-normal text-white">
+            12%
+          </p>
+          <p className="mt-3 mb-1 text-xs font-normal text-invar-light-grey">
+            Developer
+          </p>
+          <p className="mb-[10px] text-base font-normal text-white">
+            Mannai Group
+          </p>
+          <p className="mt-3 mb-1 text-xs font-normal text-invar-light-grey">
+            Manager
+          </p>
+          <p className="mb-[22px] text-base font-normal text-white">
+            FlowBay Property Management
+          </p>
+          <Link href='/propertyinfo'>
+            <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" 
+             onClick={() => enableScroll()}>
+              Learn More
+            </button>
+          </Link>
         </div>
       </div>
     </div>

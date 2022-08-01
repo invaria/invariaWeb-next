@@ -1,36 +1,28 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { ethers } from 'ethers'
-import {
-  useMetamask, useWalletConnect, useCoinbaseWallet,
-  useNetwork, useAddress, useDisconnect,
-} from "@thirdweb-dev/react";
+import { useNetwork, useAddress } from "@thirdweb-dev/react";
 import erc20ABI from '../src/utils/erc20ABI.json'
 import inVariaJSON from '../src/utils/InVaria.json'
-import { checkIfWalletIsConnected, addTokenFunction, usdcAddress, nftAddress } from '../src/utils/web3utils'
+import { nftAddress } from '../src/utils/web3utils'
 import Image from 'next/image'
-import useCollapse from 'react-collapsed';
 import { MinusIcon, PlusIcon } from '@heroicons/react/outline'
 import { shortenAddress } from '../src/utils/shortenAddress'
+import { ItemActivity } from '../components'
+import { async } from '@firebase/util';
 
 let pervState = []
+let etherScan
+let openSea
 
 const TogActivity = () => {
-  const [isExpanded, setIsExpanded] = useState(true);
-  const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
+  const [collapse, setCollapse] = useState(false)
   const address = useAddress()
   const network = useNetwork()
   const [transactions, setTransactions] = useState([{}])
 
-  const toggleCollapse = () => {
-    setIsExpanded((prev) => !prev)
-  }
-
-  const getActivity = async () => {
-    console.log("from, value.toNumber()")
-
+  async function getActivity() {
     if (!address) return
-    console.log("from, value.toNumber()")
-
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner()
     const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, provider);
@@ -38,108 +30,86 @@ const TogActivity = () => {
     const query = await nftContract.queryFilter(filter)
     const items = await Promise.all(query?.map(async i => {
       const block = (await provider.getBlock(i.blockHash))
-      const blockTime = new Date((block.timestamp) * 1000).toString()
+      const blockTime = new Date((block.timestamp) * 1000)
+      let utcDate = new Date(blockTime.toLocaleString('en-US', { timeZone: "UTC" }))
+
       const item = {
-        date: blockTime,
+        date: blockTime.toString(),
+        year: blockTime.getFullYear(),
+        month: blockTime.getMonth() + 1,
+        day: blockTime.getDate(),
+        // zone:blockTime.get
+        // utcDate: utcDate.toISOString(),
         from: i.args.from,
         to: i.args.to,
         operator: i.args.operator,
         id: i.args.id.toNumber(),
-        value: (i.args.value).toNumber()
+        value: (i.args.value).toNumber(),
+        txid: `${i.transactionHash}`,
+        etherScanUrl: `${etherScan}${i.txid}`,
+        openSeaUrl: `${openSea}${i.txid}`
       }
       return item
     }))
     setTransactions(items)
-
-    // const block = (await provider.getBlock("0x3d1fc8dca4e1c50187f418583b9c4111c00de33b76f24f585361bdcc17ee58cf"))
-    // const blockTime = new Date((block.timestamp) * 1000)
     console.log(items)
     console.log(query)
-    console.log("trans",transactions)
-
-    // nftContract.on("TransferSingle", (operator, from, to, id, value) => {
-    //   console.log("from, value.toNumber()")
-
-    //   console.log(from)
-    //   console.log(nftContract.filters.TransferSingle())
-    //   console.log(from, value.toNumber())
-    //   // alert(`Hey there! We've minted your NFT and sent it to your wallet. It may be blank right now. It can take a max of 10 min to show up on OpenSea. Here's the link: https://testnets.opensea.io/assets/${CONTRACT_ADDRESS}/${tokenId.toNumber()}`)
-    // });
+    console.log("trans", transactions, transactions.length)
   }
 
-
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      // 當scroll時，不知為何network == undefined
-      if (network[0].data.chain == undefined) {
-        return
-      } else {
-        if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
-      }
-      pervState[0] = network[0].data.chain.name
-      pervState[1] = address
-      getActivity()
+    // if (typeof window !== "undefined") return
+    // 當scroll時，不知為何network == undefined
+    // if (network[0].data.chain == undefined) {
+    //   return
+    // } else {
+    //   if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
+    // }
+    // pervState[0] = network[0].data.chain.name
+    // pervState[1] = address
+    getActivity()
+    console.log("address",address)
+    if (pervState[0] == 'Rinkeby') {
+      etherScan = 'https://rinkeby.etherscan.io/tx/'
+      openSea = 'https://testnets.opensea.io/assets/rinkeby/'
+    } else if (pervState[0] == 'Ethereum Mainnet') {
+      etherScan = 'https://etherscan.io/tx/'
+      openSea = 'https://opensea.io/assets/ethereum/'
     }
-  }, [address, network])
+
+    // }, [address, network])
+  }, [address])
 
   return (
-    <div className="relative flex mb-20 w-full border-t border-invar-main-purple">
-      <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] w-full z-10 mt-12 ">
-        <div className={" bg-invar-main-purple px-6 rounded text-white cursor-pointer"} {...getToggleProps({ onClick: toggleCollapse })}>
-          <div className="py-6 flex justify-between z-30 border-b border-[#37293E]">
-            <p className=" text-xl font-semibold">
-              Pre-Sale Minting Stage
-            </p>
+    <div className="relative flex min-h-[70vw] w-full border-t border-invar-main-purple">
+      <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] w-full z-10 mt-12 mb-10">
+        {(address && transactions.length > 0) ? (
+          <div className={" bg-invar-main-purple px-6 rounded text-white " + (collapse ? "mb-[436px]" : "")} >
+            <div className="py-6 flex justify-between z-30 cursor-pointer" onClick={() => setCollapse(!collapse)}>
+              <p className=" text-xl font-semibold">
+                Pre-Sale Minting Stage
+              </p>
+              <div>
+                {collapse ? (<MinusIcon className="w-6 ml-6" />) : (<PlusIcon className="w-6 ml-6" />)}
+              </div>
+            </div>
+            {!collapse &&
+              <div className="z-50 font-normal animate-fade-in-down">
+                {transactions && transactions.map((i, index) => (
+                  <ItemActivity key={index} i={i} />
+                ))}
+              </div>
+            }
+          </div>
+        ) : (
+          <div className="w-full h-full flex justify-center items-center">
             <div>
-              {isExpanded ? (<MinusIcon className="w-6 ml-6" />) : (<PlusIcon className="w-6 ml-6" />)}
+              <Image width={162} height={200} src='/icons/ic_light.png' alt="" />
+              <p className=" text-lg font-normal text-center text-invar-light-grey">No Activity Found</p>
             </div>
           </div>
-          {/* <div {...getCollapseProps()} className="py-6 z-50 font-normal "> */}
-          <div  className="py-6 z-50 font-normal ">
-            {/* <div className="flex"></div> */}
-            {transactions && transactions.map((i, index) => (
-              <div key={index} className=" min-h-max w-full flex flex-row mb-10">
-                <div className=" m-0 w-[214px] h-[187px]">
-                  <Image className=" rounded" layout='fixed' width={241} height={187} src='/bg/bg_building.jpeg' />
-                </div>
-                <div className=" grow ml-12 grid grid-cols-2 md:grid-cols-3 gap-0 font-[350] font tracking-wider">
-                  <div className=" h-[45px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">NFT</p>
-                    <p className=" text-base text-white font-light " >Amwaj20</p>
-                  </div>
-                  <div className=" h-[45px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">Address</p>
-                    <p className=" text-base text-white font-light " >{address?(shortenAddress(address)):""}</p>
-                  </div>
-                  <div className=" h-[45px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">Result</p>
-                    <p className=" text-base text-white font-light ">Complete</p>
-                  </div>
-                  <div className=" h-[45px] mt-[20px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">Amount</p>
-                    <p className=" text-base text-white font-light ">{i.value}</p>
-                  </div>
-                  <div className=" h-[45px] mt-[20px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">Value</p>
-                    <p className=" text-base text-white font-light ">{(10000*i.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USDC</p>
-                  </div>
-                  <div className=" h-[45px] mt-[20px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">Date & Time</p>
-                    <p className=" text-base text-white font-light ">{i.date}</p>
-                  </div>
-                  <div className=" h-[45px] mt-[20px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">TXID</p>
-                    <p className=" text-base text-white font-light ">d86ebfcedf46...3da91</p>
-                  </div>
-                  <div className=" h-[45px] mt-[20px] ">
-                    <p className=" text-sm text-invar-light-grey mb-1 ">View on</p>
-                    <p className=" text-base text-white font-light " onClick={() => { navigator.clipboard.writeText("gyufyu") }}>Amwaj20</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        )
+        }
       </div>
     </div>
   )

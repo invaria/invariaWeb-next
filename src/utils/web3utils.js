@@ -15,8 +15,8 @@ export const fetchPrice = async (coin) => {
   }
 }
 
-export const nftAddress = "0x8654550F840Af5b463bE110F09b9065bB8960E03"
-export const usdcAddress ="0x9c42C682b091547DC012C209dfC414654aEA2343" 
+export const nftAddress = process.env.NEXT_PUBLIC_NFT_ADDRESS
+export const usdcAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS
 //testUSDC 0x38eFbd7A5A03d8AC9886140Ad5b393e39c85049d  //lfg 0x002fF2aD81F0Fa36387eC6F4565B9667516C5342
 //USDC(eth) 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
 const tokenSymbol = 'USDC';

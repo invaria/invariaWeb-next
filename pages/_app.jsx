@@ -4,7 +4,7 @@ import reportWebVitals from '../src/reportWebVitals';
 import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 
 // const desiredChainId = ChainId.Mainnet
-const desiredChainId = ChainId.Rinkeby
+export const desiredChainId = ChainId.Rinkeby
 
 // export const AppContext = createContext();
 

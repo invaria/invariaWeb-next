@@ -3,8 +3,8 @@ import dynamic from "next/dynamic";
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useNetwork, useAddress, useMetamask, useWalletConnect, useDisconnect } from '@thirdweb-dev/react'
-const  ModalStory  = dynamic(import("./ModalStory"));
-const  ModalWallet  = dynamic(import("./ModalWallet"));
+const ModalStory = dynamic(import("./ModalStory"));
+const ModalWallet = dynamic(import("./ModalWallet"));
 import { shortenAddress } from '../src/utils/shortenAddress'
 import { disableScroll, enableScroll } from '../src/utils/disableScroll'
 import { checkIfWalletIsConnected } from '../src/utils/web3utils'
@@ -38,15 +38,22 @@ const Navbar = ({ headerBackground }) => {
       // 當scroll時，不知為何network == undefined
       if (network[0].data.chain == undefined) {
         return
+      } else if (pervState[0] == network[0].data.chain.name && pervState[1] == address) {
+        return
       } else {
-        if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
+        pervState[0] = network[0].data.chain.name
+        pervState[1] = address
+        console.log(network[0].data.chain.name, pervState,ethBalance)
+        checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
       }
-      pervState[0] = network[0].data.chain.name
-      pervState[1] = address
-      console.log(network[0].data.chain.name, pervState)
-      checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice) 
     }
   }, [address, network])
+
+  useEffect(() => {
+    if (!address) return
+    console.log("ethBalance", ethBalance)
+    checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
+  }, [])
 
   return (
     <>
@@ -56,15 +63,15 @@ const Navbar = ({ headerBackground }) => {
         <ModalStory />
         <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[80px] flex">
           <div className="navbar-start h-[80px] flex justify-start items-center mt-6">
-            {(router.pathname == "/dashboard") &&
+            {(router.pathname == "/dashboard" || router.pathname == "/propertyinfo") &&
               <>
-                <label htmlFor="my-modal-1" className="hidden md:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] ml-4 font-semibold text-sm text-invar-light-grey normal-case hover:underline">
+                <label htmlFor="my-modal-1" className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] ml-4 font-semibold text-sm text-invar-light-grey normal-case">
                   Storyline</label>
                 <Link href='invaria2222/#mindmap'>
-                  <p className="hidden md:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[110px] pl-[6px] py-[1px] my-[12px] font-semibold text-sm text-invar-light-grey normal-case hover:underline" >Mindmap</p>
+                  <p className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[110px] pl-[6px] py-[1px] my-[12px] font-semibold text-sm text-invar-light-grey normal-case" >Mindmap</p>
                 </Link>
                 <Link href='invaria2222/#faq'>
-                  <p className="hidden md:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-invar-light-grey normal-case hover:underline" >FAQ & Tutorials</p>
+                  <p className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-invar-light-grey normal-case" >FAQ & Tutorials</p>
                 </Link>
               </>
             }
@@ -88,7 +95,7 @@ const Navbar = ({ headerBackground }) => {
           </div>
           <div className="navbar-end hidden md:flex flex-row">
             {!address ? (
-              <label htmlFor="my-modal-3" 
+              <label htmlFor="my-modal-3"
                 className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                 Connect Wallet</label>
             ) : (
@@ -117,7 +124,10 @@ const Navbar = ({ headerBackground }) => {
           <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
           {language && <h1 className="font-semibold text-base mb-[27px] mx-2">English</h1>}
           {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>}
-          <h1 className="font-semibold text-base mb-8">Dashboard</h1>
+          <Link href="/dashboard">
+            <button className="font-semibold text-base mb-8" onClick={() => { setToggleMenu(false); enableScroll(); }}>
+              Dashboard</button>
+          </Link>
           {!address && <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" onClick={() => setToggleWallet(true)}>Connect Wallet</button>}
           {address &&
             <>

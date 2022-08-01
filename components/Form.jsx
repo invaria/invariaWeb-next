@@ -51,8 +51,9 @@ const Form = () => {
       await signInWithEthereum()
       const kycLink = await handleKyc(inputs)
       console.log("kycLink", kycLink)
-      // setSubmitState("")
-      window.open(kycLink, 'kycLink')
+      // window.open(kycLink, 'kycLink')
+      var tempwindow = window.open('_blank'); // 先打開頁面
+      tempwindow.location = kycLink; // 後更改頁面地址
     } catch (error) {
       console.log(error)
       setSubmitState("")
@@ -132,7 +133,7 @@ const Form = () => {
       </label> */}
       <label className="w-full mb-6 block">
         <p className="block text-invar-light-grey text-sm leading-4 font-normal mb-3">
-          Country/Region{inputs.domain}
+          Country/Region
         </p>
         <div className="relative">
           <select name="selectCountryRegion" onChange={handleChange} value={inputs.selectCountryRegion || ""}
@@ -174,7 +175,7 @@ const Form = () => {
       </label>
       <label className="w-full mb-6 block">
         <p className=" text-invar-light-grey text-sm leading-4 font-normal mb-3">
-          ID Number
+          ID Number (Letters and numbers only)
         </p>
         <input
           name="inputIDnumber" type="text" onChange={handleChange} value={inputs.inputIDnumber || ""}
@@ -183,7 +184,7 @@ const Form = () => {
       </label>
       <label className="w-full mb-6 block">
         <p className="block text-invar-light-grey text-sm leading-4 font-normal mb-3">
-          Date of Birth
+          Date of Birth (You must be at least 21 years old)
         </p>
         <div className="relative">
           <input
