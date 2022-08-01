@@ -36,10 +36,10 @@ const TogActivity = () => {
       const item = {
         date: blockTime.toString(),
         year: blockTime.getFullYear(),
-        month: blockTime.getMonth()+1,
-        day:blockTime.getDate(),
+        month: blockTime.getMonth() + 1,
+        day: blockTime.getDate(),
         // zone:blockTime.get
-        utcDate : utcDate.toISOString(),
+        // utcDate: utcDate.toISOString(),
         from: i.args.from,
         to: i.args.to,
         operator: i.args.operator,
@@ -58,24 +58,25 @@ const TogActivity = () => {
   }
 
   useEffect(() => {
-    if (typeof window !== "undefined" ) return
-      // 當scroll時，不知為何network == undefined
-      // if (network[0].data.chain == undefined) {
-      //   return
-      // } else {
-      //   if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
-      // }
-      // pervState[0] = network[0].data.chain.name
-      // pervState[1] = address
-      // getActivity()
-      if (pervState[0] == 'Rinkeby') {
-        etherScan = 'https://rinkeby.etherscan.io/tx/'
-        openSea = 'https://testnets.opensea.io/assets/rinkeby/'
-      } else if (pervState[0] == 'Ethereum Mainnet') {
-        etherScan = 'https://etherscan.io/tx/'
-        openSea = 'https://opensea.io/assets/ethereum/'
-      }
-    
+    // if (typeof window !== "undefined") return
+    // 當scroll時，不知為何network == undefined
+    // if (network[0].data.chain == undefined) {
+    //   return
+    // } else {
+    //   if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
+    // }
+    // pervState[0] = network[0].data.chain.name
+    // pervState[1] = address
+    getActivity()
+    console.log("address",address)
+    if (pervState[0] == 'Rinkeby') {
+      etherScan = 'https://rinkeby.etherscan.io/tx/'
+      openSea = 'https://testnets.opensea.io/assets/rinkeby/'
+    } else if (pervState[0] == 'Ethereum Mainnet') {
+      etherScan = 'https://etherscan.io/tx/'
+      openSea = 'https://opensea.io/assets/ethereum/'
+    }
+
     // }, [address, network])
   }, [address])
 
@@ -83,7 +84,7 @@ const TogActivity = () => {
     <div className="relative flex min-h-[70vw] w-full border-t border-invar-main-purple">
       <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] w-full z-10 mt-12 mb-10">
         {(address && transactions.length > 0) ? (
-          <div className={" bg-invar-main-purple px-6 rounded text-white "+(collapse?"mb-[436px]":"")} >
+          <div className={" bg-invar-main-purple px-6 rounded text-white " + (collapse ? "mb-[436px]" : "")} >
             <div className="py-6 flex justify-between z-30 cursor-pointer" onClick={() => setCollapse(!collapse)}>
               <p className=" text-xl font-semibold">
                 Pre-Sale Minting Stage
