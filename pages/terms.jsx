@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import Footer from '../components/Footer'
+import {Navbar, Footer} from '../components'
 const Terms = () => {
 
   const titleList = [
@@ -50,16 +50,18 @@ const Terms = () => {
       title: '11. Dispute Resolution, Arbitration'
     },
   ]
+  const headerBackground = true
 
   return (
     <div className='bg-gradient-to-b from-[#44334C] to-[#1E1722] '>
-      <div className="h-20 bg-invar-dark grid place-content-center text-[#030F2B]">
+      {/* <div className="h-20 bg-invar-dark grid place-content-center text-[#030F2B]">
         <Link href="invaria2222">
           <Image className='cursor-pointer' width={95} height={34} src='/logo_white.svg' />
         </Link>
-      </div>
+      </div> */}
+      <Navbar headerBackground={headerBackground} />
       <div className="py-16 px-6 xl:px-56 grid grid-cols-8 gap-12">
-        <div className="container text-white col-span-8 md:col-span-5 text-base font-normal">
+        <div className="container mt-20 text-white col-span-8 md:col-span-5 text-base font-normal">
           <p className="text-[32px] leading-[38.4px] font-semibold">{`Terms & Conditions`}</p>
           <p className="pt-3 pb-6 ">Last Updated: June 20th, 2022</p>
           <p>

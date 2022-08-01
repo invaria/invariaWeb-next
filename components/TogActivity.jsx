@@ -9,7 +9,6 @@ import Image from 'next/image'
 import { MinusIcon, PlusIcon } from '@heroicons/react/outline'
 import { shortenAddress } from '../src/utils/shortenAddress'
 import { ItemActivity } from '../components'
-import { async } from '@firebase/util';
 
 let pervState = []
 let etherScan
@@ -31,7 +30,7 @@ const TogActivity = () => {
     const items = await Promise.all(query?.map(async i => {
       const block = (await provider.getBlock(i.blockHash))
       const blockTime = new Date((block.timestamp) * 1000)
-      let utcDate = new Date(blockTime.toLocaleString('en-US', { timeZone: "UTC" }))
+      // let utcDate = new Date(blockTime.toLocaleString('en-US', { timeZone: "UTC" }))
 
       const item = {
         date: blockTime.toString(),
@@ -58,7 +57,8 @@ const TogActivity = () => {
   }
 
   useEffect(() => {
-    // if (typeof window !== "undefined") return
+    if (typeof window !== "undefined") return
+    if (!address) return
     // 當scroll時，不知為何network == undefined
     // if (network[0].data.chain == undefined) {
     //   return
