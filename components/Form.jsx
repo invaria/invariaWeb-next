@@ -34,6 +34,7 @@ const Form = () => {
     console.log(nonce);
   }
   useEffect(() => {
+    console.log("form")
     if (!address) return
     domain = window.location.host;
     if (inputs.address !== address) {

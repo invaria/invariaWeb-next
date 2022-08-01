@@ -57,7 +57,8 @@ const TogActivity = () => {
   }
 
   useEffect(() => {
-    if (typeof window !== "undefined") return
+    // if (typeof window == "undefined") return
+    console.log("activity")
     if (!address) return
     // 當scroll時，不知為何network == undefined
     // if (network[0].data.chain == undefined) {
@@ -68,7 +69,6 @@ const TogActivity = () => {
     // pervState[0] = network[0].data.chain.name
     // pervState[1] = address
     getActivity()
-    console.log("address",address)
     if (pervState[0] == 'Rinkeby') {
       etherScan = 'https://rinkeby.etherscan.io/tx/'
       openSea = 'https://testnets.opensea.io/assets/rinkeby/'
