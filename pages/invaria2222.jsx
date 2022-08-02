@@ -34,7 +34,7 @@ function App() {
         <label htmlFor="my-modal-1" onClick={() => disableScroll()}
           className="btn modal-button w-[183px] md:w-min btnShadow bg-white 
             opacity-80 hover:bg-white hover:opacity-100 px-6  text-sm text-info rounded absolute 
-            top-[188px] md:top-[408px] md:left-[245px] z-20 normal-case border-none">
+            top-[188px] md:top-[408px] md:left-[245px] z-[21] normal-case border-none">
           Storyline</label>
         <a href={`#mindmap`} className='btn w-[183px] md:w-max btnShadow bg-white 
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded 
@@ -55,17 +55,19 @@ function App() {
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
         {/* <img className=' z-0 h-screen min-h-screen w-full object-cover overflow-hidden' draggable="false" src='/bg/bg.png' alt="bg" /> */}
+        <img className=" cloud1 absolute top-56 md:top-[161px] -left-16 md:left-0 right-0 w-[500px] md:w-[600px] object-contain z-10 " draggable="false" src='/cloud1.png' alt="cloud1" />
+        <img className=" cloud2 absolute top-[430px] -right-20 md:right-0 w-[600px] md:w-[600px] object-contain z-10 " draggable="false" src='/cloud2.png' alt="cloud2" />
         <div className=" relative z-0 h-screen min-h-screen w-full object-cover overflow-hidden">
           <Image layout="fill" objectFit="cover" draggable="false" src='/bg/bg.png' />
         </div>
-        <img className=' w-[23%] hidden absolute bottom-0 left-14 z-10 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" />
+        <img className=' w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" />
         <label htmlFor="property-modal" onClick={() => disableScroll()} className=" hidden z-30 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[57%] right-[53%] md:flex justify-end items-start">
           <div className=" hidden md:flex justify-center items-center">
             <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
             <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
           </div>
         </label>
-        <div className=" hidden absolute bottom-0 left-0 right-0 z-0 md:flex justify-center items-center">
+        <div className=" hidden absolute bottom-0 left-0 right-0 z-10 md:flex justify-center items-center">
           <div className=" flex justify-start items-start text-start w-[826px] h-[108px] m-6 p-6 bg-invar-main-purple 
             bg-opacity-60 text-white text-sm font-normal leading-[19.6px] rounded-lg border-4 border-invar-light-purple 
             border-opacity-60 animate-fade-in-up">

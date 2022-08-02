@@ -43,7 +43,7 @@ const ModalProperty = () => {
           <Link href='/propertyinfo'>
             <button className=" btn w-full h-[48px] font-semibold text-base bg-invar-dark text-white rounded text-center normal-case border-none mb-6" 
              onClick={() => enableScroll()}>
-              Learn More
+              Research More
             </button>
           </Link>
         </div>

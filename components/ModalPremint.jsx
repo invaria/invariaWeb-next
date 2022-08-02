@@ -10,7 +10,8 @@ import inVariaJSON from '../src/utils/InVaria.json'
 import { shortenAddress } from '../src/utils/shortenAddress'
 import { enableScroll } from '../src/utils/disableScroll'
 import { checkIfWalletIsConnected, addTokenFunction, usdcAddress, nftAddress } from '../src/utils/web3utils'
-import { OpenLink } from '../components/icons/Link';
+import { OpenLink, ButtonMailto } from '../components/icons/Link';
+
 
 let pervState = []
 
@@ -273,7 +274,7 @@ const ModalPremint = () => {
             </div>
             <div className=" mt-4 flex justify-between items-baseline">
               <p className=" text-sm font-normal text-invar-light-grey ">Mint Time</p>
-              <p className=" text-base font-semibold text-white ">July 24 ~ July 26, 2022 </p>
+              <p className=" text-base font-semibold text-white ">August 3 ~ , 2022 </p>
             </div>
             {(address && usdcAllowance >= 10000) &&
               <>
@@ -313,8 +314,7 @@ const ModalPremint = () => {
                 <>
                   <li>After the transaction succeeds, you can view your NFT on the Dashboard Page, as well as your wallet.</li>
                   <li>The pre-sale stage is designed for partners and early-investors, you may experience a relatively longer time till staking is open.</li>
-                  <li>If you have any questions, please contact: <OpenLink link="info@invar.finance">
-                    info@invar.finance</OpenLink>.</li>
+                  <li>If you have any questions, please contact: <ButtonMailto />.</li>
                 </>
               }
             </ul>

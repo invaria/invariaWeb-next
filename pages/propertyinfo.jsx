@@ -10,25 +10,25 @@ const PropertyInfo = () => {
   const fixedinfo =
     <div className=' mb-9'>
       <img className="w-full" src='/bg/amwaj20.png' alt="" />
-      <a className="w-full h-[72px] mt-3 rounded py-4 px-6 bg-invar-main-purple 
+      <div className="w-full h-[72px] mt-3 rounded py-4 px-6 bg-invar-main-purple hover:bg-[#37293E]
         flex justify-between items-center"
-        href="https://drive.google.com/file/d/1mhizTtoZxGI_4YEJxXKRTz4A61DthVsy/view"
-        rel="noreferrer"
-        target="_blank"
         >
         <div className=" text-white font-semibold text-base">
           Letter of Authorization
           <p className=" text-sm font-normal text-invar-light-grey">(The Property is Own and Manage by FlowBay)</p>
         </div>
         <img src="/icons/upright.svg" alt="" />
-      </a>
-      <div className="w-full h-[72px] mt-3 rounded py-4 px-6 bg-invar-main-purple 
-        flex justify-between items-center">
+      </div>
+      <a className="w-full h-[72px] mt-3 rounded py-4 px-6 bg-invar-main-purple hover:bg-[#37293E]
+        flex justify-between items-center"
+        href="https://drive.google.com/file/d/1mhizTtoZxGI_4YEJxXKRTz4A61DthVsy/view"
+        rel="noreferrer"
+        target="_blank">
         <div className=" text-white font-semibold text-base">
           Property Brochure
         </div>
         <img src="/icons/upright.svg" alt="" />
-      </div>
+      </a>
     </div>
 
   return (
@@ -87,7 +87,7 @@ const PropertyInfo = () => {
                   </div>
                   <div className=" font-normal mb-6">
                     <p className=" text-invar-light-grey text-xs mb-[2px]">Tokenized Value ($)</p>
-                    <p className=" text-white text-base">$20,000,000 USD</p>
+                    <p className=" text-white text-base">$2,500,000 USD</p>
                   </div>
                   <div className=" font-normal mb-6">
                     <p className=" text-invar-light-grey text-xs mb-[2px]">Rental Income / Year ($)</p>
