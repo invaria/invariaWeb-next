@@ -27,19 +27,47 @@ export const createUser = async (user, data) => {
 
 export const getUser = async (address) => {
   const usersCollectionRef = collection(db, "invaria");
-  const q = query(usersCollectionRef, where("address", "==", address));
-  console.log("q", q)
+  // const q = query(usersCollectionRef, where("address", "==", address));
+  const q = query(usersCollectionRef, where("address", "==", "0xA450cC0A298d99C2794b2F26b9f8e4302a8fE5e1"));
+
+  // console.log("q", q)
   const querySnapshota = await getDocs(q);
-  let state
+  let state = "Unverified"
+  let stateCode, realState, realResult
   querySnapshota.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    // console.log("gujvgh", doc.data());
+    console.log("gujvgh", doc.data());
 
     // console.log(doc.id, " => ", doc.data().audit_status);
-    state = doc.data().audit_status
-  });
+    // console.log(doc.id, "jio => ", doc.data().reject_reasons, (doc.data().reject_reasons)?.length);
 
-  return state
+    // state = "Unverified"
+    // if ((doc.data().reject_reasons)?.length === 0) {
+    //   state = doc.data().reject_reasons
+    // }
+    // if ((doc.data().reject_reasons)?.length !== 0) {
+    //   state == "Verified"
+    // }
+    if (doc.data().state == undefined && (stateCode !== 4 || stateCode !== 1)) {
+      state == "Pending"
+      console.log("undef", doc.data().state)
+
+    }
+    if (doc.data().state == 4 && (stateCode !== 1)) {
+      stateCode = 4
+      state == "Rejected"
+      console.log(4)
+
+    }
+    if (doc.data().state == 1) {
+      stateCode = 1
+      state = doc.data().audit_status
+      console.log(1)
+    }
+
+  });
+  console.log("re", stateCode, state)
+  return {stateCode: stateCode, state: state}
 }
 
 
