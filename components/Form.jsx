@@ -62,8 +62,8 @@ const Form = () => {
       const kycLink = await handleKyc(inputs)
       console.log("kycLink", kycLink)
       // window.open(kycLink, 'kycLink')
-      var tempwindow = window.open('_blank'); // 先打開頁面
-      tempwindow.location = kycLink; // 後更改頁面地址
+      // var tempwindow = window.open('_blank'); // 先打開頁面
+      window.location = kycLink; // 後更改頁面地址
     } catch (error) {
       console.log(error)
       setSubmitState("")
