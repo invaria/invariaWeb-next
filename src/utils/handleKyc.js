@@ -11,16 +11,16 @@ export const handleKyc = async (formdata) => {
     "id_type": selectIDtype,
     "locale": "en",
     "workflow_id": 200,
-    "success_url": originString+"/api/callback",
-    "error_url": originString+"/api/callback",
+    "success_url": originString,
+    "error_url": originString,
     "country": selectCountryRegion,
     "expected_name": inputName,
     "expected_birthday": selectDate,
     "expected_id_number": inputIDnumber,
-    "callback_url":originString+"/api/callback",
+    "callback_url": originString + "/api/callback",
     "customer_reference": "000000123",
     "auto_create_dd_task": false,
-    "dd_task_callback_url": originString+"/api/callback",
+    "dd_task_callback_url": originString + "/api/callback",
   });
   console.log(data)
 
