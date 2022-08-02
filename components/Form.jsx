@@ -48,6 +48,15 @@ const Form = () => {
     event.preventDefault()
     setSubmitState("submitting")
     console.log("submitting...", inputs, submitState)
+    // const items = await Promise.all(inputs?.map(async i => {
+    //   const item = {
+    //     date: blockTime.toString(),
+    //     year: blockTime.getFullYear(),
+    //     month: blockTime.getMonth() + 1,
+    //     day: blockTime.getDate(),
+    //   }
+    //   return item
+    // }))
     try {
       await signInWithEthereum()
       const kycLink = await handleKyc(inputs)

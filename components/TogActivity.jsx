@@ -45,13 +45,15 @@ const TogActivity = () => {
         id: i.args.id.toNumber(),
         value: (i.args.value).toNumber(),
         txid: `${i.transactionHash}`,
-        etherScanUrl: `${etherScan}${i.txid}`,
-        openSeaUrl: `${openSea}${i.txid}`
+        etherScanUrl: `${etherScan}${i.transactionHash}`,
+        openSeaUrl: `${openSea}`
       }
+      console.log(item.openSeaUrl)
+
       return item
     }))
     setTransactions(items)
-    console.log(items)
+    console.log(items,etherScan,openSea)
     console.log(query)
     console.log("trans", transactions, transactions.length)
   }
@@ -61,21 +63,21 @@ const TogActivity = () => {
     console.log("activity")
     if (!address) return
     // 當scroll時，不知為何network == undefined
-    // if (network[0].data.chain == undefined) {
-    //   return
-    // } else {
-    //   if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
-    // }
-    // pervState[0] = network[0].data.chain.name
-    // pervState[1] = address
-    getActivity()
+    if (network[0].data.chain == undefined) {
+      return
+    } else {
+      if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
+    }
+    pervState[0] = network[0].data.chain.name
+    pervState[1] = address
     if (pervState[0] == 'Rinkeby') {
       etherScan = 'https://rinkeby.etherscan.io/tx/'
-      openSea = 'https://testnets.opensea.io/assets/rinkeby/'
+      openSea = `https://testnets.opensea.io/assets/rinkeby/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`
     } else if (pervState[0] == 'Ethereum Mainnet') {
       etherScan = 'https://etherscan.io/tx/'
-      openSea = 'https://opensea.io/assets/ethereum/'
+      openSea = `https://opensea.io/assets/ethereum/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`
     }
+    getActivity()
 
     // }, [address, network])
   }, [address])
