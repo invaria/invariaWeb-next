@@ -21,6 +21,7 @@ const TogActivity = () => {
   const [transactions, setTransactions] = useState([{}])
 
   async function getActivity() {
+    console.log("get activity")
     if (!address) return
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner()
@@ -48,8 +49,6 @@ const TogActivity = () => {
         etherScanUrl: `${etherScan}${i.transactionHash}`,
         openSeaUrl: `${openSea}`
       }
-      console.log(item.openSeaUrl)
-
       return item
     }))
     setTransactions(items)
@@ -61,12 +60,11 @@ const TogActivity = () => {
   useEffect(() => {
     // if (typeof window == "undefined") return
     console.log("activity")
-    if (!address) return
     // 當scroll時，不知為何network == undefined
     if (network[0].data.chain == undefined) {
       return
     } else {
-      if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
+      if (pervState[0] == network[0].data.chain.name ) return
     }
     pervState[0] = network[0].data.chain.name
     pervState[1] = address
@@ -82,6 +80,11 @@ const TogActivity = () => {
     // }, [address, network])
   }, [address])
 
+  useEffect(() => {
+    getActivity()
+  }, [])
+  
+
   return (
     <div className="relative flex min-h-[70vw] w-full border-t border-invar-main-purple">
       <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] w-full z-10 mt-12 mb-10">
@@ -92,7 +95,7 @@ const TogActivity = () => {
                 Pre-Sale Minting Stage
               </p>
               <div>
-                {collapse ? (<MinusIcon className="w-6 ml-6" />) : (<PlusIcon className="w-6 ml-6" />)}
+                {!collapse ? (<MinusIcon className="w-6 ml-6" />) : (<PlusIcon className="w-6 ml-6" />)}
               </div>
             </div>
             {!collapse &&

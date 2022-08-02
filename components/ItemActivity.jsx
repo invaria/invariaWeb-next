@@ -39,7 +39,7 @@ const ItemActivity = ({ i }) => {
           <p className=" text-sm text-invar-light-grey mb-1 ">Value</p>
           <p className=" text-base text-white font-light ">{(10000 * i.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USDC</p>
         </div>
-        <div className=" md:h-[45px] mt-[20px] md:w-32 ">
+        <div className=" md:h-[45px] mt-[20px] md:w-[180px] ">
           <p className=" text-sm text-invar-light-grey mb-1 ">Date & Time</p>
           <p className=" text-base text-white font-light ">{i.date}</p>
         </div>
