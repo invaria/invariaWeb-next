@@ -37,7 +37,7 @@ export const getUser = async (address) => {
   let stateCode = 404
   querySnapshota.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    console.log("gujvgh", doc.data(), doc.data().audit_status);
+    console.log("doc", doc.data(), doc.data().audit_status);
 
     // console.log(doc.id, " => ", doc.data().audit_status);
     // console.log(doc.id, "jio => ", doc.data().reject_reasons, (doc.data().reject_reasons)?.length);
@@ -85,7 +85,7 @@ export const getUser = async (address) => {
     // }
     ///////
     if (doc.data().audit_status !== undefined) {
-      console.log("state un ", state)
+      console.log("state un ", state, doc.data().state)
       if (doc.data().audit_status == "Accepted") {
         state = "Accepted"
         console.log("state ac ", state)
@@ -94,9 +94,9 @@ export const getUser = async (address) => {
         state = "Rejected"
         console.log("state rej ", state)
 
-      } else if (state !== "Rejected" && doc.data().audit_status == "Pending" && (doc.data().reject_reasons).length !== 0) {
+      } else if (state !== "Rejected" && doc.data().audit_status == "Pending" && (doc.data().reject_reasons).length !== 0 && doc.data().state==0 ){
         state = doc.data().audit_status
-        console.log("state ", state)
+        console.log("state pend", state)
       }
     }
 
