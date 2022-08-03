@@ -27,8 +27,10 @@ export const createUser = async (user, data) => {
 
 export const getUser = async (address) => {
   const usersCollectionRef = collection(db, "invaria");
-  const q = query(usersCollectionRef, where("address", "==", address));
-  // const q = query(usersCollectionRef, where("address", "==", "0xd33f4E98D16318e47dcC381345B4B408E02b6a92"));//0xd33f4E98D16318e47dcC381345B4B408E02b6a92 //0xA450cC0A298d99C2794b2F26b9f8e4302a8fE5e1
+  // const q = query(usersCollectionRef, where("address", "==", address));
+  const q = query(usersCollectionRef, where("address", "==", "0x252CB346c174ad1471532CDCAF3A74229E9d2d6F"));
+  //0xd33f4E98D16318e47dcC381345B4B408E02b6a92 //0xA450cC0A298d99C2794b2F26b9f8e4302a8fE5e1
+  //0x252CB346c174ad1471532CDCAF3A74229E9d2d6F
 
   // console.log("q", q)
   const querySnapshota = await getDocs(q);
@@ -86,6 +88,8 @@ export const getUser = async (address) => {
     ///////
     if (doc.data().audit_status !== undefined) {
       console.log("state un ", state, doc.data().state)
+      console.log(doc.data().audit_status, doc.data().reject_reasons)
+
       if (doc.data().audit_status == "Accepted") {
         state = "Accepted"
         console.log("state ac ", state)
@@ -93,9 +97,8 @@ export const getUser = async (address) => {
       } else if (state !== "Accepted" && doc.data().audit_status == "Rejected") {
         state = "Rejected"
         console.log("state rej ", state)
-
-      } else if (state !== "Rejected" && doc.data().audit_status == "Pending" && (doc.data().reject_reasons).length !== 0 && doc.data().state==0 ){
-        state = doc.data().audit_status
+      } else if (doc.data().audit_status == "Pending" && (doc.data().reject_reasons).length == 0 ) {
+        state = "Pending"
         console.log("state pend", state)
       }
     }
