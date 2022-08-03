@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useAddress, useNetwork } from '@thirdweb-dev/react'
-import { Navbar, TogActivity, Form, Footer } from '../components/'
+import { Navbar, TogActivity, Form, FormInfo, Footer } from '../components/'
 import { getUser } from "../src/utils/storeFirebase";
-import { Verify } from 'crypto';
 
 const Dashboard = () => {
   const headerBackground = true
@@ -37,7 +36,7 @@ const Dashboard = () => {
   }, [address]);
 
   let verifySection =
-    <div className="mb-[32px] w-full md:w-[214px] md:min-w-[214px] h-[214px] flex flex-col justify-start items-center rounded">
+    <div className="mb-[32px] w-full md:w-[214px] md:min-w-[214px] h-[214px] flex flex-col justify-start items-center rounded overflow-hidden">
       <div className="h-[168px] w-full flex flex-col justify-start items-center bg-invar-main-purple ">
         <img className=' mt-[36px] w-16 h-16' src="/icons/ic_unverified.png" alt="" />
         <p className="mt-[35px] text-center">My verification status</p>
@@ -114,7 +113,14 @@ const Dashboard = () => {
             {verifySection}
             <div className="md:ml-[52px] w-full">
               <p className=" text-2xl font-semibold mb-[33px]">Identity Verification</p>
-              <Form />
+              {(verify == "Rejected" || verify == "Unverified") &&
+                <Form />
+              }
+              {(verify == "Pending" || verify == "Verified") &&
+                <FormInfo />
+              }
+                              {/* <FormInfo /> */}
+
             </div>
           </div>
         }

@@ -4,6 +4,7 @@ import {
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
+import { encryptData } from './shortenAddress';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -27,8 +28,8 @@ export const createUser = async (user, data) => {
 
 export const getUser = async (address) => {
   const usersCollectionRef = collection(db, "invaria");
-  // const q = query(usersCollectionRef, where("address", "==", address));
-  const q = query(usersCollectionRef, where("address", "==", "0x252CB346c174ad1471532CDCAF3A74229E9d2d6F"));
+  const q = query(usersCollectionRef, where("address", "==", address));
+  // const q = query(usersCollectionRef, where("address", "==", "0x252CB346c174ad1471532CDCAF3A74229E9d2d6F"));
   //0xd33f4E98D16318e47dcC381345B4B408E02b6a92 //0xA450cC0A298d99C2794b2F26b9f8e4302a8fE5e1
   //0x252CB346c174ad1471532CDCAF3A74229E9d2d6F
 
@@ -97,7 +98,7 @@ export const getUser = async (address) => {
       } else if (state !== "Accepted" && doc.data().audit_status == "Rejected") {
         state = "Rejected"
         console.log("state rej ", state)
-      } else if (doc.data().audit_status == "Pending" && (doc.data().reject_reasons).length == 0 ) {
+      } else if (doc.data().audit_status == "Pending" && (doc.data().reject_reasons).length == 0) {
         state = "Pending"
         console.log("state pend", state)
       }
@@ -110,6 +111,58 @@ export const getUser = async (address) => {
 
 
 
+
+
+export const getUserData = async (address) => {
+  const usersCollectionRef = collection(db, "invaria");
+  const q = query(usersCollectionRef, where("address", "==", address));
+  // const q = query(usersCollectionRef, where("address", "==", "0x252CB346c174ad1471532CDCAF3A74229E9d2d6F"));
+  //0xd33f4E98D16318e47dcC381345B4B408E02b6a92 //0xA450cC0A298d99C2794b2F26b9f8e4302a8fE5e1
+  //0x252CB346c174ad1471532CDCAF3A74229E9d2d6F
+
+  // console.log("q", q)
+  const querySnapshota = await getDocs(q);
+  let state = "Unverified"
+  let data = null
+  querySnapshota.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    // console.log("doc", doc.data(), doc.data().audit_status);
+
+    if (doc.data().audit_status !== undefined) {
+      console.log("state un ", state, doc.data().state)
+      console.log(doc.data().audit_status, doc.data().reject_reasons)
+      console.log((doc.data().audit_status).replace(/^:\w+\/\w+;base64,/))
+
+      if (doc.data().audit_status == "Accepted") {
+        state = "Accepted"
+        data = {
+          selectCountryRegion: doc.data().selectCountryRegion,
+          inputName: doc.data().inputName,
+          selectIDtype: doc.data().selectIDtype,
+          inputIDnumber: doc.data().inputIDnumber,
+          selectDate: doc.data().selectDate,
+          inputEmail: doc.data().inputEmail,
+          inputAddress: doc.data().inputAddress
+        }
+        console.log("state ac ", state)
+
+      } else if (state !== "Accepted" && doc.data().audit_status == "Rejected") {
+        state = "Rejected"
+        data = doc.data()
+        console.log("state rej ", state)
+      } else if (doc.data().audit_status == "Pending" && (doc.data().reject_reasons).length == 0) {
+        state = "Pending"
+        data = doc.data()
+        console.log("state pend", state)
+      }
+    }
+
+  });
+  // console.log("re", state, data)
+  // console.log("sre", encryptData(data))
+
+  return encryptData(data)
+}
 
 
 
@@ -147,20 +200,3 @@ export const getUser = async (address) => {
 
 //   // if (docSnap.exists()) {   !!!!!!!
 
-
-//   useEffect(() => {
-//     const addCity = async () => {
-//       await setDoc(doc(citiesRef, "SF"), {
-//         name: "San Francisco", state: "CA", country: "USA",
-//         capital: false, population: 860000,
-//         regions: ["west_coast", "norcal"]
-//       });
-//       await setDoc(doc(citiesRef, "LA"), {
-//         name: "Los Angeles", state: "CA", country: "USA",
-//         capital: false, population: 3900000,
-//         regions: ["west_coast", "socal"]
-//       });
-//     }
-//     addCity()
-//   }, [])
-// }

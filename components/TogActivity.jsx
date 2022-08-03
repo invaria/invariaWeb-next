@@ -18,7 +18,7 @@ const TogActivity = () => {
   const [collapse, setCollapse] = useState(false)
   const address = useAddress()
   const network = useNetwork()
-  const [transactions, setTransactions] = useState([{}])
+  const [transactions, setTransactions] = useState([])
 
   async function getActivity() {
     console.log("get activity")

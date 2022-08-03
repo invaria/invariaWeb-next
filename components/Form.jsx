@@ -33,6 +33,7 @@ const Form = () => {
     const nonce = { ["nonce"]: await signer.signMessage(message) }
     console.log(nonce);
   }
+  
   useEffect(() => {
     console.log("form")
     if (!address) return
