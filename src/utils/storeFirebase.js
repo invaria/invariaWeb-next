@@ -85,7 +85,7 @@ export const getUser = async (address) => {
     // }
     ///////
     if (doc.data().audit_status !== undefined) {
-            console.log("state un ", state)
+      console.log("state un ", state)
       if (doc.data().audit_status == "Accepted") {
         state = "Accepted"
         console.log("state ac ", state)
@@ -94,7 +94,7 @@ export const getUser = async (address) => {
         state = "Rejected"
         console.log("state rej ", state)
 
-      } else if (state !== "Rejected" && doc.data().audit_status == "Pending"){
+      } else if (state !== "Rejected" && doc.data().audit_status == "Pending" && (doc.data().reject_reasons).length !== 0) {
         state = doc.data().audit_status
         console.log("state ", state)
       }
@@ -102,7 +102,7 @@ export const getUser = async (address) => {
 
   });
   console.log("re", stateCode, state)
-  return state 
+  return state
 }
 
 
