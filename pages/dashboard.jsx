@@ -116,7 +116,7 @@ const Dashboard = () => {
               {(verify == "Rejected" || verify == "Unverified") &&
                 <Form />
               }
-              {(verify == "Pending" || verify == "Verified") &&
+              {(verify == "Pending" || verify == "Accepted") &&
                 <FormInfo />
               }
                               {/* <FormInfo /> */}

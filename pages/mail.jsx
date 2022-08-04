@@ -4,7 +4,7 @@ const mail = () => {
   return (
     <div className=" w-full h-full bg-gradient-to-b from-[#44334C] to-[#1E1722]
      flex flex-col justify-start items-center pb-16 px-4">
-      <img className="m-[68px] w-[168px] h-[60px]" src="https://i.imgur.com/3wl4wkZ.png" alt="" />
+      {/* <img className="m-[68px] w-[168px] h-[60px]" src="https://i.imgur.com/3wl4wkZ.png" alt="" />
       <img className="w-[366px] h-[192px] absolute top-0 right-[0px]" src="https://i.imgur.com/6gBfpRA.png" alt="" />
       <img className="w-[286px] h-[146px] md:w-[386px] md:h-[246px] absolute bottom-[190px] left-[0px]" src="https://i.imgur.com/LFyW2bL.png" alt="" />
       <div>
@@ -29,7 +29,7 @@ const mail = () => {
         <img className="w-[40px] h-[40px] " src="https://i.imgur.com/6gBfpRA.png" alt="" />
         </button>
       </div>
-      <p className=" text-invar-light-grey ">© 2022 InVaria 2222</p>
+      <p className=" text-invar-light-grey ">© 2022 InVaria 2222</p> */}
     </div>
   )
 }
