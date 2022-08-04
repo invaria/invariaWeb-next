@@ -31,6 +31,12 @@ const ModalPremint = () => {
   const decimal = 6
   let getusdcAllowance = 0
 
+  async function getdata() {
+    const state = await getUser(address)
+    console.log("state", state)
+    setVerify(state)
+  }
+
   const checkAllowance = async () => {
     if (!address) return
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -118,12 +124,8 @@ const ModalPremint = () => {
 
     checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
     checkAllowance()
-  }, [])
-  
-  // useEffect(() => {
-  //   console.log("btnState", btnState)
-
-  // }, [btnState])
+    getdata()
+  }, [address])
   
 
   useEffect(() => {
@@ -190,7 +192,7 @@ const ModalPremint = () => {
         <div className="modal-box relative md:flex flex-col h-screen max-h-screen md:h-fit w-full max-w-5xl md:w-[375px] 
           md:absolute md:top-[24px] md:right-[24px] rounded-none md:rounded bg-gradient-to-b from-primary to-[#1E1722] 
           mx-0 p-0 pb-[24px] scrollbar-hide">
-          {!verified &&
+          {verify == "Unverified" &&
             <>
               <div className="w-full h-[56px] bg-invar-dark flex justify-between items-center">
                 <p className=" ml-6 text-invar-error font-normal text-sm">
@@ -208,7 +210,7 @@ const ModalPremint = () => {
               </label>
             </>
           }
-          {verified &&
+          {verify !== "Unverified" &&
             <label htmlFor="premint-modal" onClick={() => enableScroll()} className="btn btn-sm p-0 absolute right-[32px] top-[23px] bg-transparent border-none hover:bg-transparent">
               <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
             </label>

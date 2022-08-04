@@ -1,4 +1,5 @@
 const sgMail = require('@sendgrid/mail')
+
 console.log("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")
 sgMail.setApiKey("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") //kyc2
 const msg = {
