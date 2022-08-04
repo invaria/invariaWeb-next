@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emailjs/browser": "^3.6.2",
     "@heroicons/react": "^1.0.6",
     "@sendgrid/mail": "^7.7.0",
     "@thirdweb-dev/react": "^2.4.7",
@@ -16,6 +17,7 @@
     "http-proxy": "^1.18.1",
     "isomorphic-unfetch": "^3.1.0",
     "next": "latest",
+    "nodemailer": "^6.7.7",
     "react": "18.1.0",
     "react-collapsed": "^3.3.2",
     "react-dom": "18.1.0",
