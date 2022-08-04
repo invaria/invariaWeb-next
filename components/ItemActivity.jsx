@@ -29,7 +29,7 @@ const ItemActivity = ({ i }) => {
         </div>
         <div className=" h-[45px] ">
           <p className=" text-sm text-invar-light-grey mb-1 ">Result</p>
-          <p className=" text-base text-white font-light ">Complete</p>
+          <p className=" text-base text-white font-light ">Completed</p>
         </div>
         <div className=" h-[45px] mt-[20px] ">
           <p className=" text-sm text-invar-light-grey mb-1 ">Amount</p>

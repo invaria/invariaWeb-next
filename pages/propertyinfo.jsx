@@ -87,11 +87,11 @@ const PropertyInfo = () => {
                   </div>
                   <div className=" font-normal mb-6">
                     <p className=" text-invar-light-grey text-xs mb-[2px]">Tokenized Value ($)</p>
-                    <p className=" text-white text-base">$2,500,000 USD</p>
+                    <p className=" text-white text-base">$20,000,000 USD</p>
                   </div>
                   <div className=" font-normal mb-6">
                     <p className=" text-invar-light-grey text-xs mb-[2px]">Rental Income / Year ($)</p>
-                    <p className=" text-white text-base">$20,000,000 USD</p>
+                    <p className=" text-white text-base">$2,500,000 USD</p>
                   </div>
                   <div className=" font-normal mb-6 w-[180px]">
                     <p className=" text-invar-light-grey text-xs mb-[2px]">Expected Income (%)</p>

@@ -92,7 +92,7 @@ export const getUser = async (address) => {
       console.log(doc.data().audit_status, doc.data().reject_reasons)
 
       if (doc.data().audit_status == "Accepted") {
-        state = "Accepted"
+        state = "Verified"
         console.log("state ac ", state)
 
       } else if (state !== "Accepted" && doc.data().audit_status == "Rejected") {

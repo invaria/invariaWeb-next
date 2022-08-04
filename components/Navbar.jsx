@@ -26,12 +26,12 @@ const Navbar = ({ headerBackground }) => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const [toggleWallet, setToggleWallet] = useState(false);
   const [language, setLanguage] = useState(false);
-  const [verify, setVerify] = useState("Unverified")
+  const [verify, setVerify] = useState("")
 
 
   async function getdata() {
     const state = await getUser(address)
-    console.log("state", state)
+    console.log("ver state", state)
     setVerify(state)
   }
 
@@ -40,6 +40,8 @@ const Navbar = ({ headerBackground }) => {
     if (!address) return
     setToggleWallet(false)
     enableScroll()
+    getdata()
+
     // }
   }, [address]);
 
@@ -55,14 +57,13 @@ const Navbar = ({ headerBackground }) => {
         pervState[1] = address
         console.log(network[0].data.chain.name, pervState, ethBalance)
         checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
-        getdata()
       }
     }
   }, [address, network])
 
   useEffect(() => {
+    console.log("ethBalance", ethBalance, address)
     if (!address) return
-    console.log("ethBalance", ethBalance)
     checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
   }, [])
 
