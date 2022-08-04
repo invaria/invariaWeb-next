@@ -8,6 +8,8 @@ const ModalWallet = dynamic(import("./ModalWallet"));
 import { shortenAddress } from '../src/utils/shortenAddress'
 import { disableScroll, enableScroll } from '../src/utils/disableScroll'
 import { checkIfWalletIsConnected } from '../src/utils/web3utils'
+import { getUser } from "../src/utils/storeFirebase";
+
 
 let pervState = []
 
@@ -15,15 +17,23 @@ const Navbar = ({ headerBackground }) => {
   const router = useRouter()
   const address = useAddress();
   const network = useNetwork();
+  const connectWithMetamask = useMetamask();
+  const connectWithWalletConnect = useWalletConnect();
+  const disconnectWallet = useDisconnect();
   const [getCoinPrice, setgetCoinPrice] = useState()
   const [ethBalance, setEthBalance] = useState()
   const [usdcBalance, setUsdcBalance] = useState()
   const [toggleMenu, setToggleMenu] = useState(false);
   const [toggleWallet, setToggleWallet] = useState(false);
   const [language, setLanguage] = useState(false);
-  const connectWithMetamask = useMetamask();
-  const connectWithWalletConnect = useWalletConnect();
-  const disconnectWallet = useDisconnect();
+  const [verify, setVerify] = useState("Unverified")
+
+
+  async function getdata() {
+    const state = await getUser(address)
+    console.log("state", state)
+    setVerify(state)
+  }
 
   useEffect(() => {
     // if (typeof window !== "undefined") {
@@ -43,8 +53,9 @@ const Navbar = ({ headerBackground }) => {
       } else {
         pervState[0] = network[0].data.chain.name
         pervState[1] = address
-        console.log(network[0].data.chain.name, pervState,ethBalance)
+        console.log(network[0].data.chain.name, pervState, ethBalance)
         checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
+        getdata()
       }
     }
   }, [address, network])
@@ -63,7 +74,7 @@ const Navbar = ({ headerBackground }) => {
         <ModalStory />
         <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[80px] flex">
           <div className="navbar-start h-[80px] flex justify-start items-center mt-6">
-            {(router.pathname == "/dashboard" || router.pathname == "/propertyinfo" || router.pathname == "/terms"  || router.pathname == "/privacy") &&
+            {(router.pathname == "/dashboard" || router.pathname == "/propertyinfo" || router.pathname == "/terms" || router.pathname == "/privacy") &&
               <>
                 <label htmlFor="my-modal-1" className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] ml-4 font-semibold text-sm text-invar-light-grey normal-case">
                   Storyline</label>
@@ -101,8 +112,12 @@ const Navbar = ({ headerBackground }) => {
             ) : (
               <>
                 <Link href="/dashboard">
-                  <button className="btn btn-sm btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
-                    Dashboard</button>
+                  <div className="btn btn-sm btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-white text-end border-[#44334C] normal-case hover:border-none hover:bg-primary flex justify-center items-center ">
+                    <p className='mr-[6px]'>Dashboard</p>
+                    {verify == "Unverified" &&
+                      <img src="/icons/ic_warning.svg" alt="" />
+                    }
+                  </div>
                 </Link>
                 <label htmlFor="my-modal-4" className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                   {shortenAddress(address)}

@@ -11,15 +11,14 @@ import { shortenAddress } from '../src/utils/shortenAddress'
 import { enableScroll } from '../src/utils/disableScroll'
 import { checkIfWalletIsConnected, addTokenFunction, usdcAddress, nftAddress } from '../src/utils/web3utils'
 import { OpenLink, ButtonMailto } from '../components/icons/Link';
+import { getUser } from "../src/utils/storeFirebase";
 
 
 let pervState = []
 
 const ModalPremint = () => {
-  const [verified, setVerified] = useState(false)
+  const [verify, setVerify] = useState("Unverified")
   const connectWithMetamask = useMetamask();
-  // const connectWithWalletConnect = useWalletConnect();
-  // const disconnectWallet = useDisconnect();
   const [ethBalance, setEthBalance] = useState(0)
   const [usdcBalance, setUsdcBalance] = useState(0)
   const [getCoinPrice, setgetCoinPrice] = useState(0)

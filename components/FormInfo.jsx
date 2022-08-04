@@ -12,6 +12,7 @@ const FormInfo = () => {
   const network = useNetwork();
   const [signed, setSigned] = useState(false)
   const [data, setData] = useState()
+  
 
   function createSiweMessage(address, statement) {
     const message = new SiweMessage({
@@ -65,13 +66,12 @@ const FormInfo = () => {
   }, [address]);
 
 
-
   return (
     <>
       {!signed &&
         <div className=" w-full p-16 mb-64 rounded flex flex-col justify-center items-center bg-invar-main-purple text-white font-semibold">
           <p className=" text-xl ">
-            Sign to view submmited data{`${signed}`}
+            Sign to view submmited data
           </p>
           <button className="btn bg-invar-dark mt-8 rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
             onClick={() => { handleSign() }}>
