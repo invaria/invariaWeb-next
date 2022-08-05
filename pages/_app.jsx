@@ -1,14 +1,18 @@
 import '../styles/globals.css'
+import React, { createContext, useState } from 'react';
 import reportWebVitals from '../src/reportWebVitals';
 import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 
-const desiredChainId = ChainId.Mainnet;
+// const desiredChainId = ChainId.Mainnet
+export const desiredChainId = ChainId.Rinkeby
+
+// export const AppContext = createContext();
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ThirdwebProvider desiredChainId={desiredChainId}>
-      <Component {...pageProps} />
-    </ThirdwebProvider>
+      <ThirdwebProvider desiredChainId={desiredChainId}>
+        <Component {...pageProps} />
+      </ThirdwebProvider>
   )
 }
 

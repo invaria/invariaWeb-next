@@ -25,7 +25,7 @@ const ModalStory = () => {
                 <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
               </span>
-              <div className='h-[220px] w-[1px] border-l bg-white -mt-1 z-0'></div>
+              <div className='h-[202px] w-[1px] border-l bg-white -mt-1 z-0'></div>
             </div>
             <div className=" w-[485px] font-noraml text-sm">「Year… 2222, Location… InVaria, Weather… Radiation Fog and Cold」Something is happening in this world…
               <br /> <br />
@@ -41,7 +41,7 @@ const ModalStory = () => {
                 <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
               </span>
-              <div className='h-[175px] w-[1px] border-l bg-white -mt-1 z-0'></div>
+              <div className='h-[192px] w-[1px] border-l bg-white -mt-1 z-0'></div>
             </div>
             <div className=" w-[485px] font-noraml text-sm">
               A tribe of humans find out a device with &quot;CRYPTIC REFLECTOR&quot; words carved on it, there is an unclear description shows…「Connecting…Connecting…, Connect to Real World, the Reflector Indicate Power… Asset will…」
@@ -49,7 +49,7 @@ const ModalStory = () => {
           </div>
           {/* story 2 */}
           {/* story 3 */}
-          {/* <div className="h-[188px] w-full flex px-[36px] pt-[34px] bg-primary justify-start items-start">
+          <div className="h-[188px] w-full flex px-[36px] pt-[34px] bg-primary justify-start items-start">
             <img className="h-[86px] w-[154px] mr-[44px]" src='/story/img_story3.png' alt="" />
             <div className='flex flex-col items-center justify-center mr-6'>
               <span className="flex h-3 w-3 justify-center items-center">
@@ -61,7 +61,7 @@ const ModalStory = () => {
             <div className=" w-[485px] font-noraml text-sm">
               The researcher found that the building named Amwaj20, which was built in the Persian Gulf region in 2015... Electronic parts and documents are scattered at the entrance, especially, the texts on the documents are sorted out and translated... One of the paragraphs reads &quot;... First priority, enter your address codes in the device, also with desire of property resources... You may get an unexpected prizes…&quot;
             </div>
-          </div> */}
+          </div>
           {/* story 3 */}
           {/* story 4 */}
           {/* <div className="h-[188px] w-full flex px-[36px] pt-[44px] justify-start items-start">
@@ -142,7 +142,7 @@ const ModalStory = () => {
           </div>
           {/* story 2 */}
           {/* story 3 */}
-          {/* <div className=" relative w-full flex px-[24px] py-[24px] bg-primary justify-start items-start">
+          <div className=" relative w-full flex px-[24px] py-[24px] bg-primary justify-start items-start">
             <div className='flex flex-col items-center justify-center mr-6'>
               <span className="flex h-3 w-3 justify-center items-center z-20">
                 <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
@@ -156,7 +156,7 @@ const ModalStory = () => {
                 The researcher found that the building named Amwaj20, which was built in the Persian Gulf region in 2015... Electronic parts and documents are scattered at the entrance, especially, the texts on the documents are sorted out and translated... One of the paragraphs reads &quot;... First priority, enter your address codes in the device, also with desire of property resources... You may get an unexpected prizes…&quot;
               </div>
             </div>
-          </div> */}
+          </div>
           {/* story 3 */}
           {/* story 4 */}
           {/* <div className=" relative w-full flex px-[24px] py-[24px] justify-start items-start">
