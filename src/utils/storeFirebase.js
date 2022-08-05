@@ -121,7 +121,7 @@ export const getUserData = async (address) => {
 export const getUserByid = async (id) => {
   console.log("getuserByid")
   const usersCollectionRef = collection(db, "invaria");
-  const q = query(usersCollectionRef, where("idv_task_id", "==", 11731));
+  const q = query(usersCollectionRef, where("idv_task_id", "==", Number(id)));
     // const q = query(usersCollectionRef, where("address", "==", "0x252CB346c174ad1471532CDCAF3A74229E9d2d6F"));
 
   console.log("q",id.toString(),q)
