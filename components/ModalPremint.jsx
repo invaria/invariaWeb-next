@@ -13,7 +13,6 @@ import { checkIfWalletIsConnected, addTokenFunction, usdcAddress, nftAddress } f
 import { OpenLink, ButtonMailto } from '../components/icons/Link';
 import { getUser } from "../src/utils/storeFirebase";
 
-
 let pervState = []
 
 const ModalPremint = () => {
@@ -275,7 +274,7 @@ const ModalPremint = () => {
             </div>
             <div className=" mt-4 flex justify-between items-baseline">
               <p className=" text-sm font-normal text-invar-light-grey ">Mint Time</p>
-              <p className=" text-base font-semibold text-white ">August 3 ~ , 2022 </p>
+              <p className=" text-base font-semibold text-white ">August 5 ~ , 2022 </p>
             </div>
             {(address && usdcAllowance >= 10000) &&
               <>

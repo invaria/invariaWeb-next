@@ -32,7 +32,6 @@ export const getUser = async (address) => {
   // const q = query(usersCollectionRef, where("address", "==", "0x252CB346c174ad1471532CDCAF3A74229E9d2d6F"));
   //0xd33f4E98D16318e47dcC381345B4B408E02b6a92 //0xA450cC0A298d99C2794b2F26b9f8e4302a8fE5e1
   //0x252CB346c174ad1471532CDCAF3A74229E9d2d6F
-
   // console.log("q", q)
   const querySnapshota = await getDocs(q);
   let state = "Unverified"
@@ -41,58 +40,12 @@ export const getUser = async (address) => {
   querySnapshota.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     console.log("doc", doc.data(), doc.data().audit_status);
-
-    // console.log(doc.id, " => ", doc.data().audit_status);
-    // console.log(doc.id, "jio => ", doc.data().reject_reasons, (doc.data().reject_reasons)?.length);
-
-    // state = "Unverified"
-    // if ((doc.data().reject_reasons)?.length === 0) {
-    //   state = doc.data().reject_reasons
-    // }
-    // if ((doc.data().reject_reasons)?.length !== 0) {
-    //   state == "Verified"
-    // }
-    //////
-    // if (doc.data().state == undefined && (stateCode !== 4 || stateCode !== 1)) {
-    //   if (doc.data().audit_status) {
-    //     state = doc.data().audit_status
-    //   }
-    //   console.log("undef", doc.data().state)
-    // }
-    // if (doc.data().state == 4 && (stateCode !== 1)) {
-    //   stateCode = 4
-    //   state == "Rejected"
-    //   console.log(4)
-    // }
-    // if (doc.data().state == 1) {
-    //   stateCode = 1
-    //   state = doc.data().audit_status
-    //   console.log(1)
-    // }
-    /////////
-    // if (doc.data().audit_status !== undefined
-    //   && doc.data().review_reasons !== undefined
-    //   && (state !== "Accepted" && state !== "Rejected")) {
-    //   console.log("state", state)
-    //   state = "Pending"
-    //   console.log("state", state)
-
-    //   if (doc.data().review_reasons !== undefined) {
-    //     if (doc.data().review_reasons !== 0 || doc.data().reject_reasons !== 0) {
-    //       state = "Rejected"
-    //     } else {
-    //       state = "Verified"
-    //     }
-    //   }
-    //   console.log("state", state)
-    // }
-    ///////
     if (doc.data().audit_status !== undefined) {
       console.log("state un ", state, doc.data().state)
       console.log(doc.data().audit_status, doc.data().reject_reasons)
 
       if (doc.data().audit_status == "Accepted") {
-        state = "Verified"
+        state = "Accepted"
         console.log("state ac ", state)
 
       } else if (state !== "Accepted" && doc.data().audit_status == "Rejected") {
@@ -108,8 +61,6 @@ export const getUser = async (address) => {
   console.log("re", stateCode, state)
   return state
 }
-
-
 
 
 
@@ -167,7 +118,25 @@ export const getUserData = async (address) => {
 
 
 
+export const getUserByid = async (id) => {
+  console.log("getuserByid")
+  const usersCollectionRef = collection(db, "invaria");
+  const q = query(usersCollectionRef, where("idv_task_id", "==", 11731));
+    // const q = query(usersCollectionRef, where("address", "==", "0x252CB346c174ad1471532CDCAF3A74229E9d2d6F"));
 
+  console.log("q",id.toString(),q)
+  const querySnapshota = await getDocs(q);
+  let state 
+  let realState, realResult
+  let stateCode = 404
+  querySnapshota.forEach((doc) => {
+    state =  doc.data().inputEmail
+    console.log("re", state,doc.data())
+
+  });
+  console.log("re", state)
+  return state
+}
 
 
 
