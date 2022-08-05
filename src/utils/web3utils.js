@@ -48,7 +48,7 @@ export const addTokenFunction = async () => {
 }
 
 ///// checkIfWalletIsConnected /////
-const desiredChainId = "0x4";  //mainnetChainId = "0x1"; rinkebyChainId = "0x4";
+const desiredChainId = "0x1";  //mainnetChainId = "0x1"; rinkebyChainId = "0x4";
 /* essensial params, hooks:
   import { useNetwork, useAddress } from "@thirdweb-dev/react";
   let pervState = []

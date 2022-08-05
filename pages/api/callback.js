@@ -8,13 +8,14 @@ export default async function handler(req, res) {
     try {
       await createUser(req.body.idv_task_id, req.body)
 
+      const email = await getUserByid(req.body.idv_task_id)
+      console.log(email)
       sgMail.setApiKey("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") //kyc2
-      const msg = {
-        // personalizations: [{
-        to: 'wesliutw@gmail.com',
-        from: 'wesliutw@gmail.com',
-        subject: 'Sending with SendGrid is Fun',
-        // }],
+      let msg 
+      // if (state == "Unverified") {
+      msg = {
+        to: email,
+        from: 'info@invar.finance',
         template_id: 'd-7bada9fb5a804af993d7c2f7150932f0'
       }
       sgMail
@@ -36,11 +37,11 @@ export default async function handler(req, res) {
     sgMail.setApiKey("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") //kyc2
     let msg
     // if (state == "Unverified") {
-      msg = {
-        to: email,
-        from: 'wesliutw@gmail.com',
-        template_id: 'd-7bada9fb5a804af993d7c2f7150932f0'
-      }
+    msg = {
+      to: email,
+      from: 'wesliutw@gmail.com',
+      template_id: 'd-7bada9fb5a804af993d7c2f7150932f0'
+    }
     sgMail
       .send(msg)
       .then(() => {
