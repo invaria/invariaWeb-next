@@ -1,6 +1,6 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/outline'
 import { useState } from "react";
-import useCollapse from 'react-collapsed';
+import useCollapse from 'react-collapsed'; // TODO: This package cause safari display bug
 
 const QA = ({ question, answer }) => {
   const [isExpanded, setIsExpanded] = useState(false);
