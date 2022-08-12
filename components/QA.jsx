@@ -6,8 +6,10 @@ const QA = ({ question, answer }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { getCollapseProps, getToggleProps } = useCollapse({ isExpanded });
 
-  const toggleCollapse = () => {
-    setIsExpanded((prev) => !prev)
+  const toggleCollapse = (e) => {
+    if (e.target.localName !== "a") {
+      setIsExpanded((prev) => !prev)
+    }
   }
 
   return (
