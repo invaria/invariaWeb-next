@@ -13,15 +13,14 @@ const ModalProperty = dynamic(import("../components/ModalProperty"));
 
 function App() {
   const [headerBackground, setHeaderBackground] = useState(false);
-  const [origin, setorigin] = useState()
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setorigin( window.location.origin)
       window.addEventListener("scroll", () =>
         setHeaderBackground(window.pageYOffset > 20)
       );
     }
   }, []);
+
 
   return (
     <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
@@ -34,11 +33,11 @@ function App() {
         <label htmlFor="my-modal-1" onClick={() => disableScroll()}
           className="btn modal-button w-[183px] md:w-min btnShadow bg-white 
             opacity-80 hover:bg-white hover:opacity-100 px-6  text-sm text-info rounded absolute 
-            top-[188px] md:top-[408px] md:left-[245px] z-[21] normal-case border-none">
+            top-[188px] md:top-[408px] md:left-[16.67%] z-[21] normal-case border-none">
           Storyline</label>
         <a href={`#mindmap`} className='btn w-[183px] md:w-max btnShadow bg-white 
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded 
-          absolute top-[236px] md:top-[232px] md:right-1/2 normal-case border-none z-20 ' >
+          absolute top-[236px] md:top-[232px] md:left-[41.67%] normal-case border-none z-20 ' >
           Mindmap</a>
         <a href={`#faq`} className='btn w-[183px] md:w-max btnShadow bg-white 
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
@@ -48,10 +47,21 @@ function App() {
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 '>
           Property Infos</label>
-        <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
-          opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-          rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-20 ' >
-          Pre-Sale Minting</label>
+        <label htmlFor="premint-modal" className=" z-40 absolute top-[438px] md:top-[503px] md:left-[46.52%] w-[183px] h-[48px] md:w-max btnShadow  ">
+          <div className="hidden md:block btn3d btnShadow" >
+            <div className=" btn side hover-side  w-[183px] md:w-max h-[48px]  bg-white opacity-80 hover:bg-white hover:opacity-100 
+            rounded normal-case border-none z-20">
+              Whitelist Application</div>
+            <div className=" btn side default-side w-[183px] md:w-max h-[48px] bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
+            rounded normal-case border-none z-20 text-xs px-[21px]">
+              July 24, 00:00 ~ <br />
+              July 26, 00:00 (UTC+0)</div>
+          </div>
+          <div className="md:hidden btn side default-side w-[183px] md:w-max h-[48px] bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
+            rounded normal-case border-none z-20 text-xs px-[21px]">
+              July 24, 00:00 ~ <br />
+              July 26, 00:00 (UTC+0)</div>
+        </label>
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
         {/* <img className=' z-0 h-screen min-h-screen w-full object-cover overflow-hidden' draggable="false" src='/bg/bg.png' alt="bg" /> */}
@@ -91,8 +101,6 @@ function App() {
         </div>
       </div>
       <div className="relative w-screen min-w-full bg-gradient-to-b from-invar-main-purple to-black text-white pb-12 md:pb-32">
-        {/* <img className="absolute top-[px] left-0" src="/bg/mindmap_02.png" draggable="false" alt=""/>
-        <img className="absolute top-[px] left-0" src="/bg/mindmap_03.png" draggable="false" alt=""/> */}
         <p className="pt-10 md:pt-16 pb-6 text-2xl md:text-3xl font-semibold text-center mx-16 md:mx-0">
           Explore Crypto Desert on Next-Gen
         </p>
