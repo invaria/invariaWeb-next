@@ -152,3 +152,8 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.collapsible {
+  overflow: hidden;
+  transition: height 0.2s ease-in-out;
+}
