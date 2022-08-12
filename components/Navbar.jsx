@@ -67,6 +67,11 @@ const Navbar = ({ headerBackground }) => {
     checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
   }, [])
 
+  const handleClick = (e) => {
+    e.preventDefault()
+    router.push('/invaria2222')
+  }
+
   return (
     <>
       <nav className={`fixed flex items-center justify-between w-full h-[3.75rem] bg-invar-dark md:h-[5rem] z-50
@@ -77,8 +82,13 @@ const Navbar = ({ headerBackground }) => {
           <div className="navbar-start h-[80px] flex justify-start items-center mt-6">
             {(router.pathname == "/dashboard" || router.pathname == "/propertyinfo" || router.pathname == "/terms" || router.pathname == "/privacy") &&
               <>
-                <label htmlFor="my-modal-1" className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] ml-4 font-semibold text-sm text-invar-light-grey normal-case">
-                  Storyline</label>
+                <label htmlFor="my-modal-1" href='invaria2222/' className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] ml-4 font-semibold text-sm text-invar-light-grey normal-case"
+                >
+                  {/* onClick={(e)=>handleClick(e)}> */}
+                  {/* <Link href='invaria2222/' htmlFor="my-modal-1"> */}
+                  Storyline
+                  {/* </Link> */}
+                </label>
                 <Link href='invaria2222/#mindmap'>
                   <p className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[110px] pl-[6px] py-[1px] my-[12px] font-semibold text-sm text-invar-light-grey normal-case" >Mindmap</p>
                 </Link>
@@ -142,8 +152,13 @@ const Navbar = ({ headerBackground }) => {
           {language && <h1 className="font-semibold text-base mb-[27px] mx-2">English</h1>}
           {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>}
           <Link href="/dashboard">
-            <button className="font-semibold text-base mb-8" onClick={() => { setToggleMenu(false); enableScroll(); }}>
-              Dashboard</button>
+            <div className=' w-full flex justify-between items-start'>
+              <button className="font-semibold text-base mb-8" onClick={() => { setToggleMenu(false); enableScroll(); }}>
+                Dashboard</button>
+              {verify == "Unverified" &&
+                <img className=' mt-1' src="/icons/ic_warning.svg" alt="" />
+              }
+            </div>
           </Link>
           {!address && <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" onClick={() => setToggleWallet(true)}>Connect Wallet</button>}
           {address &&
