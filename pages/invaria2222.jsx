@@ -9,6 +9,7 @@ import { disableScroll } from '../src/utils/disableScroll'
 const ModalPremint = dynamic(import("../components/ModalPremint"));
 const ModalStory = dynamic(import("../components/ModalStory"));
 const ModalProperty = dynamic(import("../components/ModalProperty"));
+import Countdown from 'react-countdown';
 
 function App() {
   const [headerBackground, setHeaderBackground] = useState(false);
@@ -46,20 +47,12 @@ function App() {
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 '>
           Property Infos</label>
-        <label htmlFor="" className=" z-20 absolute top-[438px] md:top-[503px] md:left-[46.52%] w-[183px] h-[48px] md:w-max btnShadow  ">
-          <div className="hidden md:block btn3d btnShadow" >
-            <div className=" btnShadow btn side hover-side w-[183px] md:w-max h-[48px]  bg-white opacity-80 hover:bg-white hover:opacity-100 
-            rounded normal-case border-none z-20">
-              Whitelist Application</div>
-            <div className=" btnShadow btn side default-side w-[183px] md:w-max h-[48px] bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
-            rounded normal-case border-none z-20 text-xs px-[21.35px]">
-              July 24, 00:00 ~ <br />
-              July 26, 00:00 (UTC+0)</div>
+        <label htmlFor="premint-modal" className=" z-20 absolute top-[438px] md:top-[503px] md:left-[46.52%] w-[183px] h-[48px] md:w-max btnShadow btn bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
+            rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col">
+          <div className=" text-xs ">
+            Whitelist Application
           </div>
-          <div className=" btnShadow md:hidden btn side default-side w-[183px] md:w-max h-[48px] bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
-            rounded normal-case border-none z-20 text-xs px-[21px]">
-              July 24, 00:00 ~ <br />
-              July 26, 00:00 (UTC+0)</div>
+          <Countdown date={1660897260000} daysInHours={true} />
         </label>
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">

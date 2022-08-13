@@ -125,7 +125,7 @@ const ModalPremint = () => {
     checkAllowance()
     getdata()
   }, [address])
-  
+
 
   useEffect(() => {
     console.log(usdcAllowance)
@@ -215,7 +215,7 @@ const ModalPremint = () => {
             </label>
           }
           <div className="px-6">
-            <h3 className="text-2xl font-semibold mt-[24px] mb-6">Pre-Sale Minting Stage</h3>
+            <h3 className="text-2xl font-semibold mt-[24px] mb-6">Whitelist Application</h3>
             <p className=" text-sm font-normal text-invar-light-grey mt-[24px] mb-1">My Wallet</p>
             {!address ? (
               <button className="btn btn-primary font-semibold text-sm text-invar-light-grey w-full h-[40px] rounded border-none normal-case" onClick={connectWithMetamask}>
@@ -265,17 +265,17 @@ const ModalPremint = () => {
               </div>
             </div>
             <div className=" mt-4 flex justify-between items-baseline">
-              <p className=" text-sm font-normal text-invar-light-grey ">Max Mint Limit</p>
-              <p className=" text-base font-semibold text-white ">No limit</p>
+              <p className=" text-sm font-normal text-invar-light-grey ">Application Time</p>
+              <p className=" text-base font-semibold text-white ">July 24, 00:00 ~ July 26, 00:00 (UTC+0)</p>
             </div>
             <div className=" mt-4 flex justify-between items-baseline">
-              <p className=" text-sm font-normal text-invar-light-grey ">Mint Price</p>
-              <p className=" text-base font-semibold text-white ">10,000 USDC each</p>
+              <p className=" text-sm font-normal text-invar-light-grey ">Expected Amount</p>
+              <p className=" text-base font-semibold text-white ">Up to 10 per wallet</p>
             </div>
-            <div className=" mt-4 flex justify-between items-baseline">
+            {/* <div className=" mt-4 flex justify-between items-baseline">
               <p className=" text-sm font-normal text-invar-light-grey ">Mint Time</p>
               <p className=" text-base font-semibold text-white ">August 5 ~ , 2022 </p>
-            </div>
+            </div> */}
             {(address && usdcAllowance >= 10000) &&
               <>
                 <p className=" mt-3 text-sm font-normal text-invar-light-grey ">Fill in the number of NFTs you want to mint</p>
@@ -307,13 +307,20 @@ const ModalPremint = () => {
             {btnAction}
             <div className="my-6 w-full h-[1px] border-b border-b-invar-main-purple"></div>
             <ul className="list-decimal pl-3 text-xs font-normal text-invar-light-grey mb-3">
-              <li>Please make sure the wallet is connected to the Ethereum Mainnet.</li>
-              <li>Minting NFT requires payment of gas fee (ETH, the amount determined by chain activities).</li>
-              <li>Minting NFT requires an uncertain time of processing, please do not double-click during a short time, you can browse Etherscan to check transaction status.</li>
+              <li>During the whitelist application period, feel free to fill in how many NFT(s) you expect to mint. Note: maximum amount is 10.</li>
+              <li>The number you filled is not the actual number you can mint during whitelist minting stage. Whitelist application is purposed for whitelist giveaway campaign and market research.</li>
+              <li>The winner of whitelist application will be chosen according to the rules we announced, and the result will be published in official social media.</li>
               {readmore &&
                 <>
-                  <li>After the transaction succeeds, you can view your NFT on the Dashboard Page, as well as your wallet.</li>
-                  <li>The pre-sale stage is designed for partners and early-investors, you may experience a relatively longer time till staking is open.</li>
+                  <li>For more informations, please check our <span>
+                    <OpenLink link="https://twitter.com/InVarFinance">
+                      Twitter
+                    </OpenLink>
+                  </span> & <span>
+                      <OpenLink link="https://discord.gg/BrzPWYut4p">
+                        Discord
+                      </OpenLink>
+                    </span> channel.</li>
                   <li>If you have any questions, please contact: <ButtonMailto />.</li>
                 </>
               }
