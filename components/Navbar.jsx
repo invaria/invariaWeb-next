@@ -148,9 +148,14 @@ const Navbar = ({ headerBackground }) => {
             Storyline</label>
           <a href={`/invaria2222#mindmap`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>Mindmap</a>
           <a href={`/invaria2222#faq`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>FAQ & Tutorials</a>
-          <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
+          <a href={`/propertyinfo`} className="font-semibold text-base mb-6" onClick={() => { setToggleMenu(false); enableScroll(); }}>Property Infos</a>
+          {/* <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
           {language && <h1 className="font-semibold text-base mb-[27px] mx-2">English</h1>}
-          {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>}
+          {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>} */}
+          <div className=" h-16 font-semibold text-base text-invar-grey" >
+            Whitelist Application
+            <p className=' text-invar-success text-xs'>July 24, 00:00 ~ July 26, 00:00 (UTC+0)</p>
+          </div>
           <Link href="/dashboard">
             <div className=' w-full flex justify-between items-start'>
               <button className="font-semibold text-base mb-8" onClick={() => { setToggleMenu(false); enableScroll(); }}>
