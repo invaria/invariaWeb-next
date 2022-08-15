@@ -38,7 +38,7 @@ const ModalPremint = () => {
   async function handleApply() {
     setBtnState("applying")
     try {
-      applyWhite(address, { address: address, amount: mintNum })
+      applyWhite(address, { address: address, amount: mintNum, date: new Date(Date.now()) })
       setBtnState("applied")
     } catch (error) {
       setBtnState("apply")

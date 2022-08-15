@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useAddress, useNetwork } from '@thirdweb-dev/react'
-import { Navbar, TogActivity, Form, FormInfo, Footer } from '../components/'
+import { Navbar, TogActivity, TogWhite, Form, FormInfo, Footer } from '../components/'
 import { getUser } from "../src/utils/storeFirebase";
 
 const Dashboard = () => {
@@ -106,7 +106,10 @@ const Dashboard = () => {
           </div>
         </div>
         {(tabState == "activity") &&
-          <TogActivity />
+        <>
+          {/* <TogActivity /> */}
+          <TogWhite />
+        </>
         }
         {(tabState == "profile") &&
           <div className="px-4 md:px-16 lg:px-[231px] pt-[36px] border-t border-invar-main-purple flex flex-col md:flex-row z-30">
