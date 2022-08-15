@@ -19,6 +19,13 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+export const applyWhite = async (user, data) => {
+  const usersCollectionRef = collection(db, "applywhite");
+  await setDoc(doc(usersCollectionRef, String(user)), data, { merge: true });
+  console.log("applied")
+  return "created"
+};
+
 export const createUser = async (user, data) => {
   const usersCollectionRef = collection(db, "invaria");
   await setDoc(doc(usersCollectionRef, String(user)), data, { merge: true });

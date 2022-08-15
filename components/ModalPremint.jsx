@@ -11,7 +11,7 @@ import { shortenAddress } from '../src/utils/shortenAddress'
 import { enableScroll } from '../src/utils/disableScroll'
 import { checkIfWalletIsConnected, addTokenFunction, usdcAddress, nftAddress } from '../src/utils/web3utils'
 import { OpenLink, ButtonMailto } from '../components/icons/Link';
-import { getUser } from "../src/utils/storeFirebase";
+import { getUser, applyWhite } from "../src/utils/storeFirebase";
 
 let pervState = []
 
@@ -35,55 +35,16 @@ const ModalPremint = () => {
     console.log("state", state)
     setVerify(state)
   }
-
-  const checkAllowance = async () => {
-    if (!address) return
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner()
-    const usdcContract = new ethers.Contract(usdcAddress, erc20ABI, signer);
-    getusdcAllowance = +(ethers.utils.formatUnits(await usdcContract.allowance(address, nftAddress), decimal))
-    const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, signer);
-    const iswhite = await nftContract.WhiteList(address)
-    console.log(iswhite)
-    if (iswhite == false) {
-      setBtnState("notwhite")
-    }
-    setUsdcAllowance(getusdcAllowance)
-  }
-
-  const approveUsdc = async () => {
-    setBtnState("approving")
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner()
-    const usdcContract = new ethers.Contract(usdcAddress, erc20ABI, signer);
+  async function handleApply() {
+    setBtnState("applying")
     try {
-      const approveAmount = 10000 * 1000 * Math.pow(10, decimal)
-      const setApprovalForAll = await usdcContract.approve(nftAddress, approveAmount)
-      await setApprovalForAll.wait()
-      setBtnState("mint")
-      checkAllowance()
+      applyWhite(address, { address: address, amount: mintNum })
+      setBtnState("applied")
     } catch (error) {
-      setBtnState("approve")
-      console.log(error)
+      setBtnState("apply")
     }
   }
 
-  const mintNft = async () => {
-    if (mintNum <= 0) return
-    setBtnState("minting")
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner()
-    const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, signer);
-    try {
-      const mint = await nftContract.mintNFT(mintNum)
-      await mint.wait()
-      setBtnState("minted")
-    } catch (error) {
-      setBtnState("mint")
-      console.log(error)
-    }
-    console.log("btnState", btnState)
-  }
 
   function handleMintNum(c) {
     if (btnState == "minting") return
@@ -113,7 +74,7 @@ const ModalPremint = () => {
       pervState[0] = network[0].data.chain.name
       pervState[1] = address
       checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
-      checkAllowance()
+      // checkAllowance()
     }
   }, [address, network])
 
@@ -122,66 +83,35 @@ const ModalPremint = () => {
     console.log("btnState", btnState)
 
     checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
-    checkAllowance()
+    // checkAllowance()
     getdata()
+    setBtnState("apply")
   }, [address])
 
 
-  useEffect(() => {
-    console.log(usdcAllowance)
-    if (usdcAllowance == null) return
-    if (btnState == "notwhite") return
-    if (+usdcBalance < (mintNum * 10000)) {
-      setBtnState("nofund")
-    } else if (+usdcAllowance < 10000) {
-      setBtnState("approve")
-    } else {
-      setBtnState("mint")
-    }
-  }, [usdcAllowance, usdcBalance, mintNum])
-
   let btnAction
-  if (!address) {
+  if (!address || mintNum < 1) {
     btnAction =
       <div className="btn btn-disabled mt-6 bg-invar-disabled w-full h-[48px] font-semibold text-sm text-invar-light-grey border-none normal-case rounded" >
-        Approve USDC</div>
-  } else if (btnState == "approve") {
-    btnAction =
-      <button className="btn mt-6 bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded" onClick={() => approveUsdc()}>
-        Approve USDC</button>
-  } else if (btnState == "approving") {
-    btnAction =
-      <button className="btn loading mt-6 bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded">
-        Approving</button>
-  } else if (btnState == "mint") {
+        Apply</div>
+  } else if (btnState == "apply") {
     btnAction =
       <button className="btn mt-6 bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded"
-        onClick={() => mintNft()}>
-        {`Mint (${mintNum})`}</button>
-  } else if (btnState == "minting") {
+        onClick={() => handleApply()}>
+        {`Apply (${mintNum})`}</button>
+  } else if (btnState == "applying") {
     btnAction =
       <button className="btn loading mt-6 bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded">
-        Minting</button>
-  } else if (btnState == "minted") {
+        Applying</button>
+  } else if (btnState == "applied") {
     btnAction =
       <div className="w-full h-[76px] mt-6 bg-invar-dark p-4 text-sm text-invar-success font-normal flex justify-between items-center rounded shadow animate-fade-in-left">
-        <p>Transaction Successful! You can check NFT in Dashboard / Wallet.</p>
+        <p>Application Completed! You can check latest news in Dashboard and our community.</p>
         <button className="ml-4 mr-2 h-[24px] w-[24px] min-w-max font-semibold text-sm text-white "
-          onClick={() => { setBtnState("mint"), checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice) }}>
+          onClick={() => { setBtnState("apply"), checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice) }}>
           <img className="h-[24px] w-[24px]" src='/icons/ic_close.svg' alt="" />
         </button>
       </div>
-  } else if (btnState == "nofund") {
-    btnAction =
-      <div className="btn btn-disabled mt-6 bg-invar-disabled w-full h-[48px] font-semibold text-sm text-invar-light-grey border-none normal-case rounded" >
-        Insufficient Fund</div>
-  } else if (btnState == "notwhite") {
-    btnAction =
-      <div className="w-full ">
-      </div>
-    //   <div className="w-full h-[76px] mt-6 bg-invar-dark p-4 text-sm text-invar-error font-normal flex justify-between items-center rounded shadow animate-fade-in-left">
-    //   <p>You are not in the white list.</p>
-    // </div>
   }
 
   return (
@@ -223,21 +153,21 @@ const ModalPremint = () => {
               </button>
             ) : (
               <>
-                {btnState == "notwhite" ? (
+                {/* {btnState == "notwhite" ? (
                   <div className="btn btn-disabled flex w-full min-h-max bg-primary h-[68px] normal-case rounded border-none">
                     <button className=" mt-[10px] font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
                       {shortenAddress(address)}
                     </button>
                     <p className=" mb-[10px] text-invar-validation text-sm font-normal">You are not in the Pre-Sale list.</p>
                   </div>
-                ) : (
-                  <div className="btn btn-disabled w-full min-h-max bg-primary h-[40px] normal-case rounded border-none">
-                    <button className=" font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
-                      {shortenAddress(address)}
-                    </button>
-                  </div>
-                )
-                }
+                ) : ( */}
+                <div className="btn btn-disabled w-full min-h-max bg-primary h-[40px] normal-case rounded border-none">
+                  <button className=" font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
+                    {shortenAddress(address)}
+                  </button>
+                </div>
+                {/* )
+                } */}
               </>
             )}
             <div className="mt-1 w-full p-4 bg-invar-main-purple rounded">
@@ -276,7 +206,7 @@ const ModalPremint = () => {
               <p className=" text-sm font-normal text-invar-light-grey ">Mint Time</p>
               <p className=" text-base font-semibold text-white ">August 5 ~ , 2022 </p>
             </div> */}
-            {(address && usdcAllowance >= 10000) &&
+            {(address) &&
               <>
                 <p className=" mt-3 text-sm font-normal text-invar-light-grey ">Fill in the number of NFTs you want to mint</p>
                 <div className="relative " >
@@ -298,10 +228,10 @@ const ModalPremint = () => {
                     <img className=" w-6 " src="/icons/ic_plus.svg" alt="" />
                   </button>
                 </div>
-                <div className=" mt-4 flex justify-between items-baseline">
+                {/* <div className=" mt-4 flex justify-between items-baseline">
                   <p className=" text-sm font-normal text-invar-light-grey">Amount</p>
                   <p className=" font-semibold text-white text-base">{(mintNum * 10000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USDC</p>
-                </div>
+                </div> */}
               </>
             }
             {btnAction}

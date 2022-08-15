@@ -1,5 +1,6 @@
 // FIXME: path alias
 import { useEffect, useState } from "react";
+import Head from "next/head";
 import dynamic from "next/dynamic";
 import { Twitter, Discord } from '../components/icons/Link'
 import { ScrollToTop, QA, Footer, Navbar } from '../components';
@@ -24,6 +25,9 @@ function App() {
 
   return (
     <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
+      <Head>
+        <title>invaria2222</title>
+      </Head>
       <ScrollToTop />
       <Navbar headerBackground={headerBackground} />
       <ModalStory />
