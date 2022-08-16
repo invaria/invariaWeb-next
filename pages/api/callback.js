@@ -16,19 +16,19 @@ export default async function handler(req, res) {
         if (req.body.audit_status == "Pending") {
           msg = {
             to: email,
-            from: 'Invaria <info@invar.finance>',
+            from: 'InVaria <info@invar.finance>',
             template_id: 'd-7bada9fb5a804af993d7c2f7150932f0'
           }
         } else if (req.body.audit_status == "Rejected") {
           msg = {
             to: email,
-            from: 'Invaria <info@invar.finance>',
+            from: 'InVaria <info@invar.finance>',
             template_id: 'd-cb3a43b619a1492b90545c65f484d073'
           }
         } else if (req.body.audit_status == "Accepted") {
           msg = {
             to: email,
-            from: 'Invaria <info@invar.finance>',
+            from: 'InVaria <info@invar.finance>',
             template_id: 'd-5208eb31194a4002ae8d3a578eaacc7d'
           }
         }
