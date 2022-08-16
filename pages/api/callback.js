@@ -36,12 +36,14 @@ export default async function handler(req, res) {
           .send(msg)
           .then(() => {
             console.log('Email sent')
+            res.status(201).json("created")
           })
           .catch((error) => {
             console.error(error)
+            res.status(201).json("err")
           })
       }
-      res.status(201).json("created")
+      // res.status(201).json("created")
     } catch (error) {
       res.status(417).json(error)
     }
