@@ -1,101 +1,34 @@
 import React, { useEffect, useState } from 'react'
-import { ethers } from 'ethers'
 import {
-  useMetamask, useWalletConnect, useCoinbaseWallet,
+  useMetamask, useWalletConnect, 
   useNetwork, useAddress, useDisconnect,
 } from "@thirdweb-dev/react";
-import erc20ABI from '../src/utils/erc20ABI.json'
 import { shortenAddress } from '../src/utils/shortenAddress'
-import { fetchPrice } from '../src/utils/fetchPrice'
+import { checkIfWalletIsConnected, addTokenFunction } from '../src/utils/web3utils'
+
 let pervState = []
 
 const ModalWallet = () => {
   const connectWithMetamask = useMetamask();
   const connectWithWalletConnect = useWalletConnect();
   const disconnectWallet = useDisconnect();
-  const [ethBalance, setEthBalance] = useState()
-  const [usdcBalance, setUsdcBalance] = useState()
+  const [ethBalance, setEthBalance] = useState(0)
+  const [usdcBalance, setUsdcBalance] = useState(0)
   const address = useAddress();
   const network = useNetwork();
   const [getCoinPrice, setgetCoinPrice] = useState()
 
-
-  const checkIfWalletIsConnected = async () => {
-    const { ethereum } = window;
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const signer = provider.getSigner()
-    if (!ethereum) {
-      console.log("Make sure you have metamask!");
-      return;
-    } else {
-      console.log("We have the ethereum object", ethereum);
-    }
-
-    const accounts = await ethereum.request({ method: 'eth_accounts' });
-
-    if (accounts.length !== 0) {
-      const account = accounts[0];
-      console.log("Found an authorized account:", account);
-    } else {
-      console.log("No connected account found");
-    }
-
-    let chainId = await ethereum.request({ method: 'eth_chainId' });
-    console.log("Connected to chain " + chainId);
-    const rinkebyChainId = "0x4";
-    const mainnetChainId = "0x1";
-    if (chainId !== mainnetChainId) {
-      console.log("You are not connected to the Rinkeby Test Network!");
-    } else {
-      setEthBalance((+ethers.utils.formatEther(await signer.getBalance())).toFixed(3))
-      const usdcAddr = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
-      const usdcContract = new ethers.Contract(usdcAddr, erc20ABI, provider);
-      const decimals = await usdcContract.decimals();
-      setUsdcBalance((+(ethers.utils.formatUnits(await usdcContract.balanceOf(address), decimals))).toFixed(3))  //.toNumber()  //.toFixed(1)
-      setgetCoinPrice(await fetchPrice("ethereum"))
-    }
-  }
-  const usdcAddr = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" //LFG 0x002fF2aD81F0Fa36387eC6F4565B9667516C5342
-  const tokenSymbol = 'USDC';
-  const tokenDecimals = 6;
-  const tokenImage = 'https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png';
-
-  async function addTokenFunction() {
-    try {
-      const wasAdded = await ethereum.request({
-        method: 'wallet_watchAsset',
-        params: {
-          type: 'ERC20',
-          options: {
-            address: usdcAddr,
-            symbol: tokenSymbol,
-            decimals: tokenDecimals,
-            image: tokenImage,
-          },
-        },
-      });
-      if (wasAdded) {
-        console.log('Thanks for your interest!');
-      } else {
-        console.log('Token has not been added');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      // 當scroll時，不知為何network == undefined
-      if (network[0].data.chain == undefined) {
-        return
-      } else {
-        if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
-      }
-      pervState[0] = network[0].data.chain.name
-      pervState[1] = address
-      console.log(network[0].data.chain.name, pervState)
-      checkIfWalletIsConnected()
+    if (typeof window !== "undefined" && network[0].data.chain !== undefined) {
+      // // 當scroll時，不知為何network == undefined
+      // if (network[0].data.chain == undefined) {
+      //   return
+      // } else {
+      //   if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
+      // }
+      // pervState[0] = network[0].data.chain.name
+      // pervState[1] = address
+      checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice) 
     }
   }, [address, network])
 
@@ -142,9 +75,9 @@ const ModalWallet = () => {
                   <p>ETH</p>
                 </div>
                 <span className=" flex flex-col justify-center items-end text-white font-semibold">
-                  <p>{ethBalance ? ethBalance : "0"}</p>
+                  <p>{ethBalance}</p>
                   <p className=" text-sm font-normal text-neutral">
-                    ${ethBalance ? ((ethBalance * (getCoinPrice?.ethereum.usd)).toFixed(3)) : "0"} USD</p>
+                    ${(ethBalance * (getCoinPrice?.ethereum.usd)).toFixed(3)} USD</p>
                 </span>
               </div>
               <div className=" relative w-full mt-[14px] flex justify-between items-center group">
@@ -153,9 +86,9 @@ const ModalWallet = () => {
                   <p>USDC</p>
                 </div>
                 <span className=" flex flex-col justify-center items-end text-white font-semibold transition-opacity group-hover:opacity-0">
-                  <p className=" text-base">{usdcBalance ? usdcBalance : "0"}</p>
+                  <p className=" text-base">{usdcBalance}</p>
                   {getCoinPrice ? (<p className=" text-sm font-normal text-neutral">
-                    ${usdcBalance ? (usdcBalance * (getCoinPrice["usd-coin"].usd)).toFixed(3) : "0"} USD</p>
+                    ${(usdcBalance * (getCoinPrice["usd-coin"].usd)).toFixed(3)} USD</p>
                   ) : (<p className=" text-sm font-normal text-neutral">$0 USD</p>)}
                 </span>
                 <button className="btn btn-sm btn-outline border-[#E6E7EA] absolute w-[90px] h-[28px] bottom-[6px] right-0 

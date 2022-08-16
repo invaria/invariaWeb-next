@@ -1,67 +1,103 @@
 import React, { useEffect, useState } from 'react'
-import { ModalWallet, ModalStory } from './'
-import { ethers } from 'ethers'
-import { shortenAddress } from '../src/utils/shortenAddress'
-import { useNetwork, useAddress, useMetamask, useWalletConnect, useDisconnect } from "@thirdweb-dev/react";
-import erc20ABI from '../src/utils/erc20ABI.json'
-import { fetchPrice } from '../src/utils/fetchPrice'
+import dynamic from "next/dynamic";
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useNetwork, useAddress, useMetamask, useWalletConnect, useDisconnect } from '@thirdweb-dev/react'
+const ModalStory = dynamic(import("./ModalStory"));
+const ModalWallet = dynamic(import("./ModalWallet"));
+import { shortenAddress } from '../src/utils/shortenAddress'
 import { disableScroll, enableScroll } from '../src/utils/disableScroll'
+import { checkIfWalletIsConnected } from '../src/utils/web3utils'
+import { getUser } from "../src/utils/storeFirebase";
+
+
+let pervState = []
 
 const Navbar = ({ headerBackground }) => {
+  const router = useRouter()
   const address = useAddress();
   const network = useNetwork();
+  const connectWithMetamask = useMetamask();
+  const connectWithWalletConnect = useWalletConnect();
+  const disconnectWallet = useDisconnect();
   const [getCoinPrice, setgetCoinPrice] = useState()
   const [ethBalance, setEthBalance] = useState()
   const [usdcBalance, setUsdcBalance] = useState()
   const [toggleMenu, setToggleMenu] = useState(false);
   const [toggleWallet, setToggleWallet] = useState(false);
   const [language, setLanguage] = useState(false);
-  const connectWithMetamask = useMetamask();
-  const connectWithWalletConnect = useWalletConnect();
-  const disconnectWallet = useDisconnect();
+  const [verify, setVerify] = useState("")
 
-  const checkIfWalletIsConnected = async () => {
-    const { ethereum } = window;
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const signer = provider.getSigner()
-    if (!ethereum) return;
-    let chainId = await ethereum.request({ method: 'eth_chainId' });
-    const rinkebyChainId = "0x4";
-    if (chainId == rinkebyChainId) {
-      setEthBalance((+ethers.utils.formatEther(await signer.getBalance())).toFixed(3))
-      const usdcAddr = "0x002fF2aD81F0Fa36387eC6F4565B9667516C5342"
-      const usdcContract = new ethers.Contract(usdcAddr, erc20ABI, provider);
-      const decimals = await usdcContract.decimals();
-      setUsdcBalance((+(ethers.utils.formatUnits(await usdcContract.balanceOf(address), decimals))).toFixed(3))  //.toNumber()  //.toFixed(1)
-      setgetCoinPrice(await fetchPrice("ethereum"))
-    }
+
+  async function getdata() {
+    const state = await getUser(address)
+    console.log("ver state", state)
+    setVerify(state)
   }
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (!address) return
-      setToggleWallet(false)
-      enableScroll()
-    }
+    // if (typeof window !== "undefined") {
+    if (!address) return
+    setToggleWallet(false)
+    enableScroll()
+    getdata()
+
+    // }
   }, [address]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      if (!address) return
-      checkIfWalletIsConnected()
+      // 當scroll時，不知為何network == undefined
+      if (network[0].data.chain == undefined) {
+        return
+      } else if (pervState[0] == network[0].data.chain.name && pervState[1] == address) {
+        return
+      } else {
+        pervState[0] = network[0].data.chain.name
+        pervState[1] = address
+        console.log(network[0].data.chain.name, pervState, ethBalance)
+        checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
+      }
     }
-  }, [address, network]);
+  }, [address, network])
+
+  useEffect(() => {
+    console.log("ethBalance", ethBalance, address)
+    if (!address) return
+    checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
+  }, [])
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    router.push('/invaria2222')
+  }
 
   return (
     <>
       <nav className={`fixed flex items-center justify-between w-full h-[3.75rem] bg-invar-dark md:h-[5rem] z-50
-          ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}
-      >
+        ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}>
         <ModalWallet />
         <ModalStory />
-        <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[88px] flex">
-          <div className="navbar-start"></div>
+        <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[80px] flex">
+          <div className="navbar-start h-[80px] flex justify-start items-center mt-6">
+            {(router.pathname == "/dashboard" || router.pathname == "/propertyinfo" || router.pathname == "/terms" || router.pathname == "/privacy") &&
+              <>
+                <label htmlFor="my-modal-1" href='invaria2222/' className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] ml-4 font-semibold text-sm text-invar-light-grey normal-case"
+                >
+                  {/* onClick={(e)=>handleClick(e)}> */}
+                  {/* <Link href='invaria2222/' htmlFor="my-modal-1"> */}
+                  Storyline
+                  {/* </Link> */}
+                </label>
+                <Link href='invaria2222/#mindmap'>
+                  <p className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[110px] pl-[6px] py-[1px] my-[12px] font-semibold text-sm text-invar-light-grey normal-case" >Mindmap</p>
+                </Link>
+                <Link href='invaria2222/#faq'>
+                  <p className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-invar-light-grey normal-case" >FAQ & Tutorials</p>
+                </Link>
+              </>
+            }
+          </div>
           <div className="navbar-center">
             <Link href='invaria2222'>
               <img className="m-6 h-[2.5rem] w-24 xl:w-32 cursor-pointer" src='/logo_white.svg' />
@@ -81,13 +117,18 @@ const Navbar = ({ headerBackground }) => {
           </div>
           <div className="navbar-end hidden md:flex flex-row">
             {!address ? (
-              <label htmlFor="my-modal-3" className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
+              <label htmlFor="my-modal-3"
+                className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                 Connect Wallet</label>
             ) : (
               <>
                 <Link href="/dashboard">
-                  <button className="btn btn-sm btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
-                    Dashboard</button>
+                  <div className="btn btn-sm btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-white text-end border-[#44334C] normal-case hover:border-none hover:bg-primary flex justify-center items-center ">
+                    <p className='mr-[6px]'>Dashboard</p>
+                    {verify == "Unverified" &&
+                      <img src="/icons/ic_warning.svg" alt="" />
+                    }
+                  </div>
                 </Link>
                 <label htmlFor="my-modal-4" className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                   {shortenAddress(address)}
@@ -95,7 +136,7 @@ const Navbar = ({ headerBackground }) => {
               </>
             )
             }
-            <button className="btn btn-sm btn-outline rounded h-[40px] w-[40px] my-[24px] mr-[24px] px-[4px] py-[4px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
+            <button className=" hidden btn btn-sm btn-outline rounded h-[40px] w-[40px] my-[24px] mr-[24px] px-[4px] py-[4px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
               <img className="h-[20px] w-[20px]" src='/icons/ic_language.svg' alt="" />
             </button>
           </div>
@@ -105,11 +146,20 @@ const Navbar = ({ headerBackground }) => {
         <div className=" fixed top-[60px] z-30 w-full h-screen py-[34px] px-[16px] flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]">
           <label htmlFor="my-modal-1" className=" modal-button hover:underline font-semibold text-base mb-9">
             Storyline</label>
-          <a href={`#faq`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>FAQ & Tutorials</a>
+          <a href={`/invaria2222#mindmap`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>Mindmap</a>
+          <a href={`/invaria2222#faq`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>FAQ & Tutorials</a>
           <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
           {language && <h1 className="font-semibold text-base mb-[27px] mx-2">English</h1>}
           {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>}
-          <h1 className="font-semibold text-base mb-8">Dashboard</h1>
+          <Link href="/dashboard">
+            <div className=' w-full flex justify-between items-start'>
+              <button className="font-semibold text-base mb-8" onClick={() => { setToggleMenu(false); enableScroll(); }}>
+                Dashboard</button>
+              {verify == "Unverified" &&
+                <img className=' mt-1' src="/icons/ic_warning.svg" alt="" />
+              }
+            </div>
+          </Link>
           {!address && <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" onClick={() => setToggleWallet(true)}>Connect Wallet</button>}
           {address &&
             <>
