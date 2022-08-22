@@ -48,15 +48,15 @@ const ModalPremint = () => {
 
   function handleMintNum(c) {
     if (btnState == "minting") return
-    if (c == "+" && mintNum < 1000) {
+    if (c == "+" && mintNum < 10) {
       setMintNum(mintNum + 1)
     } else if (c == "-" && mintNum > 0) {
       setMintNum(mintNum - 1)
     } else {
       if (c < 0) {
         setMintNum(0)
-      } else if (c > 1000) {
-        setMintNum(1000)
+      } else if (c > 10) {
+        setMintNum(10)
       } else {
         setMintNum(+(c))
       }
@@ -211,7 +211,7 @@ const ModalPremint = () => {
                 <p className=" mt-3 text-sm font-normal text-invar-light-grey ">Fill in the number of NFTs you want to mint</p>
                 <div className="relative " >
                   <input
-                    type="number" onChange={(e) => handleMintNum(e.target.value)} value={mintNum} min="0"
+                    type="number" onChange={(e) => handleMintNum(e.target.value)} value={mintNum} min="0" max="10"
                     required className="appearance-none block mt-1 px-3 h-[48px] bg-invar-main-purple w-full font-semibold text-2xl text-white rounded focus:border border-white text-center"
                   />
                   {mintNum < 1 ? (
@@ -224,9 +224,16 @@ const ModalPremint = () => {
                     </button>
                   )
                   }
-                  <button className=" w-6 cursor-pointer absolute inset-y-0 right-[14px] flex items-center text-white" onClick={() => handleMintNum("+")} >
-                    <img className=" w-6 " src="/icons/ic_plus.svg" alt="" />
-                  </button>
+                  {mintNum >= 10 ? (
+                    <button className=" w-6 absolute inset-y-0 right-[14px] flex items-center text-white" >
+                      <img className=" w-6 " src="/icons/ic_minus_disabled.svg" alt="" />
+                    </button>
+                  ) : (
+                    <button className=" w-6 cursor-pointer absolute inset-y-0 right-[14px] flex items-center text-white" onClick={() => handleMintNum("+")} >
+                      <img className=" w-6 " src="/icons/ic_minus.svg" alt="" />
+                    </button>
+                  )
+                  }
                 </div>
                 {/* <div className=" mt-4 flex justify-between items-baseline">
                   <p className=" text-sm font-normal text-invar-light-grey">Amount</p>
