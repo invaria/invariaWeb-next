@@ -57,7 +57,7 @@ const ModalPremint = () => {
     const signer = provider.getSigner()
     const usdcContract = new ethers.Contract(usdcAddress, erc20ABI, signer);
     try {
-      const approveAmount = 10000 * 1000 * Math.pow(10, decimal)
+      const approveAmount = 2000 * 1000 * Math.pow(10, decimal)
       const setApprovalForAll = await usdcContract.approve(nftAddress, approveAmount)
       await setApprovalForAll.wait()
       setBtnState("mint")
@@ -131,9 +131,9 @@ const ModalPremint = () => {
     console.log(usdcAllowance)
     if (usdcAllowance == null) return
     if (btnState == "notwhite") return
-    if (+usdcBalance < (mintNum * 10000)) {
+    if (+usdcBalance < (mintNum * 2000)) {
       setBtnState("nofund")
-    } else if (+usdcAllowance < 10000) {
+    } else if (+usdcAllowance < 2000) {
       setBtnState("approve")
     } else {
       setBtnState("mint")
@@ -270,13 +270,13 @@ const ModalPremint = () => {
             </div>
             <div className=" mt-4 flex justify-between items-baseline">
               <p className=" text-sm font-normal text-invar-light-grey ">Mint Price</p>
-              <p className=" text-base font-semibold text-white ">10,000 USDC each</p>
+              <p className=" text-base font-semibold text-white ">2,000 USDC each</p>
             </div>
             <div className=" mt-4 flex justify-between items-baseline">
               <p className=" text-sm font-normal text-invar-light-grey ">Mint Time</p>
               <p className=" text-base font-semibold text-white ">August 5 ~ , 2022 </p>
             </div>
-            {(address && usdcAllowance >= 10000) &&
+            {(address && usdcAllowance >= 2000) &&
               <>
                 <p className=" mt-3 text-sm font-normal text-invar-light-grey ">Fill in the number of NFTs you want to mint</p>
                 <div className="relative " >
@@ -300,7 +300,7 @@ const ModalPremint = () => {
                 </div>
                 <div className=" mt-4 flex justify-between items-baseline">
                   <p className=" text-sm font-normal text-invar-light-grey">Amount</p>
-                  <p className=" font-semibold text-white text-base">{(mintNum * 10000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USDC</p>
+                  <p className=" font-semibold text-white text-base">{(mintNum * 2000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USDC</p>
                 </div>
               </>
             }
