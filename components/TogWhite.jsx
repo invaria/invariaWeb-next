@@ -70,7 +70,7 @@ const TogWhite = () => {
           <div className={" bg-invar-main-purple px-6 rounded text-white " + (collapse ? "mb-[436px]" : "")} >
             <div className="py-6 flex justify-between z-30 cursor-pointer" onClick={() => setCollapse(!collapse)}>
               <p className=" text-xl font-semibold">
-                Pre-Sale Minting Stage
+                Whitelist Application
               </p>
               <div>
                 {!collapse ? (<MinusIcon className="w-6 ml-6" />) : (<PlusIcon className="w-6 ml-6" />)}
