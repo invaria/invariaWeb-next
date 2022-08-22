@@ -56,7 +56,7 @@ function App() {
           <div className=" text-xs ">
             Whitelist Application
           </div>
-          <Countdown date={1660897260000} daysInHours={true} />
+          <Countdown date={1661498210000} daysInHours={true} />
         </label>
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
