@@ -226,11 +226,11 @@ const ModalPremint = () => {
                   }
                   {mintNum >= 10 ? (
                     <button className=" w-6 absolute inset-y-0 right-[14px] flex items-center text-white" >
-                      <img className=" w-6 " src="/icons/ic_minus_disabled.svg" alt="" />
+                      <img className=" w-6 " src="/icons/ic_plus_disabled.svg" alt="" />
                     </button>
                   ) : (
                     <button className=" w-6 cursor-pointer absolute inset-y-0 right-[14px] flex items-center text-white" onClick={() => handleMintNum("+")} >
-                      <img className=" w-6 " src="/icons/ic_minus.svg" alt="" />
+                      <img className=" w-6 " src="/icons/ic_plus.svg" alt="" />
                     </button>
                   )
                   }
