@@ -142,13 +142,16 @@ export const faqList = [
       </p>
     ),
   },
+
+//   InVaria 2222 smart contracts:NFT (ERC-1155): 0x502818ec5767570F7fdEe5a568443dc792c4496b Staking: 0x4B79eB01D1ddD96B1403dC61a79cb727D7745F64 
+// InVaria 2222 operating account: 0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C
   {
     question: 'Smart contracts and addresses you may want to know?',
     answer: (
       <ul className="list-disc pl-6">
-        <li>InVaria 2222 smart contracts:</li>
-        NFT (ERC-1155) <br />
-        Staking
+        <li>InVaria 2222 smart contracts: </li>
+        NFT (ERC-1155):<span className=" text-invar-grey font-semibold break-all"> 0x502818ec5767570F7fdEe5a568443dc792c4496b</span> <br />
+        Staking:<span className=" text-invar-grey font-semibold break-all"> 0x4B79eB01D1ddD96B1403dC61a79cb727D7745F64</span> 
         <li>InVaria 2222 operating account:</li>
         <p className=" text-invar-grey font-semibold break-all ">0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C</p> 
         <br />
