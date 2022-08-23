@@ -43,7 +43,7 @@ export const faqList = [
     answer: (
       <p>
         For experimental NFT (the MVP), we decided to use the progressive-launch method,
-        100 NFTs for the first whitelist & public mint stage, and arrange another stage for the rest,
+        500 NFTs for the first whitelist & public mint stage, and arrange another stage for the rest,
         total supply is determined by the overall consideration of RWA value and strategy.
         For example, if the valuation of property is $10m, then the cap of supply for $10k worth of NFT will be 1000.
       </p>
@@ -73,7 +73,7 @@ export const faqList = [
     answer: (
       <p>
         Costs incurred from minting NFT(s) can conclude to two kinds, minting cost and gas (network) fee.
-        In general, <span className="text-invar-grey font-semibold"> NFT minting cost is priced at 10,000
+        In general, <span className="text-invar-grey font-semibold"> NFT minting cost is priced at 2,000
         <OpenLink link="https://coinmarketcap.com/currencies/usd-coin/"> USDC </OpenLink> (ERC-20)
         </span>
         <span>, and the </span>

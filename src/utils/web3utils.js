@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ethers } from 'ethers'
 import erc20ABI from './erc20ABI.json'
-
+import { desiredChainId } from '../../pages/_app.jsx'
 //remember to change: 1.desiredChainId 2.usdcAddress 3.nftAddress
 
 export const fetchPrice = async (coin) => {
@@ -48,7 +48,7 @@ export const addTokenFunction = async () => {
 }
 
 ///// checkIfWalletIsConnected /////
-const desiredChainId = "0x1";  //mainnetChainId = "0x1"; rinkebyChainId = "0x4";
+// const desiredChainId = "0x1";  //mainnetChainId = "0x1"; rinkebyChainId = "0x4";
 /* essensial params, hooks:
   import { useNetwork, useAddress } from "@thirdweb-dev/react";
   let pervState = []
@@ -85,8 +85,8 @@ export const checkIfWalletIsConnected = async (address, setEthBalance, setUsdcBa
   // console.log("Connected to chain " + chainId);
   setEthBalance((+ethers.utils.formatEther(await signer.getBalance())).toFixed(3))
   setgetCoinPrice(await fetchPrice("ethereum"))
-  if (chainId !== desiredChainId) {
-    console.log("You are not connected to the desiredChainId:" + desiredChainId);
+  if (chainId.slice(2, 3) !== desiredChainId.toString()) {
+    console.log("You are not connected to the desiredChainId:" + desiredChainId.toString() + "==" + chainId.slice(2, 3));
     return
   } else {
     const usdcContract = new ethers.Contract(usdcAddress, erc20ABI, signer);
