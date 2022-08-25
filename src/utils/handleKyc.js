@@ -17,7 +17,7 @@ export const handleKyc = async (formdata) => {
     "expected_name": inputName,
     "expected_birthday": selectDate,
     "expected_id_number": inputIDnumber,
-    "callback_url": originString + "/dashboard",
+    "callback_url": originString + "/api/callback",
     "customer_reference": "000000123",
     "auto_create_dd_task": false,
     "dd_task_callback_url": originString + "/api/callback",
