@@ -60,15 +60,25 @@ function App() {
         <div className=" relative z-0 h-screen min-h-screen w-full object-cover overflow-hidden">
           <Image layout="fill" objectFit="cover" draggable="false" src='/bg/bg.png' />
         </div>
-        <img className=' w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" />
+        {/* <img className=' w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" /> */}
         <label htmlFor="property-modal" onClick={() => disableScroll()} className=" hidden z-30 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[57%] right-[53%] md:flex justify-end items-start">
           <div className=" hidden md:flex justify-center items-center">
             <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
             <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
           </div>
         </label>
+        <div className='mt-[88px]  hidden absolute top-0 left-[24px] md:flex flex-row items-start justify-start h-[592px] w-[300px] text-white indent-0.5 font-normal text-sm z-10 animate-fade-in-down'>
+          <div className='flex flex-col items-center justify-center mr-3 '>
+            <span className="flex h-3 w-3 justify-center items-center">
+              <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+            </span>
+            <div className='h-[540px] w-[1px] border-l bg-white -mt-1 z-0'></div>
+          </div>
+          &quot;...Pioneer Advantages... Amwaj20 will Activate the Portal to... this Device Can be Used in Different Scenario... Like Derivative of Power…&quot;, an unknown message unexpectedly appeared on REFLECTOR. After translation by the researcher, it was found that the device has the function of collecting information; meanwhile, the device is processing sort of formulas from previous data and surrounding events... Possibly, something is going to be reflected…
+        </div>
         <div className=" hidden absolute bottom-0 left-0 right-0 z-10 md:flex justify-center items-center">
-          <div className=" flex justify-start items-start text-start w-[826px] h-[108px] m-6 p-6 bg-invar-main-purple 
+          <div className=" flex justify-start items-start text-start w-[826px] h-[153px] m-6 p-6 px-[87px] bg-invar-main-purple 
             bg-opacity-60 text-white text-sm font-normal leading-[19.6px] rounded-lg border-4 border-invar-light-purple 
             border-opacity-60 animate-fade-in-up">
             <div className="text-start flex justify-start">
@@ -78,7 +88,7 @@ function App() {
                 }}
                 onInit={(typewriter) => {
                   typewriter.pauseFor(1000)
-                    .typeString('”CRYPTIC REFLECTOR is Connected!! The Building…“ yelling by Hodlemir…After persistently efforts, Hodlemir repaired the damaged components and wires, then try to conduct the connection… Suddenly, the ancient building shows up, just like reflection. Hodlemir shouts out to others for further investigation and research... ')
+                    .typeString('How to utilize the NFT, which is a fractionalization of the property, and the correlated values attribute to it have become follow-up concerns. The tribe is working on a solution... Dyoremira, a financial engineer, proposed to unify the management of Amwaj20 to professional leaders for creating stable returns, and distribute the consecutive values to NFT holders; holders are allowed to stake NFT through the protocol to obtain the corresponding values.')
                     .start();
                 }}
               />
