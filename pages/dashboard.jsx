@@ -14,7 +14,7 @@ const Dashboard = () => {
 
   async function getdata() {
     const state = await getUser(address)
-    // if (verifyState !== state) {  //useState 會重跑整個程式，觸發useEffect，所以getdata不能放在useEffect，(不對，是useeffect的hook不能放network)
+    // if (verifyState !== state) {  
     console.log("state", state)
     setVerify(state)
     // setVerifyState(state)
