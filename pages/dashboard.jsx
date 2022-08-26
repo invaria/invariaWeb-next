@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useAddress, useNetwork } from '@thirdweb-dev/react'
-import { Navbar, TogActivity, Form, FormInfo, Footer } from '../components/'
+import { Navbar, TogActivity, Form, FormInfo, Footer, Nfts } from '../components/'
 import { getUser } from "../src/utils/storeFirebase";
 
 const Dashboard = () => {
@@ -94,6 +94,10 @@ const Dashboard = () => {
           {/* <div className=' mt-[32px] md:mt-[45px] font-semibold text-2xl'>Dashboard{verifyState}</div> */}
           <div className="flex z-10">
             <button className={"pb-2 mr-9 mt-[29px] h-[36px] w-[58px] text-sm font-semibold text-center"
+              + (tabState == "nfts" ? ' text-white border-b-2 border-t-2 border-t-transparent' : ' text-invar-light-grey hover:text-white border-0  ')}
+              onClick={() => { setTabState("nfts") }}>
+              NFTs</button>
+            <button className={"pb-2 mr-9 mt-[29px] h-[36px] w-[58px] text-sm font-semibold text-center"
               + (tabState == "activity" ? ' text-white border-b-2 border-t-2 border-t-transparent' : ' text-invar-light-grey hover:text-white border-0  ')}
               onClick={() => { setTabState("activity") }}>
               Activity</button>
@@ -108,6 +112,9 @@ const Dashboard = () => {
         {(tabState == "activity") &&
           <TogActivity />
         }
+        {(tabState == "nfts") &&
+          <Nfts />
+        }
         {(tabState == "profile") &&
           <div className="px-4 md:px-16 lg:px-[231px] pt-[36px] border-t border-invar-main-purple flex flex-col md:flex-row z-30">
             {verifySection}
@@ -119,7 +126,7 @@ const Dashboard = () => {
               {(verify == "Pending" || verify == "Accepted") &&
                 <FormInfo />
               }
-                              {/* <FormInfo /> */}
+              {/* <FormInfo /> */}
 
             </div>
           </div>

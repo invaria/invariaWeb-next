@@ -126,7 +126,7 @@ function App() {
         <div className=" mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] font-normal">
           <p>
             As the tempo of iteration in crypto market characteristics, technology and industry framework as well, InVar team dislike to
-            overpromise and fail to deliver our plans. However, we truly have pre-organized milestones to achieve, the mindmap, and we don’t
+            overpromise and fail to deliver our plans. However, we truly have pre-organized milestones to achieve, the mindmap, and we don't
             want to keep it secret but are willing to share with sincerity.
           </p>
         </div>
