@@ -205,8 +205,8 @@ const Nfts = () => {
                       {openact == "Burnable" ? (
                         <div className=" w-full md:w-60 mt-9">
                           <div className=" flex justify-between">
-                            <p className=" mb-[2px] text-center font-normal text-sm text-invar-light-grey">Balance</p>
-                            <p className=" text-center font-normal text-sm text-invar-success ">{nfts}</p>
+                            <p className=" mb-[2px] text-center font-normal text-sm text-invar-light-grey">Burnable</p>
+                            <p className=" text-center font-normal text-sm text-invar-success ">{burnable}</p>
                           </div>
                           <input
                             name="Burnable" type="number" onChange={handleChange} value={inputs.Burnable || ""} min="1" max={burnable}
@@ -217,7 +217,7 @@ const Nfts = () => {
                               Cancel</button>
                             <a href="#burnModal" className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
                               + ((+(inputs.Burnable) < 1 || +(inputs.Burnable) > burnable || inputs.Burnable == undefined) ? " btn-disabled" : " ")
-                              }>
+                              + (btnState == "loading" ? " loading" : "")}>
                               Burn</a>
                             {/* <a href="#burnModal" className="btn">open modal</a> */}
                           </div>
