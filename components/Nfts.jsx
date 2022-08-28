@@ -5,19 +5,20 @@ import { useNetwork, useAddress } from "@thirdweb-dev/react";
 import erc20ABI from '../src/utils/erc20ABI.json'
 import inVariaJSON from '../src/utils/InVaria.json'
 import stakeABI from '../src/utils/invarstaking.json'
-import { nftAddress } from '../src/utils/web3utils'
+import { nftAddress, stakeAddress } from '../src/utils/web3utils'
 import Image from 'next/image'
 import { shortenAddress } from '../src/utils/shortenAddress'
 
 const Nfts = () => {
   const address = useAddress()
   const network = useNetwork()
-  const [nfts, setnfts] = useState([])
+  const [nfts, setnfts] = useState()
+  const [staked, setstaked] = useState()
   const [openinfo, setopeninfo] = useState(false)
   const [tabState, setTabState] = useState("staking")
   const [openact, setopenact] = useState()
   const [inputs, setInputs] = useState({});
-
+  const [btnState, setBtnState] = useState()
 
   useEffect(() => {
     getNfts()
@@ -29,23 +30,67 @@ const Nfts = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner()
     const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, provider);
-    // const filter = (nftContract.filters.TransferSingle(null, "0x0000000000000000000000000000000000000000", address, null, null))
-    const query = await nftContract["balanceOf(address)"]("0xA450cC0A298d99C2794b2F26b9f8e4302a8fE5e1")
-
-    // const query = await nftContract.WithDrawAddress()
-    // const items = await Promise.all(query?.map(async i => {
-    //   const block = (await provider.getBlock(i.blockHash))
-    //   const blockTime = new Date((block.timestamp) * 1000)
-    //   // let utcDate = new Date(blockTime.toL
+    const query = await nftContract["balanceOf(address)"](address)
     console.log("query", query.toString())
     setnfts(query.toString())
-    // console.log("trans", transactions, transactions.length)
+    const stakeContract = new ethers.Contract(stakeAddress, stakeABI, provider);
+    const bal = (await stakeContract.nftBalance(address))
+    setstaked(bal.stakingAmount.toString())
+    // console.log("trans", bal.stakingAmount.toString())
   }
 
+  const stake = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner()
+    const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
+    try {
+      setBtnState("loading")
+      console.log(inputs.Balance, typeof inputs.Balance)
+      const stake = await stakeContract.stakeNFT(inputs.Balance)
+      await stake.wait()
+      console.log("stake", stake)
+      setBtnState("")
+      getNfts()
+    } catch (error) {
+      setBtnState("")
+      console.log(error)
+    }
+  }
+
+  const unstake = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner()
+    const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
+    try {
+      setBtnState("loading")
+      console.log(inputs.unstake, typeof inputs.unstake)
+      const stake = await stakeContract.unStake(inputs.unstake)
+      await stake.wait()
+      console.log("stake", stake)
+      setBtnState("")
+      getNfts()
+    } catch (error) {
+      setBtnState("")
+      console.log(error)
+    }
+  }
+
+
   const handleChange = (event) => {
+    console.log("nfts", (typeof nfts), typeof inputs.Balance)
+
     const name = event.target.name;
     const value = event.target.value;
     setInputs(values => ({ ...values, [name]: value }))
+    if (name == "Balance") {
+      // if (value < 1) {
+      //   setInputs(values => ({ ...values, [name]: 1 }))
+      // }
+      // if (value > +nfts) {
+      //   console.log("sss")
+      //   setInputs(values => ({ ...values, [name]: +nfts }))
+      // }
+    }
   }
 
   return (
@@ -92,13 +137,16 @@ const Nfts = () => {
                             <p className=" text-center font-normal text-sm text-invar-success ">{nfts}</p>
                           </div>
                           <input
-                            name="Balance" type="number" onChange={handleChange} value={inputs.Balance || ""} min="1"
+                            name="Balance" type="number" onChange={handleChange} value={inputs.Balance || ""} min="1" max={nfts}
                             required className="block bg-invar-main-purple w-full h-[42px] rounded focus:border border-white text-white font-normal px-[15px]"
                           />
                           <div className="flex justify-between max-w-full">
                             <button className="btn mt-3 bg-transparent w-[140px] md:w-[114px] h-[40px] font-semibold text-base border-invar-dark normal-case rounded text-invar-light-grey" onClick={() => setopenact("")} >
                               Cancel</button>
-                            <button className="btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded" >
+                            <button className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
+                              + ((+(inputs.Balance) < 1 || +(inputs.Balance) > nfts) ? " btn-disabled" : "")
+                              + (btnState == "loading" ? " loading" : "")}
+                              onClick={() => stake()}>
                               Stake</button>
                           </div>
                         </div>
@@ -111,18 +159,33 @@ const Nfts = () => {
                         </div>
                       )}
                       {openact == "staking" ? (
-                        <div className=" mt-6 md:mt-0 w-full md:w-60 md:ml-[18px]">
-                          <p className=" mb-[2px] text-center font-normal text-sm text-invar-light-grey">Staking</p>
-                          <p className=" text-center font-semibold text-3xl ">{nfts}</p>
-                          <button className="btn mt-3 bg-invar-dark w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded" onClick={() => setopenact()}>
-                            Stake</button>
+                        <div className=" w-full md:w-60">
+                          <div className=" flex justify-between">
+                            <p className=" mb-[2px] text-center font-normal text-sm text-invar-light-grey">Staking</p>
+                            <p className=" text-center font-normal text-sm text-invar-success ">{staked}</p>
+                          </div>
+                          <input
+                            name="unstake" type="number" onChange={handleChange} value={inputs.unstake || ""} min="1" max={staked}
+                            required className="block bg-invar-main-purple w-full h-[42px] rounded focus:border border-white text-white font-normal px-[15px]"
+                          />
+                          <div className="flex justify-between max-w-full">
+                            <button className="btn mt-3 bg-transparent w-[140px] md:w-[114px] h-[40px] font-semibold text-base border-invar-dark normal-case rounded text-invar-light-grey" onClick={() => setopenact("")} >
+                              Cancel</button>
+                            <button className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
+                              + ((+(inputs.unstake) < 1 || +(inputs.unstake) > staked) ? " btn-disabled" : "")
+                              + (btnState == "loading" ? " loading" : "")}
+                              onClick={() => unstake()}>
+                              Unstake</button>
+                          </div>
                         </div>
                       ) : (
                         <div className=" mt-6 md:mt-0 w-full md:w-60 md:ml-[18px]">
                           <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Staking</p>
-                          <p className=" text-center font-semibold text-3xl ">{nfts}</p>
-                          <button className="btn mt-3 bg-invar-dark w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded" onClick={() => setopenact()}>
-                            Stake</button>
+                          <p className=" text-center font-semibold text-3xl text-invar-success">{staked}</p>
+                          <button className={`btn mt-3 w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded`
+                            + (stake == 0 ? " btn-disabled bg-invar-light-grey" : " bg-invar-dark")}
+                            onClick={() => setopenact("staking")}>
+                            Unstake</button>
                         </div>
                       )}
                       {openact == "Burnable" ? (
