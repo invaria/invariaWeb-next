@@ -15,6 +15,7 @@ const Nfts = () => {
   const [nfts, setnfts] = useState()
   const [staked, setstaked] = useState()
   const [burnable, setburnable] = useState()
+  const [interest, setinterest] = useState()
   const [openinfo, setopeninfo] = useState(false)
   const [tabState, setTabState] = useState("staking")
   const [openact, setopenact] = useState()
@@ -35,10 +36,13 @@ const Nfts = () => {
     console.log("query", query.toString())
     setnfts(query.toString())
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, provider);
-    const bal = (await stakeContract.nftBalance(address))
-    setstaked(bal.stakingAmount.toString())
-    setburnable(bal.burnableAmount.toString())
-    // console.log("trans", bal.stakingAmount.toString())
+    const stakebal = (await stakeContract.nftBalance(address))
+    setstaked(stakebal.stakingAmount.toString())
+    const burnbal = (await stakeContract.BurnNftInfo(address)).toString()
+    setburnable(burnbal)
+    const intersts = +((await stakeContract.StakingReward_Balance(address)).toString())/1000000
+    setinterest(intersts)
+    console.log("trans", stakebal.stakingAmount.toString(), burnbal, intersts)
   }
 
   const stake = async () => {
@@ -96,6 +100,24 @@ const Nfts = () => {
     }
   }
 
+  const claim = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner()
+    const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
+    try {
+      setBtnState("claiming")
+      // console.log(inputs.Burnable, typeof inputs.Burnable)
+      const stake = await stakeContract.withDraw()
+      await stake.wait()
+      console.log("stake", stake)
+      setBtnState("")
+      getNfts()
+      // location.reload()
+    } catch (error) {
+      setBtnState("")
+      console.log(error)
+    }
+  }
 
   const handleChange = (event) => {
     console.log("nfts", (typeof nfts), typeof inputs.Balance)
@@ -108,7 +130,7 @@ const Nfts = () => {
   return (
     <div className="relative flex min-h-[70vw] w-full border-t border-invar-main-purple">
       <div className="px-4 md:px-16 lg:px-[231px] w-full z-10 mt-12 mb-10">
-        {nfts == 0 ? (
+        {(nfts == 0 && staked==0) ? (
           <div className="w-full h-full flex justify-center items-center">
             <div>
               <Image width={162} height={200} src='/icons/ic_light.png' alt="" />
@@ -135,9 +157,9 @@ const Nfts = () => {
                       <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Est. Staking Return (APR)</p>
                       <p className=" text-center font-semibold text-3xl ">12%</p>
                     </div>
-                    <div className=" mt-6 md:mt-0 w-full md:w-60 ">
+                    <div className=" ml-4 mt-6 md:mt-0 w-full md:w-60 ">
                       <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Est. Daily Interests (USDC)</p>
-                      <p className=" text-center font-semibold text-3xl ">0</p>
+                      <p className=" text-center font-semibold text-3xl ">13.124</p>
                     </div>
                   </div>
                   <div className=" w-full flex justify-end p-9 bg-[#37293E]">
@@ -158,16 +180,19 @@ const Nfts = () => {
                             <a href='#stakeModal' className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
                               + ((+(inputs.Balance) < 1 || +(inputs.Balance) > nfts || inputs.Balance == undefined) ? " btn-disabled" : "")
                               + (btnState == "loading" ? " loading" : "")}
-                              // onClick={() => stake()}
-                              >
+                            // onClick={() => stake()}
+                            >
                               Stake</a>
                           </div>
                         </div>
                       ) : (
                         <div className=" w-full md:w-60">
                           <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Balance</p>
-                          <p className=" text-center font-semibold text-3xl text-invar-success ">{nfts}</p>
-                          <button className="btn mt-3 bg-invar-dark w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded" onClick={() => setopenact("Balance")}>
+                          <p className={` text-center font-semibold text-3xl`+(nfts==0?"":" text-invar-success")}>{nfts}</p>
+                          <button className={`btn mt-3 w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded`
+                          +(nfts==0?" btn-disabled bg-invar-disabled":" bg-invar-dark ")}
+                           
+                           onClick={() => setopenact("Balance")}>
                             Stake</button>
                         </div>
                       )}
@@ -187,15 +212,15 @@ const Nfts = () => {
                             <a href='#unstakeModal' className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
                               + ((+(inputs.unstake) < 1 || +(inputs.unstake) > staked || inputs.unstake == undefined) ? " btn-disabled" : "")
                               + (btnState == "loading" ? " loading" : "")}
-                              // onClick={() => unstake()}
-                              >
+                            // onClick={() => unstake()}
+                            >
                               Unstake</a>
                           </div>
                         </div>
                       ) : (
                         <div className=" mt-6 md:mt-0 w-full md:w-60 md:ml-[18px]">
                           <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Staking</p>
-                          <p className=" text-center font-semibold text-3xl text-invar-success">{staked}</p>
+                          <p className={` text-center font-semibold text-3xl `+(staked=="0"?" ":" text-invar-success")}>{staked}</p>
                           <button className={`btn mt-3 w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded`
                             + (staked == 0 ? " btn-disabled bg-invar-disabled" : " bg-invar-dark")}
                             onClick={() => setopenact("staking")}>
@@ -233,18 +258,17 @@ const Nfts = () => {
                         </div>
                       )}
                       {openact == "Interests" ? (
-                        <div className=" w-full md:w-60 md:ml-[18px] mt-9">
-                          <p className=" mb-[2px] text-center font-normal text-sm text-invar-light-grey">Total Interests (USDC)</p>
-                          <p className=" text-center font-semibold text-3xl ">{nfts}</p>
-                          <button className="btn mt-3 bg-invar-dark w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded" onClick={() => setopenact()}>
-                            Stake</button>
+                        <div className=" w-full md:w-60 mt-9">
                         </div>
                       ) : (
                         <div className=" w-full md:w-60 md:ml-[18px] mt-9">
                           <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Total Interests (USDC)</p>
-                          <p className=" text-center font-semibold text-3xl ">{nfts}</p>
-                          <button className="btn mt-3 bg-invar-dark w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded" onClick={() => setopenact()}>
-                            Stake</button>
+                          <p className=" text-center font-semibold text-3xl ">{interest}</p>
+                          <button className={`btn mt-3 w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded`
+                            + (interest == 0 ? " btn-disabled bg-invar-disabled" : " bg-invar-dark ")
+                            + (btnState == "claiming" ? " claiming" : "")}
+                            onClick={() => claim()}>
+                            Claim</button>
                         </div>
                       )}
                     </div>
@@ -286,6 +310,9 @@ const Nfts = () => {
           </>
         )}
       </div>
+
+      {/* modals */}
+
       <div id="stakeModal" className="modal bg-[#000000b6] ">
         <div className="modal-box p-9 w-[432px] bg-invar-main-purple rounded">
           <h3 className=" font-semibold text-xl text-center">Are you sure to stake {inputs.Balance} NFT(s)?</h3>
@@ -314,7 +341,7 @@ const Nfts = () => {
       </div>
       <div id="burnModal" className="modal bg-[#000000b6] ">
         <div className="modal-box p-9 w-[432px] bg-invar-main-purple rounded">
-          <h3 className=" font-semibold text-xl text-center">Are you sure to unstake X NFT(s)?</h3>
+          <h3 className=" font-semibold text-xl text-center">Are you sure to burn {inputs.Burnable} NFT(s)?</h3>
           <div className="modal-action">
             <a href="#" className="btn mt-3 bg-transparent w-[140px] md:w-[114px] h-[40px] font-semibold text-base border-invar-dark normal-case rounded text-invar-light-grey" onClick={() => setopenact("")} >
               Cancel</a>
