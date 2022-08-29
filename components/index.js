@@ -11,3 +11,4 @@ export {default as FormInfo} from './FormInfo';
 export {default as TogActivity} from './TogActivity';
 export {default as ItemActivity} from './ItemActivity';
 export {default as SelectOptions} from './SelectOptions';
+export {default as Modalappplywhite} from './Modalappplywhite';

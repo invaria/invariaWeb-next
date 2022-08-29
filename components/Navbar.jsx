@@ -9,7 +9,8 @@ import { shortenAddress } from '../src/utils/shortenAddress'
 import { disableScroll, enableScroll } from '../src/utils/disableScroll'
 import { checkIfWalletIsConnected } from '../src/utils/web3utils'
 import { getUser } from "../src/utils/storeFirebase";
-
+import Countdown from 'react-countdown';
+import { endtimestamp } from '../pages/invaria2222'
 
 let pervState = []
 
@@ -148,9 +149,14 @@ const Navbar = ({ headerBackground }) => {
             Storyline</label>
           <a href={`/invaria2222#mindmap`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>Mindmap</a>
           <a href={`/invaria2222#faq`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>FAQ & Tutorials</a>
-          <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
+          <a href={`/propertyinfo`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>Property Infos</a>
+          {/* <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
           {language && <h1 className="font-semibold text-base mb-[27px] mx-2">English</h1>}
-          {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>}
+          {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>} */}
+          <div className=" h-16 w-full font-semibold text-sm text-invar-success flex justify-between " >
+            <div className=" text-white  text-base">Whitelist Application</div>
+            <Countdown date={endtimestamp} daysInHours={true} />
+          </div>
           <Link href="/dashboard">
             <div className=' w-full flex justify-between items-start'>
               <button className="font-semibold text-base mb-8" onClick={() => { setToggleMenu(false); enableScroll(); }}>
