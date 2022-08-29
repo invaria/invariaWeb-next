@@ -377,10 +377,10 @@ const Nfts = () => {
                             <div className=' flex '>
                               <p className=" text-invar-success font-normal ">
                                 {eve?.burnableNFTamount.toString()}</p>
-                              <p className=" ml-6 md:ml-40 text-invar-success font-normal ">
+                              <p className=" ml-6 md:ml-44 text-invar-success font-normal ">
                                 {eve?.leftToBurnNFTamount.toString()}</p>
-                              <p className=" ml-6 md:ml-48 mr-9 w-max text-white font-normal ">
-                                0</p>
+                              <p className=" ml-6 md:ml-40 mr-9 w-max text-white font-normal ">
+                                {eve?.burnableNFTamount.toNumber() - eve?.leftToBurnNFTamount.toNumber()}</p>
                             </div>
                           </div>
                         }
