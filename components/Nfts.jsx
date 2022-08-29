@@ -17,6 +17,7 @@ const Nfts = () => {
   const [burnable, setburnable] = useState()
   const [interest, setinterest] = useState()
   const [evestake, setevestake] = useState([{}])
+  const [infos, setinfos] = useState()
   const [openinfo, setopeninfo] = useState(false)
   const [tabState, setTabState] = useState("staking")
   const [openact, setopenact] = useState()
@@ -48,7 +49,8 @@ const Nfts = () => {
     const filter = (stakeContract.filters.stakeInfo(address, null, null, null))
     const qq = await stakeContract.queryFilter(filter)
     console.log("qq", qq, stakeAddress, nftAddress)
-    const items = await Promise.all(qq?.map(async i => {
+    let infosarr = []
+    const items = await Promise.all(qq?.map(async (i, index) => {
       const blockTime = new Date((i.args.stakeTime) * 1000)
       const item = {
         date: blockTime.toString(),
@@ -58,8 +60,14 @@ const Nfts = () => {
         amount: (i.args.amount).toNumber(),
         txid: `${i.transactionHash}`,
       }
+
+      // const stakeContract = new ethers.Contract(stakeAddress, stakeABI, provider);
+      const stakebal = (await stakeContract.burningInfo(address, index))
+      infosarr.push(stakebal)
       return item
     }))
+    console.log("in", infosarr)
+    setinfos(infosarr)
     setevestake(items)
   }
 
@@ -335,6 +343,49 @@ const Nfts = () => {
                         </div>
                       )
                         // {console.log(eve.date)}
+                      )
+                    )}
+                  </>
+                }
+                {tabState == "activity" &&
+                  <>
+                    <div className="flex justify-between border-b w-full border-invar-main-purple">
+                      <p className=" pb-3 text-invar-light-grey text-sm font-normal ">
+                        Unlock Time</p>
+                      <div className=' flex '>
+                        <p className=" pb-3 text-invar-light-grey text-sm font-normal ">
+                          Locked</p>
+                        <p className=" ml-6 md:ml-32 pb-3 text-invar-light-grey text-sm font-normal ">
+                          Burnable</p>
+                        <p className=" ml-6 md:ml-32 mr-9 w-max pb-3 text-invar-light-grey text-sm font-normal ">
+                          Burned</p>
+                      </div>
+                    </div>
+                    {infos?.length == 0 ? (
+                      <div className=" my-16 w-full flex justify-center items-center">
+                        <div>
+                          <Image width={162} height={200} src='/icons/ic_light.png' alt="" />
+                          <p className=" text-lg font-normal text-center text-invar-light-grey">No Activity Found</p>
+                        </div>
+                      </div>
+                    ) : (
+                      infos?.map((eve, index) =>
+                      (
+                        <>{eve?.isBurn == false &&
+                          <div key={index} className=" py-4 flex justify-between border-b border-invar-main-purple text-white font-normal text-base">
+                            <div className=" text-invar-light-grey">{(new Date((eve?.locktime.toNumber()) * 1000)).toString()}</div>
+                            <div className=' flex '>
+                              <p className=" text-invar-success font-normal ">
+                                {eve?.burnableNFTamount.toString()}</p>
+                              <p className=" ml-6 md:ml-40 text-invar-success font-normal ">
+                                {eve?.leftToBurnNFTamount.toString()}</p>
+                              <p className=" ml-6 md:ml-48 mr-9 w-max text-white font-normal ">
+                                0</p>
+                            </div>
+                          </div>
+                        }
+                        </>
+                      )
                       )
                     )}
                   </>
