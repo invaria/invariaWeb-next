@@ -16,6 +16,7 @@ const Nfts = () => {
   const [staked, setstaked] = useState()
   const [burnable, setburnable] = useState()
   const [interest, setinterest] = useState()
+  const [evestake, setevestake] = useState([{}])
   const [openinfo, setopeninfo] = useState(false)
   const [tabState, setTabState] = useState("staking")
   const [openact, setopenact] = useState()
@@ -40,9 +41,26 @@ const Nfts = () => {
     setstaked(stakebal.stakingAmount.toString())
     const burnbal = (await stakeContract.BurnNftInfo(address)).toString()
     setburnable(burnbal)
-    const intersts = +((await stakeContract.StakingReward_Balance(address)).toString())/1000000
+    const intersts = +((await stakeContract.StakingReward_Balance(address)).toString()) / 1000000
     setinterest(intersts)
     console.log("trans", stakebal.stakingAmount.toString(), burnbal, intersts)
+    // ///////
+    const filter = (stakeContract.filters.stakeInfo(address, null, null, null))
+    const qq = await stakeContract.queryFilter(filter)
+    console.log("qq", qq, stakeAddress, nftAddress)
+    const items = await Promise.all(qq?.map(async i => {
+      const blockTime = new Date((i.args.stakeTime) * 1000)
+      const item = {
+        date: blockTime.toString(),
+        year: blockTime.getFullYear(),
+        month: blockTime.getMonth() + 1,
+        day: blockTime.getDate(),
+        amount: (i.args.amount).toNumber(),
+        txid: `${i.transactionHash}`,
+      }
+      return item
+    }))
+    setevestake(items)
   }
 
   const stake = async () => {
@@ -51,7 +69,7 @@ const Nfts = () => {
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     try {
       setBtnState("loading")
-      console.log(inputs.Balance, typeof inputs.Balance)
+      // console.log(inputs.Balance, typeof inputs.Balance)
       const stake = await stakeContract.stakeNFT(inputs.Balance)
       await stake.wait()
       console.log("stake", stake)
@@ -120,7 +138,7 @@ const Nfts = () => {
   }
 
   const handleChange = (event) => {
-    console.log("nfts", (typeof nfts), typeof inputs.Balance)
+    // console.log("nfts", (typeof nfts), typeof inputs.Balance)
 
     const name = event.target.name;
     const value = event.target.value;
@@ -130,7 +148,7 @@ const Nfts = () => {
   return (
     <div className="relative flex min-h-[70vw] w-full border-t border-invar-main-purple">
       <div className="px-4 md:px-16 lg:px-[231px] w-full z-10 mt-12 mb-10">
-        {(nfts == 0 && staked==0) ? (
+        {(nfts == 0 && staked == 0) ? (
           <div className="w-full h-full flex justify-center items-center">
             <div>
               <Image width={162} height={200} src='/icons/ic_light.png' alt="" />
@@ -188,11 +206,11 @@ const Nfts = () => {
                       ) : (
                         <div className=" w-full md:w-60">
                           <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Balance</p>
-                          <p className={` text-center font-semibold text-3xl`+(nfts==0?"":" text-invar-success")}>{nfts}</p>
+                          <p className={` text-center font-semibold text-3xl` + (nfts == 0 ? "" : " text-invar-success")}>{nfts}</p>
                           <button className={`btn mt-3 w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded`
-                          +(nfts==0?" btn-disabled bg-invar-disabled":" bg-invar-dark ")}
-                           
-                           onClick={() => setopenact("Balance")}>
+                            + (nfts == 0 ? " btn-disabled bg-invar-disabled" : " bg-invar-dark ")}
+
+                            onClick={() => setopenact("Balance")}>
                             Stake</button>
                         </div>
                       )}
@@ -220,7 +238,7 @@ const Nfts = () => {
                       ) : (
                         <div className=" mt-6 md:mt-0 w-full md:w-60 md:ml-[18px]">
                           <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Staking</p>
-                          <p className={` text-center font-semibold text-3xl `+(staked=="0"?" ":" text-invar-success")}>{staked}</p>
+                          <p className={` text-center font-semibold text-3xl ` + (staked == "0" ? " " : " text-invar-success")}>{staked}</p>
                           <button className={`btn mt-3 w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded`
                             + (staked == 0 ? " btn-disabled bg-invar-disabled" : " bg-invar-dark")}
                             onClick={() => setopenact("staking")}>
@@ -282,7 +300,7 @@ const Nfts = () => {
                   <button className={" mr-9 h-[40px] w-[130px] rounded border border-invar-main-purple text-sm font-semibold text-center"
                     + (tabState == "activity" ? ' text-white bg-invar-main-purple' : ' text-invar-light-grey hover:text-white ')}
                     onClick={() => { setTabState("activity") }}>
-                    Activity</button>
+                    Redemption</button>
                 </div>
                 {tabState == "staking" &&
                   <>
@@ -296,12 +314,29 @@ const Nfts = () => {
                           Unstaked</p>
                       </div>
                     </div>
-                    <div className=" my-16 w-full flex justify-center items-center">
-                      <div>
-                        <Image width={162} height={200} src='/icons/ic_light.png' alt="" />
-                        <p className=" text-lg font-normal text-center text-invar-light-grey">No Activity Found</p>
+                    {evestake?.length == 0 ? (
+                      <div className=" my-16 w-full flex justify-center items-center">
+                        <div>
+                          <Image width={162} height={200} src='/icons/ic_light.png' alt="" />
+                          <p className=" text-lg font-normal text-center text-invar-light-grey">No Activity Found</p>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      evestake?.map((eve, index) =>
+                      (
+                        <div key={index} className=" py-4 flex justify-between border-b border-invar-main-purple text-white font-normal text-base">
+                          <div className=" text-invar-light-grey">{eve?.date}</div>
+                          <div className=' flex '>
+                            <p className=" text-invar-success font-normal ">
+                              {eve?.amount}</p>
+                            <p className=" ml-6 md:ml-48 mr-9 w-max text-white font-normal ">
+                              0</p>
+                          </div>
+                        </div>
+                      )
+                        // {console.log(eve.date)}
+                      )
+                    )}
                   </>
                 }
               </>
