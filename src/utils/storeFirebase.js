@@ -19,6 +19,27 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+export const applyWhite = async (user, data) => {
+  const usersCollectionRef = collection(db, "applywhite");
+  await setDoc(doc(usersCollectionRef, String(user)), data, { merge: true });
+  console.log("applied")
+  return "created"
+};
+
+
+export const getWhite = async (address) => {
+  const usersCollectionRef = collection(db, "applywhite");
+  const q = query(usersCollectionRef, where("address", "==", address));
+  const querySnapshota = await getDocs(q);
+  let data
+  querySnapshota.forEach((doc) => {
+    data = doc.data()
+    data.date = new Date((data.date.seconds)*1000)
+  });
+  console.log("whit", data)
+  return data
+}
+
 export const createUser = async (user, data) => {
   const usersCollectionRef = collection(db, "invaria");
   await setDoc(doc(usersCollectionRef, String(user)), data, { merge: true });
@@ -168,4 +189,3 @@ export const getUserByid = async (id) => {
 //   };
 
 //   // if (docSnap.exists()) {   !!!!!!!
-

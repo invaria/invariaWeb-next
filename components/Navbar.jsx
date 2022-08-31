@@ -5,11 +5,13 @@ import { useRouter } from 'next/router'
 import { useNetwork, useAddress, useMetamask, useWalletConnect, useDisconnect } from '@thirdweb-dev/react'
 const ModalStory = dynamic(import("./ModalStory"));
 const ModalWallet = dynamic(import("./ModalWallet"));
+const Modalapplywhite = dynamic(import("./Modalappplywhite"));
 import { shortenAddress } from '../src/utils/shortenAddress'
 import { disableScroll, enableScroll } from '../src/utils/disableScroll'
 import { checkIfWalletIsConnected } from '../src/utils/web3utils'
 import { getUser } from "../src/utils/storeFirebase";
-
+import Countdown from 'react-countdown';
+import { endtimestamp } from '../pages/invaria2222'
 
 let pervState = []
 
@@ -78,6 +80,7 @@ const Navbar = ({ headerBackground }) => {
         ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}>
         <ModalWallet />
         <ModalStory />
+        <Modalapplywhite />
         <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[80px] flex">
           <div className="navbar-start h-[80px] flex justify-start items-center mt-6">
             {(router.pathname == "/dashboard" || router.pathname == "/propertyinfo" || router.pathname == "/terms" || router.pathname == "/privacy") &&
@@ -148,9 +151,14 @@ const Navbar = ({ headerBackground }) => {
             Storyline</label>
           <a href={`/invaria2222#mindmap`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>Mindmap</a>
           <a href={`/invaria2222#faq`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>FAQ & Tutorials</a>
-          <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
+          <a href={`/propertyinfo`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>Property Infos</a>
+          {/* <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
           {language && <h1 className="font-semibold text-base mb-[27px] mx-2">English</h1>}
-          {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>}
+          {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>} */}
+          <label htmlFor='applywhite-modal' className=" modal-button h-16 w-full font-semibold text-sm text-invar-success flex justify-between " >
+            <div className=" text-white  text-base">Whitelist Application</div>
+            <Countdown date={endtimestamp} daysInHours={true} />
+          </label>
           <Link href="/dashboard">
             <div className=' w-full flex justify-between items-start'>
               <button className="font-semibold text-base mb-8" onClick={() => { setToggleMenu(false); enableScroll(); }}>

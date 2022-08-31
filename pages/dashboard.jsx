@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { ethers } from 'ethers'
 import { useAddress, useNetwork } from '@thirdweb-dev/react'
-import { Navbar, TogActivity, Form, FormInfo, Footer } from '../components/'
+import { Navbar, TogActivity, TogWhite, Form, FormInfo, Footer } from '../components/'
 import { getUser } from "../src/utils/storeFirebase";
 
 const Dashboard = () => {
@@ -11,6 +12,8 @@ const Dashboard = () => {
   const network = useNetwork();
   const [verify, setVerify] = useState("Unverified")
   // const [verifyState, setVerifyState] = useState()
+  const [hispresale, sethispresale] = useState()
+  const [hiswhiteapply, sethiswhiteapply] = useState()
 
   async function getdata() {
     const state = await getUser(address)
@@ -34,6 +37,12 @@ const Dashboard = () => {
     // signer = provider.getSigner()  
     getdata()
   }, [address]);
+
+useEffect(() => {
+  
+console.log("his",hispresale,hiswhiteapply)
+}, [hispresale,hiswhiteapply])
+
 
   let verifySection =
     <div className="mb-[32px] w-full md:w-[214px] md:min-w-[214px] h-[214px] flex flex-col justify-start items-center rounded overflow-hidden">
@@ -106,7 +115,23 @@ const Dashboard = () => {
           </div>
         </div>
         {(tabState == "activity") &&
-          <TogActivity />
+          <div className="relative min-h-[70vw] w-full border-t border-invar-main-purple">
+            {(address ) &&
+              <TogActivity hispresale={hispresale} sethispresale={sethispresale} />
+            }
+            <div className=" mt-3"></div>
+            {(address ) &&
+              <TogWhite sethiswhiteapply={sethiswhiteapply} />
+            }
+            {(address && (hispresale?.length == 0) && (hiswhiteapply == undefined)) &&
+              <div className="w-full h-full flex justify-center items-center">
+                <div>
+                  <Image width={162} height={200} src='/icons/ic_light.png' alt="" />
+                  <p className=" text-lg font-normal text-center text-invar-light-grey">No Activity Found</p>
+                </div>
+              </div>
+            }
+          </div>
         }
         {(tabState == "profile") &&
           <div className="px-4 md:px-16 lg:px-[231px] pt-[36px] border-t border-invar-main-purple flex flex-col md:flex-row z-30">
@@ -119,7 +144,7 @@ const Dashboard = () => {
               {(verify == "Pending" || verify == "Accepted") &&
                 <FormInfo />
               }
-                              {/* <FormInfo /> */}
+              {/* <FormInfo /> */}
 
             </div>
           </div>
