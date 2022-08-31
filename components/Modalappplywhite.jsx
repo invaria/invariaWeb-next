@@ -201,7 +201,7 @@ const Modalappplywhite = () => {
             </div>
             <div className=" mt-4 flex justify-between items-baseline">
               <p className=" text-sm font-normal text-invar-light-grey ">Application Time</p>
-              <p className=" text-base font-semibold text-white ">July 24, 00:00 ~ July 26, 00:00 (UTC+0)</p>
+              <p className=" text-base font-semibold text-white text-end ">Sep 1, 00:00 ~ Oct 1, 00:00 (UTC+0)</p>
             </div>
             <div className=" mt-4 flex justify-between items-baseline">
               <p className=" text-sm font-normal text-invar-light-grey ">Expected Amount</p>
@@ -219,7 +219,7 @@ const Modalappplywhite = () => {
                     type="number" onChange={(e) => handleMintNum(e.target.value)} value={mintNum} min="0" max="10"
                     required className="appearance-none block mt-1 px-3 h-[48px] bg-invar-main-purple w-full font-semibold text-2xl text-white rounded focus:border border-white text-center"
                   />
-                  {mintNum < 1 ? (
+                  {mintNum <= 1 ? (
                     <button className=" w-6 absolute inset-y-0 left-[14px] flex items-center text-white" >
                       <img className=" w-6 " src="/icons/ic_minus_disabled.svg" alt="" />
                     </button>

@@ -12,7 +12,7 @@ const ModalStory = dynamic(import("../components/ModalStory"));
 const ModalProperty = dynamic(import("../components/ModalProperty"));
 const Modalappplywhite = dynamic(import("../components/Modalappplywhite"));
 
-export const endtimestamp = 1663499210000
+export const endtimestamp = 1664582400000
 
 function App() {
   const [headerBackground, setHeaderBackground] = useState(false);
@@ -57,7 +57,7 @@ function App() {
           rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-20 ' >
           Pre-Sale Minting</label>
         <label htmlFor="applywhite-modal" className=" z-20 absolute top-[512px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
-            rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col">
+            rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E]">
           <div className=" text-xs ">
             Whitelist Application
           </div>
