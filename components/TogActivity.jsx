@@ -14,7 +14,7 @@ let pervState = []
 let etherScan
 let openSea
 
-const TogActivity = () => {
+const TogActivity = ({hispresale, sethispresale}) => {
   const [collapse, setCollapse] = useState(false)
   const address = useAddress()
   const network = useNetwork()
@@ -52,6 +52,7 @@ const TogActivity = () => {
       return item
     }))
     setTransactions(items)
+    sethispresale(items)
     console.log(items, etherScan, openSea)
     console.log(query)
     console.log("trans", transactions, transactions.length)
@@ -107,10 +108,10 @@ const TogActivity = () => {
         </div>
       ) : (
         <div className="w-full h-full flex justify-center items-center">
-          <div>
+          {/* <div>
             <Image width={162} height={200} src='/icons/ic_light.png' alt="" />
             <p className=" text-lg font-normal text-center text-invar-light-grey">No Activity Found</p>
-          </div>
+          </div> */}
         </div>
       )
       }

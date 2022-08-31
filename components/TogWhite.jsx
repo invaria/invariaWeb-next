@@ -15,7 +15,7 @@ let pervState = []
 let etherScan
 let openSea
 
-const TogWhite = () => {
+const TogWhite = ({sethiswhiteapply}) => {
   const [collapse, setCollapse] = useState(false)
   const address = useAddress()
   const network = useNetwork()
@@ -31,6 +31,7 @@ const TogWhite = () => {
     // const query = await nftContract.queryFilter(filter)
     const items = await getWhite(address)
     setTransactions(items)
+    sethiswhiteapply(items)
     console.log(items, etherScan, openSea)
     console.log("trans", transactions)
   }
@@ -108,10 +109,10 @@ const TogWhite = () => {
           </div>
         ) : (
           <div className="w-full h-full flex justify-center items-center">
-            <div>
+            {/* <div>
               <Image width={162} height={200} src='/icons/ic_light.png' alt="" />
               <p className=" text-lg font-normal text-center text-invar-light-grey">No Activity Found</p>
-            </div>
+            </div> */}
           </div>
         )
         }
