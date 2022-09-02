@@ -37,7 +37,7 @@ const Nfts = () => {
     const query = await nftContract["balanceOf(address)"](address)
     console.log("query", query.toString())
     setnfts(query.toString())
-    const stakeContract = new ethers.Contract(stakeAddress, stakeABI, provider);
+    const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     const stakebal = (await stakeContract.nftBalance(address))
     setstaked(stakebal.stakingAmount.toString())
     const burnbal = (await stakeContract.BurnNftInfo(address)).toString()
@@ -50,6 +50,7 @@ const Nfts = () => {
     const qq = await stakeContract.queryFilter(filter)
     console.log("qq", qq, stakeAddress, nftAddress)
     let infosarr = []
+    let nn = 0
     const items = await Promise.all(qq?.map(async (i, index) => {
       const blockTime = new Date((i.args.stakeTime) * 1000)
       const item = {
@@ -60,9 +61,9 @@ const Nfts = () => {
         amount: (i.args.amount).toNumber(),
         txid: `${i.transactionHash}`,
       }
-
-      // const stakeContract = new ethers.Contract(stakeAddress, stakeABI, provider);
-      const stakebal = (await stakeContract.burningInfo(address, index))
+      const stakebal = (await stakeContract.burningInfo(address, nn.toString()))
+      nn++
+      // console.log("inde",index, typeof index.toString())
       infosarr.push(stakebal)
       return item
     }))
