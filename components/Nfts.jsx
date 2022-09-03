@@ -17,12 +17,15 @@ const Nfts = () => {
   const [burnable, setburnable] = useState()
   const [interest, setinterest] = useState()
   const [evestake, setevestake] = useState([{}])
+  const [eveunstake, seteveunstake] = useState([{}])
   const [infos, setinfos] = useState()
   const [openinfo, setopeninfo] = useState(false)
   const [tabState, setTabState] = useState("staking")
   const [openact, setopenact] = useState()
   const [inputs, setInputs] = useState({});
   const [btnState, setBtnState] = useState()
+  let numstake
+  let numunstake
 
   useEffect(() => {
     getNfts()
@@ -50,9 +53,34 @@ const Nfts = () => {
     const qq = await stakeContract.queryFilter(filter)
     console.log("qq", qq, stakeAddress, nftAddress)
     let infosarr = []
-    let nn = 0
     const items = await Promise.all(qq?.map(async (i, index) => {
       const blockTime = new Date((i.args.stakeTime) * 1000)
+      // numstake = numstake + (i.args.amount).toNumber()
+      const item = {
+        date: blockTime.toString(),
+        year: blockTime.getFullYear(),
+        month: blockTime.getMonth() + 1,
+        day: blockTime.getDate(),
+        amount: (i.args.amount).toNumber(),
+        // staked: numstake,
+        // unstaked: numunstake,
+        txid: `${i.transactionHash}`,
+      }
+      try {
+        const stakebal = await stakeContract.burningInfo(address, index)
+        console.log(stakebal)
+        infosarr.push(stakebal)
+      } catch (error) {
+        console.log("error burningInfo")
+      }
+      return item
+    }))
+    /////
+    const unfilter = (stakeContract.filters.unStakeInfo(address, null, null))
+    const unqq = await stakeContract.queryFilter(unfilter)
+    console.log("unqq", unqq, stakeAddress, nftAddress)
+    const unitems = await Promise.all(unqq?.map(async (i, index) => {
+      const blockTime = new Date((i.args.unstakeTime) * 1000)
       const item = {
         date: blockTime.toString(),
         year: blockTime.getFullYear(),
@@ -61,16 +89,18 @@ const Nfts = () => {
         amount: (i.args.amount).toNumber(),
         txid: `${i.transactionHash}`,
       }
-      const stakebal = (await stakeContract.burningInfo(address, nn.toString()))
-      nn++
-      // console.log("inde",index, typeof index.toString())
-      infosarr.push(stakebal)
       return item
     }))
     console.log("in", infosarr)
     setinfos(infosarr)
     setevestake(items)
+    seteveunstake(unitems)
   }
+  useEffect(() => {
+    console.log("infos", infos,eveunstake,evestake)
+
+  }, [infos,eveunstake])
+
 
   const stake = async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -147,8 +177,6 @@ const Nfts = () => {
   }
 
   const handleChange = (event) => {
-    // console.log("nfts", (typeof nfts), typeof inputs.Balance)
-
     const name = event.target.name;
     const value = event.target.value;
     setInputs(values => ({ ...values, [name]: value }))
@@ -293,7 +321,7 @@ const Nfts = () => {
                           <p className=" text-center font-semibold text-3xl ">{interest}</p>
                           <button className={`btn mt-3 w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded`
                             + (interest == 0 ? " btn-disabled bg-invar-disabled" : " bg-invar-dark ")
-                            + (btnState == "claiming" ? " claiming" : "")}
+                            + (btnState == "claiming" ? " loading" : "")}
                             onClick={() => claim()}>
                             Claim</button>
                         </div>
@@ -331,8 +359,7 @@ const Nfts = () => {
                         </div>
                       </div>
                     ) : (
-                      evestake?.map((eve, index) =>
-                      (
+                      evestake?.map((eve, index) =>(
                         <div key={index} className=" py-4 flex justify-between border-b border-invar-main-purple text-white font-normal text-base">
                           <div className=" text-invar-light-grey">{eve?.date}</div>
                           <div className=' flex '>
@@ -342,10 +369,21 @@ const Nfts = () => {
                               0</p>
                           </div>
                         </div>
-                      )
-                        // {console.log(eve.date)}
-                      )
+                      ))
                     )}
+                    {
+                      eveunstake?.map((eve, index) =>(
+                        <div key={index} className=" py-4 flex justify-between border-b border-invar-main-purple text-white font-normal text-base">
+                          <div className=" text-invar-light-grey">{eve?.date}</div>
+                          <div className=' flex '>
+                            <p className=" text-white  font-normal ">
+                              0</p>
+                            <p className=" ml-6 md:ml-48 mr-9 w-max text-invar-success font-normal ">
+                            {eve?.amount}</p>
+                          </div>
+                        </div>
+                      ))
+                    }
                   </>
                 }
                 {tabState == "activity" &&
