@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useAddress, useNetwork } from '@thirdweb-dev/react'
-import { Navbar, TogActivity, TogWhite,TogUnstake, Form, FormInfo, Footer, Nfts } from '../components/'
+import { Navbar, TogActivity, TogWhite,TogUnstake,TogClaim, Form, FormInfo, Footer, Nfts } from '../components/'
 import { getUser } from "../src/utils/storeFirebase";
+import Image from 'next/image'
 
 const Dashboard = () => {
   const headerBackground = true
@@ -116,6 +117,10 @@ const Dashboard = () => {
             {(address) &&
               <TogUnstake/>
               // <div className=""></div>
+            }
+            <div className=" mt-3"></div>
+            {(address) &&
+              <TogClaim />
             }
             <div className=" mt-3"></div>
             {(address) &&

@@ -15,3 +15,5 @@ export {default as ItemActivity} from './ItemActivity';
 export {default as SelectOptions} from './SelectOptions';
 export {default as Nfts} from './Nfts';
 export {default as His} from './His';
+export {default as HisClaim} from './HisClaim';
+export {default as TogClaim} from './TogClaim';
