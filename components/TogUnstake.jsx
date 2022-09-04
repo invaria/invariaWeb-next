@@ -14,8 +14,8 @@ let pervState = []
 let etherScan
 let openSea
 
-const TogUnstake = () => {
-  const [collapse, setCollapse] = useState(false)
+const TogUnstake = ({ start, end }) => {
+  const [collapse, setCollapse] = useState(true)
   const address = useAddress()
   const network = useNetwork()
   const [transactions, setTransactions] = useState([])
@@ -79,11 +79,12 @@ const TogUnstake = () => {
 
   useEffect(() => {
     getActivity()
+    
   }, [])
 
 
   return (
-    <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] max-w-full z-10 mt-12 mb-10">
+    <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] max-w-full z-10 ">
       {(address && transactions.length > 0) ? (
         <div className={" bg-invar-main-purple px-6 rounded text-white " + (collapse ? "" : "")} >
           <div className="py-6 flex justify-between z-30 cursor-pointer" onClick={() => setCollapse(!collapse)}>

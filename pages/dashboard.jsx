@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useAddress, useNetwork } from '@thirdweb-dev/react'
-import { Navbar, TogActivity, TogWhite,TogUnstake,TogClaim, Form, FormInfo, Footer, Nfts } from '../components/'
+import { Navbar, TogActivity, TogWhite, TogUnstake, TogClaim, Form, FormInfo, Footer, Nfts } from '../components/'
 import { getUser } from "../src/utils/storeFirebase";
 import Image from 'next/image'
 
@@ -14,6 +14,10 @@ const Dashboard = () => {
   // const [verifyState, setVerifyState] = useState()
   const [hispresale, sethispresale] = useState()
   const [hiswhiteapply, sethiswhiteapply] = useState()
+  const [inputs, setInputs] = useState({ ["address"]: address, ["time"]: new Date(Date.now()) });
+  const [showtog, setshowtog] = useState("All")
+  const [starttime, setstarttime] = useState()
+  const [endtime, setendtime] = useState()
 
   async function getdata() {
     const state = await getUser(address)
@@ -84,6 +88,24 @@ const Dashboard = () => {
       </div>
   }
 
+  const handleChange = (event) => {
+    // if (submitState != "") return
+    const name = event.target.name;
+    const value = event.target.value;
+    setInputs(values => ({ ...values, [name]: value }))
+  }
+
+  const handleSubmit = async (event) => { //資料符合才會跑以下
+    event.preventDefault()
+    setshowtog(inputs.selectType)
+    let start = inputs.selectStartDate
+    let startday = start.slice(8, 10)
+    let startmonth = start.slice(5, 7)
+    let startyear = start.slice(0, 4)
+    let startDate = (new Date(startyear,startmonth-1,startday)).getTime()
+    setstarttime(start)
+    console.log(typeof inputs.selectStartDate,startday,startmonth,startyear,startDate)
+  }
 
   return (
     <div >
@@ -114,21 +136,82 @@ const Dashboard = () => {
         </div>
         {(tabState == "activity") &&
           <div className="relative min-h-[70vw] w-full border-t border-invar-main-purple">
-            {(address) &&
-              <TogUnstake/>
-              // <div className=""></div>
+            <form className="flex justify-between my-9 mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] max-w-full z-10 " onSubmit={handleSubmit} name="form">
+              <div className=' flex'>
+                <label className="w-[238px] mb-6 block mr-4">
+                  <div className="relative flex bg-invar-main-purple rounded items-center">
+                    <p className=" ml-3 text-invar-light-grey font-normal text-sm">Item</p>
+                    <select name="selectIDtype" onChange={handleChange} value={inputs.selectIDtype || ""}
+                      required className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
+                     cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-end">
+                      <option value="Amwaj20">Amwaj20</option>
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                    </div>
+                  </div>
+                </label>
+                <label className="w-[216px] mb-6 block mr-4">
+                  <div className="relative flex bg-invar-main-purple rounded items-center">
+                    <p className=" ml-3 text-invar-light-grey font-normal text-sm">Type</p>
+                    <select name="selectType" onChange={handleChange} value={inputs.selectType || ""}
+                      required className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
+                     cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-end">
+                      <option value="All">All</option>
+                      <option value="Pre-Sale">Pre-Sale</option>
+                      <option value="Whitelist">Whitelist</option>
+                      <option value="Public Sale">Public Sale</option>
+                      <option value="Unstake">Unstake</option>
+                      <option value="Claim">Claim</option>
+                      <option value="Redemption">Redemption</option>
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                    </div>
+                  </div>
+                </label>
+                <label className=" mb-6 mr-4 flex">
+                  <div className="relative flex bg-invar-main-purple rounded items-center">
+                    <input
+                      name="selectStartDate" type="date" onChange={handleChange} value={inputs.selectStartDate || ""}
+                      required className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
+                    />
+                    <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
+                      <img className=" w-4 h-4 cursor-pointer" src="/icons/ic_calendar.png" alt="" />
+                    </div>
+                  </div>
+                  <div className="relative flex bg-invar-main-purple rounded items-center">
+                    <img className=" mx-2 w-4 h-4 " src="/icons/ic_right.svg" alt="" />
+                    <input
+                      name="selectEndDate" type="date" onChange={handleChange} value={inputs.selectEndDate || ""}
+                      required className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
+                    />
+                    <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
+                      <img className=" w-4 h-4 cursor-pointer mr-2" src="/icons/ic_calendar.png" alt="" />
+                    </div>
+                  </div>
+                </label>
+                <input
+                  type="submit" value="Next"
+                  className="btn inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
+                />
+              </div>
+            </form>
+            <div className=" mt-3"></div>
+            {(address && (showtog == "All" || showtog == "Unstake")) &&
+              <TogUnstake start={starttime} end={endtime} />
             }
             <div className=" mt-3"></div>
-            {(address) &&
-              <TogClaim />
+            {(address && (showtog == "All" || showtog == "Claim")) &&
+              <TogClaim start={starttime} end={endtime} />
             }
             <div className=" mt-3"></div>
-            {(address) &&
-              <TogActivity hispresale={hispresale} sethispresale={sethispresale} />
+            {(address && (showtog == "All" || showtog == "Pre-Sale")) &&
+              <TogActivity hispresale={hispresale} sethispresale={sethispresale} start={starttime} end={endtime} />
             }
             <div className=" mt-3"></div>
-            {(address) &&
-              <TogWhite sethiswhiteapply={sethiswhiteapply} />
+            {(address && (showtog == "All" || showtog == "Whitelist")) &&
+              <TogWhite sethiswhiteapply={sethiswhiteapply} start={starttime} end={endtime} />
             }
             {(address && (hispresale?.length == 0) && (hiswhiteapply == undefined)) &&
               <div className="w-full h-full flex justify-center items-center">
