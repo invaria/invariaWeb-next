@@ -14,7 +14,7 @@ const Dashboard = () => {
   // const [verifyState, setVerifyState] = useState()
   const [hispresale, sethispresale] = useState()
   const [hiswhiteapply, sethiswhiteapply] = useState()
-  const [inputs, setInputs] = useState({ ["address"]: address, ["time"]: new Date(Date.now()) });
+  const [inputs, setInputs] = useState({ ["address"]: address, ["time"]: new Date(Date.now()),selectType: "All" });
   const [showtog, setshowtog] = useState("All")
   const [starttime, setstarttime] = useState()
   const [endtime, setendtime] = useState()
@@ -102,9 +102,15 @@ const Dashboard = () => {
     let startday = start.slice(8, 10)
     let startmonth = start.slice(5, 7)
     let startyear = start.slice(0, 4)
-    let startDate = (new Date(startyear,startmonth-1,startday)).getTime()
-    setstarttime(start)
-    console.log(typeof inputs.selectStartDate,startday,startmonth,startyear,startDate)
+    let startDate = (new Date(startyear, startmonth - 1, startday)).getTime()
+    setstarttime(startDate)
+    let end = inputs.selectEndDate
+    let endday = +(end.slice(8, 10))+1
+    let endmonth = end.slice(5, 7)
+    let endyear = end.slice(0, 4)
+    let endDate = (new Date(endyear, endmonth - 1, endday)).getTime()
+    setendtime(endDate)
+    // console.log(typeof inputs.selectStartDate, startday, startmonth, startyear, startDate)
   }
 
   return (
@@ -191,26 +197,23 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </label>
-                <input
-                  type="submit" value="Next"
-                  className="btn inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
-                />
               </div>
+              <input
+                type="submit" value="Next"
+                className="btn inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
+              />
             </form>
             <div className=" mt-3"></div>
-            {(address && (showtog == "All" || showtog == "Unstake")) &&
+            {(address && (inputs.selectType == "All" || inputs.selectType == "Unstake")) &&
               <TogUnstake start={starttime} end={endtime} />
             }
-            <div className=" mt-3"></div>
-            {(address && (showtog == "All" || showtog == "Claim")) &&
+            {(address && (inputs.selectType == "All" || inputs.selectType == "Claim")) &&
               <TogClaim start={starttime} end={endtime} />
             }
-            <div className=" mt-3"></div>
-            {(address && (showtog == "All" || showtog == "Pre-Sale")) &&
+            {(address && (inputs.selectType == "All" || inputs.selectType == "Pre-Sale")) &&
               <TogActivity hispresale={hispresale} sethispresale={sethispresale} start={starttime} end={endtime} />
             }
-            <div className=" mt-3"></div>
-            {(address && (showtog == "All" || showtog == "Whitelist")) &&
+            {(address && (inputs.selectType == "All" || inputs.selectType == "Whitelist")) &&
               <TogWhite sethiswhiteapply={sethiswhiteapply} start={starttime} end={endtime} />
             }
             {(address && (hispresale?.length == 0) && (hiswhiteapply == undefined)) &&
