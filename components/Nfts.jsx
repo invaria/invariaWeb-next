@@ -17,39 +17,18 @@ const Nfts = () => {
   const [burnable, setburnable] = useState()
   const [interest, setinterest] = useState()
   const [evestake, setevestake] = useState([{}])
-  const [eveunstake, seteveunstake] = useState([{}])
   const [infos, setinfos] = useState()
   const [openinfo, setopeninfo] = useState(false)
   const [tabState, setTabState] = useState("staking")
   const [openact, setopenact] = useState()
   const [inputs, setInputs] = useState({});
   const [btnState, setBtnState] = useState()
-  const [showtoast, setshowtoast] = useState(false)
-  const [t, sett] = useState("sdc")
-  let numstake
-  let numunstake
 
   useEffect(() => {
     getNfts()
   }, [])
 
-  let toast =
-    <div className=' w-[52px] bg-black fixed bottom-20 left-0 right-0'>
-      <div className=" text-center">ji{t}</div>
-    </div>
-
-  // function successToast(s) {
-  //   // return (
-  //   console.log("asd activity")
-  //   toast = <div className=''>
-  //     {s && s}
-  //   </div>
-  //   sett("toast")
-  //   // )
-  // }
-
   async function getNfts() {
-    // successToast("hoijoijh")
     console.log("get activity")
     if (!address) return
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -73,15 +52,12 @@ const Nfts = () => {
     let infosarr = []
     const items = await Promise.all(qq?.map(async (i, index) => {
       const blockTime = new Date((i.args.stakeTime) * 1000)
-      // numstake = numstake + (i.args.amount).toNumber()
       const item = {
         date: blockTime.toString(),
         year: blockTime.getFullYear(),
         month: blockTime.getMonth() + 1,
         day: blockTime.getDate(),
         amount: (i.args.amount).toNumber(),
-        // staked: numstake,
-        // unstaked: numunstake,
         txid: `${i.transactionHash}`,
       }
       try {
@@ -93,26 +69,9 @@ const Nfts = () => {
       }
       return item
     }))
-    /////
-    const unfilter = (stakeContract.filters.unStakeInfo(address, null, null))
-    const unqq = await stakeContract.queryFilter(unfilter)
-    console.log("unqq", unqq, stakeAddress, nftAddress)
-    const unitems = await Promise.all(unqq?.map(async (i, index) => {
-      const blockTime = new Date((i.args.unstakeTime) * 1000)
-      const item = {
-        date: blockTime.toString(),
-        year: blockTime.getFullYear(),
-        month: blockTime.getMonth() + 1,
-        day: blockTime.getDate(),
-        amount: (i.args.amount).toNumber(),
-        txid: `${i.transactionHash}`,
-      }
-      return item
-    }))
     console.log("in", infosarr)
     setinfos(infosarr)
     setevestake(items)
-    seteveunstake(unitems)
   }
 
   const stake = async () => {
@@ -190,6 +149,8 @@ const Nfts = () => {
   }
 
   const handleChange = (event) => {
+    // console.log("nfts", (typeof nfts), typeof inputs.Balance)
+
     const name = event.target.name;
     const value = event.target.value;
     setInputs(values => ({ ...values, [name]: value }))
@@ -197,7 +158,6 @@ const Nfts = () => {
 
   return (
     <div className="relative flex min-h-[70vw] w-full border-t border-invar-main-purple">
-      {/* {!showtoast && toast} */}
       <div className="px-4 md:px-16 lg:px-[231px] w-full z-10 mt-12 mb-10">
         {(nfts == 0 && staked == 0) ? (
           <div className="w-full h-full flex justify-center items-center">
@@ -219,7 +179,7 @@ const Nfts = () => {
                 <div className=" rounded overflow-hidden shadow-md">
                   <div className=" relative w-full md:flex justify-end p-9 bg-invar-main-purple">
                     <div className=" md:absolute top-9 left-9">
-                      <img className=" w-[347px] h-[354px] rounded shadow" src="https://dev2988.dkotaim8jhfxo.amplifyapp.com/Renft.gif" alt="" />
+                      <img className=" w-[210px] h-[210px] desktop:w-[310px] desktop:h-[310px] rounded shadow" src="https://dev2988.dkotaim8jhfxo.amplifyapp.com/Renft.gif" alt="" />
                       <p className=" mb-6 md:mb-0 mt-6 font-semibold text-3xl text-center">Amwaj20 </p>
                     </div>
                     <div className=" w-full md:w-60 md:mr-6">
@@ -319,7 +279,7 @@ const Nfts = () => {
                       ) : (
                         <div className=" w-full md:w-60 mr-6 mt-9">
                           <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Burnable</p>
-                          <p className={` text-center font-semibold text-3xl ` + (burnable == "0" ? " " : " text-invar-success")}>{burnable}</p>
+                          <p className=" text-center font-semibold text-3xl ">{burnable}</p>
                           <button className={`btn mt-3 w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded`
                             + (burnable == 0 ? " bg-invar-disabled btn-disabled" : " bg-invar-dark")}
                             onClick={() => setopenact("Burnable")}>
@@ -332,10 +292,10 @@ const Nfts = () => {
                       ) : (
                         <div className=" w-full md:w-60 md:ml-[18px] mt-9">
                           <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Total Interests (USDC)</p>
-                          <p className={` text-center font-semibold text-3xl ` + (interest == "0" ? " " : " text-invar-success")}>{interest}</p>
+                          <p className=" text-center font-semibold text-3xl ">{interest}</p>
                           <button className={`btn mt-3 w-full h-[40px] font-semibold text-base text-white border-none normal-case rounded`
                             + (interest == 0 ? " btn-disabled bg-invar-disabled" : " bg-invar-dark ")
-                            + (btnState == "claiming" ? " loading" : "")}
+                            + (btnState == "claiming" ? " claiming" : "")}
                             onClick={() => claim()}>
                             Claim</button>
                         </div>
@@ -373,7 +333,8 @@ const Nfts = () => {
                         </div>
                       </div>
                     ) : (
-                      evestake?.map((eve, index) => (
+                      evestake?.map((eve, index) =>
+                      (
                         <div key={index} className=" py-4 flex justify-between border-b border-invar-main-purple text-white font-normal text-base">
                           <div className=" text-invar-light-grey">{eve?.date}</div>
                           <div className=' flex '>
@@ -383,21 +344,10 @@ const Nfts = () => {
                               0</p>
                           </div>
                         </div>
-                      ))
+                      )
+                        // {console.log(eve.date)}
+                      )
                     )}
-                    {
-                      eveunstake?.map((eve, index) => (
-                        <div key={index} className=" py-4 flex justify-between border-b border-invar-main-purple text-white font-normal text-base">
-                          <div className=" text-invar-light-grey">{eve?.date}</div>
-                          <div className=' flex '>
-                            <p className=" text-white  font-normal ">
-                              0</p>
-                            <p className=" ml-6 md:ml-48 mr-9 w-max text-invar-success font-normal ">
-                              {eve?.amount}</p>
-                          </div>
-                        </div>
-                      ))
-                    }
                   </>
                 }
                 {tabState == "activity" &&
