@@ -323,10 +323,20 @@ const Nfts = () => {
                           <div className="flex justify-between max-w-full">
                             <button className="btn mt-3 bg-transparent w-[140px] md:w-[114px] h-[40px] font-semibold text-base border-invar-dark normal-case rounded text-invar-light-grey" onClick={() => setopenact("")} >
                               Cancel</button>
-                            <a href="#burnModal" className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
-                              + ((+(inputs.Burnable) < 1 || +(inputs.Burnable) > burnable || inputs.Burnable == undefined) ? " btn-disabled" : " ")
-                              + (btnState == "loading" ? " loading" : "")}>
-                              Burn</a>
+                            {nfts >= burnable &&
+                              <a href="#burnModal" className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
+                                + ((+(inputs.Burnable) < 1 || +(inputs.Burnable) > burnable || inputs.Burnable == undefined) ? " btn-disabled" : " ")
+                                + (btnState == "loading" ? " loading" : "")
+                              }>
+                                Burn</a>
+                            }
+                            {nfts < burnable &&
+                              <a href="#notburnModal" className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
+                                + ((+(inputs.Burnable) < 1 || +(inputs.Burnable) > burnable || inputs.Burnable == undefined) ? " btn-disabled" : " ")
+                                + (btnState == "loading" ? " loading" : "")
+                              }>
+                                Burn</a>
+                            }
                             {/* <a href="#burnModal" className="btn">open modal</a> */}
                           </div>
                         </div>
@@ -389,12 +399,12 @@ const Nfts = () => {
                     ) : (
                       stkinfo?.map((eve, index) => (
                         <div key={index} className=" py-4 flex justify-between border-b border-invar-main-purple text-white font-normal text-base">
-                          <div className=" text-invar-light-grey">{(new Date(eve?.staketime.toNumber()*1000)).toString()}</div>
+                          <div className=" text-invar-light-grey">{(new Date(eve?.staketime.toNumber() * 1000)).toString()}</div>
                           <div className=' flex '>
                             <p className=" text-invar-success font-normal ">
                               {eve?.stakeNFTamount.toNumber()}</p>
                             <p className=" ml-6 md:ml-48 mr-9 w-max text-white font-normal ">
-                            {eve?.stakeNFTamount.toNumber() - eve?.leftToUnstakeNFTamount.toNumber()}</p>
+                              {eve?.stakeNFTamount.toNumber() - eve?.leftToUnstakeNFTamount.toNumber()}</p>
                           </div>
                         </div>
                       ))
@@ -501,6 +511,16 @@ const Nfts = () => {
               + (btnState == "loading" ? " loading" : "")}
               onClick={() => burn()}>
               Confirm</button>
+          </div>
+        </div>
+      </div>
+      <div id="notburnModal" className="modal bg-[#000000b6] ">
+        <div className="modal-box p-9 w-[423px] bg-invar-main-purple rounded">
+          <h3 className=" font-semibold text-xl text-center">Please unstake NFT(s) to proceed
+            redemption/burn.</h3>
+          <div className="modal-action w-full flex justify-center">
+            <a href="#" className="btn mt-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base border-invar-dark normal-case rounded text-white" onClick={() => setopenact("")} >
+              OK</a>
           </div>
         </div>
       </div>
