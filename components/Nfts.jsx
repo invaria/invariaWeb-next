@@ -26,6 +26,7 @@ const Nfts = () => {
   const [btnState, setBtnState] = useState()
   const [showtoast, setshowtoast] = useState(false)
   const [t, sett] = useState("sdc")
+  const [stkinfo, setstkinfo] = useState()
   let numstake
   let numunstake
 
@@ -63,14 +64,18 @@ const Nfts = () => {
     setstaked(stakebal.stakingAmount.toString())
     const burnbal = (await stakeContract.BurnNftInfo(address)).toString()
     setburnable(burnbal)
-    const intersts = +((await stakeContract.StakingReward_Balance(address)).toString()) / 1000000
+    const intersts = +((await stakeContract.CheckClaimValue(address)).toString()) / 1000000
     setinterest(intersts)
     console.log("trans", stakebal.stakingAmount.toString(), burnbal, intersts)
+    // const stk = (await stakeContract.stakingInfo(address))
+    // console.log(stk,"stk")
     // ///////
     const filter = (stakeContract.filters.stakeInfo(address, null, null, null))
     const qq = await stakeContract.queryFilter(filter)
     console.log("qq", qq, stakeAddress, nftAddress)
     let infosarr = []
+    let stkarr = []
+
     const items = await Promise.all(qq?.map(async (i, index) => {
       const blockTime = new Date((i.args.stakeTime) * 1000)
       // numstake = numstake + (i.args.amount).toNumber()
@@ -85,9 +90,17 @@ const Nfts = () => {
         txid: `${i.transactionHash}`,
       }
       try {
+        // console.log(" burningInfo")
+
         const stakebal = await stakeContract.burningInfo(address, index)
-        console.log(stakebal)
+        // console.log("stakebal",stakebal)
+
+        const stk = (await stakeContract.stakingInfo(address, index))
+
+        // console.log("stk",stk)
+
         infosarr.push(stakebal)
+        stkarr.push(stk)
       } catch (error) {
         console.log("error burningInfo")
       }
@@ -109,8 +122,9 @@ const Nfts = () => {
       }
       return item
     }))
-    console.log("in", infosarr)
+    console.log("in", stkarr)
     setinfos(infosarr)
+    setstkinfo(stkarr)
     setevestake(items)
     seteveunstake(unitems)
   }
@@ -373,20 +387,19 @@ const Nfts = () => {
                         </div>
                       </div>
                     ) : (
-                      evestake?.map((eve, index) => (
+                      stkinfo?.map((eve, index) => (
                         <div key={index} className=" py-4 flex justify-between border-b border-invar-main-purple text-white font-normal text-base">
-                          <div className=" text-invar-light-grey">{eve?.date}</div>
+                          <div className=" text-invar-light-grey">{(new Date(eve?.staketime.toNumber()*1000)).toString()}</div>
                           <div className=' flex '>
                             <p className=" text-invar-success font-normal ">
-                              {eve?.amount}</p>
+                              {eve?.stakeNFTamount.toNumber()}</p>
                             <p className=" ml-6 md:ml-48 mr-9 w-max text-white font-normal ">
-                              0</p>
+                            {eve?.stakeNFTamount.toNumber() - eve?.leftToUnstakeNFTamount.toNumber()}</p>
                           </div>
                         </div>
                       ))
                     )}
-                    {
-                      eveunstake?.map((eve, index) => (
+                    {/* {eveunstake?.map((eve, index) => (
                         <div key={index} className=" py-4 flex justify-between border-b border-invar-main-purple text-white font-normal text-base">
                           <div className=" text-invar-light-grey">{eve?.date}</div>
                           <div className=' flex '>
@@ -397,7 +410,7 @@ const Nfts = () => {
                           </div>
                         </div>
                       ))
-                    }
+                    } */}
                   </>
                 }
                 {tabState == "activity" &&
