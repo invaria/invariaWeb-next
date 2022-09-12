@@ -97,10 +97,10 @@ const Nfts = () => {
 
         const stk = (await stakeContract.stakingInfo(address, index))
 
-        // console.log("stk",stk)
+        console.log("stk", stk,stk.isUnstake)
 
         infosarr.push(stakebal)
-        stkarr.push(stk)
+        if (stk.isUnstake == false) stkarr.push(stk)
       } catch (error) {
         console.log("error burningInfo")
       }

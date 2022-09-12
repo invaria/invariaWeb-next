@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 const Dashboard = () => {
   const headerBackground = true
-  const [tabState, setTabState] = useState("activity")
+  const [tabState, setTabState] = useState("nfts")
   const address = useAddress();
   const network = useNetwork();
   const [verify, setVerify] = useState("Unverified")
@@ -30,7 +30,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!address) {
-      setTabState("activity")
+      setTabState("nfts")
       return
     }
     // domain = window.location.origin;
