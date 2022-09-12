@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ethers } from 'ethers'
 import { useAddress, useNetwork } from '@thirdweb-dev/react'
-import { Navbar, TogActivity, TogWhite, TogUnstake, TogClaim, Form, FormInfo, Footer, Nfts } from '../components/'
+import { Navbar, TogActivity, TogWhite, TogUnstake, TogClaim, TogRedeem, Form, FormInfo, Footer, Nfts } from '../components/'
 import { getUser } from "../src/utils/storeFirebase";
 import Image from 'next/image'
 
@@ -14,7 +14,7 @@ const Dashboard = () => {
   // const [verifyState, setVerifyState] = useState()
   const [hispresale, sethispresale] = useState()
   const [hiswhiteapply, sethiswhiteapply] = useState()
-  const [inputs, setInputs] = useState({ ["address"]: address, ["time"]: new Date(Date.now()),selectType: "All" });
+  const [inputs, setInputs] = useState({ ["address"]: address, ["time"]: new Date(Date.now()), selectType: "All" });
   const [showtog, setshowtog] = useState("All")
   const [starttime, setstarttime] = useState()
   const [endtime, setendtime] = useState()
@@ -105,12 +105,16 @@ const Dashboard = () => {
     let startDate = (new Date(startyear, startmonth - 1, startday)).getTime()
     setstarttime(startDate)
     let end = inputs.selectEndDate
-    let endday = +(end.slice(8, 10))+1
+    let endday = +(end.slice(8, 10)) + 1
     let endmonth = end.slice(5, 7)
     let endyear = end.slice(0, 4)
     let endDate = (new Date(endyear, endmonth - 1, endday)).getTime()
     setendtime(endDate)
     // console.log(typeof inputs.selectStartDate, startday, startmonth, startyear, startDate)
+  }
+
+  function reset() {
+    setInputs({ ["address"]: address, ["time"]: new Date(Date.now()), selectType: "All" })
   }
 
   return (
@@ -198,10 +202,13 @@ const Dashboard = () => {
                   </div>
                 </label>
               </div>
-              <input
-                type="submit" value="Next"
-                className="btn inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-8 normal-case text-base font-semibold cursor-pointer border-none"
-              />
+              <div className="flex">
+                <input
+                  type="submit" value="Search"
+                  className="btn btn-sm inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-6 py-2 h-10 normal-case text-sm font-semibold cursor-pointer border-none"
+                />
+                <div className=' btn btn-sm inline-block bg-transparent hover:bg-invar-main-purple rounded text-invar-light-grey ml-2 px-6 py-2 h-10 normal-case text-sm font-semibold cursor-pointer border-invar-dark ' onClick={() => reset()}>Reset</div>
+              </div>
             </form>
             <div className=" mt-3"></div>
             {(address && (inputs.selectType == "All" || inputs.selectType == "Unstake")) &&
@@ -212,6 +219,9 @@ const Dashboard = () => {
             }
             {(address && (inputs.selectType == "All" || inputs.selectType == "Pre-Sale")) &&
               <TogActivity hispresale={hispresale} sethispresale={sethispresale} start={starttime} end={endtime} />
+            }
+            {(address && (inputs.selectType == "All" || inputs.selectType == "Redemption")) &&
+              <TogRedeem hispresale={hispresale} sethispresale={sethispresale} start={starttime} end={endtime} />
             }
             {(address && (inputs.selectType == "All" || inputs.selectType == "Whitelist")) &&
               <TogWhite sethiswhiteapply={sethiswhiteapply} start={starttime} end={endtime} />

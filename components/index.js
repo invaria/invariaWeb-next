@@ -17,3 +17,4 @@ export {default as Nfts} from './Nfts';
 export {default as His} from './His';
 export {default as HisClaim} from './HisClaim';
 export {default as TogClaim} from './TogClaim';
+export {default as TogRedeem} from './TogRedeem';

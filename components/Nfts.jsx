@@ -97,7 +97,7 @@ const Nfts = () => {
 
         const stk = (await stakeContract.stakingInfo(address, index))
 
-        console.log("stk", stk,stk.isUnstake)
+        // console.log("stk", stk,stk.isUnstake)
 
         infosarr.push(stakebal)
         if (stk.isUnstake == false) stkarr.push(stk)
@@ -242,7 +242,7 @@ const Nfts = () => {
                     </div>
                     <div className=" ml-4 mt-6 md:mt-0 w-full md:w-60 ">
                       <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Est. Daily Interests (USDC)</p>
-                      <p className=" text-center font-semibold text-3xl ">13.124</p>
+                      <p className=" text-center font-semibold text-3xl ">{0.657 * staked}</p>
                     </div>
                   </div>
                   <div className=" w-full flex justify-end p-9 bg-[#37293E]">
@@ -323,14 +323,14 @@ const Nfts = () => {
                           <div className="flex justify-between max-w-full">
                             <button className="btn mt-3 bg-transparent w-[140px] md:w-[114px] h-[40px] font-semibold text-base border-invar-dark normal-case rounded text-invar-light-grey" onClick={() => setopenact("")} >
                               Cancel</button>
-                            {nfts >= burnable &&
+                            {nfts >= inputs.Burnable &&
                               <a href="#burnModal" className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
                                 + ((+(inputs.Burnable) < 1 || +(inputs.Burnable) > burnable || inputs.Burnable == undefined) ? " btn-disabled" : " ")
                                 + (btnState == "loading" ? " loading" : "")
                               }>
                                 Burn</a>
                             }
-                            {nfts < burnable &&
+                            {nfts < inputs.Burnable &&
                               <a href="#notburnModal" className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
                                 + ((+(inputs.Burnable) < 1 || +(inputs.Burnable) > burnable || inputs.Burnable == undefined) ? " btn-disabled" : " ")
                                 + (btnState == "loading" ? " loading" : "")
@@ -502,15 +502,21 @@ const Nfts = () => {
         </div>
       </div>
       <div id="burnModal" className="modal bg-[#000000b6] ">
-        <div className="modal-box p-9 w-[432px] bg-invar-main-purple rounded">
-          <h3 className=" font-semibold text-xl text-center">Are you sure to burn {inputs.Burnable} NFT(s)?</h3>
-          <div className="modal-action">
-            <a href="#" className="btn mt-3 bg-transparent w-[140px] md:w-[114px] h-[40px] font-semibold text-base border-invar-dark normal-case rounded text-invar-light-grey" onClick={() => setopenact("")} >
-              Cancel</a>
-            <button className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
-              + (btnState == "loading" ? " loading" : "")}
-              onClick={() => burn()}>
-              Confirm</button>
+        <div className="modal-box p-0 bg-[#37293E] rounded">
+          <div className="bg-invar-main-purple px-9 py-6">
+            <h3 className=" font-semibold text-xl text-center">Burn NFT(s) to get back capital and commemorative NFT.</h3>
+            <p className=" text-center text-invar-error">This cannot be undone and the NFT(s) will be permanently burned, also lose the right to acquire interest.</p>
+          </div>
+          <div className=" flex flex-col item-center px-9 py-6">
+            <h3 className=" font-semibold text-xl text-center">Are you sure you want to continue?</h3>
+            <div className="modal-action justify-center">
+              <a href="#" className="btn mt-3 bg-transparent w-[140px] md:w-[114px] h-[40px] font-semibold text-base border-invar-dark normal-case rounded text-invar-light-grey" onClick={() => setopenact("")} >
+                Cancel</a>
+              <a href='#' className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
+                + (btnState == "loading" ? " loading" : "")}
+                onClick={() => burn()}>
+                Confirm</a>
+            </div>
           </div>
         </div>
       </div>
