@@ -75,6 +75,32 @@ const Nfts = () => {
     console.log("qq", qq, stakeAddress, nftAddress)
     let infosarr = []
     let stkarr = []
+    
+    for (var m = 0; m<100 ; m++) {
+      try {
+        const stakebal = await stakeContract.burningInfo(address, m)
+
+        infosarr.push(stakebal)
+
+      } catch (error) {
+        console.log("error stk")
+        break
+      }
+    }
+
+    for (var m = 0; m<100 ; m++) {
+      try {
+        const stk = (await stakeContract.stakingInfo(address, m))
+
+        console.log("stk wh", stk, stk.isUnstake, m)
+
+        if (stk.isUnstake == false) stkarr.push(stk)
+
+      } catch (error) {
+        console.log("error stk")
+        break
+      }
+    }
 
     const items = await Promise.all(qq?.map(async (i, index) => {
       const blockTime = new Date((i.args.stakeTime) * 1000)
@@ -89,21 +115,21 @@ const Nfts = () => {
         // unstaked: numunstake,
         txid: `${i.transactionHash}`,
       }
-      try {
-        // console.log(" burningInfo")
+      // try {
+      //   // console.log(" burningInfo")
 
-        const stakebal = await stakeContract.burningInfo(address, index)
-        // console.log("stakebal",stakebal)
+      //   const stakebal = await stakeContract.burningInfo(address, index)
+      //   // console.log("stakebal",stakebal)
 
-        const stk = (await stakeContract.stakingInfo(address, index))
+      //   const stk = (await stakeContract.stakingInfo(address, index))
 
-        // console.log("stk", stk,stk.isUnstake)
+      //   console.log("stk", stk,stk.isUnstake,index)
 
-        infosarr.push(stakebal)
-        if (stk.isUnstake == false) stkarr.push(stk)
-      } catch (error) {
-        console.log("error burningInfo")
-      }
+      //   infosarr.push(stakebal)
+      //   if (stk.isUnstake == false) stkarr.push(stk)
+      // } catch (error) {
+      //   console.log("error stk")
+      // }
       return item
     }))
     /////
