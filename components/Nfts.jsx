@@ -81,6 +81,7 @@ const Nfts = () => {
         const stakebal = await stakeContract.burningInfo(address, m)
 
         infosarr.push(stakebal)
+        console.log("error stakebal",stakebal)
 
       } catch (error) {
         console.log("error stk")
@@ -428,7 +429,7 @@ const Nfts = () => {
                           <div className=" text-invar-light-grey">{(new Date(eve?.staketime.toNumber() * 1000)).toString()}</div>
                           <div className=' flex '>
                             <p className=" text-invar-success font-normal ">
-                              {eve?.stakeNFTamount.toNumber()}</p>
+                              {eve?.leftToUnstakeNFTamount.toNumber()}</p>
                             <p className=" ml-6 md:ml-48 mr-9 w-max text-white font-normal ">
                               {eve?.stakeNFTamount.toNumber() - eve?.leftToUnstakeNFTamount.toNumber()}</p>
                           </div>

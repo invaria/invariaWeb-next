@@ -29,7 +29,7 @@ const TogUnstake = ({ start, end }) => {
     // const filter = (nftContract.filters.TransferSingle(null, "0x0000000000000000000000000000000000000000", address, null, null))
 
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
-    const filter = (stakeContract.filters.unStakeInfo(address, null, null))
+    const filter = (stakeContract.filters.burn(address, null, null))
     const unstake = await stakeContract.queryFilter(filter)
     const unitems = await Promise.all(unstake?.map(async (i, index) => {
       const blockTime = new Date((i.args.unstakeTime) * 1000)
