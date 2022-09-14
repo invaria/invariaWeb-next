@@ -42,6 +42,14 @@ const Dashboard = () => {
     getdata()
   }, [address]);
 
+  // useEffect(() => {
+  //   if (!address) {
+  //     setTabState("nfts")
+  //     return
+  //   }
+  //   getdata()
+  // }, []);
+
   let verifySection =
     <div className="mb-[32px] w-full md:w-[214px] md:min-w-[214px] h-[214px] flex flex-col justify-start items-center rounded overflow-hidden">
       <div className="h-[168px] w-full flex flex-col justify-start items-center bg-invar-main-purple ">

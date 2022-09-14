@@ -22,7 +22,7 @@ const Nfts = () => {
   const [openinfo, setopeninfo] = useState(false)
   const [tabState, setTabState] = useState("staking")
   const [openact, setopenact] = useState()
-  const [inputs, setInputs] = useState({});
+  const [inputs, setInputs] = useState({ Burnable: 0 });
   const [btnState, setBtnState] = useState()
   const [showtoast, setshowtoast] = useState(false)
   const [t, sett] = useState("sdc")
@@ -32,11 +32,18 @@ const Nfts = () => {
 
   useEffect(() => {
     getNfts()
-  }, [])
+  }, [address])
 
   let toast =
-    <div className=' w-[52px] bg-black fixed bottom-20 left-0 right-0'>
-      <div className=" text-center">ji{t}</div>
+    <div className=' z-40 w-screen fixed bottom-20 left-0 right-0 '>
+      <div className=" flex justify-center items-center text-center w-full">
+        <div className=" bg-black w-[568px] h-[52px] flex items-center justify-between px-4 text-sm font-normal text-invar-success">
+          <p className="">{t}</p>
+          <div className="h-[30px] w-[30px] cursor-pointer" onClick={() => setshowtoast(false)}>
+            <img className="h-[24px] w-[24px] cursor-pointer" src='/icons/ic_close.svg' alt="" />
+          </div>
+        </div>
+      </div>
     </div>
 
   // function successToast(s) {
@@ -75,27 +82,28 @@ const Nfts = () => {
     console.log("qq", qq, stakeAddress, nftAddress)
     let infosarr = []
     let stkarr = []
-    
-    for (var m = 0; m<100 ; m++) {
+
+    for (var m = 0; m < 100; m++) {
       try {
         const stakebal = await stakeContract.burningInfo(address, m)
-
-        infosarr.push(stakebal)
-        console.log("error stakebal",stakebal)
+        // stakebal.m = m
+        let mm = {...stakebal, m: m}
+        infosarr.push(mm)
+        console.log("erro stakebal", stakebal, mm)
 
       } catch (error) {
-        console.log("error stk")
+        console.log("error stk",error)
         break
       }
     }
 
-    for (var m = 0; m<100 ; m++) {
+    for (var m = 0; m < 100; m++) {
       try {
         const stk = (await stakeContract.stakingInfo(address, m))
 
-        console.log("stk wh", stk, stk.isUnstake, m)
-
-        if (stk.isUnstake == false) stkarr.push(stk)
+        // console.log("stk wh", stk, stk.isUnstake, m)
+        let mm = {...stk, m: m}
+        if (stk.isUnstake == false) stkarr.push(mm)
 
       } catch (error) {
         console.log("error stk")
@@ -136,7 +144,7 @@ const Nfts = () => {
     /////
     const unfilter = (stakeContract.filters.unStakeInfo(address, null, null))
     const unqq = await stakeContract.queryFilter(unfilter)
-    console.log("unqq", unqq, stakeAddress, nftAddress)
+    // console.log("unqq", unqq, stakeAddress, nftAddress)
     const unitems = await Promise.all(unqq?.map(async (i, index) => {
       const blockTime = new Date((i.args.unstakeTime) * 1000)
       const item = {
@@ -150,8 +158,11 @@ const Nfts = () => {
       return item
     }))
     console.log("in", stkarr)
-    setinfos(infosarr)
-    setstkinfo(stkarr)
+    const i = [...infosarr].sort((a, b) => (b.mm) - (a.mm));
+    console.log(infosarr,i)
+    const ii = [...stkarr].sort((a, b) => (b.mm) - (a.mm));
+    setinfos(i)
+    setstkinfo(ii)
     setevestake(items)
     seteveunstake(unitems)
   }
@@ -168,6 +179,9 @@ const Nfts = () => {
       console.log("stake", stake)
       setBtnState("")
       getNfts()
+      setopenact()
+      sett("You have successfully staked your NFT(s).")
+      setshowtoast(true)
     } catch (error) {
       setBtnState("")
       console.log(error)
@@ -186,6 +200,9 @@ const Nfts = () => {
       console.log("stake", stake)
       setBtnState("")
       getNfts()
+      setopenact()
+      sett("You have successfully unstaked your NFT(s).")
+      setshowtoast(true)
     } catch (error) {
       setBtnState("")
       console.log(error)
@@ -204,6 +221,9 @@ const Nfts = () => {
       console.log("stake", stake)
       setBtnState("")
       getNfts()
+      setopenact()
+      sett("You have successfully burned your NFTs.")
+      setshowtoast(true)
       // location.reload()
     } catch (error) {
       setBtnState("")
@@ -223,6 +243,9 @@ const Nfts = () => {
       console.log("stake", stake)
       setBtnState("")
       getNfts()
+      setopenact()
+      sett("You have successfully claimed your interests.")
+      setshowtoast(true)
       // location.reload()
     } catch (error) {
       setBtnState("")
@@ -238,7 +261,10 @@ const Nfts = () => {
 
   return (
     <div className="relative flex min-h-[70vw] w-full border-t border-invar-main-purple">
-      {/* {!showtoast && toast} */}
+      {showtoast &&
+        <div className=" absolute bg-black w-screen">
+          {toast}
+        </div>}
       <div className="px-4 md:px-16 lg:px-[231px] w-full z-10 mt-12 mb-10">
         {(nfts == 0 && staked == 0) ? (
           <div className="w-full h-full flex justify-center items-center">
@@ -259,7 +285,7 @@ const Nfts = () => {
               <>
                 <div className=" rounded overflow-hidden shadow-md">
                   <div className=" relative w-full md:flex justify-end p-9 bg-invar-main-purple">
-                    <div className=" md:absolute top-9 left-9">
+                    <div className=" md:absolute top-9 left-9 flex flex-col items-center">
                       <img className=" w-[347px] h-[354px] rounded shadow" src="https://dev2988.dkotaim8jhfxo.amplifyapp.com/Renft.gif" alt="" />
                       <p className=" mb-6 md:mb-0 mt-6 font-semibold text-3xl text-center">Amwaj20 </p>
                     </div>
@@ -267,7 +293,7 @@ const Nfts = () => {
                       <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Est. Staking Return (APR)</p>
                       <p className=" text-center font-semibold text-3xl ">12%</p>
                     </div>
-                    <div className=" ml-4 mt-6 md:mt-0 w-full md:w-60 ">
+                    <div className=" md:ml-4 mt-6 md:mt-0 w-full md:w-60 ">
                       <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">Est. Daily Interests (USDC)</p>
                       <p className=" text-center font-semibold text-3xl ">{0.657 * staked}</p>
                     </div>
@@ -362,7 +388,7 @@ const Nfts = () => {
                                 + ((+(inputs.Burnable) < 1 || +(inputs.Burnable) > burnable || inputs.Burnable == undefined) ? " btn-disabled" : " ")
                                 + (btnState == "loading" ? " loading" : "")
                               }>
-                                Burn</a>
+                                Burn{`${(+(inputs.Burnable) < 1 || +(inputs.Burnable) > burnable || inputs.Burnable == undefined)}`}</a>
                             }
                             {/* <a href="#burnModal" className="btn">open modal</a> */}
                           </div>
@@ -395,7 +421,7 @@ const Nfts = () => {
                   </div>
                 </div>
                 <div className=" mt-12 mb-6 flex z-10">
-                  <button className={" mr-9 h-[40px] w-[130px] rounded border border-invar-main-purple text-sm font-semibold text-center"
+                  <button className={" mr-3 h-[40px] w-[130px] rounded border border-invar-main-purple text-sm font-semibold text-center"
                     + (tabState == "staking" ? ' text-white bg-invar-main-purple ' : ' text-invar-light-grey hover:text-white ')}
                     onClick={() => { setTabState("staking") }}>
                     Staking</button>
@@ -426,11 +452,11 @@ const Nfts = () => {
                     ) : (
                       stkinfo?.map((eve, index) => (
                         <div key={index} className=" py-4 flex justify-between border-b border-invar-main-purple text-white font-normal text-base">
-                          <div className=" text-invar-light-grey">{(new Date(eve?.staketime.toNumber() * 1000)).toString()}</div>
+                          <div className=" text-invar-light-grey max-w-[200px] md:max-w-none">{(new Date(eve?.staketime.toNumber() * 1000)).toString()}</div>
                           <div className=' flex '>
                             <p className=" text-invar-success font-normal ">
                               {eve?.leftToUnstakeNFTamount.toNumber()}</p>
-                            <p className=" ml-6 md:ml-48 mr-9 w-max text-white font-normal ">
+                            <p className=" ml-16 md:ml-48 mr-9 w-max text-white font-normal ">
                               {eve?.stakeNFTamount.toNumber() - eve?.leftToUnstakeNFTamount.toNumber()}</p>
                           </div>
                         </div>
@@ -476,13 +502,13 @@ const Nfts = () => {
                       (
                         <>{eve?.isBurn == false &&
                           <div key={index} className=" py-4 flex justify-between border-b border-invar-main-purple text-white font-normal text-base">
-                            <div className=" text-invar-light-grey">{(new Date((eve?.locktime.toNumber()) * 1000)).toString()}</div>
+                            <div className=" text-invar-light-grey max-w-[200px] md:max-w-none">{(new Date((eve?.locktime.toNumber()) * 1000)).toString()}</div>
                             <div className=' flex '>
                               <p className=" text-invar-success font-normal ">
-                                {eve?.burnableNFTamount.toString()}</p>
-                              <p className=" ml-6 md:ml-44 text-invar-success font-normal ">
-                                {eve?.leftToBurnNFTamount.toString()}</p>
-                              <p className=" ml-6 md:ml-40 mr-9 w-max text-white font-normal ">
+                                {(eve?.locktime.toNumber() * 1000) > Date.now() ? eve?.burnableNFTamount.toString() : "0"}</p>
+                              <p className=" ml-16 md:ml-44 text-invar-success font-normal ">
+                                {(eve?.locktime.toNumber() * 1000) < Date.now() ? eve?.leftToBurnNFTamount.toString() : "0"}</p>
+                              <p className=" ml-16 md:ml-40 mr-9 w-max text-white font-normal ">
                                 {eve?.burnableNFTamount.toNumber() - eve?.leftToBurnNFTamount.toNumber()}</p>
                             </div>
                           </div>
@@ -505,7 +531,7 @@ const Nfts = () => {
       <div id="stakeModal" className="modal bg-[#000000b6] ">
         <div className="modal-box p-9 w-[432px] bg-invar-main-purple rounded">
           <h3 className=" font-semibold text-xl text-center">Are you sure to stake {inputs.Balance} NFT(s)?</h3>
-          <div className="modal-action">
+          <div className="modal-action justify-center">
             <a href="#" className="btn mt-3 bg-transparent w-[140px] md:w-[114px] h-[40px] font-semibold text-base border-invar-dark normal-case rounded text-invar-light-grey" onClick={() => setopenact("")} >
               Cancel</a>
             <a href="#" className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`
@@ -518,7 +544,7 @@ const Nfts = () => {
       <div id="unstakeModal" className="modal bg-[#000000b6] ">
         <div className="modal-box p-9 w-[432px] bg-invar-main-purple rounded">
           <h3 className=" font-semibold text-xl text-center">Are you sure to unstake {inputs.unstake} NFT(s)?</h3>
-          <div className="modal-action">
+          <div className="modal-action justify-center">
             <a href="#" className="btn mt-3 bg-transparent w-[140px] md:w-[114px] h-[40px] font-semibold text-base border-invar-dark normal-case rounded text-invar-light-grey" onClick={() => setopenact("")} >
               Cancel</a>
             <a href='#' className={`btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded`

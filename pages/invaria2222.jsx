@@ -60,7 +60,7 @@ function App() {
         <div className=" relative z-0 h-screen min-h-screen w-full object-cover overflow-hidden">
           <Image layout="fill" objectFit="cover" draggable="false" src='/bg/bg.png' />
         </div>
-        {/* <img className=' w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" /> */}
+        <img className=' w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_1.png' alt="bg_1" />
         <label htmlFor="property-modal" onClick={() => disableScroll()} className=" hidden z-30 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[57%] right-[53%] md:flex justify-end items-start">
           <div className=" hidden md:flex justify-center items-center">
             <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>

@@ -8,7 +8,7 @@ import stakeABI from '../src/utils/invarstaking.json'
 import { nftAddress, stakeAddress } from '../src/utils/web3utils'
 import Image from 'next/image'
 import { MinusIcon, PlusIcon } from '@heroicons/react/outline'
-import { ItemActivity, His } from '.'
+import { ItemActivity, HisRedeem } from '.'
 
 let pervState = []
 let etherScan
@@ -32,7 +32,7 @@ const TogUnstake = ({ start, end }) => {
     const filter = (stakeContract.filters.burn(address, null, null))
     const unstake = await stakeContract.queryFilter(filter)
     const unitems = await Promise.all(unstake?.map(async (i, index) => {
-      const blockTime = new Date((i.args.unstakeTime) * 1000)
+      const blockTime = new Date((i.args.burntime) * 1000)
       const item = {
         date: blockTime.toString(),
         year: blockTime.getFullYear(),
@@ -138,7 +138,7 @@ const TogUnstake = ({ start, end }) => {
           {!collapse &&
             <div className="z-50 font-normal animate-fade-in-down">
               {transactions && transactions.map((i, index) => (
-                <His key={index} i={i} />
+                <HisRedeem key={index} i={i} />
               ))}
             </div>
           }
