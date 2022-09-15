@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -15,6 +16,20 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.jsx", "components/icons/Link.jsx", "src/constants/index.jsx", "pages/_app.jsx", "components/Terms.jsx", "components/ScrollToTop.jsx", "components/QA.jsx", "components/Privacy.jsx", "components/ModalStory.jsx", "components/Footer.jsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/index.jsx",
+    "components/icons/Link.jsx",
+    "src/constants/index.jsx",
+    "pages/_app.jsx",
+    "components/Terms.jsx",
+    "components/ScrollToTop.jsx",
+    "components/QA.jsx",
+    "components/Privacy.jsx",
+    "components/ModalStory.jsx",
+    "components/Footer.jsx"
+  ],
   "exclude": ["node_modules"]
 }

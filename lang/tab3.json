@@ -1,0 +1,218 @@
+{
+  "faq_1_title": {
+    "": "FAQ",
+    "section": 1,
+    "EN": "Why InVaria 2222 is unique?",
+    "TW": "為什麼 InVaria 2222 是獨一無二的？"
+  },
+  "faq_1_desc": {
+    "": "",
+    "section": "",
+    "EN": "InVaria 2222 is mission-oriented world for tokenization, not just intented to be a real estate or RWAs offering project, but expected to present as a leading example for connecting real and digital economics, the Hybrid Finance. InVaria 2222 NFTs enable holder to acquire values of economic activities or investments through staking and yield-generating strategy.",
+    "TW": "InVaria 2222 是使命導向的代幣化世界，不是只作為房地產或其他 RWA 的銷售網站，而是期望成為鏈接實體經濟、數字經濟的領先示例，即多元金融。 InVaria 2222 NFT 使持有者能夠通過質押和產生收益的策略獲得經濟活動或投資價值。"
+  },
+  "faq_2_title": {
+    "": "",
+    "section": 2,
+    "EN": "How does InVaria 2222 work?",
+    "TW": "InVaria 2222 如何運作？"
+  },
+  "faq_2_desc": {
+    "": "",
+    "section": "",
+    "EN": "InVaria 2222 utilizes blockchain technology (smart contract ERC-1155, -721 & staking) to release the potential of real-world-assets (RWAs), and bring new use cases of tokenization to more users. Within InVaria, the utilities and benefits originated from NFTs are organized under proof of ownership and legitimate entity, which ensure NFT staking more reliable and sustainable.",
+    "TW": "InVaria 2222 利用區塊鏈技術（如智能合約 ERC-1155 等）釋放現實世界資產（RWA）的潛力，為更多用戶帶來新的資產代幣化用例。 在 InVaria 中，NFT 的功用和收益是基於所有權證明與合法實體下運行的，這確保了 NFT 質押更加可靠與可持續性。"
+  },
+  "faq_3_title": {
+    "": "",
+    "section": 3,
+    "EN": "Who can mint InVaria 2222 NFT?",
+    "TW": "誰能鑄造 InVaria 2222 NFT？"
+  },
+  "faq_3_desc": {
+    "": "",
+    "section": "",
+    "EN": "<p1>User who pass identity verification is eligible to mint InVaria 2222 NFT.</p1> Even though we defend the virtue of decentralization, to scale crypto adoption, there are still some guidelines we should follow.<p2>for more policy.</p2>",
+    "TW": "<p1>通過 KYC 身份驗證的用戶才能開始鑄造 InVaria 2222 NFT。</p1>（即使我們捍衛去中心化的優點，以擴大加密貨幣的採用，我們仍應遵循一些合規的指導方針。）<p2>了解其他規範。</p2>"
+  },
+  "faq_4_title": {
+    "": "",
+    "section": 4,
+    "EN": "What is the supply table of InVaria 2222 NFT?",
+    "TW": "InVaria 2222 NFT 的供應量分配？"
+  },
+  "faq_4_desc": {
+    "": "",
+    "section": "",
+    "EN": "For experimental NFT (the MVP), we decided to use the progressive-launch method, 500 NFTs for the first whitelist & public mint stage, and arrange another stage for the rest, total supply is determined by the overall consideration of RWA value and strategy. For example, if the valuation of property is $10m, then the cap of supply for $10k worth of NFT will be 1000.",
+    "TW": "對於第一個實驗性 NFT（MVP），我們決定採用 Progressive-Launch 方式，500 個 NFT 用於第一階段白名單和公開發售，其餘數量則視情況安排。總供應量是由 RWA 價值、發行策略的綜合評估決定，例如，如果財產的估值為 1,000 萬美元，那麼價值 1 萬美元的 NFT 的供應上限將為 1000。"
+  },
+  "faq_5_title": {
+    "": "",
+    "section": 5,
+    "EN": "What is the schedule of NFT mint?",
+    "TW": "NFT 鑄造階段時間表？"
+  },
+  "faq_5_desc": {
+    "": "",
+    "section": "",
+    "EN": "In phase 1, the first NFT will have <p1>3 mint stages, pre-mint, whitelist and public mint.</p1>The official timeline of each stage will announce in our social media (<twitter></twitter>, <discord></discord>).",
+    "TW": "在第一階段，第一個 NFT 將有 <p1>3 個鑄造階段，即預售、白名單和公售鑄造</p1>。 每個階段的官方時間表將在我們的社群媒體（<twitter></twitter>、<discord></discord>）上公佈。"
+  },
+  "faq_6_title": {
+    "": "",
+    "section": 6,
+    "EN": "How much will it cost to mint InVaria 2222 NFT?",
+    "TW": "鑄造 InVaria 2222 NFT 相關費用？"
+  },
+  "faq_6_desc": {
+    "": "",
+    "section": "",
+    "EN": "Costs incurred from minting NFT(s) can conclude to two kinds, minting cost and gas (network) fee. In general, <p1>NFT minting cost is priced at 2,000</p1><p2>, and the </p2><p3>gas fee is calculated by the network status of Ethereum</p3>. The additional cost may incur if an unexpected event or false execution happens.",
+    "TW": "鑄造 NFT 所產生的成本可以歸結為兩種，鑄造成本和 gas (網絡) 費用。<p1>針對首個 NFT 的鑄造成本定價為 2,000 </p1>，<p2></p2><p3>gas 費根據以太坊的網絡狀態計算。如果發生意外事件或錯誤執行，</p3>可能會產生額外費用。"
+  },
+  "faq_7_title": {
+    "": "",
+    "section": 7,
+    "EN": "Is there a maximum mint limit per wallet during the mint stage?",
+    "TW": "在鑄造階段，每個錢包是否有最大鑄造數量限制？"
+  },
+  "faq_7_desc": {
+    "": "",
+    "section": "",
+    "EN": "<p1>No limit. First come, first served.</p1> Due to InVaria 2222 being in the exploration period, no single human knows what will happen when this new type of NFT comes out. So, we free the restriction in the current phase.",
+    "TW": "<p1>沒有限制，先到先得</p1>。由於 InVaria 2222 正處於探索期，當這種新型 NFT 出現時，沒有人知道會發生什麼。因此，我們解除了當前階段的限制。"
+  },
+  "faq_8_title": {
+    "": "",
+    "section": 8,
+    "EN": "What can I have after mint?",
+    "TW": "鑄造後可以得到什麼？"
+  },
+  "faq_8_desc": {
+    "": "",
+    "section": "",
+    "EN": "Once you successfully minted first InVaria 2222 NFT, you will certainly have ownership of the NFT and the right of stake-to-earn. In addition, <p1>you will have exclusive pass-type NFT free mint (limited privilege for phase 1 participants)</p1>.",
+    "TW": "一旦您成功鑄造了第一個 InVaria 2222 NFT，您就一定會擁有 NFT 的所有權和質押賺取收益的權利。 此外，<p1>早期持有者有機會獲得 Pass NFT 的免費鑄造（第一階段參與者的特權）</p1>。"
+  },
+  "faq_9_title": {
+    "": "",
+    "section": 9,
+    "EN": "Can I trade or transfer my InVaria 2222 NFT?",
+    "TW": "我可以交易或轉讓我的 InVaria 2222 NFT 嗎？"
+  },
+  "faq_9_desc": {
+    "": "",
+    "section": "",
+    "EN": "Yes, everyone can trade InVaria 2222 NFT in the open marketplace, no matter sale or purchase. Also, the NFT owner can transfer your NFT if you desired to do so.",
+    "TW": "可以的，每個人都可以在公開市場上交易 InVaria 2222 NFT，無論是出售還是購買。 此外，如果您願意，NFT 所有者可以自由轉讓 NFT。"
+  },
+  "faq_10_title": {
+    "": "",
+    "section": 10,
+    "EN": "What is NFT staking and others I need to know?",
+    "TW": "NFT 質押是什麼以及我需要了解什麼內容？"
+  },
+  "faq_10_desc": {
+    "": "",
+    "section": "",
+    "EN": "<p1>InVaria 2222 NFT is an interest-bearing (when staking), redemption-secured NFT with one-year lock-up period</p1>. NFT owners can stake their NFT in the project website and accrue interest from time to time, besides, NFT is enable to burn after the lock-up period and return your initial mint cost.",
+    "TW": "<p1>InVaria 2222 NFT 是一種有利息收入（質押時）、贖回擔保類型的 NFT，鎖定期為一年</p1>。 NFT 持有者可以在官方網站上質押 NFT 定期產生利息，此外，NFT 可以在鎖定期後燃燒並拿回您的初始鑄造成本。"
+  },
+  "faq_11_title": {
+    "": "",
+    "section": 11,
+    "EN": "The future plans about the funds and development?",
+    "TW": "未來的資金與發展規劃？"
+  },
+  "faq_11_desc": {
+    "": "",
+    "section": "",
+    "EN": "<p1>About fund management</p1>, 80% of funds go directly to FlowBay Financial Holdings, a financial group with property management unit and fund management team to support yield generating and RWA management; 20% of funds will transfer to staking smart contract.<br></br><br></br><p2>About project development</p2>, tokenization of RWAs is only our first step, most of the funds will be utilized to generate more profits through property management and development, small amount will be used in hybrid finance development.",
+    "TW": "<p1>基金管理方面</p1>，80% 的資金直接流向 FlowBay Financial Holdings，這是一家擁有物業管理單位與基金管理團隊的金融集團，進行收益管理與資產管理； 20% 的資金將轉移到質押智能合約。<br></br><br></br><p2>關於項目開發</p2>，RWA 代幣化只是我們的第一步，大部分資金將用於物業管理投資與開發產生更多利潤，少量將用於其他項目投資。"
+  },
+  "faq_12_title": {
+    "": "",
+    "section": 12,
+    "EN": "Smart contracts and addresses you may want to know?",
+    "TW": "您可能想知道的智能合約和地址？"
+  },
+  "faq_12_desc": {
+    "": "",
+    "section": "",
+    "EN": "<p1>・InVaria 2222 smart contracts:</p1>NFT (ERC-1155): <address1>0x502818ec5767570F7fdEe5a568443dc792c4496b</address1><br></br>Staking: <address2>0x4B79eB01D1ddD96B1403dC61a79cb727D7745F64</address2><br></br><p2>・InVaria 2222 operating account:</p2><address3>0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C</address3>",
+    "TW": "<p1>・InVaria 2222 智能合約：</p1>NFT (ERC-1155): <address1>0x502818ec5767570F7fdEe5a568443dc792c4496b</address1><br></br>質押：0x4B79eB01D1ddD96B1403dC61a79cb727D7745F64 <address2>0x4B79eB01D1ddD96B1403dC61a79cb727D7745F64</address2><br></br><p2>・InVaria 2222 操作帳戶：</p2><address3>0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C</address3>"
+  },
+  "faq_13_title": {
+    "": "",
+    "section": 13,
+    "EN": "How can I get in touch with the team?",
+    "TW": "如何與團隊取得聯繫？"
+  },
+  "faq_13_desc": {
+    "": "",
+    "section": "",
+    "EN": "You can join our official channels (<twitter></twitter>, <discord></discord>) to follow the latest news or email <mailto></mailto> to talk partnerships.",
+    "TW": "您可以加入我們的官方頻道（<twitter></twitter>、<discord></discord>）關注最新消息，也可以寄信至 <mailto></mailto> 諮詢或討論合作事項。"
+  },
+  "tutorials_1_title": {
+    "": "Tutorials",
+    "section": 1,
+    "EN": "What do I need to get started?",
+    "TW": "在開始之前我需要準備什麼？"
+  },
+  "tutorials_1_desc": {
+    "": "",
+    "section": "",
+    "EN": "First and foremost, you need to learn how to use Metamask (or other digital wallets), it allows users to access InVaria 2222 service through a browser extension or mobile app.\n\nSecond, you will need some cryptocurrencies, USDC and ETH in Ethereum Mainnet, either buy it within Metamask or transfer from your crypto-exchange account. By using and interacting with applications, you will need enough ETH to pay gas fee (transaction fee). In common case, prepare 0.05 ETH is sufficient to mint NFT. <p1>More NFT you mint, may cost more gas fee.</p1>",
+    "TW": "首先，您需要學習如何使用 Metamask（或其他數字錢包），它允許用戶通過瀏覽器擴展程序或手機 APP 訪問 InVaria 2222 服務。\n\n其次，你需要在以太坊主網中擁有一些加密貨幣（如 USDC 和 ETH），可以在 Metamask 中購買，或是從您的加密貨幣交易所賬戶中移轉。 通過使用應用程序並與之交互，您將需要足夠的 ETH 來支付 Gas Fee（交易費用）。 一般情況下，準備 0.05 ETH 就足夠鑄造 NFT。<p1>您鑄造的 NFT 越多，可能會花費更多的 Gas。</p1>"
+  },
+  "tutorials_2_title": {
+    "": "",
+    "section": 2,
+    "EN": "What wallets does InVaria 2222 support?",
+    "TW": "InVaria 2222 支持哪些錢包？"
+  },
+  "tutorials_2_desc": {
+    "": "",
+    "section": "",
+    "EN": "Metamask is our recommendation. Currently, InVaria website supports Metamask and WalletConnect. In order to use our service please connect the wallet that contains InVaria 2222 NFTs.",
+    "TW": "Metamask 是我們的推薦。 目前，InVaria 網站支持 Metamask 和 WalletConnect。為了使用我們的服務，請使用 InVaria 2222 支持的錢包。"
+  },
+  "tutorials_3_title": {
+    "": "",
+    "section": 3,
+    "EN": "Why do I need to pay for the gas fee?",
+    "TW": "為什麼我需要支付 Gas Fee（交易費用）？"
+  },
+  "tutorials_3_desc": {
+    "": "",
+    "section": "",
+    "EN": "A gas fee is the charge that users pay to transact on the blockchain. Gas is used to compensate miners for the computing energy and resources expended to validate transactions and to include them in the blockchain. Gas prices fluctuate, depending on the complexity of a transaction and traffic on the network. Naturally, a transaction requiring more computational power will demand higher fees. Also, transacting during peak periods with plenty of traffic on the network will attract heftier fees.",
+    "TW": "Gas Fee（交易費用）是用戶為在區塊鏈上進行交易而支付的費用。Gas 用於補償礦工為驗證交易並將其包含在區塊鏈中所花費的算力資源。交易費用是浮動的，取決於交易的複雜性和網絡上的流量。 合理的，需要更多計算能力的交易將需要更高的費用。 此外，在網絡上大量流量的高峰期進行交易將花費更高的費用。"
+  },
+  "tutorials_4_title": {
+    "": "",
+    "section": 4,
+    "EN": "What is NFT staking?",
+    "TW": "NFT 質押是什麼？"
+  },
+  "tutorials_4_desc": {
+    "": "",
+    "section": "",
+    "EN": "NFT staking refers to locking up non-fungible tokens on a platform or protocol in exchange for staking rewards and other benefits. Staking NFTs allows holders to earn an income from their collection while maintaining ownership.",
+    "TW": "NFT 質押是指將 NFT 鎖定在智能合約中，以換取質押獎勵與其他好處。質押 NFT 允許持有者在保持所有權的同時從他們的代幣資產中獲得收入。"
+  },
+  "tutorials_5_title": {
+    "": "",
+    "section": 5,
+    "EN": "Why do I have to verify my identity(KYC)?",
+    "TW": "為什麼我必須驗證我的身份（KYC）？"
+  },
+  "tutorials_5_desc": {
+    "": "",
+    "section": "",
+    "EN": "In order to conduct certain activities on our website, InVaria 2222 maintains a KYC (Know Your Customer) policy to comply with the applicable law, regulations, or guidance to crypto-service provider, we will have no liability or responsibility for your compliance with laws or regulations governing the transfer and use of NFTs.",
+    "TW": "為了在我們的網站上進行某些活動，InVaria 2222 落實 KYC（了解您的客戶）政策以遵守適用的法律、法規或對加密服務提供商的相關指導。我們對您遵守的法律法規中對管理 NFT 轉讓和使用的規定不承擔任何責任、義務。"
+  }
+}

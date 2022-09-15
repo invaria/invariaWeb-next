@@ -1,0 +1,1988 @@
+{
+  "": {
+    "": "",
+    "section": "when burning failed",
+    "EN": "Burning Failed! Please try again or check if any problems.",
+    "繁中": "贖回失敗！請再試一次，或查看是否存在任何問題。"
+  },
+  "homepage_map_dashboard": {
+    "": "",
+    "section": "世界觀",
+    "EN": "Dashboard",
+    "繁中": "Dashboard"
+  },
+  "homepage_map_connectwallet": {
+    "": "",
+    "section": "",
+    "EN": "Connect Wallet",
+    "繁中": "連結錢包"
+  },
+  "homepage_map_mindmap": {
+    "": "",
+    "section": "",
+    "EN": "Mindmap",
+    "繁中": "Mindmap"
+  },
+  "homepage_map_faqandtutorials": {
+    "": "",
+    "section": "",
+    "EN": "FAQ & Tutorials",
+    "繁中": "FAQ & Tutorials"
+  },
+  "homepage_map_presalemint": {
+    "": "",
+    "section": "",
+    "EN": "Pre-Sale Minting",
+    "繁中": "預售鑄造"
+  },
+  "homepage_map_whitelistapply": {
+    "": "",
+    "section": "",
+    "EN": "Whitelist Application",
+    "繁中": "白名單登記"
+  },
+  "homepage_map_whitelistmint": {
+    "": "",
+    "section": "",
+    "EN": "Whitelist Minting",
+    "繁中": "白名單鑄造"
+  },
+  "homepage_map_publicmint": {
+    "": "",
+    "section": "",
+    "EN": "Public Minting",
+    "繁中": "公售鑄造"
+  },
+  "homepage_map_storyline": {
+    "": "",
+    "section": "",
+    "EN": "Storyline",
+    "繁中": "Storyline"
+  },
+  "connectwallet_mywallet": {
+    "": "",
+    "section": "點擊Connect Wallet後",
+    "EN": "My Wallet",
+    "繁中": "My Wallet"
+  },
+  "connectwallet_disconnect": {
+    "": "",
+    "section": "",
+    "EN": "Disconnect",
+    "繁中": "取消連結"
+  },
+  "storyline_popup_title": {
+    "": "",
+    "section": "Storyline popup",
+    "EN": "InVaria, the unexplored desert which full of noises and uncertainty…",
+    "繁中": "InVaria，充滿喧囂與不確定性的未知沙漠…"
+  },
+  "storyline_popup_description1": {
+    "": "",
+    "section": "",
+    "EN": "Tribes of humanity are desperate to pursue freedom, creation and fulfillment of endless desire. Some of them aggressively explore the wealth behind the dark fog, some are the first try to find the safe harbor to survive…year in 2222…",
+    "繁中": "在這充滿雜訊與未知的欲望沙漠，人類追求自由、創造與欲望的實現。有些積極探索隱藏在未知背後的巨大財富，有些則率先尋找安全的棲息地⋯這是2222年 InVaria ⋯"
+  },
+  "storyline_popup_description2": {
+    "": "",
+    "section": "",
+    "EN": "One tribe discovered a mystic device that could mirror real-world assets from 200 years ago; by connecting with it, human beings will be able to obtain the resources and benefits…",
+    "繁中": "某人類部落發現通過一個神秘裝置可以映射出兩百年前的實物資產，通過與其連結，人類將可以獲取其中的資源與利益⋯"
+  },
+  "storyline_popup_story1": {
+    "": "",
+    "section": 1,
+    "EN": "「Year… 2222, Location… InVaria, Weather… Radiation Fog and Cold」Something is happening in this world…",
+    "繁中": "「…2222年, 位置…InVaria, 天氣…極冷、充滿輻射霧…」 這世界有一些事情正在發生…"
+  },
+  "storyline_popup_story1a": {
+    "": "",
+    "section": "1.a",
+    "EN": "Build up communication channel… Discord set up… Twitter launched… Now we can communicate, discuss with each others about InVaria and the ideas we have there!",
+    "繁中": "通訊頻道已建立…Discord 頻道已設定…Twitter 頻道已上線…現在開始我們能與其他人進行溝通、交流有關 InVaria 的一切與發現，或是任何想法！"
+  },
+  "storyline_popup_story2": {
+    "": "",
+    "section": 2,
+    "EN": "A tribe of humans find out a device with “CRYPTIC REFLECTOR” words carved on it, there is an unclear description shows…「Connecting…Connecting…, Connect to Real World, the Reflector Indicate Power… Asset will…」",
+    "繁中": "某人類部落挖掘出一個神秘裝置—”CRYPTIC REFLECTOR”，上面有著一段不清不楚的說明...「連結...連結...，與現實世界連結，你會發現映射是強大的，資產將...」"
+  },
+  "storyline_popup_story3": {
+    "": "",
+    "section": 3,
+    "EN": "The researcher found that the building named Amwaj20, which was built in the Persian Gulf region in 2015... Electronic parts and documents are scattered at the entrance, especially, the texts on the documents are sorted out and translated... One of the paragraphs reads \"... First priority, enter your address codes in the device, also with desire of property resources... You may get an unexpected prizes…”",
+    "繁中": "研究員發現建築物是 2015 年建於波斯灣地區的 Amwaj20…其入口處散落著文件，經過整理、轉譯上面的文字…其中一段寫到「…優先在裝置中輸入地址代碼與對建築資源的慾望…可以獲得意外的收穫…」"
+  },
+  "storyline_popup_story4": {
+    "": "",
+    "section": 4,
+    "EN": "Hopely, through NFT technology, Amwaj20 property ownership is fractionalized and waiting to distribute. The lasting time of operating furnace is near closed... We should seize the time to mint Amwaj20 NFT to avoid losing the rights belonging to us. For details and mechanism of fractionalized NFT, please visit the FAQ or related information channels.",
+    "繁中": "Amwaj20 資產已通過 NFT 技術實現碎片化，熔爐運作時間有限…我們應該抓緊時間鑄造 Amwaj20 NFT，以免權益喪失。詳細的權益與機制說明，請至FAQ或相關資訊頻道查看。"
+  },
+  "storyline_popup_story5": {
+    "": "",
+    "section": 5,
+    "EN": "...Pioneer Advantages... Amwaj20 will Activate the Portal to... this Device Can be Used in Different Scenario... Like Derivative of Power…\", an unknown message unexpectedly appeared on REFLECTOR. After translation by the researcher, it was found that the device has the function of collecting information; meanwhile, the device is processing sort of formulas from previous data and surrounding events... Possibly, something is going to be reflected…",
+    "繁中": "「…先行者優勢…Amwaj是開啟入口…可以利用裝置將權益進行延伸…」一段意義不明的信息突然顯示在 REFLECTOR 上。經過研究員轉譯後，發現裝置具有信息採集的功能，裝置正運轉將先前輸入的資料、周遭事件進行整合…似乎要再映射出些什麼…"
+  },
+  "homepage_dialog_man3": {
+    "": "",
+    "section": "3. 男主說話",
+    "EN": "”CRYPTIC REFLECTOR is Connected!! The Building…“ yelling by Hodlemir…After persistently efforts, Hodlemir repaired the damaged components and wires, then try to conduct the connection… Suddenly, the ancient building shows up, just like reflection. Hodlemir shouts out to others for further investigation and research...",
+    "繁中": "「 “CRYPTIC REFLECTOR” 連結上了！！建築物…」霍德萊米爾大喊著。…經過不懈努力，霍德萊米爾將破損的元件與電線修復。他嘗試進行連結…突然古老的建築物像被映射出來，霍德萊米爾呼喊其他人向前勘查與研究…"
+  },
+  "homepage_dialog_man4": {
+    "": "",
+    "section": "4 男主說話",
+    "EN": "Crowd of tribe have different opinions on the ownership of device and the property... \"The rights and interests of related ownership should be given to whoever discovers it first... Right? Hodlemir.\"... After long discussion... Hodlemir said confidently, \"It should be fractionalized by consensus protocol of tribe and technology. Let’s make it together; the power should be decentralized, the interests should be given priority to the early participants, then distributed to others after.”",
+    "繁中": "部落眾人對於裝置與資產的歸屬有不同意見…「資源所屬權益應該給予優先發現的人…是吧？霍德萊米爾。」…漫長的議論…霍德萊米爾：「藉由共識協議與科技將其碎片化吧，權力應該分散、利益應該讓早期探勘的人優先參與，而後再分配給其他人。」"
+  },
+  "homepage_dialog_woman5": {
+    "": "",
+    "section": "5 女主說話",
+    "EN": "How to utilize the NFT, which is a fractionalization of the property, and the correlated values attribute to it have become follow-up concerns. The tribe is working on a solution... Dyoremira, a financial engineer, proposed to unify the management of Amwaj20 to professional leaders for creating stable returns, and distribute the consecutive values to NFT holders; holders are allowed to stake NFT through the protocol to obtain the corresponding values.",
+    "繁中": "資產碎片化 NFT 如何運用、與資產價值連結變成後續的問題，部落正在研擬解決方案…財務工程師多雷米拉提出將 Amwaj20 資產統一由專業領袖管理，並將產出的價值分配給 NFT 持有者；而持有者可以通過協議質押 NFT 獲取對應的價值。"
+  },
+  "property_title": {
+    "": "房產訊息(右側彈窗)",
+    "section": "簡要訊息",
+    "EN": "Amwaj20",
+    "繁中": "Amwaj20"
+  },
+  "property_desc": {
+    "": "",
+    "section": "",
+    "EN": "Luxury residential tower built on Amwaj Island in the Kingdom of Bahrain.",
+    "繁中": "巴林王國 Amwaj 島上的豪華住宅公寓"
+  },
+  "property_info_value": {
+    "": "",
+    "section": "",
+    "EN": "Value (MV)",
+    "繁中": "市場價值（MV）"
+  },
+  "property_info_apr": {
+    "": "",
+    "section": "",
+    "EN": "Estimate Investment Return (APR)",
+    "繁中": "預估年化收益（APR）"
+  },
+  "property_info_developer": {
+    "": "",
+    "section": "",
+    "EN": "Developer",
+    "繁中": "開發商"
+  },
+  "property_info_developer_mannaigroup": {
+    "": "",
+    "section": "",
+    "EN": "Mannai Group",
+    "繁中": "Mannai Group"
+  },
+  "property_info_manager": {
+    "": "",
+    "section": "",
+    "EN": "Manager",
+    "繁中": "管理者"
+  },
+  "property_info_manager_flowbay": {
+    "": "",
+    "section": "",
+    "EN": "FlowBay Property Management",
+    "繁中": "FlowBay Property Management"
+  },
+  "property_info_researchmore": {
+    "": "",
+    "section": "",
+    "EN": "Research More",
+    "繁中": "查看更多"
+  },
+  "property_detail_title": {
+    "": "",
+    "section": "詳細訊息",
+    "EN": "The First Luxury Property from 2015",
+    "繁中": "2015 年巴林王國首個豪宅項目"
+  },
+  "property_detail_title_desc": {
+    "": "",
+    "section": "",
+    "EN": "Amwaj20 (Amwaj Islands, Bahrain)",
+    "繁中": "Amwaj20 (Amwaj Islands, Bahrain)"
+  },
+  "property_detail_link1_title": {
+    "": "",
+    "section": "",
+    "EN": "Letter of Authorization",
+    "繁中": "授權委託書"
+  },
+  "property_detail_link_title_desc": {
+    "": "",
+    "section": "",
+    "EN": "(The Property is Own and Manage by FlowBay)",
+    "繁中": "(該物業由 FlowBay 擁有及管理)"
+  },
+  "property_detail_link2_title": {
+    "": "",
+    "section": "",
+    "EN": "Property Brochure",
+    "繁中": "物業手冊"
+  },
+  "property_details": {
+    "": "",
+    "section": "Property Details_tab",
+    "EN": "Property Details",
+    "繁中": "物業資訊"
+  },
+  "property_details_desc": {
+    "": "",
+    "section": "",
+    "EN": "Amwaj20 is a deluxe type of service apartment which built in Amwaj Island in 2015. Amwaj Islands are a group of man-made islands, located in the Persian Gulf to the northeast of Bahrain, near the coast of Muharraq island. They lie 10.5 km (6.5 mi) northeast of the capital, Manama.\n\nThe islands have a unique character, dominated by the clear azure waters and the active life that it encourages its residents to have. The balance of residential, commercial, and leisure living has succeeded in making Amwaj Islands properties a favorite option among professional expatriate residents of Bahrain.\n\nThe height of sophisticated style and modern elegance, Amwaj20 oﬀers state of the art new accommodation, services and facilities. Located in the heart of Amwaj Islands, the property is within walking distance from the famous Amwaj Marina and the Amwaj Lagoon. It is only a few minutes drive from Bahrain International Airport and is conveniently accessible to both leisure and business districts of Manama.\n\nAmwaj20's 94 apartments are designed with an eye for detail and equipped with deluxe amenities for ultimate comfort and convenience. The property comprises 20 floors and is leased in its entirety to Gulf Air BSC (c) for its staff till now (2022).",
+    "繁中": "Amwaj20 是 2015 年建設於 Amwaj 群島的豪華型服務式公寓。Amwaj 群島是一人造島嶼，位於巴林東北部的波斯灣，靠近穆哈拉克島海岸，離巴林首都 Manama 東北 10.5 公里（6.5 英里）處。這些島嶼具有獨特的亮點，座落於清澈湛藍的海水旁，成功地平衡住宅、商業和休閒生活，使 Amwaj 群島的房產成為巴林外來居民最喜歡的選擇。\n\nAmwaj20 集精緻風格和現代化地優雅於一身，提供最先進的全新住宿體驗、服務和設施。公寓位於 Amwaj 群島的中心，步行即可到達著名的碼頭和潟湖。距巴林國際機場僅數分鐘車程，同時也方便前往首都的休閒和商業區。Amwaj20 的 94 間公寓的設計注重細節，配備豪華設施，為您帶來極致的舒適和便利。該物業共有 20 層，目前全部出租給海灣航空 BSC (c) 供其員工使用（2022~）。"
+  },
+  "property_details_info_financial": {
+    "": "",
+    "section": "",
+    "EN": "Financial Information",
+    "繁中": "財務數據"
+  },
+  "property_details_info_mv": {
+    "": "",
+    "section": "",
+    "EN": "Market Value ($)",
+    "繁中": "市場價值（$）"
+  },
+  "property_details_info_tv": {
+    "": "",
+    "section": "",
+    "EN": "Tokenized Value ($)",
+    "繁中": "代幣化價值（$）"
+  },
+  "property_details_info_ri": {
+    "": "",
+    "section": "",
+    "EN": "Rental Income / Year ($)",
+    "繁中": "租金收入 / 每年（$）"
+  },
+  "property_details_info_ei": {
+    "": "",
+    "section": "",
+    "EN": "Expected Income (%)",
+    "繁中": "預期收入（%）"
+  },
+  "property_details_info_ei_desc": {
+    "": "",
+    "section": "",
+    "EN": "12% *≈ (Rental Income - Costs) / Tokenized Value",
+    "繁中": "12% *≈ (租金收入 - 相關成本) / 代幣化價值"
+  },
+  "property_details_info_specialfeatures": {
+    "": "",
+    "section": "",
+    "EN": "Special Features",
+    "繁中": "獨特優勢"
+  },
+  "property_details_info_specialfeatures_prime": {
+    "": "",
+    "section": "",
+    "EN": "Prime Location",
+    "繁中": "高級地段"
+  },
+  "property_details_info_specialfeatures_primedesc": {
+    "": "",
+    "section": "",
+    "EN": "Strategically located near new island with high proximity to hospital and airport",
+    "繁中": "地理位置優越，靠近新計畫區、醫院和機場"
+  },
+  "property_details_info_specialfeatures_defensive": {
+    "": "",
+    "section": "",
+    "EN": "Defensive Sector",
+    "繁中": "防禦性產業"
+  },
+  "property_details_info_specialfeatures_defensivedesc": {
+    "": "",
+    "section": "",
+    "EN": "Positioned for steady growth with increasing popularity and social activities",
+    "繁中": "隨著人流和社交活動的增加，有望實現穩定增長"
+  },
+  "property_details_info_specialfeatures_solidmarket": {
+    "": "",
+    "section": "",
+    "EN": "Solid Market",
+    "繁中": "穩固的市場"
+  },
+  "property_details_info_specialfeatures_solidmarketdesc": {
+    "": "",
+    "section": "",
+    "EN": "Leased to state-owned enterprise and favorable market conditions",
+    "繁中": "出租給國有企業，市場條件優越、增值潛力大"
+  },
+  "property_details_info_others": {
+    "": "",
+    "section": "",
+    "EN": "Others",
+    "繁中": "其它"
+  },
+  "property_details_info_others_developer": {
+    "": "",
+    "section": "",
+    "EN": "Developer",
+    "繁中": "開發商"
+  },
+  "property_details_info_others_developer_mannaigroup": {
+    "": "",
+    "section": "",
+    "EN": "Mannai Group",
+    "繁中": "Mannai Group"
+  },
+  "property_details_info_others_manager": {
+    "": "",
+    "section": "",
+    "EN": "Manager",
+    "繁中": "物業管理"
+  },
+  "property_details_info_others_manager_flowbay": {
+    "": "",
+    "section": "",
+    "EN": "FlowBay Property Management",
+    "繁中": "FlowBay Property Management"
+  },
+  "property_details_info_notice": {
+    "": "",
+    "section": "",
+    "EN": "Notice\n\nAll financial statements of property yield are best estimates based on current conditions, and may change at any time.\n\nThe information above is provided from FlowBay Property Management; some of the information contained herein has been derived from sources that we believe to be reliable but which do not mean any guarantee and is subject to change; however, no assurance can be given you will obtain any return on investment, and there is a risk that you may lose your entire investment.",
+    "繁中": "須知\n\n所有財物數據是基於當前條件以及過往財務報表所估計，可能隨市場情況變動或更改。\n\n以上信息由 FlowBay Property Management 提供；此處包含的某些信息來自我們認為可靠的來源，但並不意味著任何保證並且可能會發生變化；此外，這不能一定保證您將獲得任何投資回報，並且所有投資您都可能會面臨損失。"
+  },
+  "property_bahrain_title": {
+    "": "",
+    "section": "About Bahrain_tab",
+    "EN": "About Bahrain",
+    "繁中": "關於巴林"
+  },
+  "property_bahrain_desc1": {
+    "": "",
+    "section": "",
+    "EN": "The best market access to growing Gulf economies, and emerging opportunities to bring real estate revolution to the world.",
+    "繁中": "進入發展中海灣經濟體的最佳市場鏈接渠道，以及為世界帶來房地產革命的新興機會。"
+  },
+  "property_bahrain_desc2": {
+    "": "",
+    "section": "",
+    "EN": "Bahrain, which name means “two seas”, was an archipelago made up of 33 islands in the Arabian Gulf, Bahrain offers valuable opportunities for businesses and the best market access to growing Gulf economies and beyond.\n\nBahrain has established itself as a regional pioneer, also became the region’s most diversified economy and leading financial centre. As Bahrain is repositioning itself to be a Financial Technology (FinTech) hub in the region combining conventional and Shariah compliant FinTech solutions, the Central Bank of Bahrain continues its FinTech initiatives as part of its digital transformation strategy to further facilitate a more efficient provision of financial services to end users. Also, the government seeks to make the Kingdom of Bahrain a key player in FinTech through the availability of innovative financial solutions with AI and Blockchain Technology, highly qualified national talent in finance and banking, and access to supportive policies. Presently, Bahrain is home to 367 financial institutions and a workforce of over 13,700 individuals highlighting the strength of the country’s position in this regard.\n\nIn addition, Bahrain offers an attractive regulatory environment with governance standards that deliver exceptional stability. With the support of its business-empowering regulations, the Kingdom of Bahrain has developed an ideal environment for financial and technology sectors to operate seamlessly.",
+    "繁中": "巴林，名稱寓意為「兩個海」，是一個由阿拉伯灣 33 個島嶼組成的群島，巴林為企業提供了寶貴的機會，並為進入海灣經濟體及其他地區提供了最佳市場鏈接渠道。\n\n巴林已成為該地區的先驅，也成為該地區最多元化的經濟體與領先的金融中心。隨著巴林將自身重新定位為該地區結合傳統和符合伊斯蘭教法的金融科技解決方案的金融科技（FinTech）中心，巴林中央銀行繼續其金融科技舉措，作為其數位化轉型戰略的一部分，以進一步促進更有效地提供金融服務為最終用戶提供服務。此外，政府還尋求通過提供具有人工智能和區塊鏈技術的創新金融解決方案、高素質的金融和銀行業人才以及獲得支持性政策，使巴林王國成為金融科技的關鍵參與者。 目前，巴林擁有 367 家金融機構和 13,700 多名員工，彰顯了該國在這方面的實力。\n\n此外，巴林提供具有吸引力的監管環境，其治理標準可提供卓越的穩定性。 在賦予商業權力的法規的支持下，巴林王國為金融和技術部門的無縫運營創造了理想的環境。"
+  },
+  "property_bahrain_info_market": {
+    "": "",
+    "section": "",
+    "EN": "Market",
+    "繁中": "市場"
+  },
+  "property_bahrain_info_marketdesc": {
+    "": "",
+    "section": "",
+    "EN": "$1.67tn, 54mn consumers",
+    "繁中": "1.67 兆美元，5400 萬消費者"
+  },
+  "property_bahrain_info_workfoece": {
+    "": "",
+    "section": "",
+    "EN": "Workforce",
+    "繁中": "勞動力"
+  },
+  "property_bahrain_info_workfoecedesc": {
+    "": "",
+    "section": "",
+    "EN": "1 million+",
+    "繁中": "100 萬+"
+  },
+  "property_bahrain_info_tourist": {
+    "": "",
+    "section": "",
+    "EN": "Tourist",
+    "繁中": "遊客"
+  },
+  "property_bahrain_info_touristdesc": {
+    "": "",
+    "section": "",
+    "EN": "4.2mn visitors / 2021",
+    "繁中": "420 萬遊客 / 2021"
+  },
+  "homepage_presalepage_title": {
+    "": "鑄造頁面(右側彈窗)",
+    "section": "私人鑄造階段",
+    "EN": "Pre-Sale Minting Stage",
+    "繁中": "預售鑄造階段"
+  },
+  "homepage_presalepage_completekyc": {
+    "": "",
+    "section": "",
+    "EN": "Complete your verification",
+    "繁中": "完成您的驗證"
+  },
+  "homepage_presalepage_verifykyc": {
+    "": "",
+    "section": "",
+    "EN": "Verify",
+    "繁中": "驗證"
+  },
+  "homepage_presalepage_mywallet": {
+    "": "",
+    "section": "",
+    "EN": "My Wallet",
+    "繁中": "My Wallet"
+  },
+  "homepage_presalepage_addtoken": {
+    "": "",
+    "section": "",
+    "EN": "Add Token",
+    "繁中": "Add Token"
+  },
+  "homepage_presalepage_notpresalelist": {
+    "": "",
+    "section": "",
+    "EN": "You are not in the Pre-Sale list.",
+    "繁中": "您不在預售鑄造名單。"
+  },
+  "homepage_presalepage_maxmintlimit": {
+    "": "",
+    "section": "",
+    "EN": "Max Mint Limit",
+    "繁中": "鑄造數量上限"
+  },
+  "homepage_presalepage_nolimit": {
+    "": "",
+    "section": "",
+    "EN": "No limit",
+    "繁中": "沒有限制"
+  },
+  "homepage_presalepage_mintprice": {
+    "": "",
+    "section": "",
+    "EN": "Mint Price",
+    "繁中": "鑄造價格"
+  },
+  "homepage_presalepage_mintprice_usdceach": {
+    "": "",
+    "section": "",
+    "EN": "{V} USDC each",
+    "繁中": "{V} USDC / 個"
+  },
+  "homepage_presalepage_minttime": {
+    "": "",
+    "section": "",
+    "EN": "Mint Time",
+    "繁中": "鑄造期間"
+  },
+  "homepage_presalepage_fillnumber": {
+    "": "",
+    "section": "",
+    "EN": "Fill in the number of NFTs you want to mint",
+    "繁中": "請輸入您欲鑄造的NFT數量"
+  },
+  "homepage_presalepage_amount": {
+    "": "",
+    "section": "",
+    "EN": "Amount",
+    "繁中": "總計"
+  },
+  "homepage_presalepage_mint": {
+    "": "",
+    "section": "",
+    "EN": "Mint",
+    "繁中": "鑄造"
+  },
+  "homepage_presalepage_note1": {
+    "": "",
+    "section": "",
+    "EN": "1. Please make sure the wallet is connected to the Ethereum Mainnet.",
+    "繁中": "1. 請確保錢包連接到以太坊主網路。"
+  },
+  "homepage_presalepage_note2": {
+    "": "",
+    "section": "",
+    "EN": "2. Minting NFT requires payment of gas fee (ETH, the amount determined by chain activities).",
+    "繁中": "2. 鑄造需支付一定的手續費（ETH 支付，具體金額由當時鏈上狀態決定)。"
+  },
+  "homepage_presalepage_note3": {
+    "": "",
+    "section": "",
+    "EN": "3. Minting NFT requires an uncertain time of processing, please do not double-click during a short time, you can browse Etherscan to check transaction status.",
+    "繁中": "3. 鑄造 NFT 需要交易處理時間，短時間內勿重複進行鑄造，可通過 Etherscan 查詢交易狀態。"
+  },
+  "homepage_presalepage_note4": {
+    "": "",
+    "section": "",
+    "EN": "4. After the transaction succeeds, you can view your NFT on the Dashboard Page, as well as your wallet.",
+    "繁中": "4. 鑄造成功後可至 Dashboard 和您的錢包中查看您的 NFT。"
+  },
+  "homepage_presalepage_note5": {
+    "": "",
+    "section": "",
+    "EN": "5. The pre-sale stage is designed for partners and early-investors, you may experience a relatively longer time till staking is open.",
+    "繁中": "5. 預售階段是為合作夥伴和早期投資者所設計，您可能會經歷相對較長的時間直到 NFT Staking 開放。"
+  },
+  "homepage_presalepage_note6": {
+    "": "",
+    "section": "",
+    "EN": "6. If you have any questions, please contact: info@invar.finance.",
+    "繁中": "6. 如有任何問題請聯繫：info@invar.finance."
+  },
+  "homepage_presalepage_mintsuccess": {
+    "": "",
+    "section": "鑄造成功(不論什麼階段)",
+    "EN": "Transaction Successful! You can check NFT in Dashboard / Wallet.",
+    "繁中": "交易成功！您可以到 Dashboard 或錢包查看。"
+  },
+  "homepage_presalepage_mintfail": {
+    "": "",
+    "section": "鑄造失敗(不論什麼階段)",
+    "EN": "Transaction Failed! Please try again or check if any problems.",
+    "繁中": "交易失敗！請再試一次，或查看是否存在任何問題。"
+  },
+  "homepage_whitelistapply_title": {
+    "": "",
+    "section": "白名單登記階段",
+    "EN": "Whitelist Application",
+    "繁中": "白名單登記"
+  },
+  "homepage_whitelistapply_completekyc": {
+    "": "",
+    "section": "",
+    "EN": "Complete your verification",
+    "繁中": "完成您的驗證"
+  },
+  "homepage_whitelistapply_verifykyc": {
+    "": "",
+    "section": "",
+    "EN": "Verify",
+    "繁中": "驗證"
+  },
+  "homepage_whitelistapply_mywallet": {
+    "": "",
+    "section": "",
+    "EN": "My Wallet",
+    "繁中": "My Wallet"
+  },
+  "homepage_whitelistapply_applytime": {
+    "": "",
+    "section": "",
+    "EN": "Application Time",
+    "繁中": "登記期間"
+  },
+  "homepage_whitelistapply_expectedamount": {
+    "": "",
+    "section": "",
+    "EN": "Expected Amount",
+    "繁中": "期望數量"
+  },
+  "homepage_whitelistapply_maxamount": {
+    "": "",
+    "section": "",
+    "EN": "Up to 10 per wallet",
+    "繁中": "最大為 10"
+  },
+  "homepage_whitelistapply_fillamount": {
+    "": "",
+    "section": "",
+    "EN": "Fill in the number of NFTs you want to mint",
+    "繁中": "請輸入您想鑄造的 NFT 數量"
+  },
+  "homepage_whitelistapply_apply": {
+    "": "",
+    "section": "",
+    "EN": "Apply",
+    "繁中": "登記"
+  },
+  "homepage_whitelistapply_note1": {
+    "": "",
+    "section": "",
+    "EN": "1. During the whitelist application period, feel free to fill in how many NFT(s) you expect to mint. Note: maximum amount is 10.",
+    "繁中": "1. 白名單登記期間，您可以輸入您希望鑄造多少 NFT。最大數量為10。"
+  },
+  "homepage_whitelistapply_note2": {
+    "": "",
+    "section": "",
+    "EN": "2. The number you filled is not the actual number you can mint during whitelist minting stage. Whitelist application is purposed for whitelist giveaway campaign and market research.",
+    "繁中": "2. 您輸入的數字不是您實際可鑄造數量。白名單登記主要用於發放白名單活動與市場測試。"
+  },
+  "homepage_whitelistapply_note3": {
+    "": "",
+    "section": "",
+    "EN": "3. The winner of whitelist application will be chosen according to the rules we announced, and the result will be published in official social media.",
+    "繁中": "3. 白名單登記階段的優勝者將按照我們公佈的規則選出，結果將在官方社群媒體上公佈。"
+  },
+  "homepage_whitelistapply_note4": {
+    "": "",
+    "section": "",
+    "EN": "4. For more informations, please check our Twitter & Discord channel.",
+    "繁中": "4. 更多信息，請訪問 InVaria 2222 Twitter 與 Discord 頻道。"
+  },
+  "homepage_whitelistapply_note5": {
+    "": "",
+    "section": "",
+    "EN": "5. If you have any questions, please contact: info@invar.finance.",
+    "繁中": "5. 如有任何問題，請聯繫：info@invar.finance。"
+  },
+  "homepage_whitelistapply_applyuccess": {
+    "": "",
+    "section": "白名單登記成功",
+    "EN": "Application Completed! You can check latest news in Dashboard and our community.",
+    "繁中": "登記成功！您可以至 Dashboard 查看或至社群追蹤最新資訊。"
+  },
+  "homepage_whitelistapply_applyfail": {
+    "": "",
+    "section": "白名單登記失敗",
+    "EN": "Application Failed! Please try again or check if any problems.",
+    "繁中": "登記失敗！請再試一次，或查看是否存在任何問題。"
+  },
+  "homepage_whitelistmintpage_title": {
+    "": "",
+    "section": "白名單鑄造階段",
+    "EN": "Whitelist Minting Stage",
+    "繁中": "白名單鑄造階段"
+  },
+  "homepage_whitelistmintpage_completekyc": {
+    "": "",
+    "section": "",
+    "EN": "Complete your verification",
+    "繁中": "完成您的驗證"
+  },
+  "homepage_whitelistmintpage_verifykyc": {
+    "": "",
+    "section": "",
+    "EN": "Verify",
+    "繁中": "驗證"
+  },
+  "homepage_whitelistmintpage_mywallet": {
+    "": "",
+    "section": "",
+    "EN": "My Wallet",
+    "繁中": "My Wallet"
+  },
+  "homepage_whitelistmintpage_addtoken": {
+    "": "",
+    "section": "",
+    "EN": "Add Token",
+    "繁中": "Add Token"
+  },
+  "homepage_whitelistmintpage_inthewhitelist": {
+    "": "",
+    "section": "",
+    "EN": "You are in the whitelist.",
+    "繁中": "您擁有白名單資格！"
+  },
+  "homepage_whitelistmintpage_notwhitelist": {
+    "": "",
+    "section": "",
+    "EN": "You are not in the whitelist.",
+    "繁中": "您沒有白名單資格。"
+  },
+  "homepage_whitelistmintpage_maxmintlimit": {
+    "": "",
+    "section": "",
+    "EN": "Max Mint Limit",
+    "繁中": "鑄造數量上限"
+  },
+  "homepage_whitelistmintpage_nolimit": {
+    "": "",
+    "section": "",
+    "EN": "No limit",
+    "繁中": "沒有限制"
+  },
+  "homepage_whitelistmintpage_mintprice": {
+    "": "",
+    "section": "",
+    "EN": "Mint Price",
+    "繁中": "鑄造價格"
+  },
+  "homepage_whitelistmintpage_mintprice_usdceach": {
+    "": "",
+    "section": "",
+    "EN": "{V} USDC each",
+    "繁中": "{V} USDC / 個"
+  },
+  "homepage_whitelistmintpage_minttime": {
+    "": "",
+    "section": "",
+    "EN": "Mint Time",
+    "繁中": "鑄造期間"
+  },
+  "homepage_whitelistmintpage_fillamount": {
+    "": "",
+    "section": "",
+    "EN": "Fill in the number of NFTs you want to mint",
+    "繁中": "請輸入您欲鑄造的 NFT 數量"
+  },
+  "homepage_whitelistmintpage_amount": {
+    "": "",
+    "section": "",
+    "EN": "Amount",
+    "繁中": "總計"
+  },
+  "homepage_whitelistmintpage_mint": {
+    "": "",
+    "section": "",
+    "EN": "Mint",
+    "繁中": "鑄造"
+  },
+  "homepage_whitelistmintpage_note1": {
+    "": "",
+    "section": "",
+    "EN": "1. Please make sure the wallet is connected to the Ethereum Mainnet.",
+    "繁中": "1. 請確保錢包連接到以太坊主網路。"
+  },
+  "homepage_whitelistmintpage_note2": {
+    "": "",
+    "section": "",
+    "EN": "2. Minting NFT requires payment of gas fee (ETH, the amount determined by chain activities).",
+    "繁中": "2. 鑄造需支付一定的手續費（ETH 支付，具體金額由當時鏈上狀態決定)。"
+  },
+  "homepage_whitelistmintpage_note3": {
+    "": "",
+    "section": "",
+    "EN": "3. Minting NFT requires an uncertain time of processing, please do not double-click during a short time, you can browse Etherscan to check transaction status.",
+    "繁中": "3. 鑄造 NFT 需要交易處理時間，短時間內勿重複進行鑄造，可通過 Etherscan 查詢交易狀態。"
+  },
+  "homepage_whitelistmintpage_note4": {
+    "": "",
+    "section": "",
+    "EN": "4. After the transaction succeeds, you can view your NFT on the Dashboard Page, as well as your wallet.",
+    "繁中": "4. 鑄造成功後可至 Dashboard 和您的錢包中查看您的 NFT。"
+  },
+  "homepage_whitelistmintpage_note5": {
+    "": "",
+    "section": "",
+    "EN": "5. Due to the amount of InVaria 2222 NFT is limited, there is no guarantee of successful minting or any amount, even though whitelist.",
+    "繁中": "5. 由於 InVaria 2222 NFT 的數量有限，即使白名單也不能保證成功鑄造或任何數量。"
+  },
+  "homepage_whitelistmintpage_note6": {
+    "": "",
+    "section": "",
+    "EN": "6. Whitelist is distributed through the campaign, partnership or official social media.",
+    "繁中": "6. 白名單通過活動、合作夥伴或官方社群媒體分發。"
+  },
+  "homepage_whitelistmintpage_note7": {
+    "": "",
+    "section": "",
+    "EN": "7. If you have any questions, please contact: info@invar.finance.",
+    "繁中": "7. 如有任何問題請聯繫：info@invar.finance."
+  },
+  "homepage_whitelistmintpage_mintsuccess": {
+    "": "",
+    "section": "鑄造成功(不論什麼階段)",
+    "EN": "Transaction Successful! You can check NFT in Dashboard / Wallet.",
+    "繁中": "交易成功！您可以到 Dashboard 或錢包查看。"
+  },
+  "homepage_whitelistmintpage_mintfail": {
+    "": "",
+    "section": "鑄造失敗(不論什麼階段)",
+    "EN": "Transaction Failed! Please try again or check if any problems.",
+    "繁中": "交易失敗！請再試一次，或查看是否存在任何問題。"
+  },
+  "homepage_pubilcsale_title": {
+    "": "",
+    "section": "公售鑄造階段",
+    "EN": "Public Minting Stage",
+    "繁中": "公售鑄造階段"
+  },
+  "homepage_pubilcsale_completekyc": {
+    "": "",
+    "section": "",
+    "EN": "Complete your verification",
+    "繁中": "完成您的驗證"
+  },
+  "homepage_pubilcsale_verifykyc": {
+    "": "",
+    "section": "",
+    "EN": "Verify",
+    "繁中": "驗證"
+  },
+  "homepage_pubilcsale_mywallet": {
+    "": "",
+    "section": "",
+    "EN": "My Wallet",
+    "繁中": "My Wallet"
+  },
+  "homepage_pubilcsale_addtoken": {
+    "": "",
+    "section": "",
+    "EN": "Add Token",
+    "繁中": "Add Token"
+  },
+  "homepage_pubilcsale_maxmintlimit": {
+    "": "",
+    "section": "",
+    "EN": "Max Mint Limit",
+    "繁中": "鑄造數量上限"
+  },
+  "homepage_pubilcsale_nolimit": {
+    "": "",
+    "section": "",
+    "EN": "No limit",
+    "繁中": "沒有限制"
+  },
+  "homepage_pubilcsale_mintprice": {
+    "": "",
+    "section": "",
+    "EN": "Mint Price",
+    "繁中": "鑄造價格"
+  },
+  "homepage_pubilcsale_mintprice_usdceach": {
+    "": "",
+    "section": "",
+    "EN": "{V} USDC each",
+    "繁中": "{V} USDC / 個"
+  },
+  "homepage_pubilcsale_minttime": {
+    "": "",
+    "section": "",
+    "EN": "Mint Time",
+    "繁中": "鑄造期間"
+  },
+  "homepage_pubilcsale_fillamount": {
+    "": "",
+    "section": "",
+    "EN": "Fill in the number of NFTs you want to mint",
+    "繁中": "請輸入您欲鑄造的 NFT 數量"
+  },
+  "homepage_pubilcsale_amount": {
+    "": "",
+    "section": "",
+    "EN": "Amount",
+    "繁中": "總計"
+  },
+  "homepage_pubilcsale_mint": {
+    "": "",
+    "section": "",
+    "EN": "Mint",
+    "繁中": "鑄造"
+  },
+  "homepage_pubilcsale_note1": {
+    "": "",
+    "section": "",
+    "EN": "1. Please make sure the wallet is connected to the Ethereum Mainnet.",
+    "繁中": "1. 請確保錢包連接到以太坊主網路。"
+  },
+  "homepage_pubilcsale_note2": {
+    "": "",
+    "section": "",
+    "EN": "2. Minting NFT requires payment of gas fee (ETH, the amount determined by chain activities).",
+    "繁中": "2. 鑄造需支付一定的手續費（ETH 支付，具體金額由當時鏈上狀態決定)。"
+  },
+  "homepage_pubilcsale_note3": {
+    "": "",
+    "section": "",
+    "EN": "3. Minting NFT requires an uncertain time of processing, please do not double-click during a short time, you can browse Etherscan to check transaction status.",
+    "繁中": "3. 鑄造 NFT 需要交易處理時間，短時間內勿重複進行鑄造，可通過 Etherscan 查詢交易狀態。"
+  },
+  "homepage_pubilcsale_note4": {
+    "": "",
+    "section": "",
+    "EN": "4. After the transaction succeeds, you can view your NFT on the Dashboard Page, as well as your wallet.",
+    "繁中": "4. 鑄造成功後可至 Dashboard 和您的錢包中查看您的 NFT。"
+  },
+  "homepage_pubilcsale_note5": {
+    "": "",
+    "section": "",
+    "EN": "5. The public-sale stage may occur small amount of NFT(s) available to mint, there is no guarantee of successful minting or any amount.",
+    "繁中": "5. 公售階段有可能會發生只剩少量的 NFT 可進行鑄造，無法保證每個鑄造能成功或任何數量。"
+  },
+  "homepage_pubilcsale_note6": {
+    "": "",
+    "section": "",
+    "EN": "6. If you have any questions, please contact: info@invar.finance.",
+    "繁中": "6. 如有任何問題請聯繫：info@invar.finance."
+  },
+  "homepage_pubilcsale_mintsuccess": {
+    "": "",
+    "section": "鑄造成功(不論什麼階段)",
+    "EN": "Transaction Successful! You can check NFT in Dashboard / Wallet.",
+    "繁中": "交易成功！您可以到 Dashboard 或錢包查看。"
+  },
+  "homepage_pubilcsale_mintfail": {
+    "": "",
+    "section": "鑄造失敗(不論什麼階段)",
+    "EN": "Transaction Failed! Please try again or check if any problems.",
+    "繁中": "交易失敗！請再試一次，或查看是否存在任何問題。"
+  },
+  "homepage_intro_title": {
+    "": "首頁 - Body",
+    "section": "Intro",
+    "EN": "Explore Crypto Desert on Next-Gen",
+    "繁中": "探索資產代幣化的世界"
+  },
+  "homepage_intro_desc1": {
+    "": "",
+    "section": "",
+    "EN": "InVaria 2222 is a RWA-based, tokenization world with the goal of constructing connections between real-world and digital economies. In addition, InVaria 2222 is positioned as an experiment flagship of InVar Finance. Inside InVaria, a huge amount of opportunity and wealth are waiting for humanity to find out and enjoy; no one knows the whole picture of this world…",
+    "繁中": "InVaria 2222 是一個基於 RWA 的代幣化世界，目標是在實物經濟和數字經濟之間建立連結。此外，InVaria 2222 定位為 InVar Finance 的試驗型首發項目與基礎。在 InVaria 世界觀中，大量的機會和財富等待著人類去發現和享受；沒有人知道這個世界的全貌…"
+  },
+  "homepage_intro_desc2": {
+    "": "",
+    "section": "",
+    "EN": "In phase one, a group of InVariants will build a tokenized real estate model first, then… the story and journey begin…",
+    "繁中": "在第一階段，一群 InVariants 將首先建立一個代幣化的房地產模型，然後……故事和旅程開始……"
+  },
+  "homepage_mindmap_title": {
+    "": "首頁 - Body",
+    "section": "Mindmap",
+    "EN": "Mindmap",
+    "繁中": "Mindmap"
+  },
+  "homepage_mindmap_desc": {
+    "": "",
+    "section": "",
+    "EN": "As the tempo of iteration in crypto market characteristics, technology and industry framework as well, InVar team dislike to over-promise and fail to deliver our plans. However, we truly have pre-organized milestones to achieve, the mindmap, and we don’t want to keep it secret but are willing to share with sincerity.",
+    "繁中": "加密市場、技術和行業框架的迭代速度飛快，我們不喜歡過度承諾以至於無法實現原有構思的計劃。然而，我們確實有預先計畫的幾項里程碑，稱之為 Mindmap，既然都有了，我們選擇真誠地分享，而非隱藏。"
+  },
+  "homepage_mindmap_phaseone": {
+    "": "",
+    "section": "",
+    "EN": "Phase One - APR. ~ DEC. 2022",
+    "繁中": "第一階段 - APR. ~ DEC. 2022"
+  },
+  "homepage_mindmap_phaseone_title": {
+    "": "",
+    "section": "",
+    "EN": "Experiment / Exploration",
+    "繁中": "實驗與探索"
+  },
+  "homepage_mindmap_phaseone_desc": {
+    "": "",
+    "section": "",
+    "EN": "Crypto is all about experiment and exploration. InVar aim to build first feasible project through tokenization of RWAs.",
+    "繁中": "新興的加密服務是需要實驗與探索的。 InVar 旨在通過 RWA 代幣化來構建旗艦項目與多元金融生態基礎。"
+  },
+  "homepage_mindmap_phaseone_point1": {
+    "": "",
+    "section": "",
+    "EN": "Launch InVaria 2222 - The Worldview and Storyline of InVar",
+    "繁中": "推出 InVaria 2222 - 包含 InVar 的世界觀和故事情節"
+  },
+  "homepage_mindmap_phaseone_point2": {
+    "": "",
+    "section": "",
+    "EN": "Release First Real Estate Fractionalization NFT",
+    "繁中": "發行第一個房地產碎片化 NFT"
+  },
+  "homepage_mindmap_phaseone_point3": {
+    "": "",
+    "section": "",
+    "EN": "Develop NFT Staking Mechanism",
+    "繁中": "開發 NFT 質押機制"
+  },
+  "homepage_mindmap_phaseone_point4": {
+    "": "",
+    "section": "",
+    "EN": "Develop Utilities Type of NFT",
+    "繁中": "開發不同類型的 NFT"
+  },
+  "homepage_mindmap_phasetwo": {
+    "": "",
+    "section": "",
+    "EN": "Phase Two - NOV. 2022 ~ MAY. 2023",
+    "繁中": "第二階段 - NOV. 2022 ~ MAY. 2023"
+  },
+  "homepage_mindmap_phasetwo_title": {
+    "": "",
+    "section": "",
+    "EN": "Diversification / Segmentation",
+    "繁中": "多元化與市場區隔"
+  },
+  "homepage_mindmap_phasetwo_desc": {
+    "": "",
+    "section": "",
+    "EN": "Dive deep to think more about feedback and benefits that can bring to early adopters, replicate the successful model and develop exciting products.",
+    "繁中": "深入計畫可以為早期採用者帶來額外好處與應用場景，將成功的模式複製並開發令人興奮的產品。"
+  },
+  "homepage_mindmap_phasetwo_point1": {
+    "": "",
+    "section": "",
+    "EN": "Launch InVariant - An PFP & Pass NFT",
+    "繁中": "啟動 InVariant - 一種許可型的 NFT"
+  },
+  "homepage_mindmap_phasetwo_point2": {
+    "": "",
+    "section": "",
+    "EN": "Release Hybrid Finance Concept",
+    "繁中": "發布多元金融（HyFi）概念"
+  },
+  "homepage_mindmap_phasetwo_point3": {
+    "": "",
+    "section": "",
+    "EN": "Release More Real Estate Fractionalization NFT or other RWA NFT",
+    "繁中": "發布更多房地產碎片化 NFT 或其他 RWA NFT"
+  },
+  "homepage_mindmap_phasethree": {
+    "": "",
+    "section": "",
+    "EN": "May. 2023 ~",
+    "繁中": "May. 2023 ~"
+  },
+  "homepage_mindmap_phasethree_title": {
+    "": "",
+    "section": "",
+    "EN": "Integration",
+    "繁中": "整合階段"
+  },
+  "homepage_mindmap_phasethree_desc": {
+    "": "",
+    "section": "",
+    "EN": "InVaria 2222 is the foundation also the digital world of InVar. Building solid infrastructure and value backstop to construct a hybrid finance ecosystem is a reasonable, indispensable move.",
+    "繁中": "InVaria 2222 是 InVar 生態的基礎。以建立堅實的基礎設施和價值支撐作為第一步，來構建多元金融生態系統，InVaria 2222 是可持續經濟不可或缺的舉措。"
+  },
+  "homepage_mindmap_phasethree_point1": {
+    "": "",
+    "section": "",
+    "EN": "InVar Integration",
+    "繁中": "InVar 服務、經濟整合"
+  },
+  "dashbaord_profile_status": {
+    "": "Dashboard - Profile",
+    "section": "實名認證狀態",
+    "EN": "My Verification status",
+    "繁中": "實名認證狀態"
+  },
+  "dashbaord_profile_status_unverified": {
+    "": "",
+    "section": "",
+    "EN": "Unverified",
+    "繁中": "尚未驗證"
+  },
+  "dashbaord_profile_status_inprocess": {
+    "": "",
+    "section": "",
+    "EN": "In Process",
+    "繁中": "驗證中"
+  },
+  "dashbaord_profile_status_verified": {
+    "": "",
+    "section": "",
+    "EN": "Verified",
+    "繁中": "驗證成功"
+  },
+  "dashbaord_profile_table_title": {
+    "": "",
+    "section": "實名驗證填寫表",
+    "EN": "Identity Verification",
+    "繁中": "實名驗證"
+  },
+  "dashbaord_profile_table_country": {
+    "": "",
+    "section": "",
+    "EN": "Country/Region",
+    "繁中": "國家/地區"
+  },
+  "dashbaord_profile_table_country_select": {
+    "": "",
+    "section": "",
+    "EN": "Select",
+    "繁中": "選擇"
+  },
+  "dashbaord_profile_table_fullname": {
+    "": "",
+    "section": "",
+    "EN": "Full Legal Name(The name on your ID/Passport)",
+    "繁中": "全名(請填寫與證件上的相同名字)"
+  },
+  "dashbaord_profile_table_idtype": {
+    "": "",
+    "section": "",
+    "EN": "Government-Issued Id Type",
+    "繁中": "政府合法證件類型"
+  },
+  "dashbaord_profile_table_idtype_select": {
+    "": "",
+    "section": "",
+    "EN": "Select",
+    "繁中": "選擇"
+  },
+  "dashbaord_profile_table_idtype_idcard": {
+    "": "",
+    "section": "",
+    "EN": "ID card",
+    "繁中": "身份證"
+  },
+  "dashbaord_profile_table_idtype_passport": {
+    "": "",
+    "section": "",
+    "EN": "Passport",
+    "繁中": "護照"
+  },
+  "dashbaord_profile_table_idtype_drivinglicense": {
+    "": "",
+    "section": "",
+    "EN": "Driving license",
+    "繁中": "駕照"
+  },
+  "dashbaord_profile_table_idnumber": {
+    "": "",
+    "section": "",
+    "EN": "ID Number (Letters and numbers only)",
+    "繁中": "證件字號(僅限英文字母與數字)"
+  },
+  "dashbaord_profile_table_birthday": {
+    "": "",
+    "section": "",
+    "EN": "Date of Birth (You must be at least 21 years old)",
+    "繁中": "出生日期(您必須年滿 21 歲)"
+  },
+  "dashbaord_profile_table_overage": {
+    "": "",
+    "section": "",
+    "EN": "You are under the age of 21.",
+    "繁中": "您未滿 21 歲。"
+  },
+  "dashbaord_profile_table_fulladdress": {
+    "": "",
+    "section": "",
+    "EN": "Full Residential Address",
+    "繁中": "完整的居住地址"
+  },
+  "dashbaord_profile_table_email": {
+    "": "",
+    "section": "",
+    "EN": "Email",
+    "繁中": "Email"
+  },
+  "dashbaord_profile_table_invalidemailformat": {
+    "": "",
+    "section": "",
+    "EN": "Invalid email format.",
+    "繁中": "Email 格式錯誤"
+  },
+  "dashbaord_profile_table_note": {
+    "": "",
+    "section": "",
+    "EN": "If submitting is not responding, please allow the pop-up function in your browser.",
+    "繁中": "如果提交沒有回應，請在您的瀏覽器中允許彈出功能。"
+  },
+  "dashbaord_profile_table_next": {
+    "": "",
+    "section": "",
+    "EN": "Next",
+    "繁中": "下一步"
+  },
+  "dashbaord_profile_table_signconfirm": {
+    "": "",
+    "section": "",
+    "EN": "Sign to view submitted datafalse",
+    "繁中": "簽署查看提交的數據"
+  },
+  "dashbaord_profile_table_sign": {
+    "": "",
+    "section": "",
+    "EN": "Sign",
+    "繁中": "簽署"
+  },
+  "kyc_email_apply_titile": {
+    "": "KYC寄信mail",
+    "section": "成功申請",
+    "EN": "Dear User,",
+    "繁中": "親愛的用戶："
+  },
+  "kyc_email_apply_desc": {
+    "": "",
+    "section": "",
+    "EN": "We have received your identity verification application. The process may take up to 10 workdays. We will notify you when the KYC process is completed.",
+    "繁中": "我們已收到您的身份驗證申請。 此過程最多可能需要 10 個工作日。 當 KYC 流程完成時，我們將會通知您。"
+  },
+  "kyc_email_apply_note": {
+    "": "",
+    "section": "",
+    "EN": "If you have any questions, please contact us by info@invar.finance.",
+    "繁中": "如果您有任何問題，請通過 info@invar.finance 與我們聯繫。"
+  },
+  "kyc_email_apply_regards": {
+    "": "",
+    "section": "",
+    "EN": "Regards, \nInVaria 2222 Team",
+    "繁中": "Regards, \nInVaria 2222 Team"
+  },
+  "kyc_email_apply_automessage": {
+    "": "",
+    "section": "",
+    "EN": "THIS IS AN AUTOMATICALLY GENERATED EMAIL, PLEASE DON'T REPLY.",
+    "繁中": "這是一封自動寄出的電子郵件，請不要回覆。"
+  },
+  "kyc_email_apply_intro": {
+    "": "",
+    "section": "",
+    "EN": "Explore Crypto Desert on Next-Gen",
+    "繁中": "探索資產代幣化的世界"
+  },
+  "kyc_email_pass_titile": {
+    "": "",
+    "section": "KYC通過",
+    "EN": "Dear User,",
+    "繁中": "親愛的用戶："
+  },
+  "kyc_email_pass_desc": {
+    "": "",
+    "section": "",
+    "EN": "Congrats! Your KYC verification has been approved. Thank you for your patience. Now, seize your chance to join tribe in InVaria. \n#SAFEEARNNFT",
+    "繁中": "恭喜！ 您的 KYC 驗證已獲批准。 感謝您的耐心等待。現在，抓住機會加入 InVaria 部落。\n#SAFEEARNNFT"
+  },
+  "kyc_email_pass_note": {
+    "": "",
+    "section": "",
+    "EN": "If you have any questions, please contact us by info@invar.finance.",
+    "繁中": "如果您有任何問題，請通過 info@invar.finance 與我們聯繫。"
+  },
+  "kyc_email_pass_regards": {
+    "": "",
+    "section": "",
+    "EN": "Regards,\nInVaria 2222 Team",
+    "繁中": "Regards,\nInVaria 2222 Team"
+  },
+  "kyc_email_pass_automessage": {
+    "": "",
+    "section": "",
+    "EN": "THIS IS AN AUTOMATICALLY GENERATED EMAIL, PLEASE DON'T REPLY.",
+    "繁中": "這是一封自動寄出的電子郵件，請不要回覆。"
+  },
+  "kyc_email_pass_intro": {
+    "": "",
+    "section": "",
+    "EN": "Explore Crypto Desert on Next-Gen",
+    "繁中": "探索資產代幣化的世界"
+  },
+  "kyc_email_fail_titile": {
+    "": "",
+    "section": "KYC失敗",
+    "EN": "Dear User,",
+    "繁中": "親愛的用戶："
+  },
+  "kyc_email_fail_desc": {
+    "": "",
+    "section": "",
+    "EN": "Your KYC verification has been denied. Thank you for your patience. Please check closely how to pass KYC, and take a chance to be a pioneer of InVaria NFT owner.",
+    "繁中": "您的 KYC 驗證已被拒絕。感謝您的耐心等待。請仔細查看如何通過 KYC，並有機會成為InVaria NFT 所有者的先驅。"
+  },
+  "kyc_email_fail_note": {
+    "": "",
+    "section": "",
+    "EN": "If you have any questions, please contact us by info@invar.finance.",
+    "繁中": "如果您有任何問題，請通過 info@invar.finance 與我們聯繫。"
+  },
+  "kyc_email_fail_failreason": {
+    "": "",
+    "section": "",
+    "EN": "Failed Reason:\nThe informations/identity documents you provided does not match KYC policy and/or cannot be reviewed successfully. Please try again. Thank you.",
+    "繁中": "不通過原因：\n您提供的信息/身份證明文件不符合 KYC 政策和/或無法成功審核。 請再試一次。謝謝您。"
+  },
+  "kyc_email_fail_regards": {
+    "": "",
+    "section": "",
+    "EN": "Regards,\nInVaria 2222 Team",
+    "繁中": "Regards,\nInVaria 2222 Team"
+  },
+  "kyc_email_fail_automessage": {
+    "": "",
+    "section": "",
+    "EN": "THIS IS AN AUTOMATICALLY GENERATED EMAIL, PLEASE DON'T REPLY.",
+    "繁中": "這是一封自動寄出的電子郵件，請不要回覆。"
+  },
+  "kyc_email_fail_intro": {
+    "": "",
+    "section": "",
+    "EN": "Explore Crypto Desert on Next-Gen",
+    "繁中": "探索資產代幣化的世界"
+  },
+  "dashbaord_activity_presale_nodata": {
+    "": "Dashboard - Activity",
+    "section": "沒有資料時",
+    "EN": "No Activity Found",
+    "繁中": "查無紀錄"
+  },
+  "dashbaord_activity_presale_title": {
+    "": "Dashboard - Activity",
+    "section": "Pre-Sale Minting Stage",
+    "EN": "Pre-Sale Minting Stage",
+    "繁中": "預售鑄造階段"
+  },
+  "dashbaord_activity_presale_nft": {
+    "": "",
+    "section": "",
+    "EN": "NFT",
+    "繁中": "NFT"
+  },
+  "dashbaord_activity_presale_nftname": {
+    "": "",
+    "section": "",
+    "EN": "Amwaj20",
+    "繁中": "Amwaj20"
+  },
+  "dashbaord_activity_presale_address": {
+    "": "",
+    "section": "",
+    "EN": "Address",
+    "繁中": "地址"
+  },
+  "dashbaord_activity_presale_result": {
+    "": "",
+    "section": "",
+    "EN": "Result",
+    "繁中": "狀態"
+  },
+  "dashbaord_activity_presale_result_completed": {
+    "": "",
+    "section": "",
+    "EN": "Completed",
+    "繁中": "完成"
+  },
+  "dashbaord_activity_presale_amount": {
+    "": "",
+    "section": "",
+    "EN": "Amount",
+    "繁中": "數量"
+  },
+  "dashbaord_activity_presale_value": {
+    "": "",
+    "section": "",
+    "EN": "Value",
+    "繁中": "價值"
+  },
+  "dashbaord_activity_presale_minttime": {
+    "": "",
+    "section": "",
+    "EN": "Mint Time",
+    "繁中": "鑄造時間"
+  },
+  "dashbaord_activity_presale_txid": {
+    "": "",
+    "section": "",
+    "EN": "TXID",
+    "繁中": "TXID"
+  },
+  "dashbaord_activity_presale_marketplace": {
+    "": "",
+    "section": "",
+    "EN": "Marketplace",
+    "繁中": "市場"
+  },
+  "dashbaord_activity_whiteapply_nodata": {
+    "": "Dashboard - Activity",
+    "section": "沒有資料時",
+    "EN": "No Activity Found",
+    "繁中": "查無紀錄資訊"
+  },
+  "dashbaord_activity_whiteapply_title": {
+    "": "Dashboard - Activity",
+    "section": "Whitelist Application",
+    "EN": "Whitelist Application",
+    "繁中": "白名單登記"
+  },
+  "dashbaord_activity_whiteapply_nft": {
+    "": "",
+    "section": "",
+    "EN": "NFT",
+    "繁中": "NFT"
+  },
+  "dashbaord_activity_whiteapply_nftname": {
+    "": "",
+    "section": "",
+    "EN": "Amwaj20",
+    "繁中": "Amwaj20"
+  },
+  "dashbaord_activity_whiteapply_address": {
+    "": "",
+    "section": "",
+    "EN": "Address",
+    "繁中": "地址"
+  },
+  "dashbaord_activity_whiteapply_result": {
+    "": "",
+    "section": "",
+    "EN": "Result",
+    "繁中": "狀態"
+  },
+  "dashbaord_activity_whiteapply_result_completed": {
+    "": "",
+    "section": "",
+    "EN": "Completed",
+    "繁中": "完成"
+  },
+  "dashbaord_activity_whiteapply_amount": {
+    "": "",
+    "section": "",
+    "EN": "Amount",
+    "繁中": "數量"
+  },
+  "dashbaord_activity_whiteapply_applytime": {
+    "": "",
+    "section": "",
+    "EN": "Application Time",
+    "繁中": "登記時間"
+  },
+  "dashbaord_activity_whiteapply_notwhitelist": {
+    "": "",
+    "section": "白名單登記結果標籤",
+    "EN": "You are not in the Whitelist",
+    "繁中": "您沒有白名單資格。"
+  },
+  "dashbaord_activity_whiteapply_inthewhitelist": {
+    "": "",
+    "section": "白名單登記結果標籤",
+    "EN": "You are in the Whitelist",
+    "繁中": "您擁有白名單資格！"
+  },
+  "dashbaord_activity_whitemint_nodata": {
+    "": "Dashboard - Activity",
+    "section": "沒有資料時",
+    "EN": "No Activity Found",
+    "繁中": "查無紀錄"
+  },
+  "dashbaord_activity_whitemint_title": {
+    "": "Dashboard - Activity",
+    "section": "Whitelist Minting Stage",
+    "EN": "Whitelist Minting Stage",
+    "繁中": "白名單鑄造階段"
+  },
+  "dashbaord_activity_whitemint_nft": {
+    "": "",
+    "section": "",
+    "EN": "NFT",
+    "繁中": "NFT"
+  },
+  "dashbaord_activity_whitemint_nftname": {
+    "": "",
+    "section": "",
+    "EN": "Amwaj20",
+    "繁中": "Amwaj20"
+  },
+  "dashbaord_activity_whitemint_address": {
+    "": "",
+    "section": "",
+    "EN": "Address",
+    "繁中": "地址"
+  },
+  "dashbaord_activity_whitemint_result": {
+    "": "",
+    "section": "",
+    "EN": "Result",
+    "繁中": "狀態"
+  },
+  "dashbaord_activity_whitemint_result_completed": {
+    "": "",
+    "section": "",
+    "EN": "Completed",
+    "繁中": "完成"
+  },
+  "dashbaord_activity_whitemint_amount": {
+    "": "",
+    "section": "",
+    "EN": "Amount",
+    "繁中": "數量"
+  },
+  "dashbaord_activity_whitemint_value": {
+    "": "",
+    "section": "",
+    "EN": "Value",
+    "繁中": "價值"
+  },
+  "dashbaord_activity_whitemint_minttime": {
+    "": "",
+    "section": "",
+    "EN": "Mint Time",
+    "繁中": "鑄造時間"
+  },
+  "dashbaord_activity_whitemint_txid": {
+    "": "",
+    "section": "",
+    "EN": "TXID",
+    "繁中": "TXID"
+  },
+  "dashbaord_activity_whitemint_marketplace": {
+    "": "",
+    "section": "",
+    "EN": "Marketplace",
+    "繁中": "市場"
+  },
+  "dashbaord_activity_publicsale_nodata": {
+    "": "Dashboard - Activity",
+    "section": "沒有資料時",
+    "EN": "No Activity Found",
+    "繁中": "查無紀錄"
+  },
+  "dashbaord_activity_publicsale_title": {
+    "": "Dashboard - Activity",
+    "section": "Public Minting Stage",
+    "EN": "Public Minting Stage",
+    "繁中": "公售鑄造階段"
+  },
+  "dashbaord_activity_publicsale_nft": {
+    "": "",
+    "section": "",
+    "EN": "NFT",
+    "繁中": "NFT"
+  },
+  "dashbaord_activity_publicsale_nftname": {
+    "": "",
+    "section": "",
+    "EN": "Amwaj20",
+    "繁中": "Amwaj20"
+  },
+  "dashbaord_activity_publicsale_address": {
+    "": "",
+    "section": "",
+    "EN": "Address",
+    "繁中": "地址"
+  },
+  "dashbaord_activity_publicsale_result": {
+    "": "",
+    "section": "",
+    "EN": "Result",
+    "繁中": "狀態"
+  },
+  "dashbaord_activity_publicsale_result_completed": {
+    "": "",
+    "section": "",
+    "EN": "Completed",
+    "繁中": "完成"
+  },
+  "dashbaord_activity_publicsale_amount": {
+    "": "",
+    "section": "",
+    "EN": "Amount",
+    "繁中": "數量"
+  },
+  "dashbaord_activity_publicsale_value": {
+    "": "",
+    "section": "",
+    "EN": "Value",
+    "繁中": "價值"
+  },
+  "dashbaord_activity_publicsale_minttime": {
+    "": "",
+    "section": "",
+    "EN": "Mint Time",
+    "繁中": "鑄造時間"
+  },
+  "dashbaord_activity_publicsale_txid": {
+    "": "",
+    "section": "",
+    "EN": "TXID",
+    "繁中": "TXID"
+  },
+  "dashbaord_activity_publicsale_marketplace": {
+    "": "",
+    "section": "",
+    "EN": "Marketplace",
+    "繁中": "市場"
+  },
+  "dashbaord_activity_searchbar_nodata": {
+    "": "Dashboard - Activity",
+    "section": "沒有資料時",
+    "EN": "No Activity Found",
+    "繁中": "查無紀錄"
+  },
+  "dashbaord_activity_searchbar_nft": {
+    "": "Dashboard - Activity",
+    "section": "sort",
+    "EN": "NFT",
+    "繁中": "NFT"
+  },
+  "dashbaord_activity_searchbar_type": {
+    "": "",
+    "section": "",
+    "EN": "Type",
+    "繁中": "類型"
+  },
+  "dashbaord_activity_searchbar_search": {
+    "": "",
+    "section": "",
+    "EN": "Search",
+    "繁中": "搜尋"
+  },
+  "dashbaord_activity_searchbar_reset": {
+    "": "",
+    "section": "",
+    "EN": "Reset",
+    "繁中": "清除"
+  },
+  "dashbaord_activity_claim_title": {
+    "": "",
+    "section": "Claim Interests",
+    "EN": "Claim Interests",
+    "繁中": "領取利息"
+  },
+  "dashbaord_activity_claim_nft": {
+    "": "",
+    "section": "",
+    "EN": "NFT",
+    "繁中": "NFT"
+  },
+  "dashbaord_activity_claim_nftname": {
+    "": "",
+    "section": "",
+    "EN": "Amwaj20",
+    "繁中": "Amwaj20"
+  },
+  "dashbaord_activity_claim_address": {
+    "": "",
+    "section": "",
+    "EN": "Address",
+    "繁中": "地址"
+  },
+  "dashbaord_activity_claim_result": {
+    "": "",
+    "section": "",
+    "EN": "Result",
+    "繁中": "狀態"
+  },
+  "dashbaord_activity_claim_result_completed": {
+    "": "",
+    "section": "",
+    "EN": "Completed",
+    "繁中": "完成"
+  },
+  "dashbaord_activity_claim_interests": {
+    "": "",
+    "section": "",
+    "EN": "Interests",
+    "繁中": "利息"
+  },
+  "dashbaord_activity_claim_claimtime": {
+    "": "",
+    "section": "",
+    "EN": "Claim Time",
+    "繁中": "領取時間"
+  },
+  "dashbaord_activity_claim_txid": {
+    "": "",
+    "section": "",
+    "EN": "TXID",
+    "繁中": "TXID"
+  },
+  "dashbaord_activity_unstake_title": {
+    "": "",
+    "section": "Unstake",
+    "EN": "Unstake",
+    "繁中": "解質押"
+  },
+  "dashbaord_activity_unstake_nft": {
+    "": "",
+    "section": "",
+    "EN": "NFT",
+    "繁中": "NFT"
+  },
+  "dashbaord_activity_unstake_nftname": {
+    "": "",
+    "section": "",
+    "EN": "Amwaj20",
+    "繁中": "Amwaj20"
+  },
+  "dashbaord_activity_unstake_address": {
+    "": "",
+    "section": "",
+    "EN": "Address",
+    "繁中": "地址"
+  },
+  "dashbaord_activity_unstake_result": {
+    "": "",
+    "section": "",
+    "EN": "Result",
+    "繁中": "狀態"
+  },
+  "dashbaord_activity_unstake_result_completed": {
+    "": "",
+    "section": "",
+    "EN": "Completed",
+    "繁中": "完成"
+  },
+  "dashbaord_activity_unstake_amount": {
+    "": "",
+    "section": "",
+    "EN": "Amount",
+    "繁中": "數量"
+  },
+  "dashbaord_activity_unstake_value": {
+    "": "",
+    "section": "",
+    "EN": "Value",
+    "繁中": "價值"
+  },
+  "dashbaord_activity_unstake_unstaketime": {
+    "": "",
+    "section": "",
+    "EN": "Unstake Time",
+    "繁中": "解質押時間"
+  },
+  "dashbaord_activity_unstake_txid": {
+    "": "",
+    "section": "",
+    "EN": "TXID",
+    "繁中": "TXID"
+  },
+  "dashbaord_activity_redemption_title": {
+    "": "",
+    "section": "Redemption",
+    "EN": "Redemption",
+    "繁中": "贖回"
+  },
+  "dashbaord_activity_redemption_nft": {
+    "": "",
+    "section": "",
+    "EN": "NFT",
+    "繁中": "NFT"
+  },
+  "dashbaord_activity_redemption_nftname": {
+    "": "",
+    "section": "",
+    "EN": "Amwaj20",
+    "繁中": "Amwaj20"
+  },
+  "dashbaord_activity_redemption_address": {
+    "": "",
+    "section": "",
+    "EN": "Address",
+    "繁中": "地址"
+  },
+  "dashbaord_activity_redemption_result": {
+    "": "",
+    "section": "",
+    "EN": "Result",
+    "繁中": "狀態"
+  },
+  "dashbaord_activity_redemption_result_completed": {
+    "": "",
+    "section": "",
+    "EN": "Completed",
+    "繁中": "完成"
+  },
+  "dashbaord_activity_redemption_amount": {
+    "": "",
+    "section": "",
+    "EN": "Amount",
+    "繁中": "數量"
+  },
+  "dashbaord_activity_redemption_value": {
+    "": "",
+    "section": "",
+    "EN": "Value",
+    "繁中": "價值"
+  },
+  "dashbaord_activity_redemption_redemptiontime": {
+    "": "",
+    "section": "",
+    "EN": "Redemption Time",
+    "繁中": "贖回時間"
+  },
+  "dashbaord_nfts_nodata": {
+    "": "Dashboard - NFTs",
+    "section": "總覽沒有資料時",
+    "EN": "No NFTs Found",
+    "繁中": "查無 NFTs 資訊"
+  },
+  "dashbaord_nfts_amwaj20": {
+    "": "",
+    "section": "總覽",
+    "EN": "Amwaj20",
+    "繁中": "Amwaj20"
+  },
+  "dashbaord_nfts_nftamount": {
+    "": "",
+    "section": "",
+    "EN": "{V} NFTs",
+    "繁中": "{V} NFTs"
+  },
+  "dashbaord_nfts_status": {
+    "": "",
+    "section": "",
+    "EN": "LIVE",
+    "繁中": "LIVE"
+  },
+  "dashbaord_nfts_info_name": {
+    "": "Dashboard - NFTs",
+    "section": "上半部 實時數據",
+    "EN": "Amwaj20",
+    "繁中": "Amwaj20"
+  },
+  "dashbaord_nfts_info_apr": {
+    "": "",
+    "section": "",
+    "EN": "Est. Staking Return (APR)",
+    "繁中": "預估質押年化收益（APR）"
+  },
+  "dashbaord_nfts_info_dailyinterests": {
+    "": "",
+    "section": "",
+    "EN": "Est. Daily Interests (USDC)",
+    "繁中": "預估每日收益（USDC）"
+  },
+  "dashbaord_nfts_info_balanece": {
+    "": "",
+    "section": "",
+    "EN": "Balance",
+    "繁中": "可質押"
+  },
+  "dashbaord_nfts_info_stake": {
+    "": "",
+    "section": "",
+    "EN": "Stake",
+    "繁中": "質押"
+  },
+  "dashbaord_nfts_info_staking": {
+    "": "",
+    "section": "",
+    "EN": "Staking",
+    "繁中": "質押中"
+  },
+  "dashbaord_nfts_info_unstake": {
+    "": "",
+    "section": "",
+    "EN": "Unstake",
+    "繁中": "解質押"
+  },
+  "dashbaord_nfts_info_burnable": {
+    "": "",
+    "section": "",
+    "EN": "Burnable",
+    "繁中": "可燃燒"
+  },
+  "dashbaord_nfts_info_burn": {
+    "": "",
+    "section": "",
+    "EN": "Burn",
+    "繁中": "燃燒"
+  },
+  "dashbaord_nfts_info_totalinterests": {
+    "": "",
+    "section": "",
+    "EN": "Total Interests (USDC)",
+    "繁中": "累計收益（USDC）"
+  },
+  "dashbaord_nfts_info_claim": {
+    "": "",
+    "section": "",
+    "EN": "Claim",
+    "繁中": "領取"
+  },
+  "dashbaord_nfts_info_cancle": {
+    "": "",
+    "section": "",
+    "EN": "Cancel",
+    "繁中": "取消"
+  },
+  "dashbaord_nfts_tab_staking": {
+    "": "",
+    "section": "Tab-Staking",
+    "EN": "Staking",
+    "繁中": "質押中"
+  },
+  "dashbaord_nfts_tab_staking_stakingtime": {
+    "": "",
+    "section": "",
+    "EN": "Staking Time",
+    "繁中": "質押時間"
+  },
+  "dashbaord_nfts_tab_staking_staking": {
+    "": "",
+    "section": "",
+    "EN": "Staking",
+    "繁中": "質押中"
+  },
+  "dashbaord_nfts_tab_staking_unstaked": {
+    "": "",
+    "section": "",
+    "EN": "Unstaked",
+    "繁中": "解質押"
+  },
+  "dashbaord_nfts_tab_redemption": {
+    "": "",
+    "section": "Tab-Redemption",
+    "EN": "Redemption",
+    "繁中": "贖回"
+  },
+  "dashbaord_nfts_tab_redemption_unlocktime": {
+    "": "",
+    "section": "",
+    "EN": "Unlock Time",
+    "繁中": "可燃燒時間"
+  },
+  "dashbaord_nfts_tab_redemption_unlocked": {
+    "": "",
+    "section": "",
+    "EN": "Locked",
+    "繁中": "鎖定中"
+  },
+  "dashbaord_nfts_tab_redemption_burnable": {
+    "": "",
+    "section": "",
+    "EN": "Burnable",
+    "繁中": "可燃燒"
+  },
+  "dashbaord_nfts_tab_redemption_burned": {
+    "": "",
+    "section": "",
+    "EN": "Burned",
+    "繁中": "已燃燒"
+  },
+  "dashboard_nfts_stakesuccess": {
+    "": "Stake",
+    "section": "when staking successful",
+    "EN": "You have successfully staked your NFT(s).",
+    "繁中": "您已質押成功！"
+  },
+  "dashboard_nfts_stakefail": {
+    "": "",
+    "section": "when staking failed",
+    "EN": "Staking failed! Please try again or check if own any available NFT.",
+    "繁中": "質押失敗！請再試一次，或���看是否持有相關 NFT。"
+  },
+  "dashboard_nfts_unstakeconfirm": {
+    "": "Unstake",
+    "section": "when user unstaking",
+    "EN": "Are you sure to unstake  {V} NFT(s)?",
+    "繁中": "您確定要解除質押 {V} 個 NFT 嗎？"
+  },
+  "dashboard_nfts_unstakesuccess": {
+    "": "",
+    "section": "when unstaking successful",
+    "EN": "You have successfully unstaked your NFT(s).",
+    "繁中": "解除質押成功！"
+  },
+  "dashboard_nfts_unstakefail": {
+    "": "",
+    "section": "when unstaking failed",
+    "EN": "Unstaking failed! Please try again or check if any problems.",
+    "繁中": "解除質押失敗！請再試一次，或查看是否存在任何問題。"
+  },
+  "dashboard_nfts_claimsuccess": {
+    "": "Claim",
+    "section": "when claimed successful",
+    "EN": "You have successfully claimed your interests.",
+    "繁中": "領取收益成功！"
+  },
+  "dashboard_nfts_claimfail": {
+    "": "",
+    "section": "when claimed failed",
+    "EN": "Claiming failed! Please try again or check if any problems.",
+    "繁中": "領取收益失敗！請再試一次，或查看是否存在任何問題。"
+  },
+  "dashboard_nfts_burn_unstakefirst": {
+    "": "Burn",
+    "section": "when user unstaked yet",
+    "EN": "Please unstake NFT(s) to proceed redemption/burn.",
+    "繁中": "請先解除質押再進行 NFT 燃燒/贖回。"
+  },
+  "dashboard_nfts_burn_unstakefirst_ok": {
+    "": "",
+    "section": "botton",
+    "EN": "OK",
+    "繁中": "OK"
+  },
+  "dashboard_nfts_burn_burncheck1": {
+    "": "",
+    "section": "when user burning NFTs : Title",
+    "EN": "Burn NFT(s) to get back capital and commemorative NFT.",
+    "繁中": "燃燒 NFT 將拿回您投資本金，同時失去獲得收益的權利，並可兌換紀念版 NFT !"
+  },
+  "dashboard_nfts_burn_burncheck2": {
+    "": "",
+    "section": "botton",
+    "EN": "Cancel",
+    "繁中": "取消"
+  }
+}
