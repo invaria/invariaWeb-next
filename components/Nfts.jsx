@@ -266,7 +266,7 @@ const Nfts = () => {
           {toast}
         </div>}
       <div className="px-4 md:px-16 lg:px-[231px] w-full z-10 mt-12 mb-10">
-        {(nfts == 0 && staked == 0) ? (
+        {(nfts == 0 && staked == 0 && interest == 0) ? (
           <div className="w-full h-full flex justify-center items-center">
             <div>
               <Image width={162} height={200} src='/icons/ic_light.png' alt="" />
@@ -388,7 +388,7 @@ const Nfts = () => {
                                 + ((+(inputs.Burnable) < 1 || +(inputs.Burnable) > burnable || inputs.Burnable == undefined) ? " btn-disabled" : " ")
                                 + (btnState == "loading" ? " loading" : "")
                               }>
-                                Burn{`${(+(inputs.Burnable) < 1 || +(inputs.Burnable) > burnable || inputs.Burnable == undefined)}`}</a>
+                                Burn</a>
                             }
                             {/* <a href="#burnModal" className="btn">open modal</a> */}
                           </div>
