@@ -65,7 +65,17 @@ module.exports = {
         'fade-in-down': 'fade-in-down 1s ease-out',
         'fade-in-up': 'fade-in-up 1s ease-out',
         'fade-in-left': 'fade-in-left 1s ease-out',
-      }
+      },
+      screens: {
+        'tablet': '640px',
+        // => @media (min-width: 640px) { ... }
+  
+        'laptop': '1024px',
+        // => @media (min-width: 1024px) { ... }
+  
+        'desktop': '1400px',
+        // => @media (min-width: 1280px) { ... }
+      },
     },
   },
   plugins:

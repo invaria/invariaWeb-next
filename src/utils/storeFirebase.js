@@ -34,9 +34,10 @@ export const getWhite = async (address) => {
   let data
   querySnapshota.forEach((doc) => {
     data = doc.data()
-    data.date = new Date((data.date.seconds)*1000)
+    data.date2 = new Date((data.date.seconds) * 1000)
+    data.millisec = (data.date.seconds) * 1000
   });
-  console.log("whit", data)
+  // console.log("whit", data)
   return data
 }
 
@@ -60,26 +61,26 @@ export const getUser = async (address) => {
   let stateCode = 404
   querySnapshota.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    console.log("doc", doc.data(), doc.data().audit_status);
+    // console.log("doc", doc.data(), doc.data().audit_status);
     if (doc.data().audit_status !== undefined) {
-      console.log("state un ", state, doc.data().state)
-      console.log(doc.data().audit_status, doc.data().reject_reasons)
+      // console.log("state un ", state, doc.data().state)
+      // console.log(doc.data().audit_status, doc.data().reject_reasons)
 
       if (doc.data().audit_status == "Accepted") {
         state = "Accepted"
-        console.log("state ac ", state)
+        // console.log("state ac ", state)
 
       } else if (state !== "Accepted" && doc.data().audit_status == "Rejected") {
         state = "Rejected"
-        console.log("state rej ", state)
+        // console.log("state rej ", state)
       } else if (doc.data().audit_status == "Pending" && (doc.data().reject_reasons).length == 0) {
         state = "Pending"
-        console.log("state pend", state)
+        // console.log("state pend", state)
       }
     }
 
   });
-  console.log("re", stateCode, state)
+  // console.log("re", stateCode, state)
   return state
 }
 
@@ -101,9 +102,9 @@ export const getUserData = async (address) => {
     // console.log("doc", doc.data(), doc.data().audit_status);
 
     if (doc.data().audit_status !== undefined) {
-      console.log("state un ", state, doc.data().state)
-      console.log(doc.data().audit_status, doc.data().reject_reasons)
-      console.log((doc.data().audit_status).replace(/^:\w+\/\w+;base64,/))
+      // console.log("state un ", state, doc.data().state)
+      // console.log(doc.data().audit_status, doc.data().reject_reasons)
+      // console.log((doc.data().audit_status).replace(/^:\w+\/\w+;base64,/))
 
       if (doc.data().audit_status == "Accepted") {
         state = "Accepted"
@@ -116,16 +117,16 @@ export const getUserData = async (address) => {
           inputEmail: doc.data().inputEmail,
           inputAddress: doc.data().inputAddress
         }
-        console.log("state ac ", state)
+        // console.log("state ac ", state)
 
       } else if (state !== "Accepted" && doc.data().audit_status == "Rejected") {
         state = "Rejected"
         data = doc.data()
-        console.log("state rej ", state)
+        // console.log("state rej ", state)
       } else if (doc.data().audit_status == "Pending" && (doc.data().reject_reasons).length == 0) {
         state = "Pending"
         data = doc.data()
-        console.log("state pend", state)
+        // console.log("state pend", state)
       }
     }
 
@@ -143,19 +144,19 @@ export const getUserByid = async (id) => {
   console.log("getuserByid")
   const usersCollectionRef = collection(db, "invaria");
   const q = query(usersCollectionRef, where("idv_task_id", "==", Number(id)));
-    // const q = query(usersCollectionRef, where("address", "==", "0x252CB346c174ad1471532CDCAF3A74229E9d2d6F"));
+  // const q = query(usersCollectionRef, where("address", "==", "0x252CB346c174ad1471532CDCAF3A74229E9d2d6F"));
 
-  console.log("q",id.toString(),q)
+  console.log("q", id.toString(), q)
   const querySnapshota = await getDocs(q);
-  let state 
+  let state
   let realState, realResult
   let stateCode = 404
   querySnapshota.forEach((doc) => {
-    state =  doc.data().inputEmail
-    console.log("re", state,doc.data())
+    state = doc.data().inputEmail
+    // console.log("re", state,doc.data())
 
   });
-  console.log("re", state)
+  // console.log("re", state)
   return state
 }
 

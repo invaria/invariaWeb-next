@@ -21,7 +21,7 @@ const PropertyInfo = () => {
       </div>
       <a className="w-full h-[72px] mt-3 rounded py-4 px-6 bg-invar-main-purple hover:bg-[#37293E]
         flex justify-between items-center"
-        href="https://drive.google.com/file/d/1mhizTtoZxGI_4YEJxXKRTz4A61DthVsy/view"
+        href="https://drive.google.com/file/d/1Du_EQY_-EO56UPgc-4JXuRRHWZmsEQP_/view?usp=sharing"
         rel="noreferrer"
         target="_blank">
         <div className=" text-white font-semibold text-base">
