@@ -27,7 +27,7 @@ const TogWhite = ({ sethiswhiteapply, start, end }) => {
     const items = await getWhite(address)
     setTransactions([items])
     sethiswhiteapply(items)
-    // console.log(items, etherScan, openSea)
+    console.log(items, etherScan, openSea)
     console.log("trans", [items])
   }
 
@@ -78,7 +78,7 @@ const TogWhite = ({ sethiswhiteapply, start, end }) => {
 
   return (
     <div className="mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] max-w-full z-10 ">
-      {(address && transactions.length > 0) ? (
+      {(address && transactions.length > 0 && transactions[0]!=undefined) ? (
         <div className={"mt-3 bg-invar-main-purple px-6 rounded text-white " + (collapse ? "mb-[436px]" : "")} >
           <div className="py-6 flex justify-between z-30 cursor-pointer" onClick={() => setCollapse(!collapse)}>
             <p className=" text-xl font-semibold">
