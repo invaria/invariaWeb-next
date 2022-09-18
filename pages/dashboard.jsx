@@ -154,6 +154,10 @@ const Dashboard = () => {
         </div>
         {(tabState == "activity") &&
           <div className="relative min-h-[70vw] w-full border-t border-invar-main-purple">
+            <div className=" flex text-base font">
+              <img src="/icons/filt.png" alt="" className=" w-4 h-4 mr-2" />
+              Filter
+            </div>
             <form className="flex justify-between my-9 mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] max-w-full z-10 " onSubmit={handleSubmit} name="form">
               <div className=' flex'>
                 <label className="w-[238px] mb-6 block mr-4">
