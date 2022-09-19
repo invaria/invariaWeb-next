@@ -11,25 +11,25 @@ export default async function handler(req, res) {
       if (req.body.audit_status !== undefined) {
         const email = await getUserByid(req.body.idv_task_id)
         console.log(email)
-        sgMail.setApiKey("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") //kyc2
+        sgMail.setApiKey("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") //kyc2
         let msg
         if (req.body.audit_status == "Pending") {
           msg = {
             to: email,
             from: 'InVaria <info@invar.finance>',
-            template_id: 'd-c4a4395b54894d87ab1e70fc77a9a407'
+            template_id: 'd-7bada9fb5a804af993d7c2f7150932f0'
           }
         } else if (req.body.audit_status == "Rejected") {
           msg = {
             to: email,
             from: 'InVaria <info@invar.finance>',
-            template_id: 'd-8eb49847b6fc464cab625773f40ec47c'
+            template_id: 'd-cb3a43b619a1492b90545c65f484d073'
           }
         } else if (req.body.audit_status == "Accepted") {
           msg = {
             to: email,
             from: 'InVaria <info@invar.finance>',
-            template_id: 'd-0e8a12f004584e8f84b4e719a803f0eb'
+            template_id: 'd-5208eb31194a4002ae8d3a578eaacc7d'
           }
         }
         sgMail
@@ -50,13 +50,13 @@ export default async function handler(req, res) {
   } else if (req.method === 'GET') {
     const email = await getUserByid("11776")
     console.log("email",email)
-    sgMail.setApiKey("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") //kyc2
+    sgMail.setApiKey("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") //kyc2
     let msg
     // if (state == "Unverified") {
       msg = {
         to: email,
         from: 'testInvar <info@invar.finance>',
-        template_id: 'd-0e8a12f004584e8f84b4e719a803f0eb'
+        template_id: 'd-7bada9fb5a804af993d7c2f7150932f0'
       }
       sgMail
         .send(msg)
