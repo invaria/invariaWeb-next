@@ -14,7 +14,7 @@ let pervState = []
 let etherScan
 let openSea
 
-const TogActivity = ({hispresale, sethispresale, start,end}) => {
+const TogActivity = ({ hispresale, sethispresale, start, end }) => {
   const [collapse, setCollapse] = useState(true)
   const address = useAddress()
   const network = useNetwork()
@@ -90,33 +90,37 @@ const TogActivity = ({hispresale, sethispresale, start,end}) => {
     async function getAct() {
       if (!address) return
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner()
-    const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, provider);
-    const filter = (nftContract.filters.TransferSingle(null, "0x0000000000000000000000000000000000000000", address, null, null))
-    const query = await nftContract.queryFilter(filter)
-    const items = await Promise.all(query?.map(async i => {
-      const block = (await provider.getBlock(i.blockHash))
-      const blockTime = new Date((block.timestamp) * 1000)
-      const item = {
-        date: blockTime.toString(),
-        year: blockTime.getFullYear(),
-        month: blockTime.getMonth() + 1,
-        day: blockTime.getDate(),
-        from: i.args.from,
-        to: i.args.to,
-        operator: i.args.operator,
-        id: i.args.id.toNumber(),
-        value: (i.args.value).toNumber(),
-        txid: `${i.transactionHash}`,
-        etherScanUrl: `${etherScan}${i.transactionHash}`,
-        openSeaUrl: `${openSea}`,
-        time: (block.timestamp) * 1000
-      }
-      return item
-    }))
+      const signer = provider.getSigner()
+      const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, provider);
+      const filter = (nftContract.filters.TransferSingle(null, "0x0000000000000000000000000000000000000000", address, null, null))
+      const query = await nftContract.queryFilter(filter)
+      const items = await Promise.all(query?.map(async i => {
+        const block = (await provider.getBlock(i.blockHash))
+        const blockTime = new Date((block.timestamp) * 1000)
+        // console.log(i.args.id.toNumber(), "ttt")
+        if (i.args.id.toNumber() == 1) {
+          const item = {
+            date: blockTime.toString(),
+            year: blockTime.getFullYear(),
+            month: blockTime.getMonth() + 1,
+            day: blockTime.getDate(),
+            from: i.args.from,
+            to: i.args.to,
+            operator: i.args.operator,
+            id: i.args.id.toNumber(),
+            value: (i.args.value).toNumber(),
+            txid: `${i.transactionHash}`,
+            etherScanUrl: `${etherScan}${i.transactionHash}`,
+            openSeaUrl: `${openSea}`,
+            time: (block.timestamp) * 1000
+          }
+          arr.push(item)
+          return item
+        }
+      }))
       // setTransactions(unitems)
-      arr = items
-      // console.log(arr, start)
+      // arr = items
+      // console.log(arr, "start")
 
       if (start != undefined) {
         console.log(arr)
