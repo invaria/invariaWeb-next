@@ -28,10 +28,12 @@ const TogActivity = ({ hispresale, sethispresale, start, end }) => {
     const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, provider);
     const filter = (nftContract.filters.TransferSingle(null, "0x0000000000000000000000000000000000000000", address, null, null))
     const query = await nftContract.queryFilter(filter)
+    let arr =[]
     const items = await Promise.all(query?.map(async i => {
       const block = (await provider.getBlock(i.blockHash))
       const blockTime = new Date((block.timestamp) * 1000)
       // let utcDate = new Date(blockTime.toLocaleString('en-US', { timeZone: "UTC" }))
+      if (i.args.id.toNumber() == 1) {
 
       const item = {
         date: blockTime.toString(),
@@ -49,13 +51,16 @@ const TogActivity = ({ hispresale, sethispresale, start, end }) => {
         etherScanUrl: `${etherScan}${i.transactionHash}`,
         openSeaUrl: `${openSea}`
       }
+      arr.push(item)
       return item
+    }
+
     }))
-    setTransactions(items)
-    sethispresale(items)
-    console.log(items, etherScan, openSea)
-    console.log(query)
-    console.log("trans", transactions, transactions.length)
+    setTransactions(arr)
+    sethispresale(arr)
+    // console.log(items, etherScan, openSea)
+    // console.log(query)
+    // console.log("trans", transactions, transactions.length)
   }
 
   useEffect(() => {
