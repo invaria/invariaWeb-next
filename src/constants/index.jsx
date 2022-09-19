@@ -151,7 +151,7 @@ export const faqList = [
       <ul className="list-disc pl-6">
         <li>InVaria 2222 smart contracts: </li>
         NFT (ERC-1155):<span className=" text-invar-grey font-semibold break-all"> 0x502818ec5767570F7fdEe5a568443dc792c4496b</span> <br />
-        Staking:<span className=" text-invar-grey font-semibold break-all"> 0x4B79eB01D1ddD96B1403dC61a79cb727D7745F64</span> 
+        Staking:<span className=" text-invar-grey font-semibold break-all"> 0x10a92B12Da3DEE9a3916Dbaa8F0e141a75F07126</span> 
         <li>InVaria 2222 operating account:</li>
         <p className=" text-invar-grey font-semibold break-all ">0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C</p> 
         <br />
