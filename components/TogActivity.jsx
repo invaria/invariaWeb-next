@@ -58,9 +58,9 @@ const TogActivity = ({ hispresale, sethispresale, start, end }) => {
     }))
     setTransactions(arr)
     sethispresale(arr)
-    console.log(items, etherScan, openSea)
-    console.log(query)
-    console.log("trans", transactions, transactions.length)
+    // console.log(items, etherScan, openSea)
+    // console.log(query)
+    // console.log("trans", transactions, transactions.length)
   }
 
   useEffect(() => {
