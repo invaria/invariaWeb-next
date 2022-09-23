@@ -153,44 +153,7 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-
-/* 3d button  */
-.btn3d {
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 1000ms ease-in-out;
-  transform: translateZ(-24px);
-  animation: rotatecube 10s infinite;
-}
-
-
-@keyframes rotatecube {
-  0% { -webkit-transform: rotateX(-90deg) translateY(0px); }
-  /* 25% { -webkit-transform: rotateX(-80deg); } */
-  50% { -webkit-transform: rotateX(0deg) translateY(0px) translateZ(-24px); }
-  /* 75% { -webkit-transform: rotateX(-40deg); } */
-  100% { -webkit-transform: rotateX(-90deg) translateY(0px) ; }
-}
-
-/* .btn3d:hover {
-  transform: rotateX(-90deg) translateY(24px);
-} */
-
-.side {
-  position: absolute;
-  backface-visibility: hidden;
-  width: 100%;
-  height: 100%;
-}
-
-.default-side {
-  /* background-color: white; */
-  /* color: #069; */
-  transform: translateZ(24px);
-}
-
-.hover-side {
-  /* color: white; */
-  /* background-color: #069; */
-  transform: rotateX(90deg) translateZ(24px);
+.collapsible {
+  overflow: hidden;
+  transition: height 0.2s ease-in-out;
 }

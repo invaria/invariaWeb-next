@@ -43,7 +43,7 @@ export const faqList = [
     answer: (
       <p>
         For experimental NFT (the MVP), we decided to use the progressive-launch method,
-        100 NFTs for the first whitelist & public mint stage, and arrange another stage for the rest,
+        500 NFTs for the first whitelist & public mint stage, and arrange another stage for the rest,
         total supply is determined by the overall consideration of RWA value and strategy.
         For example, if the valuation of property is $10m, then the cap of supply for $10k worth of NFT will be 1000.
       </p>
@@ -73,7 +73,7 @@ export const faqList = [
     answer: (
       <p>
         Costs incurred from minting NFT(s) can conclude to two kinds, minting cost and gas (network) fee.
-        In general, <span className="text-invar-grey font-semibold"> NFT minting cost is priced at 10,000
+        In general, <span className="text-invar-grey font-semibold"> NFT minting cost is priced at 2,000
         <OpenLink link="https://coinmarketcap.com/currencies/usd-coin/"> USDC </OpenLink> (ERC-20)
         </span>
         <span>, and the </span>
@@ -142,13 +142,16 @@ export const faqList = [
       </p>
     ),
   },
+
+//   InVaria 2222 smart contracts:NFT (ERC-1155): 0x502818ec5767570F7fdEe5a568443dc792c4496b Staking: 0x4B79eB01D1ddD96B1403dC61a79cb727D7745F64 
+// InVaria 2222 operating account: 0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C
   {
     question: 'Smart contracts and addresses you may want to know?',
     answer: (
       <ul className="list-disc pl-6">
-        <li>InVaria 2222 smart contracts:</li>
-        NFT (ERC-1155) <br />
-        Staking
+        <li>InVaria 2222 smart contracts: </li>
+        NFT (ERC-1155):<span className=" text-invar-grey font-semibold break-all"> 0x502818ec5767570F7fdEe5a568443dc792c4496b</span> <br />
+        Staking:<span className=" text-invar-grey font-semibold break-all"> 0x10a92B12Da3DEE9a3916Dbaa8F0e141a75F07126</span> 
         <li>InVaria 2222 operating account:</li>
         <p className=" text-invar-grey font-semibold break-all ">0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C</p> 
         <br />

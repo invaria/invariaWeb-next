@@ -11,7 +11,7 @@ export const handleKyc = async (formdata) => {
     "id_type": selectIDtype,
     "locale": "en",
     "workflow_id": 200,
-    "success_url": originString,
+    "success_url": originString + "/dashboard",
     "error_url": originString,
     "country": selectCountryRegion,
     "expected_name": inputName,
