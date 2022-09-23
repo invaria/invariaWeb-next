@@ -278,7 +278,7 @@ const ModalPremint = () => {
               <p className=" text-sm font-normal text-invar-light-grey ">Mint Time</p>
               <p className=" text-base font-semibold text-white ">August 5 ~ , 2022 </p>
             </div>
-            {(address && usdcAllowance >= 2000) &&
+            {(address && usdcAllowance >= 2000 && verify == "Accepted") &&
               <>
                 <p className=" mt-3 text-sm font-normal text-invar-light-grey ">Fill in the number of NFTs you want to mint</p>
                 <div className="relative " >
@@ -307,9 +307,9 @@ const ModalPremint = () => {
               </>
             }
             {verify == "Accepted" &&
-            <>
-            { btnAction }
-            </>
+              <>
+                {btnAction}
+              </>
             }
             <div className="my-6 w-full h-[1px] border-b border-b-invar-main-purple"></div>
             <ul className="list-decimal pl-3 text-xs font-normal text-invar-light-grey mb-3">
