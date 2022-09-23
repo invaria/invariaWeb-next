@@ -1,25 +1,30 @@
-// FIXME: path alias
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import Countdown from 'react-countdown';
 import { Twitter, Discord } from '../components/icons/Link'
 import { ScrollToTop, QA, Footer, Navbar } from '../components';
 import { tutorialsList, faqList } from "../src/constants";
 import Image from 'next/image'
 import { disableScroll } from '../src/utils/disableScroll'
+import Typewriter from 'typewriter-effect';
 const ModalPremint = dynamic(import("../components/ModalPremint"));
 const ModalStory = dynamic(import("../components/ModalStory"));
 const ModalProperty = dynamic(import("../components/ModalProperty"));
+const Modalappplywhite = dynamic(import("../components/Modalappplywhite"));
+
+export const endtimestamp = 1664582400000
 
 function App() {
   const [headerBackground, setHeaderBackground] = useState(false);
+  const [origin, setorigin] = useState()
   useEffect(() => {
     if (typeof window !== "undefined") {
+      setorigin(window.location.origin)
       window.addEventListener("scroll", () =>
         setHeaderBackground(window.pageYOffset > 20)
       );
     }
   }, []);
-
 
   return (
     <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
@@ -28,15 +33,16 @@ function App() {
       <ModalStory />
       <ModalProperty />
       <ModalPremint />
+      <Modalappplywhite />
       <div className="w-full flex flex-col justify-center items-center h-0 ">
         <label htmlFor="my-modal-1" onClick={() => disableScroll()}
           className="btn modal-button w-[183px] md:w-min btnShadow bg-white 
             opacity-80 hover:bg-white hover:opacity-100 px-6  text-sm text-info rounded absolute 
-            top-[188px] md:top-[408px] md:left-[16.67%] z-[21] normal-case border-none">
+            top-[188px] md:top-[408px] md:left-[245px] z-[21] normal-case border-none">
           Storyline</label>
         <a href={`#mindmap`} className='btn w-[183px] md:w-max btnShadow bg-white 
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded 
-          absolute top-[236px] md:top-[232px] md:left-[41.67%] normal-case border-none z-20 ' >
+          absolute top-[236px] md:top-[232px] md:right-1/2 normal-case border-none z-20 ' >
           Mindmap</a>
         <a href={`#faq`} className='btn w-[183px] md:w-max btnShadow bg-white 
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
@@ -46,21 +52,17 @@ function App() {
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 '>
           Property Infos</label>
-        <label htmlFor="" className=" z-20 absolute top-[438px] md:top-[503px] md:left-[46.52%] w-[183px] h-[48px] md:w-max btnShadow  ">
-          <div className="hidden md:block btn3d btnShadow" >
-            <div className=" btnShadow btn side hover-side w-[183px] md:w-max h-[48px]  bg-white opacity-80 hover:bg-white hover:opacity-100 
-            rounded normal-case border-none z-20">
-              Whitelist Application</div>
-            <div className=" btnShadow btn side default-side w-[183px] md:w-max h-[48px] bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
-            rounded normal-case border-none z-20 text-xs px-[21.35px]">
-              July 24, 00:00 ~ <br />
-              July 26, 00:00 (UTC+0)</div>
+        <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
+          opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
+          rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-20 ' >
+         Whitelist Minting</label>
+        {/* <label htmlFor="applywhite-modal" className=" z-20 absolute top-[512px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
+            rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E]">
+          <div className=" text-xs ">
+            Whitelist Application
           </div>
-          <div className=" btnShadow md:hidden btn side default-side w-[183px] md:w-max h-[48px] bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
-            rounded normal-case border-none z-20 text-xs px-[21px]">
-              July 24, 00:00 ~ <br />
-              July 26, 00:00 (UTC+0)</div>
-        </label>
+          <Countdown date={endtimestamp} daysInHours={true} />
+        </label> */}
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
         {/* <img className=' z-0 h-screen min-h-screen w-full object-cover overflow-hidden' draggable="false" src='/bg/bg.png' alt="bg" /> */}
@@ -69,14 +71,14 @@ function App() {
         <div className=" relative z-0 h-screen min-h-screen w-full object-cover overflow-hidden">
           <Image layout="fill" objectFit="cover" draggable="false" src='/bg/bg.png' />
         </div>
-        {/* <img className=' w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg_1" /> */}
+        <img className=' w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg" />
         <label htmlFor="property-modal" onClick={() => disableScroll()} className=" hidden z-30 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[57%] right-[53%] md:flex justify-end items-start">
           <div className=" hidden md:flex justify-center items-center">
             <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
             <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
           </div>
         </label>
-        <div className='mt-[88px]  hidden absolute top-0 left-[24px] md:flex flex-row items-start justify-start h-[592px] w-[325px] text-white indent-0.5 font-normal text-sm z-10 animate-fade-in-down'>
+        <div className='mt-[88px]  hidden absolute top-0 left-[24px] md:flex flex-row items-start justify-start h-[592px] w-[300px] text-white indent-0.5 font-normal text-sm z-10 animate-fade-in-down'>
           <div className='flex flex-col items-center justify-center mr-3 '>
             <span className="flex h-3 w-3 justify-center items-center">
               <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
@@ -84,7 +86,25 @@ function App() {
             </span>
             <div className='h-[540px] w-[1px] border-l bg-white -mt-1 z-0'></div>
           </div>
-          The researcher found that the building named Amwaj20, which was built in the Persian Gulf region in 2015... Electronic parts and documents are scattered at the entrance, especially, the texts on the documents are sorted out and translated... One of the paragraphs reads &quot;... First priority, enter your address codes in the device, also with desire of property resources... You may get an unexpected prizes…&quot;
+          Hopely, through NFT technology, Amwaj20 property ownership is fractionalized and waiting to distribute. The lasting time of operating furnace is near closed... We should seize the time to mint Amwaj20 NFT to avoid losing the rights belonging to us. For details and mechanism of fractionalized NFT, please visit the FAQ or related information channels.
+        </div>
+        <div className=" hidden absolute bottom-0 left-0 right-0 z-10 md:flex justify-center items-center">
+          <div className=" flex justify-start items-start text-start w-[826px] h-[153px] m-6 p-6 px-[87px] bg-invar-main-purple 
+            bg-opacity-60 text-white text-sm font-normal leading-[19.6px] rounded-lg border-4 border-invar-light-purple 
+            border-opacity-60 animate-fade-in-up">
+            <div className="text-start flex justify-start">
+              <Typewriter
+                options={{
+                  delay: 10,
+                }}
+                onInit={(typewriter) => {
+                  typewriter.pauseFor(1000)
+                    .typeString('Crowd of tribe have different opinions on the ownership of device and the property... "The rights and interests of related ownership should be given to whoever discovers it first... Right? Hodlemir."... After long discussion... Hodlemir said confidently, "It should be fractionalized by consensus protocol of tribe and technology. Let’s make it together; the power should be decentralized, the interests should be given priority to the early participants, then distributed to others after.”')
+                    .start();
+                }}
+              />
+            </div>
+          </div>
         </div>
         <div className="m-6 flex justify-between absolute bottom-[0px] right-0 z-20">
           <Twitter />
@@ -92,6 +112,8 @@ function App() {
         </div>
       </div>
       <div className="relative w-screen min-w-full bg-gradient-to-b from-invar-main-purple to-black text-white pb-12 md:pb-32">
+        {/* <img className="absolute top-[px] left-0" src="/bg/mindmap_02.png" draggable="false" alt=""/>
+        <img className="absolute top-[px] left-0" src="/bg/mindmap_03.png" draggable="false" alt=""/> */}
         <p className="pt-10 md:pt-16 pb-6 text-2xl md:text-3xl font-semibold text-center mx-16 md:mx-0">
           Explore Crypto Desert on Next-Gen
         </p>
@@ -115,7 +137,7 @@ function App() {
         <div className=" mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] font-normal">
           <p>
             As the tempo of iteration in crypto market characteristics, technology and industry framework as well, InVar team dislike to
-            overpromise and fail to deliver our plans. However, we truly have pre-organized milestones to achieve, the mindmap, and we don’t
+            overpromise and fail to deliver our plans. However, we truly have pre-organized milestones to achieve, the mindmap, and we don&apos;t
             want to keep it secret but are willing to share with sincerity.
           </p>
         </div>
@@ -210,4 +232,3 @@ function App() {
 }
 
 export default App;
-

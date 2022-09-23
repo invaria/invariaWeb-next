@@ -125,7 +125,7 @@ const ModalPremint = () => {
     checkAllowance()
     getdata()
   }, [address])
-  
+
 
   useEffect(() => {
     console.log(usdcAllowance)
@@ -191,7 +191,8 @@ const ModalPremint = () => {
         <div className="modal-box relative md:flex flex-col h-screen max-h-screen md:h-fit w-full max-w-5xl md:w-[375px] 
           md:absolute md:top-[24px] md:right-[24px] rounded-none md:rounded bg-gradient-to-b from-primary to-[#1E1722] 
           mx-0 p-0 pb-[24px] scrollbar-hide">
-          {verify == "Unverified" &&
+          {/* {verify} */}
+          {verify !== "Accepted" &&
             <>
               <div className="w-full h-[56px] bg-invar-dark flex justify-between items-center">
                 <p className=" ml-6 text-invar-error font-normal text-sm">
@@ -211,11 +212,11 @@ const ModalPremint = () => {
           }
           {verify !== "Unverified" &&
             <label htmlFor="premint-modal" onClick={() => enableScroll()} className="btn btn-sm p-0 absolute right-[32px] top-[23px] bg-transparent border-none hover:bg-transparent">
-              <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
+              {/* <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" /> */}
             </label>
           }
           <div className="px-6">
-            <h3 className="text-2xl font-semibold mt-[24px] mb-6">Pre-Sale Minting Stage</h3>
+            <h3 className="text-2xl font-semibold mt-[24px] mb-6">Whitelist Minting Stage</h3>
             <p className=" text-sm font-normal text-invar-light-grey mt-[24px] mb-1">My Wallet</p>
             {!address ? (
               <button className="btn btn-primary font-semibold text-sm text-invar-light-grey w-full h-[40px] rounded border-none normal-case" onClick={connectWithMetamask}>
@@ -235,6 +236,7 @@ const ModalPremint = () => {
                     <button className=" font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
                       {shortenAddress(address)}
                     </button>
+                    <p className=" mb-[10px] text-invar-success text-sm font-normal">You are in the whitelist.</p>
                   </div>
                 )
                 }
@@ -304,7 +306,11 @@ const ModalPremint = () => {
                 </div>
               </>
             }
-            {btnAction}
+            {verify == "Accepted" &&
+            <>
+            { btnAction }
+            </>
+            }
             <div className="my-6 w-full h-[1px] border-b border-b-invar-main-purple"></div>
             <ul className="list-decimal pl-3 text-xs font-normal text-invar-light-grey mb-3">
               <li>Please make sure the wallet is connected to the Ethereum Mainnet.</li>
