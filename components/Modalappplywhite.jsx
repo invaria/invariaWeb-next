@@ -12,7 +12,7 @@ import { enableScroll } from '../src/utils/disableScroll'
 import { checkIfWalletIsConnected, addTokenFunction, usdcAddress, nftAddress } from '../src/utils/web3utils'
 import { OpenLink, ButtonMailto } from './icons/Link';
 import { getUser, applyWhite } from "../src/utils/storeFirebase";
-import { endtimestamp } from '../pages/invaria2222'
+import { endtimestamp } from '../pages/invaria2222_1'
 
 let pervState = []
 
