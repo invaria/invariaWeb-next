@@ -170,6 +170,7 @@ const Dashboard = () => {
                     <select name="selectIDtype" onChange={handleChange} value={inputs.selectIDtype || ""}
                       required className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
                      cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-end">
+                      <option value="Amwaj20">All</option>
                       <option value="Amwaj20">Amwaj20</option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
@@ -184,9 +185,9 @@ const Dashboard = () => {
                       required className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
                      cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-end">
                       <option value="All">All</option>
-                      <option value="Pre-Sale">Pre-Sale</option>
+                      <option value="Pre-Sale">Minting</option>
                       <option value="Whitelist">Whitelist</option>
-                      <option value="Public Sale">Public Sale</option>
+                      {/* <option value="Public Sale">Public Sale</option> */}
                       <option value="Unstake">Unstake</option>
                       <option value="Claim">Claim</option>
                       <option value="Redemption">Redemption</option>

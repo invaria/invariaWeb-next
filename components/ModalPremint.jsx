@@ -194,7 +194,7 @@ const ModalPremint = () => {
           {/* {verify} */}
           {verify !== "Accepted" &&
             <>
-              <div className="w-full h-[56px] bg-invar-dark flex justify-between items-center">
+              <div className="w-full z-40 h-[56px] bg-invar-dark flex justify-between items-center">
                 <p className=" ml-6 text-invar-error font-normal text-sm">
                   Complete your verification
                 </p>
@@ -212,7 +212,7 @@ const ModalPremint = () => {
           }
           {verify !== "Unverified" &&
             <label htmlFor="premint-modal" onClick={() => enableScroll()} className="btn btn-sm p-0 absolute right-[32px] top-[23px] bg-transparent border-none hover:bg-transparent">
-              {/* <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" /> */}
+              <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
             </label>
           }
           <div className="px-6">
@@ -229,7 +229,7 @@ const ModalPremint = () => {
                     <button className=" mt-[10px] font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
                       {shortenAddress(address)}
                     </button>
-                    <p className=" mb-[10px] text-invar-validation text-sm font-normal">You are not in the Pre-Sale list.</p>
+                    <p className=" mb-[10px] text-invar-validation text-sm font-normal">You are not in the Whitelist.</p>
                   </div>
                 ) : (
                   <div className="btn btn-disabled w-full min-h-max bg-primary h-[40px] normal-case rounded border-none">
@@ -276,7 +276,7 @@ const ModalPremint = () => {
             </div>
             <div className=" mt-4 flex justify-between items-baseline">
               <p className=" text-sm font-normal text-invar-light-grey ">Mint Time</p>
-              <p className=" text-base font-semibold text-white ">August 5 ~ , 2022 </p>
+              <p className=" text-base font-semibold text-white max-w-[260px] text-end ">Oct 3, 00:00 ~ Oct 17, 00:00 (UTC+0)</p>
             </div>
             {(address && usdcAllowance >= 2000 && verify == "Accepted") &&
               <>
@@ -319,7 +319,8 @@ const ModalPremint = () => {
               {readmore &&
                 <>
                   <li>After the transaction succeeds, you can view your NFT on the Dashboard Page, as well as your wallet.</li>
-                  <li>The pre-sale stage is designed for partners and early-investors, you may experience a relatively longer time till staking is open.</li>
+                  <li>Due to the amount of InVaria 2222 NFT is limited, there is no guarantee of successful minting or any amount, even though whitelist.</li>
+                  <li>Whitelist is distributed through the campaign, partnership or official social media. </li>
                   <li>If you have any questions, please contact: <ButtonMailto />.</li>
                 </>
               }
