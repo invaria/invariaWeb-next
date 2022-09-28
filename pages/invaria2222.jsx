@@ -55,7 +55,7 @@ function App() {
         <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
           opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-20 ' >
-         Whitelist Minting</label>
+         Public Sale</label>
         {/* <label htmlFor="applywhite-modal" className=" z-20 absolute top-[512px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
             rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E]">
           <div className=" text-xs ">
@@ -71,7 +71,7 @@ function App() {
         <div className=" relative z-0 h-screen min-h-screen w-full object-cover overflow-hidden">
           <Image layout="fill" objectFit="cover" draggable="false" src='/bg/bg.png' />
         </div>
-        <img className=' w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_01.png' alt="bg" />
+        <img className=' w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left' draggable="false" src='/bg/bg_1.png' alt="bg" />
         <label htmlFor="property-modal" onClick={() => disableScroll()} className=" hidden z-30 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[57%] right-[53%] md:flex justify-end items-start">
           <div className=" hidden md:flex justify-center items-center">
             <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
@@ -86,7 +86,7 @@ function App() {
             </span>
             <div className='h-[540px] w-[1px] border-l bg-white -mt-1 z-0'></div>
           </div>
-          Hopely, through NFT technology, Amwaj20 property ownership is fractionalized and waiting to distribute. The lasting time of operating furnace is near closed... We should seize the time to mint Amwaj20 NFT to avoid losing the rights belonging to us. For details and mechanism of fractionalized NFT, please visit the FAQ or related information channels.
+          &quot;...Pioneer Advantages... Amwaj20 will Activate the Portal to... this Device Can be Used in Different Scenario... Like Derivative of Power…&quot;, an unknown message unexpectedly appeared on REFLECTOR. After translation by the researcher, it was found that the device has the function of collecting information; meanwhile, the device is processing sort of formulas from previous data and surrounding events... Possibly, something is going to be reflected…
         </div>
         <div className=" hidden absolute bottom-0 left-0 right-0 z-10 md:flex justify-center items-center">
           <div className=" flex justify-start items-start text-start w-[826px] h-[153px] m-6 p-6 px-[87px] bg-invar-main-purple 
@@ -99,7 +99,7 @@ function App() {
                 }}
                 onInit={(typewriter) => {
                   typewriter.pauseFor(1000)
-                    .typeString('Crowd of tribe have different opinions on the ownership of device and the property... "The rights and interests of related ownership should be given to whoever discovers it first... Right? Hodlemir."... After long discussion... Hodlemir said confidently, "It should be fractionalized by consensus protocol of tribe and technology. Let’s make it together; the power should be decentralized, the interests should be given priority to the early participants, then distributed to others after.”')
+                    .typeString('How to utilize the NFT, which is a fractionalization of the property, and the correlated values attribute to it have become follow-up concerns. The tribe is working on a solution... Dyoremira, a financial engineer, proposed to unify the management of Amwaj20 to professional leaders for creating stable returns, and distribute the consecutive values to NFT holders; holders are allowed to stake NFT through the protocol to obtain the corresponding values.')
                     .start();
                 }}
               />
