@@ -225,18 +225,18 @@ const ModalPremint = () => {
             ) : (
               <>
                 {btnState == "notwhite" ? (
-                  <div className="btn btn-disabled flex w-full min-h-max bg-primary h-[68px] normal-case rounded border-none">
-                    <button className=" mt-[10px] font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
+                  <div className="btn btn-disabled w-full min-h-max bg-primary normal-case rounded border-none pb-1">
+                    <button className=" mt-1 font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
                       {shortenAddress(address)}
                     </button>
-                    <p className=" mb-[10px] text-invar-validation text-sm font-normal">You are not in the Whitelist.</p>
+                    <p className=" mb-1 text-invar-validation text-sm font-normal">You are not in the Whitelist.</p>
                   </div>
                 ) : (
-                  <div className="btn btn-disabled w-full min-h-max bg-primary h-[40px] normal-case rounded border-none">
-                    <button className=" font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
+                  <div className="btn btn-disabled w-full min-h-max bg-primary normal-case rounded border-none">
+                    <button className=" font-semibold text-sm text-white w-full mt-1 " onClick={connectWithMetamask}>
                       {shortenAddress(address)}
                     </button>
-                    <p className=" mb-[10px] text-invar-success text-sm font-normal">You are in the whitelist.</p>
+                    <p className=" mb-1 text-invar-success text-sm font-normal">You are in the whitelist.</p>
                   </div>
                 )
                 }

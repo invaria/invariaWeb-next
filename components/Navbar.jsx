@@ -124,7 +124,7 @@ const Navbar = ({ headerBackground }) => {
               <>
                 <Link href="/dashboard">
                   <div className="btn btn-sm btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-white text-end border-[#44334C] normal-case hover:border-none hover:bg-primary flex justify-center items-center ">
-                    <p className='mr-[6px]'>Dashboard</p>
+                    <p className=''>Dashboard</p>
                     {verify == "Unverified" &&
                       <img src="/icons/ic_warning.svg" alt="" />
                     }

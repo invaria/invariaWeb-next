@@ -76,10 +76,10 @@ const Terms = () => {
           <br />
           <p>
             This website and its connected services are provided “as is” and “as available” without warranty of any kind.
-            By using this website you are accepting sole responsibility for any and
+            By using this website you <span id="1"></span>are accepting sole responsibility for any and
             all transactions involving InVaria 2222 digital collectibles.
           </p>
-          <p className="text-xl font-semibold mt-[46px] mb-3" id="1">1. Ownership</p>
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="">1. Ownership</p>
           <p>
             A. You Own the NFT. Each InVaria 2222 is an NFT on the Ethereum blockchain.
             When you purchase an NFT, you own the underlying InVaria 2222 NFT, the Art, completely.
@@ -141,11 +141,11 @@ const Terms = () => {
             copyrights, trade secrets and proprietary technology, etc., and may not be used, modified, reproduced,
             publicly broadcast, altered, distributed, rented, distributed, publicly transmitted, publicly published,
             restored, decompiled or reverse-compiled by anyone without prior consent.
-            It is your obligation to respect the intellectual property rights,
+            It is your obligation to respect the intellectual property rights,<span id="2"></span>
             and you shall be liable for any breach thereof and all damages incurred by InVar or the other rights holders of
             the intellectual property rights.
           </p>
-          <p className="text-xl font-semibold mt-[46px] mb-3" id="2">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="">
             2. Your Obligations
           </p>
           <p>
@@ -167,10 +167,10 @@ const Terms = () => {
             (xi) access or use the Site for the purpose of creating a product or service
             that is competitive with any of our products or services.
             If you engage in any of the activities prohibited by this Section, we may, at our sole and absolute discretion,
-            without notice to you, and without limiting any of our other rights or remedies at law or in equity,
+            without notice to you,<span id="3"></span> and without limiting any of our other rights or remedies at law or in equity,
             immediately suspend or terminate your user account.
           </p>
-          <p className="text-xl font-semibold mt-[46px] mb-3" id="3">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="">
             3. Fees and Payment
           </p>
           <p>
@@ -185,10 +185,10 @@ const Terms = () => {
           <br />
           <p>
             B. Ethereum requires the payment of a transaction fee (a “Gas Fee”) for every transaction that
-            occurs on the Ethereum network. The Gas Fee funds the network of computers that
+            occurs on the Ethereum network. The Gas Fee funds the network of computers that<span id="4"></span>
             run the decentralized Ethereum network. This means that you will need to pay a Gas Fee for each transaction.
           </p>
-          <p className="text-xl font-semibold mt-[46px] mb-3" id="4">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="">
             4. Disclaimers
           </p>
           <p>
@@ -255,10 +255,10 @@ const Terms = () => {
           <p>
             F.  Some jurisdictions do not allow the exclusion of certain warranties and limitations of liability provided
             in this Agreement. If You are in such a jurisdiction, some of the above limitations and disclaimers may not apply to You.
-            To the extent we may not, as a matter of applicable law, disclaim any implied warranty or limit our liabilities,
+            To the extent we may not, as a matter of applicable law, disclaim any implied warranty or limit our liabilities,<span id="5"></span>
             the scope and duration of such warranty and the extent of our liability will be the minimum permitted by applicable law.
           </p>
-          <p className="text-xl font-semibold mt-[46px] mb-3" id="5">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="">
             5. Limitation of Liability
           </p>
           <p>
@@ -276,10 +276,10 @@ const Terms = () => {
           <br />
           <p>
             B. You acknowledge and agree that we have made the site available to you and entered into these terms
-            in reliance upon the warranty disclaimers and limitations of liability set forth herein.
+            in reliance upon the warranty disclaimers <span id="6"></span>and limitations of liability set forth herein.
             We would not be able to provide the site to you without these limitations.
           </p>
-          <p className="text-xl  font-semibold mt-[46px] mb-3" id="6">
+          <p className="text-xl  font-semibold mt-[46px] mb-3" id="">
             6. KYC & AML Regulations
           </p>
           <p>
@@ -312,11 +312,11 @@ const Terms = () => {
             our ability to verify it, and our internal policies. You accept that
             you may not be able to achieve your desired level of verification,
             and InVar reserve the right, at our sole discretion, to determine the appropriate
-            verification level for any user, as well as the right to downgrade users without notice.
+            verification level for any user, as well as the right to downgrade users without notice.<span id="7"></span>
             InVar may, from time to time, implement policies restricting verification levels by nationality,
             country of residence, or any other factor.
           </p>
-          <p className="text-xl  font-semibold mt-[46px] mb-3" id="7">
+          <p className="text-xl  font-semibold mt-[46px] mb-3" id="">
             7. Risk Assumption
           </p>
 
@@ -348,35 +348,35 @@ const Terms = () => {
             You understand and accept all risk in that regard.
           </p>
           <br />
-          <p>
+          <p><span id="8"></span>
             E. You assume all responsibility for any adverse effects of disruptions or other issues
             impacting Ethereum or the Ethereum platform.
           </p>
-          <p className="text-xl font-semibold mt-[46px] mb-3" id="8">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="">
             8. Indemnification
           </p>
           <p>
-            You agree to hold harmless and indemnify InVar and its subsidiaries, affiliates, officers, agents, employees, advertisers, licensors, suppliers or partners from and against any claim, liability, loss, damage (actual and consequential) of any kind or nature, suit, judgment, litigation cost, and reasonable attorneys`&apos;` fees arising out of or in any way related to (i) your breach of these Terms, (ii) your misuse of the Site, or (iii) your violation of applicable laws, rules or regulations in connection with your access to or use of the Site.
+            You agree to hold harmless and indemnify InVar and its subsidiaries, affiliates, officers, agents, employees, advertisers, licensors, suppliers or partners from and against any claim, liability, loss, damage (actual and consequential) of any kind or nature, suit, judgment, litigation cost, and reasonable attorneys`&apos;` fees arising out of or in any way related to (i) your breach of these Terms, (ii) your misuse of the Site, or (iii) your violation of applicable laws, <span id="9"></span>rules or regulations in connection with your access to or use of the Site.
           </p>
-          <p className="text-xl font-semibold mt-[46px] mb-3" id="9">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="">
             9. Changes to the Terms and Conditions
           </p>
           <p>
             We may make changes to the Terms at our discretion. Please check these Terms periodically for changes.
             Any changes to the Terms will apply on the date that they are made, and your continued
-            access to or use after the Terms have been updated will constitute your binding acceptance of the updates.
+            access to or use after the Terms have been updated will constitute your binding acceptance of the updates.<span id="10"></span>
             If you do not agree to any revised Terms, you may not access or use the Site.
           </p>
-          <p className="text-xl font-semibold mt-[46px] mb-3" id="10">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="">
             10. Children
           </p>
           <p>
             Our Site is not intended for children.
             You must be at least 21 years old to access this Site or purchase a InVaria 2222 NFT.
-            If you are under 21 years old you are not permitted to use this Site for any reason.
+            If you are under 21 years old you are not permitted to use this Site for any reason.<span id="11"></span>
             By accessing the Site, you represent and warrant that you are at least 21 years of age.
           </p>
-          <p className="text-xl font-semibold mt-[46px] mb-3" id="11">
+          <p className="text-xl font-semibold mt-[46px] mb-3" id="">
             11. Dispute Resolution, Arbitration
           </p>
           <p>

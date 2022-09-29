@@ -279,7 +279,7 @@ const Nfts = () => {
               <div onClick={() => setopeninfo(true)} className=" relative w-[310px] h-[382px] bg-black rounded overflow-hidden shadow cursor-pointer">
                 <img className=" w-[310px] h-[310px]" src="https://dev2988.dkotaim8jhfxo.amplifyapp.com/Renft.gif" alt="" />
                 <p className=" px-[109px] py-6 font-semibold text-xl">Amwaj20 </p>
-                <div className=" absolute top-0 left-0 m-3 p-2 bg-invar-dark bg-opacity-70 text-invar-success font-semibold text-sm rounded">{nfts} NFTs</div>
+                <div className=" absolute top-0 left-0 m-3 p-2 bg-invar-dark bg-opacity-70 text-invar-success font-semibold text-sm rounded">{+nfts+(+staked)} NFTs</div>
               </div>
             ) : (
               <>

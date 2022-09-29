@@ -56,8 +56,9 @@ const TogActivity = ({ hispresale, sethispresale, start, end }) => {
       }
 
     }))
-    setTransactions(arr)
-    sethispresale(arr)
+    const i = [...arr].sort((a, b) => (b.date) - (a.date));
+    setTransactions(i)
+    sethispresale(i)
     // console.log(items, etherScan, openSea)
     // console.log(query)
     // console.log("trans", transactions, transactions.length)
