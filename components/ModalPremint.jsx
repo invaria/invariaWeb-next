@@ -42,12 +42,12 @@ const ModalPremint = () => {
     const signer = provider.getSigner()
     const usdcContract = new ethers.Contract(usdcAddress, erc20ABI, signer);
     getusdcAllowance = +(ethers.utils.formatUnits(await usdcContract.allowance(address, nftAddress), decimal))
-    const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, signer);
-    const iswhite = await nftContract.WhiteList(address)
-    console.log(iswhite)
-    if (iswhite == false) {
-      setBtnState("notwhite")
-    }
+    // const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, signer);
+    // const iswhite = await nftContract.WhiteList(address)
+    // console.log(iswhite)
+    // if (iswhite == false) {
+    //   setBtnState("notwhite")
+    // }
     setUsdcAllowance(getusdcAllowance)
   }
 
@@ -75,7 +75,7 @@ const ModalPremint = () => {
     const signer = provider.getSigner()
     const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, signer);
     try {
-      const mint = await nftContract.mintNFT(mintNum)
+      const mint = await nftContract.PublicMintNFT(mintNum)
       await mint.wait()
       setBtnState("minted")
     } catch (error) {
@@ -125,12 +125,12 @@ const ModalPremint = () => {
     checkAllowance()
     getdata()
   }, [address])
-  
+
 
   useEffect(() => {
     console.log(usdcAllowance)
     if (usdcAllowance == null) return
-    if (btnState == "notwhite") return
+    // if (btnState == "notwhite") return
     if (+usdcBalance < (mintNum * 2000)) {
       setBtnState("nofund")
     } else if (+usdcAllowance < 2000) {
@@ -191,9 +191,9 @@ const ModalPremint = () => {
         <div className="modal-box relative md:flex flex-col h-screen max-h-screen md:h-fit w-full max-w-5xl md:w-[375px] 
           md:absolute md:top-[24px] md:right-[24px] rounded-none md:rounded bg-gradient-to-b from-primary to-[#1E1722] 
           mx-0 p-0 pb-[24px] scrollbar-hide">
-          {verify == "Unverified" &&
+          {verify !== "Accepted" &&
             <>
-              <div className="w-full h-[56px] bg-invar-dark flex justify-between items-center">
+              <div className="w-full z-40 h-[56px] bg-invar-dark flex justify-between items-center">
                 <p className=" ml-6 text-invar-error font-normal text-sm">
                   Complete your verification
                 </p>
@@ -215,7 +215,7 @@ const ModalPremint = () => {
             </label>
           }
           <div className="px-6">
-            <h3 className="text-2xl font-semibold mt-[24px] mb-6">Pre-Sale Minting Stage</h3>
+            <h3 className="text-2xl font-semibold mt-[24px] mb-6">Public Minting Stage</h3>
             <p className=" text-sm font-normal text-invar-light-grey mt-[24px] mb-1">My Wallet</p>
             {!address ? (
               <button className="btn btn-primary font-semibold text-sm text-invar-light-grey w-full h-[40px] rounded border-none normal-case" onClick={connectWithMetamask}>
@@ -228,13 +228,14 @@ const ModalPremint = () => {
                     <button className=" mt-[10px] font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
                       {shortenAddress(address)}
                     </button>
-                    <p className=" mb-[10px] text-invar-validation text-sm font-normal">You are not in the Pre-Sale list.</p>
+                    {/* <p className=" mb-[10px] text-invar-validation text-sm font-normal">You are not in the Whitelist.</p> */}
                   </div>
                 ) : (
                   <div className="btn btn-disabled w-full min-h-max bg-primary h-[40px] normal-case rounded border-none">
                     <button className=" font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
                       {shortenAddress(address)}
                     </button>
+                    {/* <p className=" mb-[10px] text-invar-success text-sm font-normal">You are in the whitelist.</p> */}
                   </div>
                 )
                 }
@@ -274,9 +275,9 @@ const ModalPremint = () => {
             </div>
             <div className=" mt-4 flex justify-between items-baseline">
               <p className=" text-sm font-normal text-invar-light-grey ">Mint Time</p>
-              <p className=" text-base font-semibold text-white ">August 5 ~ , 2022 </p>
+              <p className=" text-base font-semibold text-white max-w-[260px] text-end ">Oct 3, 00:00 ~ Oct 17, 00:00 (UTC+0)</p>
             </div>
-            {(address && usdcAllowance >= 2000) &&
+            {(address && usdcAllowance >= 2000 && verify == "Accepted") &&
               <>
                 <p className=" mt-3 text-sm font-normal text-invar-light-grey ">Fill in the number of NFTs you want to mint</p>
                 <div className="relative " >
@@ -304,7 +305,11 @@ const ModalPremint = () => {
                 </div>
               </>
             }
-            {btnAction}
+            {verify == "Accepted" &&
+              <>
+                {btnAction}
+              </>
+            }
             <div className="my-6 w-full h-[1px] border-b border-b-invar-main-purple"></div>
             <ul className="list-decimal pl-3 text-xs font-normal text-invar-light-grey mb-3">
               <li>Please make sure the wallet is connected to the Ethereum Mainnet.</li>
@@ -313,7 +318,8 @@ const ModalPremint = () => {
               {readmore &&
                 <>
                   <li>After the transaction succeeds, you can view your NFT on the Dashboard Page, as well as your wallet.</li>
-                  <li>The pre-sale stage is designed for partners and early-investors, you may experience a relatively longer time till staking is open.</li>
+                  <li>Due to the amount of InVaria 2222 NFT is limited, there is no guarantee of successful minting or any amount, even though whitelist.</li>
+                  {/* <li>Whitelist is distributed through the campaign, partnership or official social media. </li> */}
                   <li>If you have any questions, please contact: <ButtonMailto />.</li>
                 </>
               }
