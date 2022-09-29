@@ -42,12 +42,12 @@ const ModalPremint = () => {
     const signer = provider.getSigner()
     const usdcContract = new ethers.Contract(usdcAddress, erc20ABI, signer);
     getusdcAllowance = +(ethers.utils.formatUnits(await usdcContract.allowance(address, nftAddress), decimal))
-    // const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, signer);
-    // const iswhite = await nftContract.WhiteList(address)
-    // console.log(iswhite)
-    // if (iswhite == false) {
-    //   setBtnState("notwhite")
-    // }
+    const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, signer);
+    const iswhite = await nftContract.WhiteList(address)
+    console.log(iswhite)
+    if (iswhite == false) {
+      setBtnState("notwhite")
+    }
     setUsdcAllowance(getusdcAllowance)
   }
 
@@ -75,7 +75,7 @@ const ModalPremint = () => {
     const signer = provider.getSigner()
     const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, signer);
     try {
-      const mint = await nftContract.PublicMintNFT(mintNum)
+      const mint = await nftContract.mintNFT(mintNum)
       await mint.wait()
       setBtnState("minted")
     } catch (error) {
@@ -130,7 +130,7 @@ const ModalPremint = () => {
   useEffect(() => {
     console.log(usdcAllowance)
     if (usdcAllowance == null) return
-    // if (btnState == "notwhite") return
+    if (btnState == "notwhite") return
     if (+usdcBalance < (mintNum * 2000)) {
       setBtnState("nofund")
     } else if (+usdcAllowance < 2000) {
@@ -191,6 +191,7 @@ const ModalPremint = () => {
         <div className="modal-box relative md:flex flex-col h-screen max-h-screen md:h-fit w-full max-w-5xl md:w-[375px] 
           md:absolute md:top-[24px] md:right-[24px] rounded-none md:rounded bg-gradient-to-b from-primary to-[#1E1722] 
           mx-0 p-0 pb-[24px] scrollbar-hide">
+          {/* {verify} */}
           {verify !== "Accepted" &&
             <>
               <div className="w-full z-40 h-[56px] bg-invar-dark flex justify-between items-center">
@@ -215,7 +216,7 @@ const ModalPremint = () => {
             </label>
           }
           <div className="px-6">
-            <h3 className="text-2xl font-semibold mt-[24px] mb-6">Public Minting Stage</h3>
+            <h3 className="text-2xl font-semibold mt-[24px] mb-6">Whitelist Minting Stage</h3>
             <p className=" text-sm font-normal text-invar-light-grey mt-[24px] mb-1">My Wallet</p>
             {!address ? (
               <button className="btn btn-primary font-semibold text-sm text-invar-light-grey w-full h-[40px] rounded border-none normal-case" onClick={connectWithMetamask}>
@@ -224,18 +225,18 @@ const ModalPremint = () => {
             ) : (
               <>
                 {btnState == "notwhite" ? (
-                  <div className="btn btn-disabled flex w-full min-h-max bg-primary h-[68px] normal-case rounded border-none">
-                    <button className=" mt-[10px] font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
+                  <div className="btn btn-disabled w-full min-h-max bg-primary normal-case rounded border-none pb-1">
+                    <button className=" mt-1 font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
                       {shortenAddress(address)}
                     </button>
-                    {/* <p className=" mb-[10px] text-invar-validation text-sm font-normal">You are not in the Whitelist.</p> */}
+                    <p className=" mb-1 text-invar-validation text-sm font-normal">You are not in the Whitelist.</p>
                   </div>
                 ) : (
-                  <div className="btn btn-disabled w-full min-h-max bg-primary h-[40px] normal-case rounded border-none">
-                    <button className=" font-semibold text-sm text-white w-full " onClick={connectWithMetamask}>
+                  <div className="btn btn-disabled w-full min-h-max bg-primary normal-case rounded border-none">
+                    <button className=" font-semibold text-sm text-white w-full mt-1 " onClick={connectWithMetamask}>
                       {shortenAddress(address)}
                     </button>
-                    {/* <p className=" mb-[10px] text-invar-success text-sm font-normal">You are in the whitelist.</p> */}
+                    <p className=" mb-1 text-invar-success text-sm font-normal">You are in the whitelist.</p>
                   </div>
                 )
                 }
@@ -319,7 +320,7 @@ const ModalPremint = () => {
                 <>
                   <li>After the transaction succeeds, you can view your NFT on the Dashboard Page, as well as your wallet.</li>
                   <li>Due to the amount of InVaria 2222 NFT is limited, there is no guarantee of successful minting or any amount, even though whitelist.</li>
-                  {/* <li>Whitelist is distributed through the campaign, partnership or official social media. </li> */}
+                  <li>Whitelist is distributed through the campaign, partnership or official social media. </li>
                   <li>If you have any questions, please contact: <ButtonMailto />.</li>
                 </>
               }

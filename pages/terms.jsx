@@ -76,7 +76,7 @@ const Terms = () => {
           <br />
           <p>
             This website and its connected services are provided “as is” and “as available” without warranty of any kind.
-            By using this website you are accepting sole responsibility for any and<span id="1"></span>
+            By using this website you <span id="1"></span>are accepting sole responsibility for any and
             all transactions involving InVaria 2222 digital collectibles.
           </p>
           <p className="text-xl font-semibold mt-[46px] mb-3" id="">1. Ownership</p>
@@ -167,7 +167,7 @@ const Terms = () => {
             (xi) access or use the Site for the purpose of creating a product or service
             that is competitive with any of our products or services.
             If you engage in any of the activities prohibited by this Section, we may, at our sole and absolute discretion,
-            without notice to you, and without limiting any of our other rights or remedies at law or in equity,<span id="3"></span>
+            without notice to you,<span id="3"></span> and without limiting any of our other rights or remedies at law or in equity,
             immediately suspend or terminate your user account.
           </p>
           <p className="text-xl font-semibold mt-[46px] mb-3" id="">
@@ -276,7 +276,7 @@ const Terms = () => {
           <br />
           <p>
             B. You acknowledge and agree that we have made the site available to you and entered into these terms
-            in reliance upon the warranty disclaimers and limitations of liability set forth herein.<span id="6"></span>
+            in reliance upon the warranty disclaimers <span id="6"></span>and limitations of liability set forth herein.
             We would not be able to provide the site to you without these limitations.
           </p>
           <p className="text-xl  font-semibold mt-[46px] mb-3" id="">
