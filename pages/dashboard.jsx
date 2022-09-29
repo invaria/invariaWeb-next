@@ -127,6 +127,7 @@ const Dashboard = () => {
 
   function reset() {
     setInputs({ ["address"]: address, ["time"]: new Date(Date.now()), selectType: "All" })
+    getdata()
   }
 
   return (
@@ -160,7 +161,7 @@ const Dashboard = () => {
           <div className="relative min-h-[70vw] w-full border-t border-invar-main-purple">
             <div className=" md:hidden max-w-full mt-4 h-10 bg-invar-main-purple rounded flex justify-center items-center text-sm font mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] "
               onClick={() => setfmenu(!fmenu)}>
-              <img src="/icons/filt.png" alt="" className=" w-4 h-4 mr-2" />
+              <img src="/icons/ic_filter.svg" alt="" className=" w-4 h-4 mr-2" />
               Filter
             </div>
             <form className=" hidden md:flex justify-between my-9 mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] max-w-full z-10 " onSubmit={handleSubmit} name="form">
