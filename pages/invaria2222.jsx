@@ -52,7 +52,7 @@ function App() {
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 '>
           Property Infos</label>
-        <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
+        {/* <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
           opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-20 ' >
           Pre-Sale Minting</label>
@@ -62,7 +62,7 @@ function App() {
             Whitelist Application
           </div>
           <Countdown date={endtimestamp} daysInHours={true} />
-        </label>
+        </label> */}
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
         {/* <img className=' z-0 h-screen min-h-screen w-full object-cover overflow-hidden' draggable="false" src='/bg/bg.png' alt="bg" /> */}
