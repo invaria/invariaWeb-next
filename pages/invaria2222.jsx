@@ -13,11 +13,13 @@ const ModalProperty = dynamic(import("../components/ModalProperty"));
 const Modalappplywhite = dynamic(import("../components/Modalappplywhite"));
 
 export const endtimestamp = 1664582400000
+const startdate = 1664755200000
 
 function App() {
   const [headerBackground, setHeaderBackground] = useState(false);
   const [origin, setorigin] = useState()
   useEffect(() => {
+    console.log("dsf", Date.now())
     if (typeof window !== "undefined") {
       setorigin(window.location.origin)
       window.addEventListener("scroll", () =>
@@ -52,10 +54,12 @@ function App() {
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 '>
           Property Infos</label>
-        <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
+        {Date.now() >= startdate &&
+          <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
           opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-20 ' >
-         Whitelist Minting</label>
+            Whitelist Minting</label>
+        }
         {/* <label htmlFor="applywhite-modal" className=" z-20 absolute top-[512px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
             rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E]">
           <div className=" text-xs ">
