@@ -102,6 +102,7 @@ const Dashboard = () => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs(values => ({ ...values, [name]: value }))
+    console.log(inputs)
   }
 
   const handleSubmit = async (event) => { //資料符合才會跑以下
@@ -126,6 +127,7 @@ const Dashboard = () => {
 
   function reset() {
     setInputs({ ["address"]: address, ["time"]: new Date(Date.now()), selectType: "All" })
+    getdata()
   }
 
   return (
@@ -159,7 +161,7 @@ const Dashboard = () => {
           <div className="relative min-h-[70vw] w-full border-t border-invar-main-purple">
             <div className=" md:hidden max-w-full mt-4 h-10 bg-invar-main-purple rounded flex justify-center items-center text-sm font mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] "
               onClick={() => setfmenu(!fmenu)}>
-              <img src="/icons/filt.png" alt="" className=" w-4 h-4 mr-2" />
+              <img src="/icons/ic_filter.svg" alt="" className=" w-4 h-4 mr-2" />
               Filter
             </div>
             <form className=" hidden md:flex justify-between my-9 mx-[30px] sm:mx-[30px] md:mx-[130px] lg:mx-[230px] max-w-full z-10 " onSubmit={handleSubmit} name="form">
@@ -170,6 +172,7 @@ const Dashboard = () => {
                     <select name="selectIDtype" onChange={handleChange} value={inputs.selectIDtype || ""}
                       required className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
                      cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-end">
+                      <option value="All">All</option>
                       <option value="Amwaj20">Amwaj20</option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
@@ -184,9 +187,9 @@ const Dashboard = () => {
                       required className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
                      cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-end">
                       <option value="All">All</option>
-                      <option value="Pre-Sale">Pre-Sale</option>
+                      <option value="Pre-Sale">Minting</option>
                       <option value="Whitelist">Whitelist</option>
-                      <option value="Public Sale">Public Sale</option>
+                      {/* <option value="Public Sale">Public Sale</option> */}
                       <option value="Unstake">Unstake</option>
                       <option value="Claim">Claim</option>
                       <option value="Redemption">Redemption</option>
@@ -291,6 +294,7 @@ const Dashboard = () => {
                 <select name="selectIDtype" onChange={handleChange} value={inputs.selectIDtype || ""}
                   required className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
                      cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-start">
+                  <option value="All">All</option>
                   <option value="Amwaj20">Amwaj20</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
@@ -305,9 +309,9 @@ const Dashboard = () => {
                   required className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
                      cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-start">
                   <option value="All">All</option>
-                  <option value="Pre-Sale">Pre-Sale</option>
+                  <option value="Pre-Sale">Minting</option>
                   <option value="Whitelist">Whitelist</option>
-                  <option value="Public Sale">Public Sale</option>
+                  {/* <option value="Public Sale">Public Sale</option> */}
                   <option value="Unstake">Unstake</option>
                   <option value="Claim">Claim</option>
                   <option value="Redemption">Redemption</option>

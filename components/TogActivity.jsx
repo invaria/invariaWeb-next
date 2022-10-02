@@ -28,36 +28,37 @@ const TogActivity = ({ hispresale, sethispresale, start, end }) => {
     const nftContract = new ethers.Contract(nftAddress, inVariaJSON.abi, provider);
     const filter = (nftContract.filters.TransferSingle(null, "0x0000000000000000000000000000000000000000", address, null, null))
     const query = await nftContract.queryFilter(filter)
-    let arr =[]
+    let arr = []
     const items = await Promise.all(query?.map(async i => {
       const block = (await provider.getBlock(i.blockHash))
       const blockTime = new Date((block.timestamp) * 1000)
       // let utcDate = new Date(blockTime.toLocaleString('en-US', { timeZone: "UTC" }))
       if (i.args.id.toNumber() == 1) {
 
-      const item = {
-        date: blockTime.toString(),
-        year: blockTime.getFullYear(),
-        month: blockTime.getMonth() + 1,
-        day: blockTime.getDate(),
-        // zone:blockTime.get
-        // utcDate: utcDate.toISOString(),
-        from: i.args.from,
-        to: i.args.to,
-        operator: i.args.operator,
-        id: i.args.id.toNumber(),
-        value: (i.args.value).toNumber(),
-        txid: `${i.transactionHash}`,
-        etherScanUrl: `${etherScan}${i.transactionHash}`,
-        openSeaUrl: `${openSea}`
+        const item = {
+          date: blockTime.toString(),
+          year: blockTime.getFullYear(),
+          month: blockTime.getMonth() + 1,
+          day: blockTime.getDate(),
+          // zone:blockTime.get
+          // utcDate: utcDate.toISOString(),
+          from: i.args.from,
+          to: i.args.to,
+          operator: i.args.operator,
+          id: i.args.id.toNumber(),
+          value: (i.args.value).toNumber(),
+          txid: `${i.transactionHash}`,
+          etherScanUrl: `${etherScan}${i.transactionHash}`,
+          openSeaUrl: `${openSea}`
+        }
+        arr.push(item)
+        return item
       }
-      arr.push(item)
-      return item
-    }
 
     }))
-    setTransactions(arr)
-    sethispresale(arr)
+    const i = [...arr].sort((a, b) => (b.date) - (a.date));
+    setTransactions(i)
+    sethispresale(i)
     // console.log(items, etherScan, openSea)
     // console.log(query)
     // console.log("trans", transactions, transactions.length)
@@ -146,7 +147,7 @@ const TogActivity = ({ hispresale, sethispresale, start, end }) => {
         <div className={"mt-3 bg-invar-main-purple px-6 rounded text-white " + (collapse ? "" : "")} >
           <div className="py-6 flex justify-between z-30 cursor-pointer" onClick={() => setCollapse(!collapse)}>
             <p className=" text-xl font-semibold">
-              Pre-Sale Minting Stage
+              Minting History
             </p>
             <div>
               {!collapse ? (<MinusIcon className="w-6 ml-6" />) : (<PlusIcon className="w-6 ml-6" />)}
