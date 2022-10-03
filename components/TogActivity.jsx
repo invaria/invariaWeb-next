@@ -37,6 +37,7 @@ const TogActivity = ({ hispresale, sethispresale, start, end }) => {
 
         const item = {
           date: blockTime.toString(),
+          dd: blockTime,
           year: blockTime.getFullYear(),
           month: blockTime.getMonth() + 1,
           day: blockTime.getDate(),
@@ -56,10 +57,11 @@ const TogActivity = ({ hispresale, sethispresale, start, end }) => {
       }
 
     }))
-    setTransactions(arr)
-    sethispresale(arr)
+    const i = [...arr].sort((a, b) => (b.dd) - (a.dd));
+    setTransactions(i)
+    sethispresale(i)
     // console.log(items, etherScan, openSea)
-    // console.log(query)
+    console.log("arr",arr)
     // console.log("trans", transactions, transactions.length)
   }
 

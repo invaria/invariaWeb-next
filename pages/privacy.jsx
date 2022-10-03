@@ -58,18 +58,18 @@ const Privacy = () => {
           <p className='pt-3 pb-6 '>Last Updated: June 20th, 2022</p>
           <p>
             You are very welcome to use this website. In order to allow you to use the services and
-            information of this website with peace of mind, we hereby explain to you the privacy
+            information of this website with peace of mind, we hereby explain to you the privacy <span id="1"></span>
             protection policy of this website to protect your rights and interests, please read the following:
           </p>
-          <p className="text-2xl font-semibold mt-[46px] mb-3" id="1">1. Scope of Privacy Protection Policy</p>
+          <p className="text-2xl font-semibold mt-[46px] mb-3" >1. Scope of Privacy Protection Policy</p>
           <p>
             The privacy protection policy includes how this website handles personally
-            identifiable information collected when you use the services of the trading platform.
+            identifiable information collected when you use the services of the trading platform.<span id="2"></span>
             The privacy protection policy does not apply to related external pages outside this website,
             nor does it apply to persons not commissioned or involved in the management of this website.
           </p>
 
-          <p className="text-2xl font-semibold mt-[46px] mb-3" id="2">
+          <p className="text-2xl font-semibold mt-[46px] mb-3" id="">
             2.  Collection of Information
           </p>
           <p>
@@ -127,11 +127,11 @@ const Privacy = () => {
             D.  Information We Derive
             <br />
             We may derive information or draw inferences about you based on the information we collect.
-            For example, we may make inferences about your approximate location based on your IP address or infer that
+            For example, we may make inferences about your approximate location based on your IP address or infer that<span id="3"></span>
             you are looking to purchase certain products based on your browsing behavior and past purchases.
           </p>
 
-          <p className="text-2xl font-semibold mt-[46px] mb-3" id="3">
+          <p className="text-2xl font-semibold mt-[46px] mb-3" id="">
             3.  Use of Information
           </p>
           <p>
@@ -168,13 +168,13 @@ const Privacy = () => {
           <br />
           <p>
             H.  Create de-identified, anonymized or aggregated information;
-          </p>
+          </p><span id="4"></span>
           <br />
           <p>
             I.  Carry out any other purpose described to you at the time the information was collected.
           </p>
 
-          <p className="text-2xl font-semibold mt-[46px] mb-3" id="4">
+          <p className="text-2xl font-semibold mt-[46px] mb-3" id="">
             4.  Protection of Data
           </p>
           <p>
@@ -182,17 +182,17 @@ const Privacy = () => {
           </p>
           <br />
           <p>
-            If it is necessary to entrust other units to provide services due to business needs, this website will also strictly require them to comply with confidentiality obligations and take necessary inspection procedures to determine that they will indeed comply.
+            If it is necessary to entrust other units to provide services due to business needs,<span id="5"></span> this website will also strictly require them to comply with confidentiality obligations and take necessary inspection procedures to determine that they will indeed comply.
           </p>
 
-          <p className="text-2xl font-semibold mt-[46px] mb-3" id="5">
+          <p className="text-2xl font-semibold mt-[46px] mb-3" id="">
             5.  External Links of the Website
           </p>
           <p>
-            The pages on this website provide links to other websites. You can also click on the links provided on this website to enter other websites. However, the linked site’s privacy protection policy is not applicable. You must refer to the privacy protection policy of the linked site and bear the risks of the site at your own discretion.
+            The pages on this website provide links to other websites. You can also click on the links provided on this website to enter other websites. However, the linked site’s privacy protection policy is not applicable.<span id="6"></span> You must refer to the privacy protection policy of the linked site and bear the risks of the site at your own discretion.
           </p>
 
-          <p className="text-2xl font-semibold mt-[46px] mb-3" id="6">
+          <p className="text-2xl font-semibold mt-[46px] mb-3" id="">
             6.  Sharing of Information
           </p>
           <p>
@@ -222,12 +222,12 @@ const Privacy = () => {
           <p>
             F.  We share personal information with your consent or at your direction.
           </p>
-          <br />
+          <br /><span id="7"></span>
           <p>
             We may also share aggregated or de-identified information that cannot reasonably be used to identify you.
           </p>
 
-          <p className="text-2xl font-semibold mt-[46px] mb-3" id="7">
+          <p className="text-2xl font-semibold mt-[46px] mb-3" id="">
             7.  Analytics
           </p>
           <p>

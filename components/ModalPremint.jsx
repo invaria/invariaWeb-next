@@ -318,8 +318,7 @@ const ModalPremint = () => {
               {readmore &&
                 <>
                   <li>After the transaction succeeds, you can view your NFT on the Dashboard Page, as well as your wallet.</li>
-                  <li>Due to the amount of InVaria 2222 NFT is limited, there is no guarantee of successful minting or any amount, even though whitelist.</li>
-                  {/* <li>Whitelist is distributed through the campaign, partnership or official social media. </li> */}
+                  <li>The public-sale stage may occur small amount of NFT(s) available to mint, there is no guarantee of successful minting or any amount.</li>
                   <li>If you have any questions, please contact: <ButtonMailto />.</li>
                 </>
               }
