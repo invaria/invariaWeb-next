@@ -124,11 +124,18 @@ html {
 }
 
 /* Hide Calendar Icon In Chrome */
-/* input[type="date"]::-webkit-inner-spin-button, */
+input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity: 1;
+  opacity: 0;
   -webkit-appearance: none;
 }
+/* input[type=date]::placeholder,
+ input[type=time]::placeholder {
+     font-family: 'Roboto';
+     font-size  : 17px;
+     font-style : normal;
+     font-weight: 400;
+ } */
 
 
 .errorMessage {
