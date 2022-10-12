@@ -701,11 +701,11 @@ const Dashboard = () => {
               </div>
               <div className="relative flex bg-invar-main-purple rounded items-center">
                 <img className=" mx-2 w-4 h-4 " src="/icons/ic_right.svg" alt="" />
+                {!inputs.selectEndDate && <p className=' md:hidden'>mm/dd/yyyy</p>}
                 <input
                   name="selectEndDate" type="date" onChange={handleChange} value={inputs.selectEndDate || ""}
                   required className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
                 />
-                {/* {!inputs.selectEndDate && <p className=' -ml-10 pr-8 md:hidden'>mm/dd/yy</p>} */}
                 <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
                   <img className=" w-4 h-4 cursor-pointer mr-2" src="/icons/ic_calendar.png" alt="" />
                 </div>
