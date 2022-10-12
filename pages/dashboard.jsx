@@ -329,7 +329,7 @@ const Dashboard = () => {
                   required className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
                 />
                 {/* {typeof inputs.selectStartDate} */}
-                {!inputs.selectStartDate && <p className=' -ml-10 md:hidden'>mm/dd/yy</p>}
+                {!inputs.selectStartDate && <p className=' -ml-10 pr-8 md:hidden'>mm/dd/yy</p>}
                 <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
                   <img className=" w-4 h-4 cursor-pointer" src="/icons/ic_calendar.png" alt="" />
                 </div>
@@ -340,7 +340,7 @@ const Dashboard = () => {
                   name="selectEndDate" type="date" onChange={handleChange} value={inputs.selectEndDate || "mm/dd/yyyy"}
                   required className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
                 />
-                {!inputs.selectEndDate && <p className=' -ml-10 md:hidden'>mm/dd/yy</p>}
+                {!inputs.selectEndDate && <p className=' -ml-10 pr-8 md:hidden'>mm/dd/yy</p>}
                 <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
                   <img className=" w-4 h-4 cursor-pointer mr-2" src="/icons/ic_calendar.png" alt="" />
                 </div>
