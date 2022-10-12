@@ -325,7 +325,7 @@ const Dashboard = () => {
             <label className=" w-full mb-6 flex bg-invar-main-purple">
               <div className="relative flex bg-invar-main-purple rounded items-center">
                 <input
-                  name="selectStartDate" type="date" onChange={handleChange} value={ "mm/dd/yyyy"}
+                  name="selectStartDate" type="date" onChange={handleChange} value={inputs.selectStartDate?inputs.selectStartDate: "mm/dd/yyy"}
                   required className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
                 />
                 <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
