@@ -325,8 +325,8 @@ const Dashboard = () => {
             <label className=" w-full mb-6 flex bg-invar-main-purple">
               <div className="relative flex bg-invar-main-purple rounded items-center">
                 <input
-                  name="selectStartDate" type="date" onChange={handleChange} value={inputs.selectStartDate || "mm/dd/yyyy"}
-                  required className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] "
+                  name="selectStartDate" type="date" onChange={handleChange} value={ "mm/dd/yyyy"}
+                  required className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
                 />
                 <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
                   <img className=" w-4 h-4 cursor-pointer" src="/icons/ic_calendar.png" alt="" />
@@ -336,7 +336,7 @@ const Dashboard = () => {
                 <img className=" mx-2 w-4 h-4 " src="/icons/ic_right.svg" alt="" />
                 <input
                   name="selectEndDate" type="date" onChange={handleChange} value={inputs.selectEndDate || "mm/dd/yyyy"}
-                  required className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] "
+                  required className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
                 />
                 <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
                   <img className=" w-4 h-4 cursor-pointer mr-2" src="/icons/ic_calendar.png" alt="" />
