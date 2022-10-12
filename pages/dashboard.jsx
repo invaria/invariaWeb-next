@@ -328,6 +328,7 @@ const Dashboard = () => {
                   name="selectStartDate" type="date" onChange={handleChange} value={inputs.selectStartDate?inputs.selectStartDate: "mm/dd/yyy"}
                   required className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
                 />
+                {typeof inputs.selectStartDate}
                 <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
                   <img className=" w-4 h-4 cursor-pointer" src="/icons/ic_calendar.png" alt="" />
                 </div>
