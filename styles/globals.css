@@ -3,19 +3,21 @@
 @tailwind utilities;
 
 @import url('https://rsms.me/inter/inter.css');
+
 @supports (font-variation-settings: normal) {
   html {
     font-family: 'Inter var', sans-serif;
   }
 }
 
-body, html {
+body,
+html {
   font-family: 'Inter', sans-serif;
-  min-width:400px;
+  min-width: 400px;
   background: hsl(0, 0%, 0%);
 }
 
-.flameWidth{
+.flameWidth {
   width: 100%;
 }
 
@@ -115,16 +117,25 @@ body, html {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /* Hide Calendar Icon In Chrome */
 input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-calendar-picker-indicator {
-  opacity:0;  
-    -webkit-appearance: none;
+  opacity: 0;
+  -webkit-appearance: none;
 }
+/* input[type=date]::placeholder,
+ input[type=time]::placeholder {
+     font-family: 'Roboto';
+     font-size  : 17px;
+     font-style : normal;
+     font-weight: 400;
+ } */
 
 
 .errorMessage {
@@ -139,7 +150,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 10px;
   position: relative;
   float: left;
-  }
+}
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
