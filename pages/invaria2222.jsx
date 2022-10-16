@@ -52,10 +52,11 @@ function App() {
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 '>
           Property Infos</label>
-        <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
+        {Date.now() >= 1665936000000 && <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
           opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-20 ' >
-         Public Sale</label>
+          Public Sale</label>
+        }
         {/* <label htmlFor="applywhite-modal" className=" z-20 absolute top-[512px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
             rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E]">
           <div className=" text-xs ">
