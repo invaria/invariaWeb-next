@@ -62,7 +62,7 @@ const PropertyInfo = () => {
             </div>
             {(tabState == "property") &&
               <>
-                <div className=" py-6 border-b border-invar-main-purple">
+                <div className=" py-6 border-b border-invar-main-purple z-30 relative">
                   Amwaj20 is a deluxe type of service apartment which built in Amwaj Island in 2015. Amwaj Islands are a group of man-made
                   islands, located in the Persian Gulf to the northeast of Bahrain, near the coast of Muharraq island.
                   They lie 10.5 km (6.5 mi) northeast of the capital, Manama.
@@ -134,9 +134,9 @@ const PropertyInfo = () => {
             }
             {(tabState == "about") &&
               <>
-                <div className=" py-6 border-b border-invar-main-purple font-semibold text-xl">
+                <div className=" py-6 border-b border-invar-main-purple font-semibold text-xl relative">
                   The best market access to growing Gulf economies, and emerging opportunities to bring real estate revolution to the world.
-                  <img className=" mt-6 w-full" src='/bg/bahrain_map.png' alt="" />
+                  <img className=" mt-6 w-full " src='/bg/bahrain_map.png' alt="" />
                   <p className=" mt-6 text-white text-base font-normal">
                     Bahrain, which name means “two seas”, was an archipelago made up of 33 islands in the Arabian Gulf, Bahrain offers valuable opportunities for businesses and the best market access to growing Gulf economies and beyond.
                     <br /> <br />
