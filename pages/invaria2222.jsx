@@ -13,7 +13,7 @@ const ModalProperty = dynamic(import("../components/ModalProperty"));
 const Modalappplywhite = dynamic(import("../components/Modalappplywhite"));
 
 export const endtimestamp = 1664582400000
-const startdate = 1664755200000
+const startdate = 1665936000000
 
 function App() {
   const [headerBackground, setHeaderBackground] = useState(false);
@@ -54,7 +54,7 @@ function App() {
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 '>
           Property Infos</label>
-        {Date.now() >= startdate &&
+        {Date.now() <= startdate &&
           <label htmlFor="premint-modal" onClick={() => disableScroll()} className='btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
           opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[428px] md:top-[449px] md:left-[716px] normal-case border-none z-20 ' >
