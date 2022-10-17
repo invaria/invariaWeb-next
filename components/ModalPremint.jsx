@@ -275,7 +275,7 @@ const ModalPremint = () => {
             </div>
             <div className=" mt-4 flex justify-between items-baseline">
               <p className=" text-sm font-normal text-invar-light-grey ">Mint Time</p>
-              <p className=" text-base font-semibold text-white max-w-[260px] text-end ">Oct 3, 00:00 ~ Oct 17, 00:00 (UTC+0)</p>
+              <p className=" text-base font-semibold text-white max-w-[260px] text-end ">October 17, 2022 ~</p>
             </div>
             {(address && usdcAllowance >= 2000 && verify == "Accepted") &&
               <>
