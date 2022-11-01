@@ -306,6 +306,4 @@ const SelectCountryRegion = () => {
       <option value="ZWE">Zimbabwe</option>
     </>
   )
-  
 }
-export default SelectCountryRegion

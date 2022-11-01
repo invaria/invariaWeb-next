@@ -13,7 +13,7 @@ export {default as TogActivity} from './TogActivity';
 export {default as TogWhite} from './TogWhite';
 export {default as TogUnstake} from './TogUnstake';
 export {default as ItemActivity} from './ItemActivity';
-export {default as selectCountryRegion} from './SelectOptions';
+export {default as SelectCountryRegion} from './SelectOptions';
 export {default as Nfts} from './Nfts';
 export {default as His} from './His';
 export {default as HisClaim} from './HisClaim';

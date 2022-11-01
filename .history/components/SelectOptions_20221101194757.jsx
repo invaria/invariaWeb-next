@@ -49,7 +49,7 @@ export const SelectLocale = () => {
   )
 }
 
-const SelectCountryRegion = () => {
+export default const SelectCountryRegion = () => {
   const {t}=useTranslation("dashboard")
 
   return (
@@ -306,6 +306,4 @@ const SelectCountryRegion = () => {
       <option value="ZWE">Zimbabwe</option>
     </>
   )
-  
 }
-export default SelectCountryRegion

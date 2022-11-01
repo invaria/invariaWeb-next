@@ -308,4 +308,3 @@ const SelectCountryRegion = () => {
   )
   
 }
-export default SelectCountryRegion
