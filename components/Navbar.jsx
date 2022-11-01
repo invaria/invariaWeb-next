@@ -1,16 +1,62 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useNetwork, useAddress, useMetamask, useWalletConnect, useDisconnect } from '@thirdweb-dev/react'
-const ModalStory = dynamic(import("./ModalStory"));
+import { useRouter } from "next/router";
+import {
+  useNetwork,
+  useAddress,
+  useMetamask,
+  useWalletConnect,
+  useDisconnect,
+} from "@thirdweb-dev/react";
+const ModalPremint = dynamic(import("../components/ModalPremint"));
+ const ModalStory = dynamic(import("../components/ModalStory"));
+const ModalProperty = dynamic(import("../components/ModalProperty"));
+const Modalappplywhite = dynamic(import("../components/Modalappplywhite"));
+
+// const ModalStory = dynamic(import("./ModalStory"));
 const ModalWallet = dynamic(import("./ModalWallet"));
-import { shortenAddress } from '../src/utils/shortenAddress'
-import { disableScroll, enableScroll } from '../src/utils/disableScroll'
-import { checkIfWalletIsConnected } from '../src/utils/web3utils'
+import { shortenAddress } from "../src/utils/shortenAddress";
+import { disableScroll, enableScroll } from "../src/utils/disableScroll";
+
 import { getUser } from "../src/utils/storeFirebase";
+import styles from "../styles/navbar.module.css";
+import logo from "../assets/images/logo.png";
+import globe from "../assets/images/globe.png";
+import musicOff from "../assets/images/music_off.png";
+import musicOn from "../assets/images/music_on.png";
+import hamburger from "../assets/images/hamburger.png";
+import close from "../assets/images/close.png";
+import eth from "../assets/images/eth.png";
+import usdc from "../assets/images/usdc.png";
+import { Link as ScrollLink } from "react-scroll";
 
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  ClickAwayListener,
+  Dialog,
+  Divider,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
+import Link from "next/link";
+import Image from "next/image";
+import { useTranslation } from "next-i18next";
+import { useContext } from "react";
+import { WalletContext } from "../context/wallet-context";
+import { checkIfWalletIsConnected } from "../src/utils/web3utils";
 
+const menuStyles = {
+  paddingY: "16px",
+  fontFamily: "Inter",
+  fontWeight: "600",
+  fontSize: "16px",
+  lineHeight: "20px",
+  width: "100%",
+};
 let pervState = []
 
 const Navbar = ({ headerBackground }) => {
@@ -20,14 +66,18 @@ const Navbar = ({ headerBackground }) => {
   const connectWithMetamask = useMetamask();
   const connectWithWalletConnect = useWalletConnect();
   const disconnectWallet = useDisconnect();
-  const [getCoinPrice, setgetCoinPrice] = useState()
-  const [ethBalance, setEthBalance] = useState()
-  const [usdcBalance, setUsdcBalance] = useState()
+
   const [toggleMenu, setToggleMenu] = useState(false);
   const [toggleWallet, setToggleWallet] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const [isMusicOn, setIsMusicOn] = React.useState(true);
   const [language, setLanguage] = useState(false);
-  const [verify, setVerify] = useState("")
-
+  const [getCoinPrice, setgetCoinPrice] = useState(0);
+  const [ethBalance, setEthBalance] = useState(0);
+  const [usdcBalance, setUsdcBalance] = useState(0);
+  const [verify,setVerify]=useState(false)
 
   async function getdata() {
     const state = await getUser(address)
@@ -67,158 +117,399 @@ const Navbar = ({ headerBackground }) => {
     checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
   }, [])
 
-  const handleClick = (e) => {
-    e.preventDefault()
-    router.push('/invaria2222')
-  }
+  const [openLangMenu, setOpenLangMenu] = useState(false);
+
+  const handleMenu = (event) => {
+    anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
+  };
+  const toggleDrawerHandler = () => {
+    setToggleMenu((s) => !s);
+    enableScroll()
+  };
+
+  // if(address&&toggleWallet){
+  //   setToggleWallet(false);
+  //   enableScroll();
+  // }else if(!address&&toggleWallet){
+  //   setToggleWallet(true);
+  // }
+
+  const { t } = useTranslation("common");
+
+
 
   return (
     <>
-      <nav className={`fixed flex items-center justify-between w-full h-[3.75rem] bg-invar-dark md:h-[5rem] z-50
-        ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}>
+      <nav
+        className={`fixed flex items-center justify-between w-full h-[3.75rem] bg-invar-dark md:h-[5rem] z-50
+        ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}
+      >
         <ModalWallet />
         <ModalStory />
-        <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[80px] flex">
-          <div className="navbar-start h-[80px] flex justify-start items-center mt-6">
-            {(router.pathname == "/dashboard" || router.pathname == "/propertyinfo" || router.pathname == "/terms" || router.pathname == "/privacy") &&
-              <>
-                <label htmlFor="my-modal-1" href='invaria2222/' className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] ml-4 font-semibold text-sm text-invar-light-grey normal-case"
+        <ModalProperty />
+        <ModalPremint />
+
+      <Modalappplywhite />
+        <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[88px] flex">
+          <div className="navbar-start flex">
+            <button
+              onClick={() => setIsMusicOn((v) => !v)}
+              className="absolute top-[24px] left-[16px] md:hidden"
+            >
+              <img
+                className="h-[20px] w-[20px]"
+                src={
+                  isMusicOn ? "/icons/ic_music.svg" : "/icons/ic_music_off.svg"
+                }
+                alt=""
+              />
+            </button>
+            <ul className="list-none md:flex hidden ml-10 text-[#B4B7C0]">
+              <li>
+                <label
+                  htmlFor="my-modal-1"
+                  className=" modal-button hover:underline font-semibold text-base cursor-pointer"
                 >
-                  {/* onClick={(e)=>handleClick(e)}> */}
-                  {/* <Link href='invaria2222/' htmlFor="my-modal-1"> */}
                   Storyline
-                  {/* </Link> */}
                 </label>
-                <Link href='invaria2222/#mindmap'>
-                  <p className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[110px] pl-[6px] py-[1px] my-[12px] font-semibold text-sm text-invar-light-grey normal-case" >Mindmap</p>
+              </li>
+              {/* <ScrollLink
+                activeClass="active"
+                offset={-100}
+                smooth
+                spy
+                to="mindmap"
+              > */}
+             <Link href='invaria2222#mindmapoutside'>
+                <li className="mx-8 hover:underline font-semibold text-base cursor-pointer">
+                  Mindmap
+                </li>
                 </Link>
-                <Link href='invaria2222/#faq'>
-                  <p className="hidden lg:block btn bg-transparent hover:bg-transparent border-0 h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-invar-light-grey normal-case" >FAQ & Tutorials</p>
-                </Link>
-              </>
-            }
+              {/* </ScrollLink> */}
+              <Link href="/media">
+                <li className="hover:underline font-semibold text-base cursor-pointer">
+                  Media
+                </li>
+              </Link>
+            </ul>
           </div>
           <div className="navbar-center">
-            <Link href='invaria2222'>
-              <img className="m-6 h-[2.5rem] w-24 xl:w-32 cursor-pointer" src='/logo_white.svg' />
+            <Link href="invaria2222">
+              <img
+                className="m-6 h-[2.5rem] w-24 xl:w-32 cursor-pointer"
+                src="/logo_white.svg"
+              />
             </Link>
           </div>
           <div className="navbar-end md:hidden">
-            {!toggleMenu &&
-              <button className=" absolute top-[24px] right-[27px]"
-                onClick={() => { setToggleMenu(true); disableScroll(); }}>
-                <img className="h-[20px] w-[20px]" src="/icons/ic_menu.svg" alt="" />
-              </button>}
-            {toggleMenu &&
-              <button className=" absolute top-[24px] right-[27px]"
-                onClick={() => { setToggleMenu(false); setToggleWallet(false); enableScroll(); }}>
-                <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
-              </button>}
+            {!toggleMenu && (
+              <button
+                className=" absolute top-[24px] right-[16px]"
+                onClick={() => {
+                  setToggleMenu(true);
+                  disableScroll();
+                }}
+              >
+                <img
+                  className="h-[20px] w-[20px]"
+                  src="/icons/ic_menu.svg"
+                  alt=""
+                />
+              </button>
+            )}
+            {toggleMenu && (
+              <button
+                className=" absolute top-[24px] right-[16px]"
+                onClick={() => {
+                  setToggleMenu(false);
+                  setToggleWallet(false);
+                  enableScroll();
+                }}
+              >
+                <img
+                  className="h-[20px] w-[20px]"
+                  src="/icons/ic_close.svg"
+                  alt=""
+                />
+              </button>
+            )}
           </div>
           <div className="navbar-end hidden md:flex flex-row">
             {!address ? (
-              <label htmlFor="my-modal-3"
-                className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
-                Connect Wallet</label>
+              <label
+                htmlFor="my-modal-3"
+                className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
+              >
+                {t("connect_wallet")}
+              </label>
             ) : (
               <>
                 <Link href="/dashboard">
-                  <div className="btn btn-sm btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-white text-end border-[#44334C] normal-case hover:border-none hover:bg-primary flex justify-center items-center ">
-                    <p className=''>Dashboard</p>
+                  <button className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
+                    Dashboard
                     {verify == "Unverified" &&
-                      <img src="/icons/ic_warning.svg" alt="" />
+                      <img src="/icons/ic_warning.svg" className="ml-1" alt="" />
                     }
-                  </div>
+                  </button>
                 </Link>
-                <label htmlFor="my-modal-4" className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
+                <label
+                  htmlFor="my-modal-4"
+                  className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
+                >
                   {shortenAddress(address)}
                 </label>
               </>
-            )
-            }
-            <button className=" hidden btn btn-sm btn-outline rounded h-[40px] w-[40px] my-[24px] mr-[24px] px-[4px] py-[4px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
-              <img className="h-[20px] w-[20px]" src='/icons/ic_language.svg' alt="" />
+            )}
+            <div className="relative">
+              <button
+                onClick={() => setOpenLangMenu((v) => !v)}
+                className="btn btn-sm btn-outline rounded h-[40px] w-[40px] my-[24px] mr-[12px] px-[4px] py-[4px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
+              >
+                <img
+                  className="h-[20px] w-[20px]"
+                  src="/icons/ic_language.svg"
+                  alt=""
+                />
+              </button>
+
+              {openLangMenu && (
+                <ClickAwayListener onClickAway={() => setOpenLangMenu(false)}>
+                  <div
+                    style={{
+                      background:
+                        "linear-gradient(180deg, #44334C 0%, #1E1722 100%)",
+                    }}
+                    className="absolute w-36 h-[85px] right-[12px] top-[75px] flex flex-col justify-center rounded"
+                  >
+                    <MenuItem
+                      onClick={() => {setOpenLangMenu(false)}}
+                      sx={{
+                        color: router.locale === "en" ? "white" : "#8F97A3",
+                        fontWeight: router.locale === "en" ? "600" : "400",
+                      }}
+                    >
+                      <Link href={router.pathname} locale="en" >
+                        English
+                      </Link>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {setOpenLangMenu(false)}}
+                      sx={{
+                        color: router.locale === "tw" ? "white" : "#8F97A3",
+                        fontWeight: router.locale === "tw" ? "600" : "400",
+                      }}
+                    >
+                      <Link href={router.pathname} locale="tw">
+                        繁體中文
+                      </Link>
+                    </MenuItem>
+                  </div>
+                </ClickAwayListener>
+              )}
+            </div>
+            <button
+              onClick={() => setIsMusicOn((v) => !v)}
+              className="btn btn-sm btn-outline rounded h-[40px] w-[40px] my-[24px] mr-[24px] px-[4px] py-[4px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
+            >
+              <img
+                className="h-[20px] w-[20px]"
+                src={
+                  isMusicOn ? "/icons/ic_music.svg" : "/icons/ic_music_off.svg"
+                }
+                alt=""
+              />
             </button>
           </div>
         </div>
       </nav>
-      {(toggleMenu) &&
-        <div className=" fixed top-[60px] z-30 w-full h-screen py-[34px] px-[16px] flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]">
-          <label htmlFor="my-modal-1" className=" modal-button hover:underline font-semibold text-base mb-9">
-            Storyline</label>
-          <a href={`/invaria2222#mindmap`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>Mindmap</a>
-          <a href={`/invaria2222#faq`} className="font-semibold text-base mb-9" onClick={() => { setToggleMenu(false); enableScroll(); }}>FAQ & Tutorials</a>
-          <h1 className="font-semibold text-base mb-8 cursor-pointer" onClick={() => setLanguage(!language)}>Language</h1>
-          {language && <h1 className="font-semibold text-base mb-[27px] mx-2">English</h1>}
-          {language && <h1 className="font-semibold text-base mb-[37px] mx-2 text-invar-grey">繁體中文</h1>}
-          <Link href="/dashboard">
-            <div className=' w-full flex justify-between items-start'>
-              <button className="font-semibold text-base mb-8" onClick={() => { setToggleMenu(false); enableScroll(); }}>
-                Dashboard</button>
-              {verify == "Unverified" &&
-                <img className=' mt-1' src="/icons/ic_warning.svg" alt="" />
-              }
-            </div>
+      {toggleMenu && (
+        <div style={{zIndex:"25"}} className=" fixed top-[60px] w-full h-screen pt-[18px]  flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]">
+            <label htmlFor="my-modal-1" className="w-full">
+          <MenuItem sx={menuStyles}>
+              Storyline
+          </MenuItem>
+            </label>
+            <Link href='invaria2222#mindmapoutside'>
+
+            <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
+              Mindmap
+            </MenuItem>
+      </Link>
+          <label
+          htmlFor="property-modal"
+          className="w-full"
+         
+        >
+          <MenuItem sx={menuStyles} >
+            Property Infos
+          </MenuItem>
+          </label>
+
+          <Link href="/media">
+            <MenuItem sx={menuStyles}>
+              Media
+            </MenuItem>
           </Link>
-          {!address && <button className="w-full h-[48px] font-semibold text-base bg-invar-dark rounded text-center" onClick={() => setToggleWallet(true)}>Connect Wallet</button>}
-          {address &&
-            <>
-              <div className="w-full flex flex-row justify-between items-end">
-                <h3 className="text-lg font-semibold text-white">My Wallet</h3>
-                <h3 className="text-sm font-semibold text-white text-end">{shortenAddress(address)}</h3>
-              </div>
-              <div className=" border-b border-primary mt-3 w-[324px]"></div>
-              <div className=" w-full mt-[14px] flex justify-between items-center ">
-                <div className=" flex justify-center items-center text-white font-semibold">
-                  <img className="h-[32px] w-[32px] mr-[12px]" src='/icons/ic_eth.png' alt="" />
-                  <p>ETH</p>
-                </div>
-                {ethBalance && <div className=" flex flex-col justify-center items-end text-white font-semibold">
-                  <p>{ethBalance}</p>
-                  <p className=" text-sm font-normal text-neutral">
-                    ${(ethBalance * (getCoinPrice?.ethereum.usd)).toFixed(3)} USD</p>
-                </div>}
-              </div>
-              <div className=" w-full mt-[14px] flex justify-between items-center ">
-                <div className=" flex justify-center items-center text-white font-semibold">
-                  <img className="h-[32px] w-[32px] mr-[12px]" src='/icons/ic_usdc.png' alt="" />
-                  <p>USDC</p>
-                </div>
-                <div className=" flex flex-col justify-center items-end text-white font-semibold">
-                  {usdcBalance && <p className=" text-base">{usdcBalance}</p>}
-                  {getCoinPrice && <p className=" text-sm font-normal text-neutral">
-                    ${(usdcBalance * (getCoinPrice["usd-coin"].usd)).toFixed(3)} USD</p>}
-                </div>
-              </div>
-              <button className="btn btn-primary relative w-full h-[56px] mt-[14px] rounded flex justify-center items-center border-none normal-case" onClick={disconnectWallet}>
-                <p className=" font-semibold text-white">Disconnect</p>
+          <label
+            htmlFor="premint-modal"
+            className="w-full"
+          >
+          <MenuItem sx={menuStyles}>
+            Public Sale
+          </MenuItem>
+          </label>
+          <Accordion
+            sx={{
+              backgroundColor: "transparent",
+              color: "white",
+              width: "100%",
+            }}
+            elevation={0}
+          >
+            <AccordionSummary>
+              <Typography sx={{ fontWeight: "600" }}> Language</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
+                  <Link href={router.pathname} locale="en">
+                    English
+                  </Link>
+                </MenuItem>
+                <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
+                  <Link href={router.pathname} locale="tw">
+                    繁體中文
+                  </Link>
+                </MenuItem>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Link href="/dashboard">
+            <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
+              Dashboard
+            </MenuItem>
+          </Link>
+          <div className="px-4 w-full mt-4">
+            {!address && (
+              <button
+                className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple rounded text-center"
+                onClick={() => setToggleWallet(true)}
+              >
+                {t("connect_wallet")}
               </button>
-            </>
-          }
+            )}
+            {address && (
+              <>
+                <div className="w-full flex flex-row justify-between items-end">
+                  <h3 className="text-base font-semibold text-white py-[16px]">
+                    My Wallet
+                  </h3>
+                  <h3 className="text-sm font-semibold text-white text-end">
+                    {shortenAddress(address)}
+                  </h3>
+                </div>
+                <div className=" border-b border-primary mt-3 w-[324px]"></div>
+                <div className=" w-full mt-[14px] flex justify-between items-center ">
+                  <div className=" flex justify-center items-center text-white font-semibold">
+                    <img
+                      className="h-[32px] w-[32px] mr-[12px]"
+                      src="/icons/ic_eth.png"
+                      alt=""
+                    />
+                    <p>ETH</p>
+                  </div>
+                  {ethBalance && (
+                    <div className=" flex flex-col justify-center items-end text-white font-semibold">
+                      <p>{ethBalance}</p>
+                      <p className=" text-sm font-normal text-neutral">
+                        ${(ethBalance * getCoinPrice?.ethereum.usd).toFixed(3)}{" "}
+                        USD
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div className=" w-full mt-[14px] flex justify-between items-center ">
+                  <div className=" flex justify-center items-center text-white font-semibold">
+                    <img
+                      className="h-[32px] w-[32px] mr-[12px]"
+                      src="/icons/ic_usdc.png"
+                      alt=""
+                    />
+                    <p>USDC</p>
+                  </div>
+                  <div className=" flex flex-col justify-center items-end text-white font-semibold">
+                    {usdcBalance && <p className=" text-base">{usdcBalance}</p>}
+                    {getCoinPrice && (
+                      <p className=" text-sm font-normal text-neutral">
+                        $
+                        {(usdcBalance * getCoinPrice["usd-coin"].usd).toFixed(
+                          3
+                        )}{" "}
+                        USD
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <button
+                  className="btn btn-primary relative w-full h-[56px] mt-[14px] rounded flex justify-center items-center border-none normal-case"
+                  onClick={disconnectWallet}
+                >
+                  <p className=" font-semibold text-white">
+                    {" "}
+                    {t("disconnect")}
+                  </p>
+                </button>
+              </>
+            )}
+          </div>
         </div>
-      }
-      {(toggleMenu && toggleWallet && !address) &&
+      )}
+      {toggleMenu && toggleWallet && !address && (
         <>
           <div className=" fixed top-[60px] z-40 w-full h-screen py-[34px] px-[16px] flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]">
-            <div className="flex justify-start items-center mb-[32px] cursor-pointer" onClick={() => setToggleWallet(false)}>
-              <img className="w-[24px] h-[24px]" src='/icons/ic_back.svg' alt="" />
-              <h3 className="text-base font-semibold text-white ml-[15px]">Back</h3>
+            <div
+              className="flex justify-start items-center mb-[32px] cursor-pointer"
+              onClick={() => setToggleWallet(false)}
+            >
+              <img
+                className="w-[24px] h-[24px]"
+                src="/icons/ic_back.svg"
+                alt=""
+              />
+              <h3 className="text-base font-semibold text-white ml-[15px]">
+                Back
+              </h3>
             </div>
-            <h3 className="text-2xl font-semibold text-white mb-[22px]">Connect Wallet</h3>
-            <button className="btn btn-primary relative w-full h-[56px] rounded flex justify-center items-center border-none normal-case" onClick={connectWithMetamask}>
-              <img className="absolute top-[13px] left-4 h-[30px] w-[30px]" src='/icons/ic_metamask.png' alt="" />
+            <h3 className="text-2xl font-semibold text-white mb-[22px]">
+              {t("connect_wallet")}
+            </h3>
+            <button
+              className="btn btn-primary relative w-full h-[56px] rounded flex justify-center items-center border-none normal-case"
+              onClick={connectWithMetamask}
+            >
+              <img
+                className="absolute top-[13px] left-4 h-[30px] w-[30px]"
+                src="/icons/ic_metamask.png"
+                alt=""
+              />
               <p className=" font-semibold text-accent">MetaMask</p>
             </button>
-            <button className="btn btn-primary mt-3 relative w-full h-[56px] rounded flex justify-center items-center border-none normal-case" onClick={connectWithWalletConnect}>
-              <img className="absolute top-[13px] left-4 h-[30px] w-[30px]" src='/icons/ic_walletconnect.png' alt="" />
+            <button
+              className="btn btn-primary mt-3 relative w-full h-[56px] rounded flex justify-center items-center border-none normal-case"
+              onClick={connectWithWalletConnect}
+            >
+              <img
+                className="absolute top-[13px] left-4 h-[30px] w-[30px]"
+                src="/icons/ic_walletconnect.png"
+                alt=""
+              />
               <p className=" font-semibold text-accent">WalletConnect</p>
             </button>
           </div>
         </>
-      }
+      )}
     </>
-  )
-}
+  );
+};
 
-
-export default Navbar
+export default Navbar;

@@ -168,3 +168,90 @@ input[type=number] {
   overflow: hidden;
   transition: height 0.2s ease-in-out;
 }
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter',-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: 'Inter' !important;
+    color: white;
+}
+/* we need to preload partners imgs to avoid blinking */
+
+body::after {
+  display: none;
+  content: url("../assets/images/circle_hover.png")
+    url("../assets/images/labs_hover.png")
+    url("../assets/images/flowBay_hover.png")
+    url("../assets/images/headDao_hover.png")
+    url("../assets/images/hashEx_hover.png")
+    url("../assets/images/kryptoGO_hover.png")
+    url("../assets/images/ceres_hover.png")
+    url("../assets/images/router_hover.png");
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a {
+  margin: 0;
+  padding: 0;
+}
+
+.text-center{
+  text-align: center;
+}
+.purpleGrey{
+  color: #8F97A3;
+  font-weight: 600 !important;
+}
+.purple{
+  color: #752EE5;
+  font-weight: 600 !important;
+}
+.linksColor{
+  color: #752EE5;
+}
+.purple:hover,.linksColor:hover{
+  /* border-bottom:1px solid #755EE5; */
+  text-decoration: underline !important;
+}
+
+.m-0{
+  margin: 0px !important;
+}
+input {
+  position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-position: right;
+  background-size: auto;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+input[type="date"]:not(.has-value):before{
+  color: lightgray;
+  content: attr(placeholder);
+}

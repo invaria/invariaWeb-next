@@ -1,9 +1,11 @@
+import { useTranslation } from 'next-i18next'
 import React from 'react'
 
 export const SelectLocale = () => {
+  const {t}=useTranslation("dashboard")
   return (
     <>
-      <option value="">Select</option>
+      <option value="">{t("dashbaord_profile_table_country_select")}</option>
       <option value="ar">Arabic</option>
       <option value="bg">Bulgarian</option>
       <option value="cs">Czech</option>
@@ -48,9 +50,11 @@ export const SelectLocale = () => {
 }
 
 export const SelectCountryRegion = () => {
+  const {t}=useTranslation("dashboard")
+
   return (
     <>
-      <option value="">Select</option>
+      <option value="">{t("dashbaord_profile_table_country_select")}</option>
       <option value="AFG">Afghanistan</option>
       <option value="ALA">Åland Islands</option>
       <option value="ALB">Albania</option>

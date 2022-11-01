@@ -13,7 +13,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "checkJs": false
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/index.jsx", "components/icons/Link.jsx", "src/constants/index.jsx", "pages/_app.jsx", "components/Terms.jsx", "components/ScrollToTop.jsx", "components/QA.jsx", "components/Privacy.jsx", "components/ModalStory.jsx", "components/Footer.jsx"],
   "exclude": ["node_modules"]

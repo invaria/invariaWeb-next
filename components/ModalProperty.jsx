@@ -1,8 +1,10 @@
 import React from 'react'
 import Link from 'next/link'
 import { enableScroll } from '../src/utils/disableScroll'
+import { useTranslation } from 'next-i18next'
 
 const ModalProperty = () => {
+  const {t}=useTranslation("propertyInfo");
   return (
     <div>
       <input type="checkbox" id="property-modal" className="modal-toggle" />
@@ -12,38 +14,38 @@ const ModalProperty = () => {
             <img className="h-[20px] w-[20px]" src='/icons/ic_close.svg' alt="" />
           </label>
           <img className="w-full" src='/bg/amwaj20.png' alt="" />
-          <h3 className="text-2xl font-semibold mt-5">Amwaj20</h3>
+          <h3 className="text-2xl font-semibold mt-5">{t("homepage_property_title")}</h3>
           <p className="pt-1 pb-3 text-sm font-normal border-b border-invar-main-purple">
-            Luxury residential tower built on Amwaj Island in the Kingdom of Bahrain.
+           {t("homepage_property_desc")}
           </p>
           <p className="mt-3 mb-1 text-xs font-normal text-invar-light-grey">
-            Value (MV)
+           {t("homepage_property_info_value")}
           </p>
           <p className="mb-[10px] text-base font-normal text-white">
             $38,000,000 USD
           </p>
           <p className="mt-3 mb-1 text-xs font-normal text-invar-light-grey">
-            Estimate Investment Return (APR)
+            {t("homepage_property_info_apr")}
           </p>
           <p className="mb-[10px] text-base font-normal text-white">
             12%
           </p>
           <p className="mt-3 mb-1 text-xs font-normal text-invar-light-grey">
-            Developer
+            {t("homepage_property_info_developer")}
           </p>
           <p className="mb-[10px] text-base font-normal text-white">
-            Mannai Group
+           {t("homepage_property_info_developer_mannaigroup")}
           </p>
           <p className="mt-3 mb-1 text-xs font-normal text-invar-light-grey">
-            Manager
+            {t("homepage_property_info_manager")}
           </p>
           <p className="mb-[22px] text-base font-normal text-white">
-            FlowBay Property Management
+            {t("homepage_property_info_manager_flowbay")}
           </p>
           <Link href='/propertyinfo'>
             <button className=" btn w-full h-[48px] font-semibold text-base bg-invar-dark text-white rounded text-center normal-case border-none mb-6" 
              onClick={() => enableScroll()}>
-              Research More
+             {t("homepage_property_info_researchmore")}
             </button>
           </Link>
         </div>
