@@ -5,8 +5,7 @@ import { SiweMessage } from "siwe";
 import { handleKyc } from "../src/utils/handleKyc";
 import SelectCountryRegion from "./SelectOptions";
 import { useTranslation } from "next-i18next";
-
-
+//git config [--global] user.email "email@address.com"
 const Form = () => {
   let domain, provider, signer;
   const address = useAddress();
