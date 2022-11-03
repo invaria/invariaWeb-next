@@ -11,15 +11,14 @@ import email from "../assets/images/icons/email.png";
 import { useTranslation } from "next-i18next";
 import { Link as ScrollLink } from "react-scroll";
 
-
 const Footer = ({ c }) => {
   const { t } = useTranslation("common");
   return (
-    <footer className={`${styles.footer} relative z-20`}>
+    <footer id="footer" className={`${styles.footer} relative z-20`}>
       <div className={styles.footerContent}>
         <div className={styles.footerLeft}>
           <div className={styles.winnerBtn}>
-            <a href="#">
+            <a href="#footer">
               <img
                 onClick={() => window["logBadgeClick"]()}
                 id="badge-button"
@@ -30,7 +29,7 @@ const Footer = ({ c }) => {
             </a>
           </div>
           <ul>
-          <a
+            <a
               href="https://github.com/InVarFinance/invaria2222"
               rel="noopener noreferrer"
               target="_blank"
@@ -52,10 +51,10 @@ const Footer = ({ c }) => {
                     spy
                     to="faq"
                   > */}
-                  <Link href='invaria2222#faqoutside'>
-                    <li>FAQ & Tutorials</li>
-                    </Link>
-                  {/* </ScrollLink> */}
+            <Link href="invaria2222#faqoutside">
+              <li>FAQ & Tutorials</li>
+            </Link>
+            {/* </ScrollLink> */}
             <Link href="/privacy">
               <li>{t("privacy_policy")}</li>
             </Link>

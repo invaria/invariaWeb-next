@@ -73,18 +73,14 @@ const Nfts = () => {
     const signer = provider.getSigner();
     const nftContract = new ethers.Contract(nftAddress, inVariaJSON, provider);
     const query = await nftContract["balanceOf(address)"](address);
-    // console.log("query", query.toString());
-
-    let nftBalance = query.toString();
-    setnfts(nftBalance);
-
+    //console.log("query", query.toString());
+    setnfts(query.toString());
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
+    console.log("stakecontract", stakeContract);
     const stakebal = await stakeContract.nftBalance(address);
     setstaked(stakebal.stakingAmount.toString());
-
     const burnbal = (await stakeContract.BurnNftInfo(address)).toString();
     setburnable(burnbal);
-
     const intersts =
       +(await stakeContract.CheckClaimValue(address)).toString() / 1000000;
     setinterest(intersts);
@@ -163,7 +159,7 @@ const Nfts = () => {
     const unitems = await Promise.all(
       unqq?.map(async (i, index) => {
         const blockTime = new Date(i.args.unstakeTime * 1000);
-        console.log("blockTime", blockTime);
+        console.log("blockTime"blockTime)
         const item = {
           date: blockTime.toString(),
           year: blockTime.getFullYear(),
@@ -172,7 +168,6 @@ const Nfts = () => {
           amount: i.args.amount.toNumber(),
           txid: `${i.transactionHash}`,
         };
-        console.log("stakeinfo", item);
         return item;
       })
     );
@@ -234,12 +229,7 @@ const Nfts = () => {
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     try {
       setBtnState("loading");
-      //console.log(inputs.Burnable, typeof inputs.Burnable);
-      console.log(
-        "number of available burning",
-        inputs.Burnable,
-        typeof inputs.Burnable
-      );
+      console.log(inputs.Burnable, typeof inputs.Burnable);
       const stake = await stakeContract.BurnNFT(inputs.Burnable);
       await stake.wait();
       console.log("stake", stake);
@@ -520,8 +510,7 @@ const Nfts = () => {
                             >
                               {t("dashbaord_nfts_info_cancle")}
                             </button>
-
-                            {nfts >= +inputs.Burnable && (
+                            {nfts >= inputs.Burnable && (
                               <a
                                 href="#burnModal"
                                 className={
@@ -537,7 +526,7 @@ const Nfts = () => {
                                 {t("dashbaord_nfts_info_burn")}
                               </a>
                             )}
-                            {nfts < +inputs.Burnable && (
+                            {nfts < inputs.Burnable && (
                               <a
                                 href="#notburnModal"
                                 className={
@@ -614,7 +603,6 @@ const Nfts = () => {
                     </div>
                   </div>
                 </div>
-
                 <div className=" mt-12 mb-6 flex z-10 ">
                   <button
                     className={

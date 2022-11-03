@@ -61,11 +61,11 @@ function App() {
 
   useEffect(() => {
     const node = document.getElementById("typeWriter");
-    if(!node) return;
+    if (!node) return;
     let timer;
     let text;
-    let i=0;
-    node.textContent="";
+    let i = 0;
+    node.textContent = "";
     if (router.locale === "tw") text = typewriterTW;
     else text = typewriterEN;
     function typeWriter() {
@@ -76,9 +76,9 @@ function App() {
       }
     }
     typeWriter();
-    return ()=>{
-      clearTimeout(timer)
-    }
+    return () => {
+      clearTimeout(timer);
+    };
   }, [router.locale]);
   return (
     <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
@@ -187,15 +187,15 @@ function App() {
         </label>
         {Date.now() >= 1665936000000 && (
           <div className="absolute top-[57%] right-[53%] hidden md:flex">
-          <label
-            htmlFor="premint-modal"
-            onClick={() => disableScroll()}
-            className="btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
+            <label
+              htmlFor="premint-modal"
+              onClick={() => disableScroll()}
+              className="btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
           opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded  normal-case border-none z-20 relative left-40 top-12"
-          >
-            Public Sale
-          </label>
+            >
+              Public Sale
+            </label>
           </div>
         )}
         <div className="mt-[88px]  hidden absolute top-0 left-[24px] md:flex flex-row items-start justify-start h-[592px] w-[300px] text-white indent-0.5 font-normal text-sm z-10 animate-fade-in-down">

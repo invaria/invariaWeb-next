@@ -9,7 +9,7 @@ import {
   useDisconnect,
 } from "@thirdweb-dev/react";
 const ModalPremint = dynamic(import("../components/ModalPremint"));
- const ModalStory = dynamic(import("../components/ModalStory"));
+const ModalStory = dynamic(import("../components/ModalStory"));
 const ModalProperty = dynamic(import("../components/ModalProperty"));
 const Modalappplywhite = dynamic(import("../components/Modalappplywhite"));
 
@@ -45,8 +45,6 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
-import { useContext } from "react";
-import { WalletContext } from "../context/wallet-context";
 import { checkIfWalletIsConnected } from "../src/utils/web3utils";
 
 const menuStyles = {
@@ -57,10 +55,10 @@ const menuStyles = {
   lineHeight: "20px",
   width: "100%",
 };
-let pervState = []
+let pervState = [];
 
 const Navbar = ({ headerBackground }) => {
-  const router = useRouter()
+  const router = useRouter();
   const address = useAddress();
   const network = useNetwork();
   const connectWithMetamask = useMetamask();
@@ -77,20 +75,20 @@ const Navbar = ({ headerBackground }) => {
   const [getCoinPrice, setgetCoinPrice] = useState(0);
   const [ethBalance, setEthBalance] = useState(0);
   const [usdcBalance, setUsdcBalance] = useState(0);
-  const [verify,setVerify]=useState(false)
+  const [verify, setVerify] = useState(false);
 
   async function getdata() {
-    const state = await getUser(address)
-    console.log("ver state", state)
-    setVerify(state)
+    const state = await getUser(address);
+    console.log("ver state", state);
+    setVerify(state);
   }
 
   useEffect(() => {
     // if (typeof window !== "undefined") {
-    if (!address) return
-    setToggleWallet(false)
-    enableScroll()
-    getdata()
+    if (!address) return;
+    setToggleWallet(false);
+    enableScroll();
+    getdata();
 
     // }
   }, [address]);
@@ -99,23 +97,36 @@ const Navbar = ({ headerBackground }) => {
     if (typeof window !== "undefined") {
       // 當scroll時，不知為何network == undefined
       if (network[0].data.chain == undefined) {
-        return
-      } else if (pervState[0] == network[0].data.chain.name && pervState[1] == address) {
-        return
+        return;
+      } else if (
+        pervState[0] == network[0].data.chain.name &&
+        pervState[1] == address
+      ) {
+        return;
       } else {
-        pervState[0] = network[0].data.chain.name
-        pervState[1] = address
-        console.log(network[0].data.chain.name, pervState, ethBalance)
-        checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
+        pervState[0] = network[0].data.chain.name;
+        pervState[1] = address;
+        console.log(network[0].data.chain.name, pervState, ethBalance);
+        checkIfWalletIsConnected(
+          address,
+          setEthBalance,
+          setUsdcBalance,
+          setgetCoinPrice
+        );
       }
     }
-  }, [address, network])
+  }, [address, network]);
 
   useEffect(() => {
-    console.log("ethBalance", ethBalance, address)
-    if (!address) return
-    checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice)
-  }, [])
+    console.log("ethBalance", ethBalance, address);
+    if (!address) return;
+    checkIfWalletIsConnected(
+      address,
+      setEthBalance,
+      setUsdcBalance,
+      setgetCoinPrice
+    );
+  }, []);
 
   const [openLangMenu, setOpenLangMenu] = useState(false);
 
@@ -124,7 +135,7 @@ const Navbar = ({ headerBackground }) => {
   };
   const toggleDrawerHandler = () => {
     setToggleMenu((s) => !s);
-    enableScroll()
+    enableScroll();
   };
 
   // if(address&&toggleWallet){
@@ -136,8 +147,6 @@ const Navbar = ({ headerBackground }) => {
 
   const { t } = useTranslation("common");
 
-
-
   return (
     <>
       <nav
@@ -148,8 +157,8 @@ const Navbar = ({ headerBackground }) => {
         <ModalStory />
         <ModalProperty />
         <ModalPremint />
+        <Modalappplywhite />
 
-      <Modalappplywhite />
         <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[88px] flex">
           <div className="navbar-start flex">
             <button
@@ -180,11 +189,11 @@ const Navbar = ({ headerBackground }) => {
                 spy
                 to="mindmap"
               > */}
-             <Link href='invaria2222#mindmapoutside'>
+              <Link href="invaria2222#mindmapoutside">
                 <li className="mx-8 hover:underline font-semibold text-base cursor-pointer">
                   Mindmap
                 </li>
-                </Link>
+              </Link>
               {/* </ScrollLink> */}
               <Link href="/media">
                 <li className="hover:underline font-semibold text-base cursor-pointer">
@@ -247,9 +256,13 @@ const Navbar = ({ headerBackground }) => {
                 <Link href="/dashboard">
                   <button className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] my-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary ">
                     Dashboard
-                    {verify == "Unverified" &&
-                      <img src="/icons/ic_warning.svg" className="ml-1" alt="" />
-                    }
+                    {verify == "Unverified" && (
+                      <img
+                        src="/icons/ic_warning.svg"
+                        className="ml-1"
+                        alt=""
+                      />
+                    )}
                   </button>
                 </Link>
                 <label
@@ -282,18 +295,22 @@ const Navbar = ({ headerBackground }) => {
                     className="absolute w-36 h-[85px] right-[12px] top-[75px] flex flex-col justify-center rounded"
                   >
                     <MenuItem
-                      onClick={() => {setOpenLangMenu(false)}}
+                      onClick={() => {
+                        setOpenLangMenu(false);
+                      }}
                       sx={{
                         color: router.locale === "en" ? "white" : "#8F97A3",
                         fontWeight: router.locale === "en" ? "600" : "400",
                       }}
                     >
-                      <Link href={router.pathname} locale="en" >
+                      <Link href={router.pathname} locale="en">
                         English
                       </Link>
                     </MenuItem>
                     <MenuItem
-                      onClick={() => {setOpenLangMenu(false)}}
+                      onClick={() => {
+                        setOpenLangMenu(false);
+                      }}
                       sx={{
                         color: router.locale === "tw" ? "white" : "#8F97A3",
                         fontWeight: router.locale === "tw" ? "600" : "400",
@@ -323,40 +340,27 @@ const Navbar = ({ headerBackground }) => {
         </div>
       </nav>
       {toggleMenu && (
-        <div style={{zIndex:"25"}} className=" fixed top-[60px] w-full h-screen pt-[18px]  flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]">
-            <label htmlFor="my-modal-1" className="w-full">
-          <MenuItem sx={menuStyles}>
-              Storyline
-          </MenuItem>
-            </label>
-            <Link href='invaria2222#mindmapoutside'>
-
+        <div
+          style={{ zIndex: "25" }}
+          className=" fixed top-[60px] w-full h-screen pt-[18px]  flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722] overflow-scroll pb-16"
+        >
+          <label htmlFor="my-modal-1" className="w-full">
+            <MenuItem sx={menuStyles}>Storyline</MenuItem>
+          </label>
+          <Link href="invaria2222#mindmapoutside">
             <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
               Mindmap
             </MenuItem>
-      </Link>
-          <label
-          htmlFor="property-modal"
-          className="w-full"
-         
-        >
-          <MenuItem sx={menuStyles} >
-            Property Infos
-          </MenuItem>
+          </Link>
+          <label htmlFor="property-modal" className="w-full">
+            <MenuItem sx={menuStyles}>Property Infos</MenuItem>
           </label>
 
           <Link href="/media">
-            <MenuItem sx={menuStyles}>
-              Media
-            </MenuItem>
+            <MenuItem sx={menuStyles}>Media</MenuItem>
           </Link>
-          <label
-            htmlFor="premint-modal"
-            className="w-full"
-          >
-          <MenuItem sx={menuStyles}>
-            Public Sale
-          </MenuItem>
+          <label htmlFor="premint-modal" className="w-full">
+            <MenuItem sx={menuStyles}>Public Sale</MenuItem>
           </label>
           <Accordion
             sx={{
@@ -392,7 +396,7 @@ const Navbar = ({ headerBackground }) => {
           <div className="px-4 w-full mt-4">
             {!address && (
               <button
-                className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple rounded text-center"
+                className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple rounded text-center normal-case	"
                 onClick={() => setToggleWallet(true)}
               >
                 {t("connect_wallet")}
@@ -422,7 +426,7 @@ const Navbar = ({ headerBackground }) => {
                     <div className=" flex flex-col justify-center items-end text-white font-semibold">
                       <p>{ethBalance}</p>
                       <p className=" text-sm font-normal text-neutral">
-                        ${(ethBalance * getCoinPrice?.ethereum.usd).toFixed(3)}{" "}
+                        ${(ethBalance * getCoinPrice?.ethereum?.usd).toFixed(3)}{" "}
                         USD
                       </p>
                     </div>

@@ -3,9 +3,8 @@ import { ethers } from "ethers";
 import { useAddress, useNetwork } from "@thirdweb-dev/react";
 import { SiweMessage } from "siwe";
 import { handleKyc } from "../src/utils/handleKyc";
-import SelectCountryRegion from "./SelectOptions";
+import { SelectLocale, SelectCountryRegion } from "./SelectOptions";
 import { useTranslation } from "next-i18next";
-
 
 const Form = () => {
   let domain, provider, signer;

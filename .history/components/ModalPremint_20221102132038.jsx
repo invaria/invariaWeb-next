@@ -43,7 +43,7 @@ const ModalPremint = () => {
 
   async function getdata() {
     const state = await getUser(address);
-    //console.log("state", state);
+    console.log("state", state);
     setVerify(state);
   }
 
@@ -94,13 +94,13 @@ const ModalPremint = () => {
     try {
       const mint = await nftContract.PublicMintNFT(mintNum);
       await mint.wait();
-      console.log("mint.wait()",mint.wait());
+      console.log
       setBtnState("minted");
     } catch (error) {
       setBtnState("mint");
       console.log(error);
     }
-    //console.log("btnState", btnState);
+    console.log("btnState", btnState);
   };
 
   function handleMintNum(c) {
@@ -145,7 +145,7 @@ const ModalPremint = () => {
 
   useEffect(() => {
     if (address == undefined) return;
-    //console.log("btnState", btnState);
+    console.log("btnState", btnState);
 
     checkIfWalletIsConnected(
       address,
@@ -158,7 +158,7 @@ const ModalPremint = () => {
   }, [address]);
 
   useEffect(() => {
-    //console.log(usdcAllowance);
+    console.log(usdcAllowance);
     if (usdcAllowance == null) return;
     // if (btnState == "notwhite") return
     if (+usdcBalance < mintNum * 2000) {
