@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useNetwork, useAddress } from "@thirdweb-dev/react";
 import { shortenAddress } from '../src/utils/shortenAddress'
+import { useTranslation } from 'next-i18next';
 
 const His = ({ i }) => {
   const address = useAddress()
   const [copy, setCopy] = useState(false)
+  const {t}=useTranslation("dashboard")
 
   function handleCopy() {
     setCopy(true)
@@ -21,19 +23,19 @@ const His = ({ i }) => {
       </div>
       <div className=" grow mt-6 md:mt-0 md:ml-12 grid grid-cols-2  gap-0 font-[350] font tracking-wider">
         <div className=" h-[45px] ">
-          <p className=" text-sm text-invar-light-grey mb-1 ">NFT</p>
-          <p className=" text-base text-white font-light " >Amwaj20</p>
+          <p className=" text-sm text-invar-light-grey mb-1 ">{t("dashbaord_activity_claim_nft")}</p>
+          <p className=" text-base text-white font-light " >{t("dashbaord_activity_claim_nftname")}</p>
         </div>
         <div className=" h-[45px] ">
-          <p className=" text-sm text-invar-light-grey mb-1 ">Address</p>
+          <p className=" text-sm text-invar-light-grey mb-1 ">{t("dashbaord_activity_claim_address")}</p>
           <p className=" text-base text-white font-light " >{address ? shortenAddress(address) : ""}</p>
         </div>
         <div className=" h-[45px] mt-[20px]">
-          <p className=" text-sm text-invar-light-grey mb-1 ">Result</p>
-          <p className=" text-base text-white font-light ">Completed</p>
+          <p className=" text-sm text-invar-light-grey mb-1 ">{t("dashbaord_activity_claim_result")}</p>
+          <p className=" text-base text-white font-light ">{t("dashbaord_activity_claim_result_completed")}</p>
         </div>
         <div className=" h-[45px] mt-[20px] ">
-          <p className=" text-sm text-invar-light-grey mb-1 ">Interests</p>
+          <p className=" text-sm text-invar-light-grey mb-1 ">{t("dashbaord_activity_claim_interests")}</p>
           <p className=" text-base text-white font-light ">{i.amount/1000000}</p>
         </div>
         {/* <div className=" h-[45px] mt-[20px] ">
@@ -41,11 +43,11 @@ const His = ({ i }) => {
           <p className=" text-base text-white font-light ">{(2000 * i.amount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} USDC</p>
         </div> */}
         <div className=" md:h-[45px] mt-[20px] md:w-[180px] ">
-          <p className=" text-sm text-invar-light-grey mb-1 ">Claim Time</p>
+          <p className=" text-sm text-invar-light-grey mb-1 ">{t("dashbaord_activity_claim_claimtime")}</p>
           <p className=" text-base text-white font-light ">{i.date}</p>
         </div>
         <div className=" h-[45px] mt-[20px] ">
-          <p className=" text-sm text-invar-light-grey mb-1 ">TXID</p>
+          <p className=" text-sm text-invar-light-grey mb-1 ">{t("dashbaord_activity_claim_txid")}</p>
           {i.txid ? (
             <div className=" relative flex justify-start items-center">
               <a href={i.etherScanUrl} target="_blank" rel="noreferrer" className=" text-base text-white font-light ">

@@ -1,10 +1,17 @@
 import {
-  collection, getDocs, addDoc, updateDoc,
-  deleteDoc, doc, setDoc, query, where
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+  setDoc,
+  query,
+  where,
 } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
-import { encryptData } from './shortenAddress';
+import { encryptData } from "./shortenAddress";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -13,7 +20,7 @@ const firebaseConfig = {
   storageBucket: "invaria-kyc.appspot.com",
   messagingSenderId: "657214210738",
   appId: "1:657214210738:web:ac00d0316118c02ae4bfab",
-  measurementId: "G-GG5K9WCNRQ"
+  measurementId: "G-GG5K9WCNRQ",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -22,30 +29,29 @@ const db = getFirestore(app);
 export const applyWhite = async (user, data) => {
   const usersCollectionRef = collection(db, "applywhite");
   await setDoc(doc(usersCollectionRef, String(user)), data, { merge: true });
-  console.log("applied")
-  return "created"
+  console.log("applied");
+  return "created";
 };
-
 
 export const getWhite = async (address) => {
   const usersCollectionRef = collection(db, "applywhite");
   const q = query(usersCollectionRef, where("address", "==", address));
   const querySnapshota = await getDocs(q);
-  let data
+  let data;
   querySnapshota.forEach((doc) => {
-    data = doc.data()
-    data.date2 = new Date((data.date.seconds) * 1000)
-    data.millisec = (data.date.seconds) * 1000
+    data = doc.data();
+    data.date2 = new Date(data.date.seconds * 1000);
+    data.millisec = data.date.seconds * 1000;
   });
-  // console.log("whit", data)
-  return data
-}
+  console.log("whit", data);
+  return data;
+};
 
 export const createUser = async (user, data) => {
   const usersCollectionRef = collection(db, "invaria");
   await setDoc(doc(usersCollectionRef, String(user)), data, { merge: true });
-  console.log("createUser")
-  return "created"
+  console.log("createUser");
+  return "created";
 };
 
 export const getUser = async (address) => {
@@ -56,9 +62,9 @@ export const getUser = async (address) => {
   //0x252CB346c174ad1471532CDCAF3A74229E9d2d6F
   // console.log("q", q)
   const querySnapshota = await getDocs(q);
-  let state = "Unverified"
-  let realState, realResult
-  let stateCode = 404
+  let state = "Unverified";
+  let realState, realResult;
+  let stateCode = 404;
   querySnapshota.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     // console.log("doc", doc.data(), doc.data().audit_status);
@@ -67,24 +73,26 @@ export const getUser = async (address) => {
       // console.log(doc.data().audit_status, doc.data().reject_reasons)
 
       if (doc.data().audit_status == "Accepted") {
-        state = "Accepted"
+        state = "Accepted";
         // console.log("state ac ", state)
-
-      } else if (state !== "Accepted" && doc.data().audit_status == "Rejected") {
-        state = "Rejected"
+      } else if (
+        state !== "Accepted" &&
+        doc.data().audit_status == "Rejected"
+      ) {
+        state = "Rejected";
         // console.log("state rej ", state)
-      } else if (doc.data().audit_status == "Pending" && (doc.data().reject_reasons).length == 0) {
-        state = "Pending"
+      } else if (
+        doc.data().audit_status == "Pending" &&
+        doc.data().reject_reasons.length == 0
+      ) {
+        state = "Pending";
         // console.log("state pend", state)
       }
     }
-
   });
   // console.log("re", stateCode, state)
-  return state
-}
-
-
+  return state;
+};
 
 export const getUserData = async (address) => {
   const usersCollectionRef = collection(db, "invaria");
@@ -95,8 +103,8 @@ export const getUserData = async (address) => {
 
   // console.log("q", q)
   const querySnapshota = await getDocs(q);
-  let state = "Unverified"
-  let data = null
+  let state = "Unverified";
+  let data = null;
   querySnapshota.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     // console.log("doc", doc.data(), doc.data().audit_status);
@@ -107,7 +115,7 @@ export const getUserData = async (address) => {
       // console.log((doc.data().audit_status).replace(/^:\w+\/\w+;base64,/))
 
       if (doc.data().audit_status == "Accepted") {
-        state = "Accepted"
+        state = "Accepted";
         data = {
           selectCountryRegion: doc.data().selectCountryRegion,
           inputName: doc.data().inputName,
@@ -115,64 +123,50 @@ export const getUserData = async (address) => {
           inputIDnumber: doc.data().inputIDnumber,
           selectDate: doc.data().selectDate,
           inputEmail: doc.data().inputEmail,
-          inputAddress: doc.data().inputAddress
-        }
+          inputAddress: doc.data().inputAddress,
+        };
         // console.log("state ac ", state)
-
-      } else if (state !== "Accepted" && doc.data().audit_status == "Rejected") {
-        state = "Rejected"
-        data = doc.data()
+      } else if (
+        state !== "Accepted" &&
+        doc.data().audit_status == "Rejected"
+      ) {
+        state = "Rejected";
+        data = doc.data();
         // console.log("state rej ", state)
-      } else if (doc.data().audit_status == "Pending" && (doc.data().reject_reasons).length == 0) {
-        state = "Pending"
-        data = doc.data()
+      } else if (
+        doc.data().audit_status == "Pending" &&
+        doc.data().reject_reasons.length == 0
+      ) {
+        state = "Pending";
+        data = doc.data();
         // console.log("state pend", state)
       }
     }
-
   });
   // console.log("re", state, data)
   // console.log("sre", encryptData(data))
 
-  return encryptData(data)
-}
-
-
-
+  return encryptData(data);
+};
 
 export const getUserByid = async (id) => {
-  console.log("getuserByid")
+  console.log("getuserByid");
   const usersCollectionRef = collection(db, "invaria");
   const q = query(usersCollectionRef, where("idv_task_id", "==", Number(id)));
   // const q = query(usersCollectionRef, where("address", "==", "0x252CB346c174ad1471532CDCAF3A74229E9d2d6F"));
 
-  console.log("q", id.toString(), q)
+  console.log("q", id.toString(), q);
   const querySnapshota = await getDocs(q);
-  let state
-  let realState, realResult
-  let stateCode = 404
+  let state;
+  let realState, realResult;
+  let stateCode = 404;
   querySnapshota.forEach((doc) => {
-    state = doc.data().inputEmail
+    state = doc.data().inputEmail;
     // console.log("re", state,doc.data())
-
   });
   // console.log("re", state)
-  return state
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  return state;
+};
 
 // export const storeFirebase = ({user, data}) => {
 //   const [newName, setNewName] = useState("");
