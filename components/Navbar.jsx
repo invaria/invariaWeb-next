@@ -19,37 +19,24 @@ import { shortenAddress } from "../src/utils/shortenAddress";
 import { disableScroll, enableScroll } from "../src/utils/disableScroll";
 
 import { getUser } from "../src/utils/storeFirebase";
-import styles from "../styles/navbar.module.css";
-import logo from "../assets/images/logo.png";
-import globe from "../assets/images/globe.png";
-import musicOff from "../assets/images/music_off.png";
-import musicOn from "../assets/images/music_on.png";
-import hamburger from "../assets/images/hamburger.png";
-import close from "../assets/images/close.png";
-import eth from "../assets/images/eth.png";
-import usdc from "../assets/images/usdc.png";
-import { Link as ScrollLink } from "react-scroll";
 
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
   ClickAwayListener,
-  Dialog,
-  Divider,
-  Menu,
   MenuItem,
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import { checkIfWalletIsConnected } from "../src/utils/web3utils";
+import { useContext } from "react";
+import { MusicContext } from "../context/music-context";
 
 const menuStyles = {
   paddingY: "16px",
-  fontFamily: "Inter",
+  fontFamily: "inherit",
   fontWeight: "600",
   fontSize: "16px",
   lineHeight: "20px",
@@ -67,16 +54,12 @@ const Navbar = ({ headerBackground }) => {
 
   const [toggleMenu, setToggleMenu] = useState(false);
   const [toggleWallet, setToggleWallet] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const [openDrawer, setOpenDrawer] = React.useState(false);
-  const [isMusicOn, setIsMusicOn] = React.useState(true);
-  const [language, setLanguage] = useState(false);
   const [getCoinPrice, setgetCoinPrice] = useState(0);
   const [ethBalance, setEthBalance] = useState(0);
   const [usdcBalance, setUsdcBalance] = useState(0);
   const [verify, setVerify] = useState(false);
 
+  const musicCTX=useContext(MusicContext);
   async function getdata() {
     const state = await getUser(address);
     console.log("ver state", state);
@@ -91,6 +74,7 @@ const Navbar = ({ headerBackground }) => {
     getdata();
 
     // }
+    return()=>enableScroll();
   }, [address]);
 
   useEffect(() => {
@@ -130,22 +114,13 @@ const Navbar = ({ headerBackground }) => {
 
   const [openLangMenu, setOpenLangMenu] = useState(false);
 
-  const handleMenu = (event) => {
-    anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
-  };
   const toggleDrawerHandler = () => {
     setToggleMenu((s) => !s);
     enableScroll();
   };
 
-  // if(address&&toggleWallet){
-  //   setToggleWallet(false);
-  //   enableScroll();
-  // }else if(!address&&toggleWallet){
-  //   setToggleWallet(true);
-  // }
-
   const { t } = useTranslation("common");
+
 
   return (
     <>
@@ -162,13 +137,13 @@ const Navbar = ({ headerBackground }) => {
         <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[88px] flex">
           <div className="navbar-start flex">
             <button
-              onClick={() => setIsMusicOn((v) => !v)}
+              onClick={() => musicCTX.setIsMusicOn((v) => !v)}
               className="absolute top-[24px] left-[16px] md:hidden"
             >
               <img
                 className="h-[20px] w-[20px]"
                 src={
-                  isMusicOn ? "/icons/ic_music.svg" : "/icons/ic_music_off.svg"
+                  musicCTX.isMusicOn ? "/icons/ic_music.svg" : "/icons/ic_music_off.svg"
                 }
                 alt=""
               />
@@ -325,13 +300,13 @@ const Navbar = ({ headerBackground }) => {
               )}
             </div>
             <button
-              onClick={() => setIsMusicOn((v) => !v)}
+              onClick={() => musicCTX.setIsMusicOn((v) => !v)}
               className="btn btn-sm btn-outline rounded h-[40px] w-[40px] my-[24px] mr-[24px] px-[4px] py-[4px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
             >
               <img
                 className="h-[20px] w-[20px]"
                 src={
-                  isMusicOn ? "/icons/ic_music.svg" : "/icons/ic_music_off.svg"
+                  musicCTX.isMusicOn ? "/icons/ic_music.svg" : "/icons/ic_music_off.svg"
                 }
                 alt=""
               />
@@ -353,14 +328,14 @@ const Navbar = ({ headerBackground }) => {
             </MenuItem>
           </Link>
           <label htmlFor="property-modal" className="w-full">
-            <MenuItem sx={menuStyles}>Property Infos</MenuItem>
+            <MenuItem sx={menuStyles}>{t("property_infos")}</MenuItem>
           </label>
 
           <Link href="/media">
             <MenuItem sx={menuStyles}>Media</MenuItem>
           </Link>
           <label htmlFor="premint-modal" className="w-full">
-            <MenuItem sx={menuStyles}>Public Sale</MenuItem>
+            <MenuItem sx={menuStyles}>{t("public_sale")}</MenuItem>
           </label>
           <Accordion
             sx={{
@@ -371,7 +346,7 @@ const Navbar = ({ headerBackground }) => {
             elevation={0}
           >
             <AccordionSummary>
-              <Typography sx={{ fontWeight: "600" }}> Language</Typography>
+              <Typography sx={{ fontWeight: "600" }}> {t("language")}</Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
@@ -396,7 +371,7 @@ const Navbar = ({ headerBackground }) => {
           <div className="px-4 w-full mt-4">
             {!address && (
               <button
-                className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple rounded text-center normal-case	"
+                className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple rounded text-center normal-case	text-white"
                 onClick={() => setToggleWallet(true)}
               >
                 {t("connect_wallet")}

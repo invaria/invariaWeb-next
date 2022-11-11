@@ -1,31 +1,31 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import { ethers } from "ethers";
 import { useNetwork, useAddress } from "@thirdweb-dev/react";
-import erc20ABI from "../src/utils/erc20ABI.json";
 import inVariaJSON from "../src/utils/InVaria.json";
 import { nftAddress } from "../src/utils/web3utils";
-import Image from "next/image";
 import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
-import { shortenAddress } from "../src/utils/shortenAddress";
 import { ItemActivity } from "../components";
 import { useTranslation } from "next-i18next";
 
-let pervState = [];
-let etherScan;
-let openSea;
-
-const TogActivity = ({ hispresale, sethispresale, start, end }) => {
+const TogActivity = ({ setAllActivityData, start, end }) => {
   const [collapse, setCollapse] = useState(true);
   const address = useAddress();
   const network = useNetwork();
   const [transactions, setTransactions] = useState([]);
+  const [allTransactions, setAllTransactions] = useState([]);
 
   async function getActivity() {
-    // console.log("get activity")
     if (!address) return;
+    let etherScan, openSea;
+    if (network[0].data.chain.name == "Goerli") {
+      etherScan = "https://goerli.etherscan.io/tx/";
+      openSea = `https://testnets.opensea.io/assets/goerli/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`;
+    } else if (network[0].data.chain.name == "Ethereum Mainnet") {
+      etherScan = "https://etherscan.io/tx/";
+      openSea = `https://opensea.io/assets/ethereum/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`;
+    }
+
     const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     const nftContract = new ethers.Contract(nftAddress, inVariaJSON, provider);
     const filter = nftContract.filters.TransferSingle(
       null,
@@ -36,11 +36,10 @@ const TogActivity = ({ hispresale, sethispresale, start, end }) => {
     );
     const query = await nftContract.queryFilter(filter);
     let arr = [];
-    const items = await Promise.all(
+    await Promise.all(
       query?.map(async (i) => {
         const block = await provider.getBlock(i.blockHash);
         const blockTime = new Date(block.timestamp * 1000);
-        // let utcDate = new Date(blockTime.toLocaleString('en-US', { timeZone: "UTC" }))
         if (i.args.id.toNumber() == 1) {
           const item = {
             date: blockTime.toString(),
@@ -48,8 +47,6 @@ const TogActivity = ({ hispresale, sethispresale, start, end }) => {
             year: blockTime.getFullYear(),
             month: blockTime.getMonth() + 1,
             day: blockTime.getDate(),
-            // zone:blockTime.get
-            // utcDate: utcDate.toISOString(),
             from: i.args.from,
             to: i.args.to,
             operator: i.args.operator,
@@ -64,103 +61,39 @@ const TogActivity = ({ hispresale, sethispresale, start, end }) => {
         }
       })
     );
-    const i = [...arr].sort((a, b) => b.dd - a.dd);
-    setTransactions(i);
-    sethispresale(i);
-    // console.log(items, etherScan, openSea)
-    console.log("arr", arr);
-    // console.log("trans", transactions, transactions.length)
+
+    arr = arr.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+
+    setAllActivityData((d) => [...d, ...arr]);
+    setAllTransactions(arr);
   }
 
   useEffect(() => {
-    // if (typeof window == "undefined") return
-    console.log("activity");
-    // 當scroll時，不知為何network == undefined
-    if (network[0].data.chain == undefined) {
-      return;
-    } else {
-      if (pervState[0] == network[0].data.chain.name) return;
+    setTransactions([]);
+    setAllTransactions([]);
+    if (address) {
+      console.log("test unstake mounted");
+      getActivity();
     }
-    pervState[0] = network[0].data.chain.name;
-    pervState[1] = address;
-    if (pervState[0] == "Goerli") {
-      etherScan = "https://goerli.etherscan.io/tx/";
-      openSea = `https://testnets.opensea.io/assets/goerli/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`;
-    } else if (pervState[0] == "Ethereum Mainnet") {
-      etherScan = "https://etherscan.io/tx/";
-      openSea = `https://opensea.io/assets/ethereum/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`;
-    }
-    getActivity();
-
-    // }, [address, network])
-  }, [address]);
+    console.log("network name",network[0]?.data?.chain?.name)
+  }, [address, network[0]?.data?.chain?.name]);
 
   useEffect(() => {
-    getActivity();
-  }, []);
-
-  useEffect(() => {
-    let arr = [];
-    async function getAct() {
-      if (!address) return;
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const nftContract = new ethers.Contract(
-        nftAddress,
-        inVariaJSON,
-        provider
-      );
-      const filter = nftContract.filters.TransferSingle(
-        null,
-        "0x0000000000000000000000000000000000000000",
-        address,
-        null,
-        null
-      );
-      const query = await nftContract.queryFilter(filter);
-      const items = await Promise.all(
-        query?.map(async (i) => {
-          const block = await provider.getBlock(i.blockHash);
-          const blockTime = new Date(block.timestamp * 1000);
-          // console.log(i.args.id.toNumber(), "ttt")
-          if (i.args.id.toNumber() == 1) {
-            const item = {
-              date: blockTime.toString(),
-              year: blockTime.getFullYear(),
-              month: blockTime.getMonth() + 1,
-              day: blockTime.getDate(),
-              from: i.args.from,
-              to: i.args.to,
-              operator: i.args.operator,
-              id: i.args.id.toNumber(),
-              value: i.args.value.toNumber(),
-              txid: `${i.transactionHash}`,
-              etherScanUrl: `${etherScan}${i.transactionHash}`,
-              openSeaUrl: `${openSea}`,
-              time: block.timestamp * 1000,
-            };
-            arr.push(item);
-            return item;
-          }
-        })
-      );
-      // setTransactions(unitems)
-      // arr = items
-      // console.log(arr, "start")
-
-      if (start != undefined) {
-        console.log(arr);
-        let obj = arr.filter(
-          (person) => person.time > start && person.time < end
+    if (address && allTransactions.length > 0) {
+      let tx = [...allTransactions];
+      if (start && end) {
+        tx = tx.filter(
+          (t) =>
+            new Date(t.date).getTime() > start &&
+            new Date(t.date).getTime() < end
         );
-        // console.log("obj", obj, start, arr[0]?.time, arr, Array.isArray(transactions), transactions.length)
-
-        setTransactions(obj);
       }
-      // console.log("start", start, transactions, Array.isArray(transactions), transactions.length)
+      setTransactions(tx);
     }
-    getAct();
-  }, [start, end]);
+  }, [start, end, allTransactions]);
+
   const { t } = useTranslation("dashboard");
   return (
     <div className=" max-w-full z-10 ">

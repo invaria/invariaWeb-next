@@ -8,6 +8,7 @@ import foresight from "../assets/images/foresight.png";
 import premedia from "../assets/images/premedia.png";
 import bitcoin from "../assets/images/bitcoin.png";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { ScrollToTop } from "../components";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -66,6 +67,8 @@ const Media = () => {
             redirectLink="https://news.bitcoin.com/invar-finance-builds-invaria2222-as-the-team-looks-to-provide-hybrid-finance-services/"
           />
         </section>
+        <ScrollToTop />
+
         <Footer />
       </div>
     </div>

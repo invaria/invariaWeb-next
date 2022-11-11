@@ -1,9 +1,6 @@
 import {
   collection,
   getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
   doc,
   setDoc,
   query,
@@ -37,15 +34,14 @@ export const getWhite = async (address) => {
   const usersCollectionRef = collection(db, "applywhite");
   const q = query(usersCollectionRef, where("address", "==", address));
   const querySnapshota = await getDocs(q);
-  let data;
+  let data
   querySnapshota.forEach((doc) => {
-    data = doc.data();
-    data.date2 = new Date(data.date.seconds * 1000);
-    data.millisec = data.date.seconds * 1000;
+    data = doc.data()
+    data.date2 = new Date((data.date.seconds) * 1000)
+    data.millisec = (data.date.seconds) * 1000
   });
-  console.log("whit", data);
-  return data;
-};
+  return data ||{};
+}
 
 export const createUser = async (user, data) => {
   const usersCollectionRef = collection(db, "invaria");
@@ -161,7 +157,7 @@ export const getUserByid = async (id) => {
   let realState, realResult;
   let stateCode = 404;
   querySnapshota.forEach((doc) => {
-    state = doc.data().inputEmail;
+    state = doc.data();
     // console.log("re", state,doc.data())
   });
   // console.log("re", state)

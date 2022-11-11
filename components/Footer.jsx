@@ -14,7 +14,7 @@ import { Link as ScrollLink } from "react-scroll";
 const Footer = ({ c }) => {
   const { t } = useTranslation("common");
   return (
-    <footer id="footer" className={`${styles.footer} relative z-20`}>
+    <footer id="footer" className={`${styles.footer} relative`}>
       <div className={styles.footerContent}>
         <div className={styles.footerLeft}>
           <div className={styles.winnerBtn}>

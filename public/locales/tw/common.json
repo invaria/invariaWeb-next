@@ -1,8 +1,10 @@
 {
-    "terms_conditions": "網站條款",
-    "privacy_policy": "隱私權政策",
-    "connectwallet_disconnect":"取消連結",
-    "connect_wallet":"連結錢包",
-    "disconnect":"取消連結"
-  }
-  
+  "terms_conditions": "網站條款",
+  "privacy_policy": "隱私權政策",
+  "connectwallet_disconnect":"取消連結",
+  "connect_wallet":"連結錢包",
+  "disconnect":"取消連結",
+  "property_infos":"物業信息",
+  "public_sale":"公售鑄造",
+  "language":"語言" 
+}

@@ -192,16 +192,7 @@
 /* .logo4 {
   margin-right: 0;
 } */
-.toTop {
-  position: fixed;
-  right: 24px;
-  bottom: 24px;
-  cursor: pointer;
-  display: none;
-}
-.toTop:active {
-  transform: translateY(2px);
-}
+
 .headerBtns {
   display: none;
 }
@@ -525,7 +516,6 @@
     justify-content: center;
   }
   .partnersSection {
-
     padding-bottom: 90px;
   }
 
@@ -586,8 +576,8 @@
     margin-bottom: 30px;
   }
   .partnersSection {
- padding-left:  16px;
- padding-right: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
   .partnerSectionWrapper {
     gap: 0;

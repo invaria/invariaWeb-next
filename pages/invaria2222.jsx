@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
-import Countdown from "react-countdown";
+
 import { Twitter, Discord } from "../components/icons/Link";
-import { ScrollToTop, QA, Footer, Navbar } from "../components";
-import { tutorialsList, faqList } from "../src/constants";
+import { ScrollToTop, Footer, Navbar } from "../components";
+
 import Image from "next/image";
 import { disableScroll } from "../src/utils/disableScroll";
 import { useTranslation } from "next-i18next";
@@ -12,7 +11,6 @@ import { Link as ScrollLink } from "react-scroll";
 
 import explore from "../assets/images/explore.png";
 import exploreTW from "../assets/images/explore_tw.png";
-import toTop from "../assets/images/to-top.png";
 import styles from "../styles/Home.module.css";
 
 import CollapseMenu from "../components/CollapseMenu";
@@ -40,10 +38,6 @@ export async function getStaticProps({ locale }) {
     },
   };
 }
-
-const scrollToTopHandler = () => {
-  window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-};
 
 function App() {
   const [headerBackground, setHeaderBackground] = useState(false);
@@ -82,7 +76,6 @@ function App() {
   }, [router.locale]);
   return (
     <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
-      <ScrollToTop />
       <Navbar headerBackground={headerBackground} />
       <div className="w-full flex flex-col justify-center items-center h-0 ">
         <label
@@ -126,7 +119,7 @@ function App() {
           opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 "
         >
-          Property Infos
+          {t("property_infos")}
         </label>
         {Date.now() >= 1665936000000 && (
           <label
@@ -136,7 +129,7 @@ function App() {
           opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded absolute top-[428px] md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 "
           >
-            Public Sale
+            {t("public_sale")}
           </label>
         )}
         {/* <label htmlFor="applywhite-modal" className=" z-20 absolute top-[512px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
@@ -194,7 +187,7 @@ function App() {
           opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded  normal-case border-none z-20 relative left-40 top-12"
             >
-              Public Sale
+            {t("public_sale")}
             </label>
           </div>
         )}
@@ -638,7 +631,7 @@ function App() {
               </div>
             </a>
             <a
-              href="https://twitter.com/routerprotocol"
+              href="https://www.routerprotocol.com/"
               rel="noopener noreferrer"
               target="_blank"
             >
@@ -648,14 +641,8 @@ function App() {
             </a>
           </div>
         </section>
+        <ScrollToTop />
         <Footer />
-      </div>
-      <div
-        id="scroll-top"
-        className={styles.toTop}
-        onClick={scrollToTopHandler}
-      >
-        <Image src={toTop} />
       </div>
     </div>
   );

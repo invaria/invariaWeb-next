@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import fetch from "isomorphic-unfetch";
+import { useRouter } from "next/router";
 
 const Home = () => {
   const [resultNoCors, setResultNoCors] = useState("");
   const [resultCors, setResultCors] = useState("");
+  const router=useRouter();
 
   const handleNoCors = async () => {
     if (resultNoCors) {
@@ -66,7 +68,8 @@ const Home = () => {
             "job": "zion residenthuikhjk",
             "job2": "zion residentdfgx",
             'idv_task_id':'env local -qwea',
-            "time": Date.now()
+            "time": Date.now(),
+            "language":router.locale
           })
         }
         );

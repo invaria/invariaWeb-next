@@ -162,7 +162,7 @@ const ModalWallet = () => {
                 className="btn btn-primary relative w-[327px] h-[56px] mt-[14px] rounded flex justify-center items-center border-none normal-case"
                 onClick={disconnectWallet}
               >
-                <p className=" font-semibold text-accent">{t("disconnect")}</p>
+                <p className=" font-semibold text-white">{t("disconnect")}</p>
               </button>
             </label>
           </label>

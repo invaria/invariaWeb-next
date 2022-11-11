@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Navbar, Footer } from "../components";
+import { Navbar, Footer, ScrollToTop } from "../components";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { Link as ScrollLink } from "react-scroll";
@@ -97,7 +97,7 @@ const Terms = () => {
         getRectTop(footer) + document.body.scrollTop - 10
       ) {
         float.style.bottom = `${footer.scrollHeight + 70}px`;
-        float.style.top="unset";
+        float.style.top = "unset";
       }
       if (
         document.body.scrollTop + window.innerHeight <
@@ -255,6 +255,8 @@ const Terms = () => {
           </div>
         </div>
       </div>
+      <ScrollToTop />
+
       <div id="footer">
         <Footer />
       </div>

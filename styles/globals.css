@@ -13,7 +13,6 @@
 body,
 html {
   font-family: 'Inter', sans-serif;
-  min-width: 400px;
   background: hsl(0, 0%, 0%);
 }
 
@@ -173,9 +172,8 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Inter',-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    font-family: 'Inter' !important;
+
+    /* font-family: 'Inter' !important; */
     color: white;
 }
 /* we need to preload partners imgs to avoid blinking */
@@ -251,7 +249,22 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   top: 0;
   width: auto;
 }
-input[type="date"]:not(.has-value):before{
+.empty-date-cont input[type="date"]:not(.has-value):before{
   color: lightgray;
   content: attr(placeholder);
+}
+
+
+
+input[type="date"]:focus::before {
+    content: none
+}
+
+.non-empty-date input[type="date"]:disabled::before {
+    content: none;
+}
+
+.empty-date input[type="date"]:disabled::before {
+    content: attr(data-placeholder);
+    width: 100%;
 }

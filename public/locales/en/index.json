@@ -96,5 +96,9 @@
   "tutorials_4_title": "What is NFT staking?",
   "tutorials_4_desc_1": "NFT staking refers to locking up non-fungible tokens on a platform or protocol in exchange for staking rewards and other benefits. Staking NFTs allows holders to earn an income from their collection while maintaining ownership.",
   "tutorials_5_title": "Why do I have to verify my identity(KYC)?",
-  "tutorials_5_desc_1": "In order to conduct certain activities on our website, InVaria 2222 maintains a KYC (Know Your Customer) policy to comply with the applicable law, regulations, or guidance to crypto-service provider, we will have no liability or responsibility for your compliance with laws or regulations governing the transfer and use of NFTs."
+  "tutorials_5_desc_1": "In order to conduct certain activities on our website, InVaria 2222 maintains a KYC (Know Your Customer) policy to comply with the applicable law, regulations, or guidance to crypto-service provider, we will have no liability or responsibility for your compliance with laws or regulations governing the transfer and use of NFTs.",
+
+  "property_infos":"Property Infos",
+  "public_sale":"Public Sale",
+  "language":"Language" 
 }

@@ -179,5 +179,7 @@
   "NFT": "NFT",
 
   "marketplace": "Marketplace",
-  "Rejected": "Rejected"
+  "Rejected": "Rejected",
+  "staking-redemption-no-data":"No Records Found",
+  "loading":"Loading"
 }

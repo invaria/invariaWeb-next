@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { ethers } from "ethers";
 import { useNetwork, useAddress } from "@thirdweb-dev/react";
-import erc20ABI from "../src/utils/erc20ABI.json";
-import inVariaJSON from "../src/utils/InVaria.json";
-import { nftAddress } from "../src/utils/web3utils";
-import Image from "next/image";
 import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
 import { shortenAddress } from "../src/utils/shortenAddress";
-import { ItemActivity } from ".";
 import { getWhite } from "../src/utils/storeFirebase";
 import { useTranslation } from "next-i18next";
 
@@ -22,16 +15,13 @@ const TogWhite = ({ sethiswhiteapply, start, end }) => {
   const network = useNetwork();
   const [transactions, setTransactions] = useState([]);
   const { t } = useTranslation("dashboard");
+
   async function getActivity() {
-    console.log("get activity");
     if (!address) return;
     const items = await getWhite(address);
     setTransactions([items]);
     sethiswhiteapply(items);
-    console.log(items, etherScan, openSea);
-    console.log("trans", [items]);
   }
-
   useEffect(() => {
     if (network[0].data.chain == undefined) {
       return;
@@ -47,34 +37,18 @@ const TogWhite = ({ sethiswhiteapply, start, end }) => {
       etherScan = "https://etherscan.io/tx/";
       openSea = `https://opensea.io/assets/ethereum/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`;
     }
-    getActivity();
-
-    // }, [address, network])
+    if (address) getActivity();
   }, [address]);
 
   useEffect(() => {
-    getActivity();
-  }, []);
-
-  useEffect(() => {
-    // getActivity()
     let arr = [];
     async function getAct() {
       if (!address) return;
       const items = await getWhite(address);
       arr = [items];
       if (start != undefined) {
-        console.log("whiobj", arr, items);
         let obj = arr.filter(
           (person) => person.millisec > start && person.millisec < end
-        );
-        console.log(
-          "whiobj",
-          start,
-          arr[0]?.millisec,
-          arr,
-          Array.isArray(arr),
-          transactions.length
         );
         setTransactions(obj);
       }

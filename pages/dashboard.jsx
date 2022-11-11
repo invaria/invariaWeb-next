@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { ethers } from "ethers";
 import { useAddress, useNetwork } from "@thirdweb-dev/react";
 import {
   TogActivity,
@@ -11,6 +10,7 @@ import {
   FormInfo,
   Footer,
   Nfts,
+  ScrollToTop,
 } from "../components/";
 import Navbar from "../components/Navbar";
 import { getUser } from "../src/utils/storeFirebase";
@@ -37,11 +37,9 @@ const Dashboard = () => {
   const headerBackground = true;
   const [tabState, setTabState] = useState("nfts");
   const address = useAddress();
-  const network = useNetwork();
   const [verify, setVerify] = useState("Unverified");
-  // const [verifyState, setVerifyState] = useState()
-  const [hispresale, sethispresale] = useState();
-  const [hiswhiteapply, sethiswhiteapply] = useState();
+  const [allActivityData, setAllActivityData] = useState([]);
+
   const [inputs, setInputs] = useState({
     ["address"]: address,
     ["time"]: new Date(Date.now()),
@@ -214,8 +212,8 @@ const Dashboard = () => {
           src="/bg/bg_05.png"
           alt=""
         />
-        <div className="lg:max-w-[980px] m-auto px-4 lg:px-0">
-          <div className="pt-[60px] md:pt-[80px]">
+        <div className="">
+          <div className="pt-[60px] md:pt-[80px] lg:max-w-[980px] m-auto px-4 lg:px-0">
             <p className=" mt-[32px] md:mt-[45px] font-semibold text-2xl">
               Dashboard
             </p>
@@ -223,7 +221,7 @@ const Dashboard = () => {
             <div className="flex z-10">
               <button
                 className={
-                  "pb-2 mr-9 mt-[29px] h-[36px] w-[58px] text-sm font-semibold text-center" +
+                  "pb-2 mr-9 mt-[29px] text-sm font-semibold text-center" +
                   (tabState == "nfts"
                     ? " text-white border-b-2 border-t-2 border-t-transparent"
                     : " text-invar-light-grey hover:text-white border-0  ")
@@ -236,7 +234,7 @@ const Dashboard = () => {
               </button>
               <button
                 className={
-                  "pb-2 mr-9 mt-[29px] h-[36px] w-[58px] text-sm font-semibold text-center" +
+                  "pb-2 mr-9 mt-[29px] text-sm font-semibold text-center" +
                   (tabState == "activity"
                     ? " text-white border-b-2 border-t-2 border-t-transparent"
                     : " text-invar-light-grey hover:text-white border-0  ")
@@ -250,7 +248,7 @@ const Dashboard = () => {
               {address && (
                 <button
                   className={
-                    "pb-2 mr-9 mt-[29px] h-[36px] w-[58px] text-sm font-semibold text-center" +
+                    "pb-2 mr-9 mt-[29px] text-sm font-semibold text-center" +
                     (tabState == "profile"
                       ? " text-white border-b-2 border-t-2 border-t-transparent"
                       : " text-invar-light-grey hover:text-white border-0  ")
@@ -262,239 +260,259 @@ const Dashboard = () => {
               )}
             </div>
           </div>
-          {tabState == "activity" && (
-            <div className="relative min-h-[70vw] w-full border-t border-invar-main-purple">
-              <div
-                className=" md:hidden max-w-full mt-4 h-10 bg-invar-main-purple rounded flex justify-center items-center text-sm font md:mx-[130px] lg:mx-[230px] "
-                onClick={() => setfmenu(!fmenu)}
-              >
-                <img
-                  src="/icons/ic_filter.svg"
-                  alt=""
-                  className=" w-4 h-4 mr-2"
-                />
-                Filter
-              </div>
-              <form
-                className=" hidden md:flex justify-between my-9 max-w-full z-30 "
-                onSubmit={handleSubmit}
-                name="form"
-              >
-                <div className=" flex flex-wrap">
-                  <div className="flex w-full lg:w-fit">
-                    <label className="lg:max-w-[238px] w-full mb-6 block mr-4">
-                      <div className="relative flex bg-invar-main-purple rounded items-center">
-                        <p className=" ml-3 text-invar-light-grey font-normal text-sm whitespace-nowrap	">
-                          {t("dashbaord_activity_searchbar_nft_item")}
-                        </p>
-                        <select
-                          name="selectIDtype"
-                          onChange={handleChange}
-                          value={inputs.selectIDtype || ""}
-                          required
-                          className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
-                     cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-end"
-                        >
-                          <option value="All">
-                            {t("dashbaord_activity_searchbar_nft_all")}
-                          </option>
-                          <option value="Amwaj20">
-                            {t("dashbaord_activity_presale_nftname")}
-                          </option>
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                          <svg
-                            className="fill-current h-4 w-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                          </svg>
-                        </div>
-                      </div>
-                    </label>
-                    <label className="lg:max-w-[216px] w-full mb-6 block mr-4">
-                      <div className="relative flex bg-invar-main-purple rounded items-center">
-                        <p className=" ml-3 text-invar-light-grey font-normal text-sm whitespace-nowrap	">
-                          {t("dashbaord_activity_searchbar_type")}
-                        </p>
-                        <select
-                          name="selectType"
-                          onChange={handleChange}
-                          value={inputs.selectType || ""}
-                          required
-                          className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
-                     cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-end"
-                        >
-                          <option value="All">
-                            {t("dashbaord_activity_searchbar_nft_all")}{" "}
-                          </option>
-                          <option value="Pre-Sale">
-                            {t("dashbaord_activity_searchbar_type_minting")}
-                          </option>
-                          <option value="Whitelist">
-                            {t("dashbaord_activity_searchbar_type_whitelist")}
-                          </option>
-                          {/* <option value="Public Sale">Public Sale</option> */}
-                          <option value="Unstake">
-                            {t("dashbaord_activity_unstake_title")}
-                          </option>
-                          <option value="Claim">
-                            {t("dashbaord_activity_searchbar_type_claim")}
-                          </option>
-                          <option value="Redemption">
-                            {t("dashbaord_activity_searchbar_type_redemption")}
-                          </option>
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
-                          <svg
-                            className="fill-current h-4 w-4"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                          </svg>
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                  <label className=" mb-6 mr-4 flex">
-                    <div className="relative flex bg-invar-main-purple rounded items-center">
-                      <input
-                        style={{ minWidth: "150px" }}
-                        name="selectStartDate"
-                        type="date"
-                        onChange={handleChange}
-                        value={inputs.selectStartDate || ""}
-                        required
-                        className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
-                      />
-                      <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
-                        <img
-                          className=" w-4 h-4 cursor-pointer"
-                          src="/icons/ic_calendar.png"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                    <div className="relative flex bg-invar-main-purple rounded items-center">
-                      <img
-                        className=" mx-2 w-4 h-4 "
-                        src="/icons/ic_right.svg"
-                        alt=""
-                      />
-                      <input
-                        style={{ minWidth: "150px" }}
-                        name="selectEndDate"
-                        type="date"
-                        onChange={handleChange}
-                        value={inputs.selectEndDate || ""}
-                        required
-                        className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
-                      />
-                      <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
-                        <img
-                          className=" w-4 h-4 cursor-pointer mr-2"
-                          src="/icons/ic_calendar.png"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                  </label>
-                </div>
-                <div className="flex">
-                  <input
-                    type="submit"
-                    value="Search"
-                    className="btn btn-sm inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-6 py-2 h-10 normal-case text-sm font-semibold cursor-pointer border-none"
-                  />
+          <div className="border-t-2 border-invar-main-purple">
+            <div className="lg:max-w-[980px] m-auto px-4 lg:px-0">
+              {tabState == "activity" && (
+                <div className="relative min-h-[70vw] w-full">
+                  {console.log("test tabstate is activity")}
                   <div
-                    className=" btn btn-sm inline-block bg-transparent hover:bg-invar-main-purple rounded text-invar-light-grey ml-2 px-6 py-2 h-10 normal-case text-sm font-semibold cursor-pointer border-invar-dark "
-                    onClick={() => reset()}
+                    className=" md:hidden max-w-full mt-4 h-10 bg-invar-main-purple rounded flex justify-center items-center text-sm font md:mx-[130px] lg:mx-[230px] cursor-pointer"
+                    onClick={() => setfmenu(!fmenu)}
                   >
-                    {t("dashbaord_activity_searchbar_reset")}
+                    <img
+                      src="/icons/ic_filter.svg"
+                      alt=""
+                      className=" w-4 h-4 mr-2"
+                    />
+                    Filter
+                  </div>
+                  <form
+                    className=" hidden md:flex justify-between my-9 max-w-full z-30 "
+                    onSubmit={handleSubmit}
+                    name="form"
+                  >
+                    <div className=" flex flex-wrap">
+                      <div className="flex w-full lg:w-fit">
+                        <label className="lg:max-w-[238px] w-full mb-6 block mr-4">
+                          <div className="relative flex bg-invar-main-purple rounded items-center">
+                            <p className=" ml-3 text-invar-light-grey font-normal text-sm whitespace-nowrap	">
+                              {t("dashbaord_activity_searchbar_nft_item")}
+                            </p>
+                            <select
+                              name="selectIDtype"
+                              onChange={handleChange}
+                              value={inputs.selectIDtype || ""}
+                              required
+                              className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
+                     cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-end"
+                            >
+                              <option value="All">
+                                {t("dashbaord_activity_searchbar_nft_all")}
+                              </option>
+                              <option value="Amwaj20">
+                                {t("dashbaord_activity_presale_nftname")}
+                              </option>
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                              <svg
+                                className="fill-current h-4 w-4"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                              </svg>
+                            </div>
+                          </div>
+                        </label>
+                        <label className="lg:max-w-[216px] w-full mb-6 block mr-4">
+                          <div className="relative flex bg-invar-main-purple rounded items-center">
+                            <p className=" ml-3 text-invar-light-grey font-normal text-sm whitespace-nowrap	">
+                              {t("dashbaord_activity_searchbar_type")}
+                            </p>
+                            <select
+                              name="selectType"
+                              onChange={handleChange}
+                              value={inputs.selectType || ""}
+                              required
+                              className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
+                     cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-end"
+                            >
+                              <option value="All">
+                                {t("dashbaord_activity_searchbar_nft_all")}{" "}
+                              </option>
+                              <option value="Pre-Sale">
+                                {t("dashbaord_activity_searchbar_type_minting")}
+                              </option>
+                              {/* <option value="Whitelist">
+                                {t(
+                                  "dashbaord_activity_searchbar_type_whitelist"
+                                )}
+                              </option> */}
+                              {/* <option value="Public Sale">Public Sale</option> */}
+                              <option value="Unstake">
+                                {t("dashbaord_activity_unstake_title")}
+                              </option>
+                              <option value="Claim">
+                                {t("dashbaord_activity_searchbar_type_claim")}
+                              </option>
+                              <option value="Redemption">
+                                {t(
+                                  "dashbaord_activity_searchbar_type_redemption"
+                                )}
+                              </option>
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                              <svg
+                                className="fill-current h-4 w-4"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                              </svg>
+                            </div>
+                          </div>
+                        </label>
+                      </div>
+                      <label className=" mb-6 mr-4 flex">
+                        <div className="relative flex bg-invar-main-purple rounded items-center">
+                          <input
+                            style={{ minWidth: "150px" }}
+                            name="selectStartDate"
+                            type="date"
+                            onChange={handleChange}
+                            value={inputs.selectStartDate || ""}
+                            required
+                            className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
+                          />
+                          <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
+                            <img
+                              className=" w-4 h-4 cursor-pointer"
+                              src="/icons/ic_calendar.png"
+                              alt=""
+                            />
+                          </div>
+                        </div>
+                        <div className="relative flex bg-invar-main-purple rounded items-center">
+                          <img
+                            className=" mx-2 w-4 h-4 "
+                            src="/icons/ic_right.svg"
+                            alt=""
+                          />
+                          <input
+                            style={{ minWidth: "150px" }}
+                            name="selectEndDate"
+                            type="date"
+                            onChange={handleChange}
+                            value={inputs.selectEndDate || ""}
+                            required
+                            className="block bg-invar-main-purple w-full h-10 rounded  outline-none text-white font-normal pl-[15px] appearance-none"
+                          />
+                          <div className=" pointer-events-none absolute inset-y-0 right-[5px] flex items-center  text-white">
+                            <img
+                              className=" w-4 h-4 cursor-pointer mr-2"
+                              src="/icons/ic_calendar.png"
+                              alt=""
+                            />
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                    <div className="flex">
+                      <input
+                        type="submit"
+                        value={t("dashbaord_activity_searchbar_search")}
+                        className="btn btn-sm inline-block bg-invar-dark hover:bg-invar-main-purple rounded text-white px-6 py-2 h-10 normal-case text-sm font-semibold cursor-pointer border-none"
+                      />
+                      <div
+                        className=" btn btn-sm inline-block bg-transparent hover:bg-invar-main-purple rounded text-invar-light-grey ml-2 px-6 py-2 h-10 normal-case text-sm font-semibold cursor-pointer border-invar-dark "
+                        onClick={() => reset()}
+                      >
+                        {t("dashbaord_activity_searchbar_reset")}
+                      </div>
+                    </div>
+                  </form>
+                  <div className=" mt-3"></div>
+                  {address &&
+                    (inputs.selectType == "All" ||
+                      inputs.selectType == "Unstake") && (
+                      <TogUnstake
+                        start={starttime}
+                        end={endtime}
+                        setAllActivityData={setAllActivityData}
+                        key="TogUnstake"
+                      />
+                    )}
+                  {address &&
+                    (inputs.selectType == "All" ||
+                      inputs.selectType == "Claim") && (
+                      <TogClaim
+                        start={starttime}
+                        end={endtime}
+                        setAllActivityData={setAllActivityData}
+                        key="TogClaim"
+                      />
+                    )}
+                  {address &&
+                    (inputs.selectType == "All" ||
+                      inputs.selectType == "Pre-Sale") && (
+                      <TogActivity
+                        setAllActivityData={setAllActivityData}
+                        start={starttime}
+                        end={endtime}
+                        key="TogActivity"
+                      />
+                    )}
+                  {address &&
+                    (inputs.selectType == "All" ||
+                      inputs.selectType == "Redemption") && (
+                      <TogRedeem
+                        setAllActivityData={setAllActivityData}
+                        start={starttime}
+                        end={endtime}
+                        key="TogRedeem"
+                      />
+                    )}
+                  {/* {address &&
+                    (inputs.selectType == "All" ||
+                      inputs.selectType == "Whitelist") && (
+                      <TogWhite
+                        sethiswhiteapply={(val) => sethiswhiteapply(val)}
+                        start={starttime}
+                        end={endtime}
+                      />
+                    )} */}
+                  {address && allActivityData.length == 0 && (
+                    <div className="w-full h-full flex justify-center items-center">
+                      <div>
+                        <Image
+                          width={162}
+                          height={200}
+                          src="/icons/ic_light.png"
+                          alt=""
+                        />
+                        <p className=" text-lg font-normal text-center text-invar-light-grey">
+                          {t("dashbaord_activity_presale_nodata")}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              {tabState == "nfts" && <Nfts />}
+              {tabState == "profile" && (
+                <div className="px-4  pt-[36px] border-t border-invar-main-purple flex flex-col md:flex-row z-30">
+                  {verifySection}
+                  <div className="md:ml-[52px] w-full">
+                    <p className=" text-2xl font-semibold mb-[33px]">
+                      {t("dashbaord_profile_table_title")}
+                    </p>
+                    {(verify == "Rejected" || verify == "Unverified") && (
+                      <Form />
+                    )}
+                    {(verify == "Pending" || verify == "Accepted") && (
+                      <FormInfo />
+                    )}
+                    {/* <FormInfo /> */}
                   </div>
                 </div>
-              </form>
-              <div className=" mt-3"></div>
-              {address &&
-                (inputs.selectType == "All" ||
-                  inputs.selectType == "Unstake") && (
-                  <TogUnstake start={starttime} end={endtime} />
-                )}
-              {address &&
-                (inputs.selectType == "All" ||
-                  inputs.selectType == "Claim") && (
-                  <TogClaim start={starttime} end={endtime} />
-                )}
-              {address &&
-                (inputs.selectType == "All" ||
-                  inputs.selectType == "Pre-Sale") && (
-                  <TogActivity
-                    hispresale={hispresale}
-                    sethispresale={sethispresale}
-                    start={starttime}
-                    end={endtime}
-                  />
-                )}
-              {address &&
-                (inputs.selectType == "All" ||
-                  inputs.selectType == "Redemption") && (
-                  <TogRedeem
-                    hispresale={hispresale}
-                    sethispresale={sethispresale}
-                    start={starttime}
-                    end={endtime}
-                  />
-                )}
-              {address &&
-                (inputs.selectType == "All" ||
-                  inputs.selectType == "Whitelist") && (
-                  <TogWhite
-                    sethiswhiteapply={sethiswhiteapply}
-                    start={starttime}
-                    end={endtime}
-                  />
-                )}
-              {address &&
-                hispresale?.length == 0 &&
-                hiswhiteapply == undefined && (
-                  <div className="w-full h-full flex justify-center items-center">
-                    <div>
-                      <Image
-                        width={162}
-                        height={200}
-                        src="/icons/ic_light.png"
-                        alt=""
-                      />
-                      <p className=" text-lg font-normal text-center text-invar-light-grey">
-                        {t("dashbaord_activity_presale_nodata")}
-                      </p>
-                    </div>
-                  </div>
-                )}
+              )}
             </div>
-          )}
-          {tabState == "nfts" && <Nfts />}
-          {tabState == "profile" && (
-            <div className="px-4  pt-[36px] border-t border-invar-main-purple flex flex-col md:flex-row z-30">
-              {verifySection}
-              <div className="md:ml-[52px] w-full">
-                <p className=" text-2xl font-semibold mb-[33px]">
-                  {t("dashbaord_profile_table_title")}
-                </p>
-                {(verify == "Rejected" || verify == "Unverified") && <Form />}
-                {(verify == "Pending" || verify == "Accepted") && <FormInfo />}
-                {/* <FormInfo /> */}
-              </div>
-            </div>
-          )}
-
+          </div>
           {fmenu && (
             <form
               onSubmit={handleSubmit}
               name="form"
-              className="fixed top-[60px] left-0 py-[24px] px-[16px] z-50 w-full h-screen flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]"
+              className="fixed top-[60px] left-0 py-[24px] px-[16px] z-20 w-full h-screen flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]"
             >
               <div className="flex justify-between w-full">
                 <h1 className="font-semibold text-xl mb-7 cursor-pointer">
@@ -561,9 +579,9 @@ const Dashboard = () => {
                     <option value="Pre-Sale">
                       {t("dashbaord_activity_searchbar_type_minting")}
                     </option>
-                    <option value="Whitelist">
+                    {/* <option value="Whitelist">
                       {t("dashbaord_activity_searchbar_type_whitelist")}
-                    </option>
+                    </option> */}
                     {/* <option value="Public Sale">Public Sale</option> */}
                     <option value="Unstake">
                       {t("dashbaord_activity_unstake_title")}
@@ -591,16 +609,31 @@ const Dashboard = () => {
               </p>
               <label className=" w-full mb-6 flex bg-invar-main-purple justify-between items-center pr-1.5 pl-3 overflow-x-hidden">
                 <div className="relative flex bg-invar-main-purple rounded items-center justify-between">
-                  <div className="flex items-center">
-                    <Input
+                  <div
+                    className={`flex items-center ${
+                      inputs.selectStartDate
+                        ? "non-empty-date-cont"
+                        : "empty-date-cont"
+                    }`}
+                  >
+                    <input
                       name="selectStartDate"
                       disableUnderline
                       type="date"
                       onChange={handleChange}
                       value={inputs.selectStartDate || ""}
-                      sx={{ color: "white", minWidth: "115px" }}
+                      style={{
+                        color: "white",
+                        minWidth: "115px",
+                        backgroundColor: "transparent",
+                        padding: "8px 0px",
+                        maxWidth: "90px",
+                      }}
                       required
                       placeholder="start date"
+                      className={
+                        inputs.selectStartDate ? "non-empty-date" : "empty-date"
+                      }
                     />
                   </div>
 
@@ -609,15 +642,27 @@ const Dashboard = () => {
                     src="/icons/ic_right.svg"
                     alt=""
                   />
-                  <div className="flex items-center">
-                    <Input
+                  <div
+                    className={`flex items-center ${
+                      inputs.selectEndDate
+                        ? "non-empty-date-cont"
+                        : "empty-date-cont"
+                    }`}
+                  >
+                    <input
                       name="selectEndDate"
                       type="date"
                       placeholder="end date"
                       onChange={handleChange}
                       value={inputs.selectEndDate || ""}
                       required
-                      sx={{ color: "white", minWidth: "115px" }}
+                      style={{
+                        color: "white",
+                        minWidth: "115px",
+                        backgroundColor: "transparent",
+                        padding: "8px 0px",
+                        maxWidth: "90px",
+                      }}
                       disableUnderline
                     />
                   </div>
@@ -631,7 +676,7 @@ const Dashboard = () => {
               <div className="flex absolute bottom-20 w-full mx-auto pr-10">
                 <input
                   type="submit"
-                  value="Search"
+                  value={t("dashbaord_activity_searchbar_search")}
                   className=" btn btn-sm inline-block flex-grow bg-invar-dark hover:bg-invar-main-purple rounded text-white px-6 py-2 h-10 normal-case text-sm font-semibold cursor-pointer border-none"
                 />
                 <div
@@ -644,6 +689,8 @@ const Dashboard = () => {
             </form>
           )}
         </div>
+        <ScrollToTop />
+
         <div className="md:mt-32 mt-24">
           <Footer />
         </div>
