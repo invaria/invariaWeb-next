@@ -39,13 +39,20 @@ const TogClaim = ({ start, end, setAllActivityData }) => {
     unitems = unitems.sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
-    setAllActivityData((d) => [...d, ...unitems]);
+    if(unitems.length>0)  setAllActivityData((d) => [...d, "claim"]);
     setAllTransactions(unitems);
   }
 
   useEffect(() => {
     setTransactions([]);
     setAllTransactions([]);
+    setAllActivityData(prev=>{
+      let index=prev.indexOf("claim");
+      if (index > -1) { 
+        prev.splice(index, 1); 
+      }
+      return prev;
+    });
     if (address) {
       console.log("test unstake mounted");
       getActivity();

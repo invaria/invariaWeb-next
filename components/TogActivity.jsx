@@ -66,13 +66,20 @@ const TogActivity = ({ setAllActivityData, start, end }) => {
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 
-    setAllActivityData((d) => [...d, ...arr]);
+    if(arr.length>0) setAllActivityData((d) => [...d, "activity"]);
     setAllTransactions(arr);
   }
 
   useEffect(() => {
     setTransactions([]);
     setAllTransactions([]);
+    setAllActivityData(prev=>{
+      let index=prev.indexOf("activity");
+      if (index > -1) { 
+        prev.splice(index, 1); 
+      }
+      return prev;
+    });
     if (address) {
       console.log("test unstake mounted");
       getActivity();
