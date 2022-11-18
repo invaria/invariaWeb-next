@@ -22,11 +22,15 @@ import {
 import { OpenLink, ButtonMailto } from "../components/icons/Link";
 import { getUser } from "../src/utils/storeFirebase";
 import { useTranslation } from "next-i18next";
+import axios from "axios";
 
 let pervState = [];
 
+let allowedPromo = ["lmg", "hello", "iblackyang", "joyce", "kenjisrealm"];
+
 const ModalPremint = () => {
   const [verify, setVerify] = useState("Unverified");
+  const [promo, setPromo] = useState("");
   const connectWithMetamask = useMetamask();
   const [ethBalance, setEthBalance] = useState(0);
   const [usdcBalance, setUsdcBalance] = useState(0);
@@ -85,8 +89,43 @@ const ModalPremint = () => {
     }
   };
 
+  const updateExcel = async () => {
+    let options = {
+        timeZone: "Asia/Taipei",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      },
+      formatter = new Intl.DateTimeFormat([], options);
+
+    const cuurentDateTime = formatter.format(new Date());
+    try {
+      await axios.post(
+        "https://script.google.com/macros/s/AKfycbxEUSKZcVMjZudMey0hrAwcJ9HM6Ce1lbMFTkwKZfF7uTTYe-x5YfZLKHQ4n8veKLe0/exec",
+        null,
+        {
+          params: {
+            userAddress: address,
+            kolQRcode: promo,
+            nftType: "Amwaji20",
+            mintTime: cuurentDateTime,
+            mintNumber: mintNum,
+          },
+        }
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const mintNft = async () => {
     if (mintNum <= 0) return;
+    if (promo?.length > 0 && !allowedPromo.includes(promo?.toLowerCase()))
+      return;
+
     setBtnState("minting");
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -94,8 +133,9 @@ const ModalPremint = () => {
     try {
       const mint = await nftContract.PublicMintNFT(mintNum);
       await mint.wait();
-      console.log("mint.wait()",mint.wait());
       setBtnState("minted");
+      await updateExcel();
+      setPromo("");
     } catch (error) {
       setBtnState("mint");
       console.log(error);
@@ -442,8 +482,31 @@ const ModalPremint = () => {
                     USDC
                   </p>
                 </div>
+
+                <p className=" mt-3 text-sm font-normal text-invar-light-grey ">
+                  {t("homepage_promo_fillamount")}
+                </p>
+
+                <input
+                  name="kolQRcode"
+                  type="text"
+                  value={promo}
+                  onChange={(e) => {
+                    if (e.target.value.slice(-1) === " ") return;
+                    setPromo(e.target.value);
+                  }}
+                  required
+                  className="appearance-none block mt-1 px-3 h-[48px] bg-invar-main-purple w-full font-semibold text-base text-white rounded focus:border border-white text-center"
+                />
+                {!allowedPromo.includes(promo?.toLowerCase()) &&
+                  promo.length > 2 && (
+                    <p className=" mt-1 text-sm font-normal text-invar-error ">
+                      {t("promo_invalid")}
+                    </p>
+                  )}
               </>
             )}
+
             {verify == "Accepted" && <>{btnAction}</>}
             <div className="my-6 w-full h-[1px] border-b border-b-invar-main-purple"></div>
             <ul className="list-decimal pl-3 text-xs font-normal text-invar-light-grey mb-3">
