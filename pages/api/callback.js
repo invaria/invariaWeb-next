@@ -11,7 +11,7 @@ export default async function handler(req, res) {
       if (req.body.audit_status !== undefined) {
         const email = await getUserByid(req.body.idv_task_id)
         console.log(email)
-        sgMail.setApiKey("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") //kyc2
+        sgMail.setApiKey("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") //invaria2222_kyc_email
         let msg
         if (req.body.audit_status == "Pending") {
           msg = {
