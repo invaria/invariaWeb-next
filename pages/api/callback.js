@@ -50,7 +50,7 @@ export default async function handler(req, res) {
   } else if (req.method === 'GET') {
     const email = await getUserByid("11776")
     console.log("email",email)
-    sgMail.setApiKey("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") //kyc2
+    sgMail.setApiKey("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") //kyc2
     let msg
     // if (state == "Unverified") {
       msg = {
