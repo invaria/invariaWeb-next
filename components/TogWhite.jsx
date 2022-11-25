@@ -5,56 +5,51 @@ import { shortenAddress } from "../src/utils/shortenAddress";
 import { getWhite } from "../src/utils/storeFirebase";
 import { useTranslation } from "next-i18next";
 
-let pervState = [];
-let etherScan;
-let openSea;
-
-const TogWhite = ({ sethiswhiteapply, start, end }) => {
+const TogWhite = ({ start, end, setAllActivityData }) => {
   const [collapse, setCollapse] = useState(true);
   const address = useAddress();
   const network = useNetwork();
   const [transactions, setTransactions] = useState([]);
+  const [allTransactions, setAllTransactions] = useState([]);
   const { t } = useTranslation("dashboard");
 
   async function getActivity() {
     if (!address) return;
     const items = await getWhite(address);
-    setTransactions([items]);
-    sethiswhiteapply(items);
+    setAllTransactions(items);
+    if (items.length > 0) setAllActivityData((d) => [...d, "white"]);
   }
-  useEffect(() => {
-    if (network[0].data.chain == undefined) {
-      return;
-    } else {
-      if (pervState[0] == network[0].data.chain.name) return;
-    }
-    pervState[0] = network[0].data.chain.name;
-    pervState[1] = address;
-    if (pervState[0] == "Goerli") {
-      etherScan = "https://goerli.etherscan.io/tx/";
-      openSea = `https://testnets.opensea.io/assets/goerli/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`;
-    } else if (pervState[0] == "Ethereum Mainnet") {
-      etherScan = "https://etherscan.io/tx/";
-      openSea = `https://opensea.io/assets/ethereum/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`;
-    }
-    if (address) getActivity();
-  }, [address]);
 
   useEffect(() => {
-    let arr = [];
-    async function getAct() {
-      if (!address) return;
-      const items = await getWhite(address);
-      arr = [items];
-      if (start != undefined) {
-        let obj = arr.filter(
-          (person) => person.millisec > start && person.millisec < end
-        );
-        setTransactions(obj);
+    setTransactions([]);
+    setAllTransactions([]);
+    setAllActivityData(prev => {
+      let index = prev.indexOf("white");
+      if (index > -1) {
+        prev.splice(index, 1);
       }
+      return prev;
+    });
+
+    if (address) getActivity();
+  }, [address, network[0]?.data?.chain?.name]);
+
+  useEffect(() => {
+    if (address && allTransactions.length > 0) {
+      let tx = [...allTransactions];
+      if (start && end) {
+        tx = tx.filter(
+          (t) =>
+            t.millisec > start &&
+            t.millisec < end
+        );
+      }
+      setTransactions(tx);
     }
-    getAct();
-  }, [start, end]);
+  }, [start, end, allTransactions]);
+
+
+
   return (
     <div className=" max-w-full z-10 ">
       {address && transactions.length > 0 && transactions[0] != undefined ? (
