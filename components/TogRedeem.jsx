@@ -7,7 +7,7 @@ import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
 import { HisRedeem } from ".";
 import { useTranslation } from "next-i18next";
 
-const TogUnstake = ({ start, end, setAllActivityData }) => {
+const TogUnstake = ({ start, end, setAllActivityData  }) => {
   const [collapse, setCollapse] = useState(true);
   const address = useAddress();
   const network = useNetwork();
