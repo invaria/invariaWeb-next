@@ -7,7 +7,7 @@ import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
 import { HisClaim } from ".";
 import { useTranslation } from "next-i18next";
 
-const TogClaim = ({ start, end, setAllActivityData }) => {
+const TogClaim = ({ start, end, setAllActivityData}) => {
   const [collapse, setCollapse] = useState(true);
   const address = useAddress();
   const network = useNetwork();
@@ -72,6 +72,8 @@ const TogClaim = ({ start, end, setAllActivityData }) => {
       setTransactions(tx);
     }
   }, [start, end, allTransactions]);
+
+
 
   const { t } = useTranslation("dashboard");
   return (
