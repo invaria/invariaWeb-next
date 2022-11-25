@@ -276,6 +276,9 @@ const Navbar = ({ headerBackground }) => {
                       sx={{
                         color: router.locale === "en" ? "white" : "#8F97A3",
                         fontWeight: router.locale === "en" ? "600" : "400",
+                        "& a":{                
+                          width:"100%"
+                         }
                       }}
                     >
                       <Link href={router.pathname} locale="en">
@@ -289,6 +292,9 @@ const Navbar = ({ headerBackground }) => {
                       sx={{
                         color: router.locale === "tw" ? "white" : "#8F97A3",
                         fontWeight: router.locale === "tw" ? "600" : "400",
+                        "& a":{                
+                          width:"100%"
+                         }
                       }}
                     >
                       <Link href={router.pathname} locale="tw">
