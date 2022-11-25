@@ -125,7 +125,7 @@ const ModalWallet = () => {
                 <span className=" flex flex-col justify-center items-end text-white font-semibold">
                   <p>{ethBalance}</p>
                   <p className=" text-sm font-normal text-neutral">
-                    ${(ethBalance * getCoinPrice?.ethereum.usd).toFixed(3)} USD
+                    ${(ethBalance * getCoinPrice?.ethereum?.usd).toFixed(3)} USD
                   </p>
                 </span>
               </div>
