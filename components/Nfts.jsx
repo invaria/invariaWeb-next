@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useTranslation } from "next-i18next";
 
 import IcLight from "../public/icons/ic_light.png";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const Nfts = () => {
   const address = useAddress();
@@ -27,8 +28,9 @@ const Nfts = () => {
   const [showtoast, setshowtoast] = useState(false);
   const [tt, sett] = useState("sdc");
   const [stkinfo, setstkinfo] = useState();
-  let numstake;
-  let numunstake;
+  const theme=useTheme();
+  const small = useMediaQuery(theme.breakpoints.down('sm'));
+
   const { t } = useTranslation("dashboard");
   useEffect(() => {
     getNfts();
@@ -93,7 +95,6 @@ const Nfts = () => {
     // ///////
     const filter = stakeContract.filters.stakeInfo(address, null, null, null);
     const qq = await stakeContract.queryFilter(filter);
-    console.log("qq", qq, stakeAddress, nftAddress);
     let infosarr = [];
     let stkarr = [];
 
@@ -103,7 +104,6 @@ const Nfts = () => {
         // stakebal.m = m
         let mm = { ...stakebal, m: m };
         infosarr.push(mm);
-        console.log("erro stakebal", stakebal, mm);
       } catch (error) {
         console.log("error stk", error);
         break;
@@ -171,13 +171,10 @@ const Nfts = () => {
           amount: i.args.amount.toNumber(),
           txid: `${i.transactionHash}`,
         };
-        console.log("stakeinfo", item);
         return item;
       })
     );
-    console.log("in", stkarr);
     const i = [...infosarr].sort((a, b) => b.mm - a.mm);
-    console.log(infosarr, i);
     const ii = [...stkarr].sort((a, b) => b.mm - a.mm);
     setinfos(i);
     setstkinfo(ii);
@@ -379,13 +376,13 @@ const Nfts = () => {
                               className={
                                 `btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded` +
                                 (+inputs.Balance < 1 ||
-                                +inputs.Balance > nfts ||
-                                inputs.Balance == undefined
+                                  +inputs.Balance > nfts ||
+                                  inputs.Balance == undefined
                                   ? " btn-disabled"
                                   : "") +
                                 (btnState == "loading" ? " loading" : "")
                               }
-                              // onClick={() => stake()}
+                            // onClick={() => stake()}
                             >
                               {t("dashbaord_nfts_info_stake")}
                             </a>
@@ -449,13 +446,13 @@ const Nfts = () => {
                               className={
                                 `btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded` +
                                 (+inputs.unstake < 1 ||
-                                +inputs.unstake > staked ||
-                                inputs.unstake == undefined
+                                  +inputs.unstake > staked ||
+                                  inputs.unstake == undefined
                                   ? " btn-disabled"
                                   : "") +
                                 (btnState == "loading" ? " loading" : "")
                               }
-                              // onClick={() => unstake()}
+                            // onClick={() => unstake()}
                             >
                               {t("dashbaord_activity_unstake_title")}
                             </a>
@@ -521,8 +518,8 @@ const Nfts = () => {
                                 className={
                                   `btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded` +
                                   (+inputs.Burnable < 1 ||
-                                  +inputs.Burnable > burnable ||
-                                  inputs.Burnable == undefined
+                                    +inputs.Burnable > burnable ||
+                                    inputs.Burnable == undefined
                                     ? " btn-disabled"
                                     : " ") +
                                   (btnState == "loading" ? " loading" : "")
@@ -537,8 +534,8 @@ const Nfts = () => {
                                 className={
                                   `btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded` +
                                   (+inputs.Burnable < 1 ||
-                                  +inputs.Burnable > burnable ||
-                                  inputs.Burnable == undefined
+                                    +inputs.Burnable > burnable ||
+                                    inputs.Burnable == undefined
                                     ? " btn-disabled"
                                     : " ") +
                                   (btnState == "loading" ? " loading" : "")
@@ -625,10 +622,10 @@ const Nfts = () => {
                   </button>
                   <button
                     className={
-                      " mr-9 h-[40px] w-[130px] rounded border border-invar-main-purple text-sm font-semibold text-center" +
+                      " sm:mr-9 h-[40px] w-[130px] rounded border border-invar-main-purple text-sm font-semibold text-center" +
                       (tabState == "activity"
                         ? " text-white bg-invar-main-purple"
-                        : " text-invar-light-grey hover:text-white ")
+                        : " text-invar-light-grey hover:text-white")
                     }
                     onClick={() => {
                       setTabState("activity");
@@ -647,7 +644,7 @@ const Nfts = () => {
                         <p className=" pb-3 text-invar-light-grey text-sm font-normal  w-12 text-left">
                           {t("dashbaord_nfts_tab_staking_staking")}
                         </p>
-                        <p className=" ml-6 md:ml-[7.8rem] mr-9 w-max pb-3 text-invar-light-grey text-sm font-normal w-14 min-w-14 text-right">
+                        <p className=" ml-6 md:ml-[7.8rem] sm:mr-9 w-max pb-3 text-invar-light-grey text-sm font-normal w-14 min-w-14 text-right">
                           {t("dashbaord_activity_unstake_title")}
                         </p>
                       </div>
@@ -681,7 +678,7 @@ const Nfts = () => {
                             <p className=" text-invar-success font-normal w-12 text-right">
                               {eve?.leftToUnstakeNFTamount.toNumber()}
                             </p>
-                            <p className=" ml-6 md:ml-[7.9rem] mr-9 w-max text-white font-normal w-14 text-right min-w-14">
+                            <p className=" ml-6 md:ml-[7.9rem] sm:mr-9 w-max text-white font-normal w-14 text-right min-w-14">
                               {eve?.stakeNFTamount.toNumber() -
                                 eve?.leftToUnstakeNFTamount.toNumber()}
                             </p>
@@ -710,13 +707,13 @@ const Nfts = () => {
                         {t("dashbaord_nfts_tab_redemption_unlocktime")}{" "}
                       </p>
                       <div className=" flex ">
-                        <p className=" pb-3 text-invar-light-grey text-sm font-normal w-14 min-w-14 text-right">
+                        <p className=" pb-3 text-invar-light-grey text-sm font-normal w-16 text-right">
                           {t("dashbaord_nfts_tab_redemption_unlocked")}
                         </p>
                         <p className=" ml-6 md:ml-32 pb-3 text-invar-light-grey text-sm font-normal w-14 min-w-14 text-right">
                           {t("dashbaord_nfts_tab_redemption_burnable")}
                         </p>
-                        <p className=" ml-6 md:ml-32 mr-9 w-max pb-3 text-invar-light-grey text-sm font-normal w-14 min-w-14 text-right">
+                        <p className=" ml-6 md:ml-32 sm:mr-9 w-max pb-3 text-invar-light-grey text-sm font-normal w-12 sm:w-14 text-right">
                           {t("dashbaord_nfts_tab_redemption_burned")}
                         </p>
                       </div>
@@ -748,8 +745,8 @@ const Nfts = () => {
                                   eve?.locktime.toNumber() * 1000
                                 ).toString()}
                               </div>
-                              <div className=" flex ">
-                                <p className=" text-invar-success font-normal ">
+                              <div className=" flex">
+                                <p className="text-invar-success font-normal w-16 sm:w-16 text-right">
                                   {eve?.locktime.toNumber() * 1000 > Date.now()
                                     ? eve?.burnableNFTamount.toString()
                                     : "0"}
@@ -759,7 +756,7 @@ const Nfts = () => {
                                     ? eve?.leftToBurnNFTamount.toString()
                                     : "0"}
                                 </p>
-                                <p className=" ml-6 md:ml-32 mr-9 w-max text-white font-normal w-14 text-right">
+                                <p className=" ml-6 md:ml-32 sm:mr-9 w-max text-white font-normal w-12 sm:w-14 text-right">
                                   {eve?.burnableNFTamount.toNumber() -
                                     eve?.leftToBurnNFTamount.toNumber()}
                                 </p>
