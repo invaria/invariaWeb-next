@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { ClickAwayListener, MenuItem, TextField } from "@mui/material";
+import { useRouter } from "next/router";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -13,12 +15,82 @@ export async function getStaticProps({ locale }) {
 }
 
 function App() {
+  const [openLangMenu, setOpenLangMenu] = useState(false);
+  const router = useRouter();
+
+  
+
   const { t } = useTranslation("landingPage");
   return (
-    <div className="relative overscroll-none allflame overflow-hidden h-full">
+    <div className="relative overscroll-none allflame overflow-hidden h-full" onClick={()=>console.log(window.ethereum, "window.ethereum")}>
+      <div className="relative z-40">
+        {openLangMenu && (
+          <ClickAwayListener onClickAway={() => setOpenLangMenu(false)}>
+            <div
+              style={{
+                background: "linear-gradient(180deg, #44334C 0%, #1E1722 100%)",
+
+              }}
+              className="absolute w-36 h-[85px] sm:right-[24px] right-4 sm:top-[72px] top-[64px] flex flex-col justify-center rounded"
+            >
+              <MenuItem
+                onClick={() => {
+                  setOpenLangMenu(false);
+                }}
+                sx={{
+                  color: router.locale === "en" ? "white" : "#8F97A3",
+                  fontWeight: router.locale === "en" ? "600" : "400",
+                  "&.MuiMenuItem-root": {
+                    minHeight: 36
+                  },
+                  "& a": {
+                    width: "100%"
+                  }
+                }}
+              >
+                <Link href={router.pathname} locale="en" className="w-full">
+                  English
+                </Link>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setOpenLangMenu(false);
+                }}
+                sx={{
+                  color: router.locale === "tw" ? "white" : "#8F97A3",
+                  fontWeight: router.locale === "tw" ? "600" : "400",
+                  "&.MuiMenuItem-root": {
+                    minHeight: 36
+                  },
+                  "& a": {
+                    width: "100%"
+                  }
+
+                }}
+              >
+                <Link href={router.pathname} locale="tw" className="w-full">
+                  繁體中文
+                </Link>
+              </MenuItem>
+            </div>
+          </ClickAwayListener>
+        )}
+      </div>
       <div className="absolute top-20 xl:top-20 left-0 right-0 ml-auto mr-auto w-[134px] md:w-[223.33px] ">
         <Image width={223.33} height={80} src="/logo_white.svg" />
       </div>
+      <button
+        onClick={() => setOpenLangMenu((v) => !v)}
+        className="btn btn-sm border-0 rounded h-[40px] w-[40px] absolute right-4 top-4 sm:right-6 sm:top-6 px-[4px] py-[4px] font-semibold text-sm text-white normal-case bg-primary "
+      >
+        <img
+          className="h-[20px] w-[20px]"
+          src="/icons/ic_language.svg"
+          alt=""
+        />
+      </button>
+
+
       <img
         className="w-full min-h-screen max-h-full h-screen object-cover object-left-top overflow-hidden "
         src="/bg/cover_new.jpeg"

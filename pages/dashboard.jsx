@@ -18,7 +18,6 @@ import Image from "next/image";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { Input } from "@mui/material";
 export async function getStaticProps({ locale }) {
   return {
     props: {
@@ -39,6 +38,8 @@ const Dashboard = () => {
   const address = useAddress();
   const [verify, setVerify] = useState("Unverified");
   const [allActivityData, setAllActivityData] = useState([]);
+  const [hiswhiteapply, sethiswhiteapply] = useState();
+
 
   const [inputs, setInputs] = useState({
     ["address"]: address,
@@ -46,7 +47,7 @@ const Dashboard = () => {
     selectType: "All",
   });
   const [showtog, setshowtog] = useState("All");
-  const [starttime, setstarttime] = useState();
+  const [starttime, setstarttime] = useState("");
   const [endtime, setendtime] = useState();
   const [fmenu, setfmenu] = useState(false);
   const { t } = useTranslation("dashboard");
@@ -192,6 +193,8 @@ const Dashboard = () => {
       ["time"]: new Date(Date.now()),
       selectType: "All",
     });
+    setstarttime("");
+    setendtime("");
     getdata();
   }
 
@@ -333,11 +336,11 @@ const Dashboard = () => {
                               <option value="Pre-Sale">
                                 {t("dashbaord_activity_searchbar_type_minting")}
                               </option>
-                              {/* <option value="Whitelist">
+                              <option value="Whitelist">
                                 {t(
                                   "dashbaord_activity_searchbar_type_whitelist"
                                 )}
-                              </option> */}
+                              </option>
                               {/* <option value="Public Sale">Public Sale</option> */}
                               <option value="Unstake">
                                 {t("dashbaord_activity_unstake_title")}
@@ -430,6 +433,8 @@ const Dashboard = () => {
                         end={endtime}
                         setAllActivityData={setAllActivityData}
                         key="TogUnstake"
+                        
+                        
                       />
                     )}
                   {address &&
@@ -462,15 +467,16 @@ const Dashboard = () => {
                         key="TogRedeem"
                       />
                     )}
-                  {/* {address &&
+                  {address &&
                     (inputs.selectType == "All" ||
                       inputs.selectType == "Whitelist") && (
                       <TogWhite
-                        sethiswhiteapply={(val) => sethiswhiteapply(val)}
+                        setAllActivityData={setAllActivityData}
                         start={starttime}
                         end={endtime}
+                        key="TogWhite"
                       />
-                    )} */}
+                    )}
                   {address && allActivityData.length == 0 && (
                     <div className="w-full h-full flex justify-center items-center">
                       <div>
@@ -579,9 +585,9 @@ const Dashboard = () => {
                     <option value="Pre-Sale">
                       {t("dashbaord_activity_searchbar_type_minting")}
                     </option>
-                    {/* <option value="Whitelist">
+                    <option value="Whitelist">
                       {t("dashbaord_activity_searchbar_type_whitelist")}
-                    </option> */}
+                    </option>
                     {/* <option value="Public Sale">Public Sale</option> */}
                     <option value="Unstake">
                       {t("dashbaord_activity_unstake_title")}
