@@ -33,14 +33,17 @@ export const applyWhite = async (user, data) => {
 export const getWhite = async (address) => {
   const usersCollectionRef = collection(db, "applywhite");
   const q = query(usersCollectionRef, where("address", "==", address));
+  let alldocs=[];
   const querySnapshota = await getDocs(q);
-  let data
+  let data;
   querySnapshota.forEach((doc) => {
+    data={};
     data = doc.data()
     data.date2 = new Date((data.date.seconds) * 1000)
-    data.millisec = (data.date.seconds) * 1000
+    data.millisec =new Date((data.date.seconds) * 1000).getTime();
+    alldocs.push(data);
   });
-  return data ||{};
+  return alldocs;
 }
 
 export const createUser = async (user, data) => {
