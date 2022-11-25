@@ -187,7 +187,7 @@ function App() {
           opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
           rounded  normal-case border-none z-20 relative left-40 top-12"
             >
-            {t("public_sale")}
+              {t("public_sale")}
             </label>
           </div>
         )}
@@ -204,7 +204,8 @@ function App() {
 
         <div className=" hidden absolute bottom-0 left-0 right-0 z-10 md:flex justify-center items-center">
           <div
-            className=" flex justify-start items-start text-start w-[826px] h-[153px] m-6 p-6 px-[87px] bg-invar-main-purple 
+            style={{ height: router.locale === 'en' ? "153px" : "120px" }}
+            className=" flex justify-start items-start text-start w-[826px] m-6 p-6 px-[87px] bg-invar-main-purple 
             bg-opacity-60 text-white text-sm font-normal leading-[19.6px] rounded-lg border-4 border-invar-light-purple 
             border-opacity-60 animate-fade-in-up"
           >
