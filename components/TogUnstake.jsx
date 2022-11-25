@@ -42,17 +42,17 @@ const TogUnstake = ({ start, end, setAllActivityData }) => {
     unitems = unitems.sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
-    if(unitems.length>0)setAllActivityData((d) => [...d, "unstake"]);
+    if (unitems.length > 0) setAllActivityData((d) => [...d, "unstake"]);
     setAllTransactions(unitems);
   }
 
   useEffect(() => {
     setTransactions([]);
     setAllTransactions([]);
-    setAllActivityData(prev=>{
-      let index=prev.indexOf("unstake");
-      if (index > -1) { 
-        prev.splice(index, 1); 
+    setAllActivityData(prev => {
+      let index = prev.indexOf("unstake");
+      if (index > -1) {
+        prev.splice(index, 1);
       }
       return prev;
     });
