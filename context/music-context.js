@@ -11,12 +11,12 @@ const MusicProvider = ({ children }) => {
     setIsMusicOn: (val) => setIsMusicOn(val),
   };
   useEffect(() => {
-    if (isMusicOn) document.getElementById("audio").play();
-    else document.getElementById("audio").pause();
-    if(document.getElementById("audio").paused&&isMusicOn)document.getElementById("audio").play()
+    if (isMusicOn) document.getElementById("audio")?.play();
+    else document.getElementById("audio")?.pause();
+    if(document.getElementById("audio")?.paused&&isMusicOn)document.getElementById("audio")?.play()
 
     return () => {
-      document.getElementById("audio").pause();
+      document.getElementById("audio")?.pause();
     };
   }, [isMusicOn]);
 
