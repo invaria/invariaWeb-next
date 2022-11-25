@@ -57,7 +57,7 @@
   background: linear-gradient(180deg, #44334c 0%, #1e1722 100%);
 }
 .sidesSpacing {
-  width: 1020px;
+  width: 980px;
   margin: auto;
 }
 .introSection {
@@ -344,7 +344,7 @@
   }
   .faqSection,
   .tutorialSection {
-    padding: 0px !important;
+    /* padding: 0px !important; */
   }
 }
 @media (max-width: 1000px) {
@@ -575,7 +575,7 @@
   .phase2Left p {
     margin-bottom: 30px;
   }
-  .partnersSection {
+  .partnersSection,.tutorialSection,.faqSection {
     padding-left: 16px;
     padding-right: 16px;
   }
