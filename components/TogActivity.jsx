@@ -101,6 +101,7 @@ const TogActivity = ({ setAllActivityData, start, end }) => {
     }
   }, [start, end, allTransactions]);
 
+
   const { t } = useTranslation("dashboard");
   return (
     <div className=" max-w-full z-10 ">
