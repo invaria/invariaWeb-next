@@ -26,7 +26,7 @@ import axios from "axios";
 
 let pervState = [];
 
-let allowedPromo = ["lmg", "hello", "iblackyang", "joyce", "kenjisrealm"];
+let allowedPromo = ["lmg", "hello", "iblackyang", "joyce", "kenjisrealm","DJJY"];
 
 const ModalPremint = () => {
   const [verify, setVerify] = useState("Unverified");
