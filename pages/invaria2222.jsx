@@ -16,6 +16,8 @@ import styles from "../styles/Home.module.css";
 import CollapseMenu from "../components/CollapseMenu";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useAddress } from "@thirdweb-dev/react";
+import MobileWalletConnect from "../components/MobileWalletConnect";
 
 export const endtimestamp = 1664582400000;
 
@@ -41,9 +43,11 @@ export async function getStaticProps({ locale }) {
 
 function App() {
   const [headerBackground, setHeaderBackground] = useState(false);
-  const { t } = useTranslation("index");
+  const [toggleWallet, setToggleWallet] = useState(false);
+  const { t } = useTranslation(["index", "storyline", "common"]);
   const [origin, setorigin] = useState();
   const router = useRouter();
+  const address = useAddress();
   useEffect(() => {
     if (typeof window !== "undefined") {
       setorigin(window.location.origin);
@@ -53,37 +57,48 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    const node = document.getElementById("typeWriter");
-    if (!node) return;
-    let timer;
-    let text;
-    let i = 0;
-    node.textContent = "";
-    if (router.locale === "tw") text = typewriterTW;
-    else text = typewriterEN;
-    function typeWriter() {
-      if (i < text.length) {
-        node.innerHTML += text.charAt(i);
-        i++;
-        timer = setTimeout(typeWriter, 20);
-      }
-    }
-    typeWriter();
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [router.locale]);
+  // useEffect(() => {
+  //   const node = document.getElementById("typeWriter");
+  //   if (!node) return;
+  //   let timer;
+  //   let text;
+  //   let i = 0;
+  //   node.textContent = "";
+  //   if (router.locale === "tw") text = typewriterTW;
+  //   else text = typewriterEN;
+  //   function typeWriter() {
+  //     if (i < text.length) {
+  //       node.innerHTML += text.charAt(i);
+  //       i++;
+  //       timer = setTimeout(typeWriter, 20);
+  //     }
+  //   }
+  //   typeWriter();
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, [router.locale]);
+  useEffect(() => { if (!address && toggleWallet) setToggleWallet(false) }, [address]);
   return (
     <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
       <Navbar headerBackground={headerBackground} />
+
+      {/* {!address && (
+        <button
+          className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple text-center normal-case	text-white absolute top-[60px] z-10 rounded-none md:hidden"
+          onClick={() => setToggleWallet(true)}
+        >
+          {t('connect_wallet', { ns: 'common' })}
+        </button>
+      )}
+      {!address && toggleWallet && <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />} */}
       <div className="w-full flex flex-col justify-center items-center h-0 ">
         <label
           htmlFor="my-modal-1"
           onClick={() => disableScroll()}
           className="btn modal-button w-[183px] md:w-min btnShadow bg-white 
-            opacity-80 hover:bg-white hover:opacity-100 px-6  text-sm text-info rounded absolute 
-            top-[188px] md:top-[408px] md:left-[245px] z-[21] normal-case border-none md:hidden"
+      opacity-80 hover:bg-white hover:opacity-100 px-6  text-sm text-info rounded absolute 
+      top-[188px] md:top-[408px] md:left-[245px] z-[21] normal-case border-none md:hidden"
         >
           Storyline
         </label>
@@ -94,8 +109,8 @@ function App() {
           spy
           to="mindmap"
           className="btn w-[183px] md:w-max btnShadow bg-white 
-          opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded 
-          absolute top-[236px] md:top-[232px] md:right-1/2 normal-case border-none z-20 md:hidden"
+    opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded 
+    absolute top-[236px] md:top-[232px] md:right-1/2 normal-case border-none z-20 md:hidden"
         >
           <p>Mindmap</p>
         </ScrollLink>
@@ -107,8 +122,8 @@ function App() {
           spy
           to="faq"
           className="btn w-[183px] md:w-max btnShadow bg-white 
-          opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-          rounded absolute top-[300px] md:top-[280px] md:right-1/4 normal-case border-none z-20 md:hidden"
+    opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
+    rounded absolute top-[300px] md:top-[280px] md:right-1/4 normal-case border-none z-20 md:hidden"
         >
           <p>FAQ & Tutorials</p>
         </ScrollLink>
@@ -116,8 +131,8 @@ function App() {
           htmlFor="property-modal"
           onClick={() => disableScroll()}
           className=" md:hidden btn modal-button w-[183px] md:w-max btnShadow bg-white 
-          opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-          rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 "
+    opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
+    rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 "
         >
           {t("property_infos")}
         </label>
@@ -126,19 +141,18 @@ function App() {
             htmlFor="premint-modal"
             onClick={() => disableScroll()}
             className="btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
-          opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-          rounded absolute top-[428px] md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 "
+    opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
+    rounded absolute top-[428px] md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 "
           >
             {t("public_sale")}
           </label>
         )}
-        {/* <label htmlFor="applywhite-modal" className=" z-20 absolute top-[512px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-invar-success opacity-80 hover:bg-invar-success hover:opacity-100
-            rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E]">
-          <div className=" text-xs ">
-            Whitelist Application
-          </div>
-          <Countdown date={endtimestamp} daysInHours={true} />
-        </label> */}
+
+        <a href="https://sftlabs.io/" target='_blank' rel="noopener noreferrer" className=" z-20 absolute top-[508px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-[#FFC25F] opacity-90 hover:bg-[#FFC25F] hover:opacity-100
+      rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden">
+          <div className=" text-sm ">SFT</div>
+        </a>
+
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
         {/* <img className=' z-0 h-screen min-h-screen w-full object-cover overflow-hidden' draggable="false" src='/bg/bg.png' alt="bg" /> */}
@@ -162,30 +176,44 @@ function App() {
             src="/bg/bg.png"
           />
         </div>
-        <img
-          className=" w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left"
-          draggable="false"
-          src="/bg/bg_1.png"
-          alt="bg"
-        />
+        {/* <img
+    className=" w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left"
+    draggable="false"
+    src="/bg/bg_1.png"
+    alt="bg"
+  /> */}
         <label
           htmlFor="property-modal"
           onClick={() => disableScroll()}
-          className=" hidden z-30 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[57%] right-[53%] md:flex justify-end items-start"
+          className=" hidden z-10 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[62%] right-[51%] md:flex justify-end items-start"
         >
-          <div className=" hidden md:flex justify-center items-center">
+          <div className=" hidden md:flex justify-center items-center z-10">
             <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
             <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
           </div>
         </label>
+        <a href="https://sftlabs.io/" target='_blank' rel="noopener noreferrer">
+          <div className="z-30 hover:cursor-pointer absolute top-[46%] right-[53.5%] hidden md:flex">
+            <span className="animate-ping z-[1] absolute inline-flex h-[16px] bottom-1 left-0.5 w-[16px] rounded-full bg-[#ffc25f] opacity-75"></span>
+            <img src="/icons/ic_arrow.svg" className="z-[2]" width={21} height={19} alt="arrow icon" />
+          </div>
+        </a>
+        {/* <div className=" hidden md:flex justify-center items-center z-10">
+            <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
+          </div> */}
+
+        <div >
+          <a href="https://sftlabs.io/" target='_blank' rel="noopener noreferrer" className="z-10 hover:cursor-pointer absolute top-[47%] lg:right-[55%] right-[57%] hidden md:flex w-14 h-24"></a>
+        </div>
         {Date.now() >= 1665936000000 && (
           <div className="absolute top-[57%] right-[53%] hidden md:flex">
             <label
               htmlFor="premint-modal"
               onClick={() => disableScroll()}
               className="btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
-          opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-          rounded  normal-case border-none z-20 relative left-40 top-12"
+    opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
+    rounded  normal-case border-none z-20 relative left-40 top-12"
             >
               {t("public_sale")}
             </label>
@@ -199,34 +227,55 @@ function App() {
             </span>
             <div className="h-[540px] w-[1px] border-l bg-white -mt-1 z-0"></div>
           </div>
-          {t("storyline_popup_story5")}
+          {t('storyline_popup_story6', { ns: 'storyline' })}
         </div>
 
-        <div className=" hidden absolute bottom-0 left-0 right-0 z-10 md:flex justify-center items-center">
-          <div
-            style={{ height: router.locale === 'en' ? "153px" : "120px" }}
-            className=" flex justify-start items-start text-start w-[826px] m-6 p-6 px-[87px] bg-invar-main-purple 
-            bg-opacity-60 text-white text-sm font-normal leading-[19.6px] rounded-lg border-4 border-invar-light-purple 
-            border-opacity-60 animate-fade-in-up"
-          >
-            <div className="text-start flex justify-start" id="typeWriter">
-              {/* <Typewriter
-                  options={{
-                    delay: 10,
-                  }}
-                  onInit={(typewriter) => {
-                    typewriter.pauseFor(1000).typeString(t("homepage_dialog_woman5")).start();
-                  }}
-                /> */}
-            </div>
-          </div>
-        </div>
+        {/* <div className=" hidden absolute bottom-0 left-0 right-0 z-10 md:flex justify-center items-center">
+    <div
+      style={{ height: router.locale === 'en' ? "145px" : "99px" }}
+      className=" flex justify-start items-start text-start w-[826px] m-6 p-6 px-[87px] bg-invar-main-purple 
+      bg-opacity-60 text-white text-sm font-normal leading-[19.6px] rounded-lg animate-fade-in-up"
+    >
+      <div className="text-start flex justify-start" id="typeWriter">
+        <Typewriter
+            options={{
+              delay: 10,
+            }}
+            onInit={(typewriter) => {
+              typewriter.pauseFor(1000).typeString(t("homepage_dialog_woman5")).start();
+            }}
+          />
+      </div>
+    </div>
+  </div> */}
+
 
         <div className="m-6 flex justify-between absolute bottom-[0px] right-0 z-20">
           <Twitter />
           <Discord />
         </div>
       </div>
+
+      {/* <div className={`w-full md:h-[108px] z-20 relative pt-11 md:pt-0 ${styles.stripBG}`}>
+        <div className={`${styles.sidesSpacing} flex justify-between h-full md:flex-row flex-col md:items-end items-center`} >
+          <div className="my-auto md:flex-col flex-row flex">
+            <p className={`${styles.stripHeadingInfo} md:mr-0 sm:mr-5 mr-4`}>Current TVL</p>
+            <p className={styles.stripHeading}>$224,000</p>
+          </div>
+
+
+          <div className="my-auto md:flex-col flex-row flex">
+            <p className={`${styles.stripHeadingInfo} md:mr-0 sm:mr-5 mr-4`}>Interest Accrued</p>
+            <p className={styles.stripHeading}>$x,xxx</p>
+          </div>
+
+          <div className="flex items-end relative">
+            <Image src="/bg/lama.png" width={96} height={101} alt="lama-img" />
+            <span className="xl:absolute left-24 bottom-4 xl:mb-0 mb-4 text-[#E3D5FA] text-base font-normal rotate-[7.6deg]">We’re in<br />DefiLlama</span>
+          </div>
+        </div>
+      </div> */}
+
       <div className={styles.firstHalfbg}>
         <section className={`${styles.introSection} ${styles.sidesSpacing}`}>
           <div className={styles.exploreContWrapper}>
@@ -240,8 +289,17 @@ function App() {
               </p>
             </div>
             <div className={styles.exploreRight}>
-              <div>
-                <Image src={router.locale === "tw" ? exploreTW : explore} />
+              <div className="relative">
+                <Image src={router.locale === "tw" ? exploreTW : explore} width={558} height={448} />
+                <div className="absolute w-20 h-[75px] flex items-center flex-col sm:left-[40%] sm:bottom-[25%] left-[35%] bottom-[18%]">
+                  <span className="wm:text-base sm:text-base text-xs">Youtube</span>
+                  <a href="https://www.youtube.com/watch?v=JYqibpdg-Yk" rel="noopener noreferrer"
+                    target="_blank">
+                    <div className="sm:w-16 sm:h-11 w-10 h-7 bg-[#646A79] hover:bg-[#FF0000] sm:rounded-2xl rounded-[10px] flex items-center">
+                      <img src="/icons/ic_play.svg" width={23} height={23} className="sm:w-[23px] sm:h-[23px] w-4 h-4 ml-auto sm:mr-[18px] mr-[11px]" />
+                    </div>
+                  </a>
+                </div>
               </div>
             </div>
           </div>

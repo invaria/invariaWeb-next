@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import {
   useNetwork,
@@ -8,13 +7,11 @@ import {
   useWalletConnect,
   useDisconnect,
 } from "@thirdweb-dev/react";
-const ModalPremint = dynamic(import("../components/ModalPremint"));
-const ModalStory = dynamic(import("../components/ModalStory"));
-const ModalProperty = dynamic(import("../components/ModalProperty"));
-const Modalappplywhite = dynamic(import("../components/Modalappplywhite"));
-
-// const ModalStory = dynamic(import("./ModalStory"));
-const ModalWallet = dynamic(import("./ModalWallet"));
+import ModalStory from './ModalStory'
+import ModalWallet from "./ModalWallet";
+import ModalProperty from './ModalProperty'
+import ModalPremint from './ModalPremint'
+import Modalappplywhite from './Modalappplywhite'
 import { shortenAddress } from "../src/utils/shortenAddress";
 import { disableScroll, enableScroll } from "../src/utils/disableScroll";
 
@@ -33,6 +30,7 @@ import { useTranslation } from "next-i18next";
 import { checkIfWalletIsConnected } from "../src/utils/web3utils";
 import { useContext } from "react";
 import { MusicContext } from "../context/music-context";
+import MobileWalletConnect from "./MobileWalletConnect";
 
 const menuStyles = {
   paddingY: "16px",
@@ -48,8 +46,7 @@ const Navbar = ({ headerBackground }) => {
   const router = useRouter();
   const address = useAddress();
   const network = useNetwork();
-  const connectWithMetamask = useMetamask();
-  const connectWithWalletConnect = useWalletConnect();
+
   const disconnectWallet = useDisconnect();
 
   const [toggleMenu, setToggleMenu] = useState(false);
@@ -59,7 +56,7 @@ const Navbar = ({ headerBackground }) => {
   const [usdcBalance, setUsdcBalance] = useState(0);
   const [verify, setVerify] = useState(false);
 
-  const musicCTX=useContext(MusicContext);
+  const musicCTX = useContext(MusicContext);
   async function getdata() {
     const state = await getUser(address);
     console.log("ver state", state);
@@ -74,7 +71,7 @@ const Navbar = ({ headerBackground }) => {
     getdata();
 
     // }
-    return()=>enableScroll();
+    return () => enableScroll();
   }, [address]);
 
   useEffect(() => {
@@ -172,7 +169,7 @@ const Navbar = ({ headerBackground }) => {
               {/* </ScrollLink> */}
               <Link href="/media">
                 <li className="hover:underline font-semibold text-base cursor-pointer">
-                  Media
+                  News
                 </li>
               </Link>
             </ul>
@@ -276,9 +273,9 @@ const Navbar = ({ headerBackground }) => {
                       sx={{
                         color: router.locale === "en" ? "white" : "#8F97A3",
                         fontWeight: router.locale === "en" ? "600" : "400",
-                        "& a":{                
-                          width:"100%"
-                         }
+                        "& a": {
+                          width: "100%"
+                        }
                       }}
                     >
                       <Link href={router.pathname} locale="en">
@@ -292,9 +289,9 @@ const Navbar = ({ headerBackground }) => {
                       sx={{
                         color: router.locale === "tw" ? "white" : "#8F97A3",
                         fontWeight: router.locale === "tw" ? "600" : "400",
-                        "& a":{                
-                          width:"100%"
-                         }
+                        "& a": {
+                          width: "100%"
+                        }
                       }}
                     >
                       <Link href={router.pathname} locale="tw">
@@ -333,16 +330,17 @@ const Navbar = ({ headerBackground }) => {
               Mindmap
             </MenuItem>
           </Link>
+          <Link href="/media">
+            <MenuItem sx={menuStyles}>News</MenuItem>
+          </Link>
           <label htmlFor="property-modal" className="w-full">
             <MenuItem sx={menuStyles}>{t("property_infos")}</MenuItem>
           </label>
 
-          <Link href="/media">
-            <MenuItem sx={menuStyles}>Media</MenuItem>
-          </Link>
           <label htmlFor="premint-modal" className="w-full">
-            <MenuItem sx={menuStyles}>{t("public_sale")}</MenuItem>
+            <MenuItem sx={{ ...menuStyles, color: "#00DEAE" }}>{t("public_sale")}</MenuItem>
           </label>
+          <MenuItem sx={{ ...menuStyles, color: "##FFC25F" }}> <a href="https://sftlabs.io/" target='_blank' rel="noopener noreferrer" className="w-full h-full text-[#FFC25F]">SFT</a></MenuItem>
           <Accordion
             sx={{
               backgroundColor: "transparent",
@@ -451,46 +449,7 @@ const Navbar = ({ headerBackground }) => {
       )}
       {toggleMenu && toggleWallet && !address && (
         <>
-          <div className=" fixed top-[60px] z-40 w-full h-screen py-[34px] px-[16px] flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]">
-            <div
-              className="flex justify-start items-center mb-[32px] cursor-pointer"
-              onClick={() => setToggleWallet(false)}
-            >
-              <img
-                className="w-[24px] h-[24px]"
-                src="/icons/ic_back.svg"
-                alt=""
-              />
-              <h3 className="text-base font-semibold text-white ml-[15px]">
-                Back
-              </h3>
-            </div>
-            <h3 className="text-2xl font-semibold text-white mb-[22px]">
-              {t("connect_wallet")}
-            </h3>
-            <button
-              className="btn btn-primary relative w-full h-[56px] rounded flex justify-center items-center border-none normal-case"
-              onClick={connectWithMetamask}
-            >
-              <img
-                className="absolute top-[13px] left-4 h-[30px] w-[30px]"
-                src="/icons/ic_metamask.png"
-                alt=""
-              />
-              <p className=" font-semibold text-accent">MetaMask</p>
-            </button>
-            <button
-              className="btn btn-primary mt-3 relative w-full h-[56px] rounded flex justify-center items-center border-none normal-case"
-              onClick={connectWithWalletConnect}
-            >
-              <img
-                className="absolute top-[13px] left-4 h-[30px] w-[30px]"
-                src="/icons/ic_walletconnect.png"
-                alt=""
-              />
-              <p className=" font-semibold text-accent">WalletConnect</p>
-            </button>
-          </div>
+          <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />
         </>
       )}
     </>

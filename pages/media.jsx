@@ -41,7 +41,7 @@ const Media = () => {
       </div>
       <div className={styles.pageWrapper}>
         <section className={styles.mediaSection}>
-          <h4>Media</h4>
+          <h4>News</h4>
           <MediaRow
             about="Foresight News"
             detail="InVaria 2222 是一个基于 RWA 的代币化世界，其目标是在现实世界和数字经济之间建立联系"

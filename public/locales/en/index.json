@@ -1,11 +1,9 @@
 {
-  "storyline_popup_story5": "\"...Pioneer Advantages... Amwaj20 will Activate the Portal to... this Device Can be Used in Different Scenario... Like Derivative of Power…\", an unknown message unexpectedly appeared on REFLECTOR. After translation by the researcher, it was found that the device has the function of collecting information; meanwhile, the device is processing sort of formulas from previous data and surrounding events... Possibly, something is going to be reflected…",
+  "storyline_popup_story6": "\"...Semi…Semi…Conductor…” the message shows up from the REFLECTOR. “Is it meaning semi-conductor? Strange…or maybe something else?” Researchers are trying to figure out the informations, and correcting the translation function of REFLECTOR. It seems to be another gate to unknown area. After few hours, the device suddenly start to reorganize itself with loud noise, and the word “SFT” appear…",
   "homepage_dialog_woman5": "How to utilize the NFT, which is a fractionalization of the property, and the correlated values attribute to it have become follow-up concerns. The tribe is working on a solution... Dyoremira, a financial engineer, proposed to unify the management of Amwaj20 to professional leaders for creating stable returns, and distribute the consecutive values to NFT holders; holders are allowed to stake NFT through the protocol to obtain the corresponding values.",
-
   "homepage_intro_title": "Explore Crypto Desert on Next-Gen",
   "homepage_intro_desc1": "InVaria 2222 is a RWA-based, tokenization world with the goal of constructing connections between real-world and digital economies. In addition, InVaria 2222 is positioned as an experiment flagship of InVar Finance. Inside InVaria, a huge amount of opportunity and wealth are waiting for humanity to find out and enjoy; no one knows the whole picture of this world…",
   "homepage_intro_desc2": "In phase one, a group of InVariants will build a tokenized real estate model first, then… the story and journey begin…",
-
   "homepage_mindmap_title": "Mindmap",
   "homepage_mindmap_desc": "As the tempo of iteration in crypto market characteristics, technology and industry framework as well, InVar team dislike to over-promise and fail to deliver our plans. However, we truly have pre-organized milestones to achieve, the mindmap, and we don’t want to keep it secret but are willing to share with sincerity.",
   "homepage_mindmap_phaseone": "Phase One - APR. ~ DEC. 2022",
@@ -18,14 +16,13 @@
   "homepage_mindmap_phasetwo": "Phase Two - NOV. 2022 ~ MAY. 2023",
   "homepage_mindmap_phasetwo_title": "Diversification / Segmentation",
   "homepage_mindmap_phasetwo_desc": "Dive deep to think more about feedback and benefits that can bring to early adopters, replicate the successful model and develop exciting products.",
-  "homepage_mindmap_phasetwo_point1": "Launch InVariant - Ecosystem Pass NFT",
+  "homepage_mindmap_phasetwo_point1": "Launch InVariant - An PFP & Pass NFT",
   "homepage_mindmap_phasetwo_point2": "Release Hybrid Finance Concept",
   "homepage_mindmap_phasetwo_point3": "Release More Real Estate Fractionalization NFT or other RWA NFT",
   "homepage_mindmap_phasethree": "May. 2023 ~",
   "homepage_mindmap_phasethree_title": "Integration",
   "homepage_mindmap_phasethree_desc": "InVaria 2222 is the foundation also the digital world of InVar. Building solid infrastructure and value backstop to construct a hybrid finance ecosystem is a reasonable, indispensable move.",
   "homepage_mindmap_phasethree_point1": "InVar Integration",
-
   "faq_1_title": "Why InVaria 2222 is unique?",
   "faq_1_desc": "InVaria 2222 is mission-oriented world for tokenization, not just intented to be a real estate or RWAs offering project, but expected to present as a leading example for connecting real and digital economics, the Hybrid Finance. InVaria 2222 NFTs enable holder to acquire values of economic activities or investments through staking and yield-generating strategy.",
   "faq_2_title": "How does InVaria 2222 work?",
@@ -36,7 +33,6 @@
   "faq_3_desc_3": "*Check",
   "faq_3_desc_4": " Terms & Conditions",
   "faq_3_desc_5": " for more policies.",
-
   "faq_4_title": "What is the supply table of InVaria 2222 NFT?",
   "faq_4_desc": "For experimental NFT (the MVP), we decided to use the progressive-launch method, 500 NFTs for the first whitelist & public mint stage, and arrange another stage for the rest, total supply is determined by the overall consideration of RWA value and strategy. For example, if the valuation of property is $10m, then the cap of supply for $10k worth of NFT will be 1000.",
   "faq_5_title": "What is the schedule of NFT mint?",
@@ -44,7 +40,6 @@
   "faq_5_desc_2": " 3 mint stages, pre-mint, whitelist and public mint.",
   "faq_5_desc_3": " The official timeline of each stage will announce in our social media.",
   "faq_5_desc_4": "",
-
   "faq_6_title": "How much will it cost to mint InVaria 2222 NFT?",
   "faq_6_desc_1": "Costs incurred from minting NFT(s) can conclude to two kinds, minting cost and gas (network) fee. In general,",
   "faq_6_desc_2": " NFT minting cost is priced at 2,000",
@@ -53,7 +48,6 @@
   "faq_6_desc_5": ", and the",
   "faq_6_desc_6": " gas fee is calculated by the network status of Ethereum.",
   "faq_6_desc_7": " The additional cost may incur if an unexpected event or false execution happens.",
-
   "faq_7_title": "Is there a maximum mint limit per wallet during the mint stage?",
   "faq_7_desc_1": "No limit. First come, first served.",
   "faq_7_desc_2": " Due to InVaria 2222 being in the exploration period, no single human knows what will happen when this new type of NFT comes out. So, we free the restriction in the current phase.",
@@ -70,7 +64,6 @@
   "faq_11_desc_2": " 80% of funds go directly to FlowBay Financial Holdings, a financial group with property management unit and fund management team to support yield generating and RWA management; 20% of funds will transfer to staking smart contract.",
   "faq_11_desc_3": "About project development,",
   "faq_11_desc_4": " tokenization of RWAs is only our first step, most of the funds will be utilized to generate more profits through property management and development, small amount will be used in hybrid finance development.",
-
   "faq_12_title": "Smart contracts and addresses you may want to know?",
   "faq_12_desc_1": "InVaria 2222 smart contracts:",
   "faq_12_desc_2": "NFT (ERC-1155):",
@@ -79,12 +72,10 @@
   "faq_12_desc_5": " 0x10a92B12Da3DEE9a3916Dbaa8F0e141a75F07126",
   "faq_12_desc_6": "InVaria 2222 operating account:",
   "faq_12_desc_7": " 0xAcB683ba69202c5ae6a3B9b9b191075295b1c41C",
-
   "faq_13_title": "How can I get in touch with the team?",
   "faq_13_desc_1": "You can join our official channels",
   "faq_13_desc_2": " to follow the latest news or email",
   "faq_13_desc_3": " to talk partnerships.",
-
   "tutorials_1_title": "What do I need to get started?",
   "tutorials_1_desc_1": "First and foremost, you need to learn how to use Metamask (or other digital wallets), it allows users to access InVaria 2222 service through a browser extension or mobile app.",
   "tutorials_1_desc_2": "Second, you will need some cryptocurrencies, USDC and ETH in Ethereum Mainnet, either buy it within Metamask or transfer from your crypto-exchange account. By using and interacting with applications, you will need enough ETH to pay gas fee (transaction fee). In common case, prepare 0.05 ETH is sufficient to mint NFT.",
@@ -97,8 +88,7 @@
   "tutorials_4_desc_1": "NFT staking refers to locking up non-fungible tokens on a platform or protocol in exchange for staking rewards and other benefits. Staking NFTs allows holders to earn an income from their collection while maintaining ownership.",
   "tutorials_5_title": "Why do I have to verify my identity(KYC)?",
   "tutorials_5_desc_1": "In order to conduct certain activities on our website, InVaria 2222 maintains a KYC (Know Your Customer) policy to comply with the applicable law, regulations, or guidance to crypto-service provider, we will have no liability or responsibility for your compliance with laws or regulations governing the transfer and use of NFTs.",
-
-  "property_infos":"Property Infos",
-  "public_sale":"Public Sale",
-  "language":"Language" 
+  "property_infos": "Property Infos",
+  "public_sale": "Public Sale",
+  "language": "Language"
 }
