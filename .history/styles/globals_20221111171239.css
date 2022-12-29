@@ -16,7 +16,6 @@ html {
   background: hsl(0, 0%, 0%);
 }
 
-
 .flameWidth {
   width: 100%;
 }
@@ -129,7 +128,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
   -webkit-appearance: none;
 }
-
 /* input[type=date]::placeholder,
  input[type=time]::placeholder {
      font-family: 'Roboto';
@@ -175,15 +173,21 @@ body {
   padding: 0;
   margin: 0;
 
-  /* font-family: 'Inter' !important; */
-  color: white;
+    /* font-family: 'Inter' !important; */
+    color: white;
 }
-
 /* we need to preload partners imgs to avoid blinking */
 
 body::after {
   display: none;
-  content: url("../assets/images/circle_hover.png") url("../assets/images/labs_hover.png") url("../assets/images/flowBay_hover.png") url("../assets/images/headDao_hover.png") url("../assets/images/hashEx_hover.png") url("../assets/images/kryptoGO_hover.png") url("../assets/images/ceres_hover.png") url("../assets/images/router_hover.png");
+  content: url("../assets/images/circle_hover.png")
+    url("../assets/images/labs_hover.png")
+    url("../assets/images/flowBay_hover.png")
+    url("../assets/images/headDao_hover.png")
+    url("../assets/images/hashEx_hover.png")
+    url("../assets/images/kryptoGO_hover.png")
+    url("../assets/images/ceres_hover.png")
+    url("../assets/images/router_hover.png");
 }
 
 a {
@@ -208,34 +212,28 @@ a {
   padding: 0;
 }
 
-.text-center {
+.text-center{
   text-align: center;
 }
-
-.purpleGrey {
+.purpleGrey{
   color: #8F97A3;
   font-weight: 600 !important;
 }
-
-.purple {
+.purple{
   color: #752EE5;
   font-weight: 600 !important;
 }
-
-.linksColor {
+.linksColor{
   color: #752EE5;
 }
-
-.purple:hover,
-.linksColor:hover {
+.purple:hover,.linksColor:hover{
   /* border-bottom:1px solid #755EE5; */
   text-decoration: underline !important;
 }
 
-.m-0 {
+.m-0{
   margin: 0px !important;
 }
-
 input {
   position: relative;
 }
@@ -251,8 +249,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   top: 0;
   width: auto;
 }
-
-.empty-date-cont input[type="date"]:not(.has-value):before {
+.empty-date-cont input[type="date"]:not(.has-value):before{
   color: lightgray;
   content: attr(placeholder);
 }
@@ -260,14 +257,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 
 input[type="date"]:focus::before {
-  content: none
+    content: none
 }
 
 .non-empty-date input[type="date"]:disabled::before {
-  content: none;
+    content: none;
 }
 
 .empty-date input[type="date"]:disabled::before {
-  content: attr(data-placeholder);
-  width: 100%;
+    content: attr(data-placeholder);
+    width: 100%;
 }

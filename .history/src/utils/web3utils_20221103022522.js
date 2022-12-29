@@ -4,41 +4,21 @@ import erc20ABI from "./erc20ABI.json";
 import { desiredChainId } from "../../pages/_app.jsx";
 //remember to change: 1.desiredChainId 2.usdcAddress 3.nftAddress
 
-let lastTime;
-let price={
-  "ethereum": {
-      "usd": 0
-  },
-  "usd-coin": {
-      "usd": 0
-  }
-};
 export const fetchPrice = async (coin) => {
-if(lastTime&&new Date().getTime()-lastTime<2000){
-  return price;
-}
+  let price;
   try {
     const fetchIt = await axios.get(
       `https://api.coingecko.com/api/v3/simple/price?ids=${coin}%2Cusd-coin&vs_currencies=usd`,
       {}
     );
+    // console.log(fetchIt.data)
     price = fetchIt.data;
-    lastTime=new Date().getTime()
   } catch (error) {
     console.log("fetch coin price error", error);
   }
   return price;
 };
-export const USDCToWEIConverter=async(usdcAmount)=>{
-    const prices=await fetchPrice("ethereum");
-    if(prices.ethereum.usd==0)throw new Error("price error in format conversion")
-    const ethToUSD=prices?.ethereum.usd;
-    const usdcToUSD=prices['usd-coin'].usd;
-    const usdcToUSDPrice=(+usdcAmount)*usdcToUSD;
-    const valInEth=usdcToUSDPrice/ethToUSD;
-    const parsed=utils.parseEther(valInEth.toString());
-    return parsed.toString()
-}
+
 export const nftAddress = process.env.NEXT_PUBLIC_NFT_ADDRESS;
 export const stakeAddress = process.env.NEXT_PUBLIC_STAKE_ADDRESS;
 export const usdcAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS;
