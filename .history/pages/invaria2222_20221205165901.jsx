@@ -148,10 +148,10 @@ function App() {
           </label>
         )}
 
-        <Link href={'/sftdemo'} className=" z-20 absolute top-[508px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-[#FFC25F] opacity-90 hover:bg-[#FFC25F] hover:opacity-100
+        <a href="https://sftlabs.io/" target='_blank' rel="noopener noreferrer" className=" z-20 absolute top-[508px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-[#FFC25F] opacity-90 hover:bg-[#FFC25F] hover:opacity-100
       rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden">
           <div className=" text-sm ">SFT</div>
-        </Link>
+        </a>
 
       </div>
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
@@ -192,23 +192,19 @@ function App() {
             <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
           </div>
         </label>
-
-        <Link href={'/sftdemo'} >
+        <a href="https://sftlabs.io/" target='_blank' rel="noopener noreferrer">
           <div className="z-30 hover:cursor-pointer absolute top-[46%] right-[53.5%] hidden md:flex">
             <span className="animate-ping z-[1] absolute inline-flex h-[16px] bottom-1 left-0.5 w-[16px] rounded-full bg-[#ffc25f] opacity-75"></span>
             <img src="/icons/ic_arrow.svg" className="z-[2]" width={21} height={19} alt="arrow icon" />
           </div>
-        </Link>
-
+        </a>
         {/* <div className=" hidden md:flex justify-center items-center z-10">
             <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
             <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
           </div> */}
 
         <div >
-          <Link href={'/sftdemo'}>
-            <div className="z-10 hover:cursor-pointer absolute top-[47%] lg:right-[55%] right-[57%] hidden md:flex w-14 h-24"></div>
-          </Link>
+          <a href="https://sftlabs.io/" target='_blank' rel="noopener noreferrer" className="z-10 hover:cursor-pointer absolute top-[47%] lg:right-[55%] right-[57%] hidden md:flex w-14 h-24"></a>
         </div>
         {Date.now() >= 1665936000000 && (
           <div className="absolute top-[57%] right-[53%] hidden md:flex">
