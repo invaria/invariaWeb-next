@@ -26,7 +26,7 @@ import axios from "axios";
 
 let pervState = [];
 
-let allowedPromo = ["lmg", "hello", "iblackyang", "joyce", "kenjisrealm","DJJY"];
+let allowedPromo = ["lmg", "hello", "iblackyang", "joyce", "kenjisrealm"];
 
 const ModalPremint = () => {
   const [verify, setVerify] = useState("Unverified");
@@ -104,8 +104,9 @@ const ModalPremint = () => {
     const cuurentDateTime = formatter.format(new Date());
     try {
       await axios.post(
-        "https://script.google.com/macros/s/AKfycbxEUSKZcVMjZudMey0hrAwcJ9HM6Ce1lbMFTkwKZfF7uTTYe-x5YfZLKHQ4n8veKLe0/exec",
-        null,
+        "https://script.google.com/macros/s/AKfycbzLuwU0mfOtPmURXRUBMgpLoF4dmhopZjOlvADRbeE8BbX-hIdmjqe2Q1i0GELyAWva/exec",
+        //"https://script.google.com/macros/s/AKfycbyP86pmc0o644gsxpMBf5ztVHfQcGBIcknojpcxCZcMNR8hUjcY7S3Th54ewjo9Q8yJ/exec",
+        null,//https://script.google.com/macros/s/AKfycbyCmij3DrAeKrRdugwsoWn4v0aYscEGpUXUyxXGF5OGD90wGgKkBsU7KrlHQSxi9Tw/exec
         {
           params: {
             userAddress: address,
