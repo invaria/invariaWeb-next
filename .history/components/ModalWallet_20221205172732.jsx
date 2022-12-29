@@ -5,7 +5,6 @@ import {
   useNetwork,
   useAddress,
   useDisconnect,
-  ChainId,
 } from "@thirdweb-dev/react";
 import { shortenAddress } from "../src/utils/shortenAddress";
 import {
@@ -13,9 +12,10 @@ import {
   addTokenFunction,
 } from "../src/utils/web3utils";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
 
-const ModalWallet = ({ SFTDemo }) => {
+let pervState = [];
+
+const ModalWallet = () => {
   const connectWithMetamask = useMetamask();
   const connectWithWalletConnect = useWalletConnect();
   const disconnectWallet = useDisconnect();
@@ -23,12 +23,9 @@ const ModalWallet = ({ SFTDemo }) => {
   const [usdcBalance, setUsdcBalance] = useState(0);
   const address = useAddress();
   const network = useNetwork();
-  const isGoerli = network[0]?.data?.chain?.name == "Goerli";
-  const [, switchNetwork] = useNetwork();
   const [getCoinPrice, setgetCoinPrice] = useState();
   const { t } = useTranslation("common");
-  const router=useRouter();
-const path=router.pathname;
+
   useEffect(() => {
     if (typeof window !== "undefined" && network[0].data.chain !== undefined) {
       // // 當scroll時，不知為何network == undefined
@@ -161,22 +158,8 @@ const path=router.pathname;
                   Add Token
                 </button>
               </div>
-              {!isGoerli && <button
-                className="btn relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case bg-invar-error"
-                onClick={() => switchNetwork(ChainId.Goerli)}
-                
-              >
-                <p className=" font-semibold text-white">{t("click_switch")}</p>
-              </button>}
-              {isGoerli &&path!=="/sftdemo"&& <button
-                className="btn relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case bg-invar-error"
-                onClick={() => switchNetwork(ChainId.Mainnet)}
-                
-              >
-                <p className=" font-semibold text-white">{t("click_switch")}</p>
-              </button>}
               <button
-                className="btn btn-primary relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case"
+                className="btn btn-primary relative w-[327px] h-[56px] mt-[14px] rounded flex justify-center items-center border-none normal-case"
                 onClick={disconnectWallet}
               >
                 <p className=" font-semibold text-white">{t("disconnect")}</p>

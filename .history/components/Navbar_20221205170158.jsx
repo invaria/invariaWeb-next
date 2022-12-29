@@ -6,7 +6,6 @@ import {
   useMetamask,
   useWalletConnect,
   useDisconnect,
-  ChainId,
 } from "@thirdweb-dev/react";
 import ModalStory from './ModalStory'
 import ModalWallet from "./ModalWallet";
@@ -43,12 +42,10 @@ const menuStyles = {
 };
 let pervState = [];
 
-const Navbar = ({ headerBackground, SFTDemo }) => {
+const Navbar = ({ headerBackground }) => {
   const router = useRouter();
   const address = useAddress();
   const network = useNetwork();
-  const [, switchNetwork] = useNetwork();
-  const isGoerli = network[0]?.data?.chain?.name == "Goerli";
 
   const disconnectWallet = useDisconnect();
 
@@ -66,16 +63,16 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
     setVerify(state);
   }
 
-  // useEffect(() => {
-  //   // if (typeof window !== "undefined") {
-  //   if (!address) return;
-  //   setToggleWallet(false);
-  //   // enableScroll();
-  //   getdata();
+  useEffect(() => {
+    // if (typeof window !== "undefined") {
+    if (!address) return;
+    setToggleWallet(false);
+    enableScroll();
+    getdata();
 
-  //   // }
-  //   return () => enableScroll();
-  // }, [address]);
+    // }
+    return () => enableScroll();
+  }, [address]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -116,25 +113,19 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
 
   const toggleDrawerHandler = () => {
     setToggleMenu((s) => !s);
-    // enableScroll();
+    enableScroll();
   };
 
   const { t } = useTranslation("common");
 
-  useEffect(()  => {
-    if(toggleMenu) document.body.style.position="fixed";
 
-    return () => {
-      document.body.style.position="relative";
-    };
-},[toggleMenu]);
   return (
     <>
       <nav
         className={`fixed flex items-center justify-between w-full h-[3.75rem] bg-invar-dark md:h-[5rem] z-50
         ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}
       >
-        <ModalWallet SFTDemo={SFTDemo} />
+        <ModalWallet />
         <ModalStory />
         <ModalProperty />
         <ModalPremint />
@@ -197,7 +188,7 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                 className=" absolute top-[24px] right-[16px]"
                 onClick={() => {
                   setToggleMenu(true);
-                  // disableScroll();
+                  disableScroll();
                 }}
               >
                 <img
@@ -213,7 +204,7 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                 onClick={() => {
                   setToggleMenu(false);
                   setToggleWallet(false);
-                  // enableScroll();
+                  enableScroll();
                 }}
               >
                 <img
@@ -349,8 +340,7 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
           <label htmlFor="premint-modal" className="w-full">
             <MenuItem sx={{ ...menuStyles, color: "#00DEAE" }}>{t("public_sale")}</MenuItem>
           </label>
-          <Link href={'/sftdemo'} className="w-full h-full text-[#FFC25F]">
-            <MenuItem sx={{ ...menuStyles, color: "##FFC25F" }}> SFT</MenuItem></Link>
+          <MenuItem sx={{ ...menuStyles, color: "##FFC25F" }}> <a href="https://sftlabs.io/" target='_blank' rel="noopener noreferrer" className="w-full h-full text-[#FFC25F]">SFT</a></MenuItem>
           <Accordion
             sx={{
               backgroundColor: "transparent",
@@ -443,16 +433,6 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                     )}
                   </div>
                 </div>
-
-                {!isGoerli && address && < button
-                  className="btn bg-invar-error relative w-full h-[56px] mt-5 rounded flex justify-center items-center border-none normal-case"
-                  onClick={() => switchNetwork(ChainId.Goerli)}
-                >
-                  <p className=" font-semibold text-white">
-                  {t("click_switch")}
-                  </p>
-                </button>}
-
                 <button
                   className="btn btn-primary relative w-full h-[56px] mt-[14px] rounded flex justify-center items-center border-none normal-case"
                   onClick={disconnectWallet}
@@ -466,15 +446,12 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
             )}
           </div>
         </div>
-      )
-      }
-      {
-        toggleMenu && toggleWallet && !address && (
-          <>
-            <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />
-          </>
-        )
-      }
+      )}
+      {toggleMenu && toggleWallet && !address && (
+        <>
+          <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />
+        </>
+      )}
     </>
   );
 };
