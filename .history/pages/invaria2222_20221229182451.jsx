@@ -1,1 +1,0 @@
-git commit -m "install sft demo button"
