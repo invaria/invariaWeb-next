@@ -5,14 +5,17 @@ import { SiweMessage } from "siwe";
 import { handleKyc } from "../src/utils/handleKyc";
 import { SelectLocale, SelectCountryRegion } from "./SelectOptions";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 
 const Form = () => {
+  const router = useRouter();
   let domain, provider, signer;
   const address = useAddress();
   const network = useNetwork();
   const [inputs, setInputs] = useState({
     ["address"]: address,
     ["time"]: new Date(Date.now()),
+    ["language"]: router.locale,
   });
   const [isAdult, setIsAdult] = useState(true);
   const [emailChange, setEmailChange] = useState(false);

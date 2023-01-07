@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Navbar } from "../components/";
-import Footer from "../components/Footer"
+import { Navbar, ScrollToTop } from "../components/";
+import Footer from "../components/Footer";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -37,9 +37,7 @@ const PropertyInfo = () => {
         return rect.top;
       }
       if (
-        getRectTop(float) +
-          document.body.scrollTop +
-          float.offsetHeight >=
+        getRectTop(float) + document.body.scrollTop + float.offsetHeight >=
         getRectTop(footer) + document.body.scrollTop - 10
       ) {
         float.style.position = "absolute";
@@ -160,7 +158,7 @@ const PropertyInfo = () => {
             </div>
             {tabState == "property" && (
               <>
-                <div className=" py-6 border-b border-invar-main-purple z-30 relative">
+                <div className=" py-6 border-b border-invar-main-purple z-20 relative">
                   {t("property_details_desc1")}
                   <br />
                   <br />
@@ -211,7 +209,7 @@ const PropertyInfo = () => {
                 <p className=" mt-6 text-xl font-semibold ">
                   {t("property_details_info_specialfeatures")}
                 </p>
-                <div className="grow my-[22px] grid grid-cols-1 md:grid-cols-2 gap-1 border-b border-invar-main-purple">
+                <div className="grow my-[22px] border-b border-invar-main-purple">
                   <div className=" font-normal mb-6">
                     <p className=" text-invar-light-grey text-xs mb-[2px]">
                       {t("property_details_info_specialfeatures_prime")}
@@ -228,7 +226,7 @@ const PropertyInfo = () => {
                       {t("property_details_info_specialfeatures_defensivedesc")}
                     </p>
                   </div>
-                  <div className=" font-normal mb-6 w-[180px]">
+                  <div className=" font-normal mb-6 ">
                     <p className=" text-invar-light-grey text-xs mb-[2px]">
                       {t("property_details_info_specialfeatures_solidmarket")}
                     </p>
@@ -346,7 +344,9 @@ const PropertyInfo = () => {
             )}
           </div>
         </div>
-        <div id="footer" className="relative z-50"> 
+        <ScrollToTop />
+
+        <div id="footer" className="relative z-50">
           <Footer />
         </div>
       </div>

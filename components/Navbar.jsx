@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import {
   useNetwork,
@@ -7,91 +6,83 @@ import {
   useMetamask,
   useWalletConnect,
   useDisconnect,
+  ChainId,
 } from "@thirdweb-dev/react";
-const ModalPremint = dynamic(import("../components/ModalPremint"));
-const ModalStory = dynamic(import("../components/ModalStory"));
-const ModalProperty = dynamic(import("../components/ModalProperty"));
-const Modalappplywhite = dynamic(import("../components/Modalappplywhite"));
-
-// const ModalStory = dynamic(import("./ModalStory"));
-const ModalWallet = dynamic(import("./ModalWallet"));
+import ModalStory from "./ModalStory";
+import ModalWallet from "./ModalWallet";
+import ModalProperty from "./ModalProperty";
+import ModalPremint from "./ModalPremint";
+import Modalappplywhite from "./Modalappplywhite";
 import { shortenAddress } from "../src/utils/shortenAddress";
 import { disableScroll, enableScroll } from "../src/utils/disableScroll";
 
 import { getUser } from "../src/utils/storeFirebase";
-import styles from "../styles/navbar.module.css";
-import logo from "../assets/images/logo.png";
-import globe from "../assets/images/globe.png";
-import musicOff from "../assets/images/music_off.png";
-import musicOn from "../assets/images/music_on.png";
-import hamburger from "../assets/images/hamburger.png";
-import close from "../assets/images/close.png";
-import eth from "../assets/images/eth.png";
-import usdc from "../assets/images/usdc.png";
-import { Link as ScrollLink } from "react-scroll";
 
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
   ClickAwayListener,
-  Dialog,
-  Divider,
-  Menu,
   MenuItem,
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import { checkIfWalletIsConnected } from "../src/utils/web3utils";
+import { useContext } from "react";
+import { MusicContext } from "../context/music-context";
+import MobileWalletConnect from "./MobileWalletConnect";
+import ModalPassNft from "./ModalPassNft";
+import { Link as ScrollLink } from "react-scroll";
 
 const menuStyles = {
   paddingY: "16px",
-  fontFamily: "Inter",
+  fontFamily: "inherit",
   fontWeight: "600",
   fontSize: "16px",
   lineHeight: "20px",
   width: "100%",
+  "&.Mui-disabled": {
+    opacity: "0.5",
+  },
+  "&.MuiButtonBase-root-MuiMenuItem-root": {
+    opacity: "0.5",
+  },
 };
 let pervState = [];
 
-const Navbar = ({ headerBackground }) => {
+const Navbar = ({ headerBackground, SFTDemo }) => {
   const router = useRouter();
   const address = useAddress();
   const network = useNetwork();
-  const connectWithMetamask = useMetamask();
-  const connectWithWalletConnect = useWalletConnect();
+  const [, switchNetwork] = useNetwork();
+  const isGoerli = network[0]?.data?.chain?.name == "Goerli";
+
   const disconnectWallet = useDisconnect();
 
   const [toggleMenu, setToggleMenu] = useState(false);
   const [toggleWallet, setToggleWallet] = useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const [openDrawer, setOpenDrawer] = React.useState(false);
-  const [isMusicOn, setIsMusicOn] = React.useState(true);
-  const [language, setLanguage] = useState(false);
   const [getCoinPrice, setgetCoinPrice] = useState(0);
   const [ethBalance, setEthBalance] = useState(0);
   const [usdcBalance, setUsdcBalance] = useState(0);
   const [verify, setVerify] = useState(false);
 
+  const musicCTX = useContext(MusicContext);
   async function getdata() {
     const state = await getUser(address);
     console.log("ver state", state);
     setVerify(state);
   }
+  // useEffect(() => {
+  //   // if (typeof window !== "undefined") {
+  //   if (!address) return;
+  //   setToggleWallet(false);
+  //   // enableScroll();
+  //   getdata();
 
-  useEffect(() => {
-    // if (typeof window !== "undefined") {
-    if (!address) return;
-    setToggleWallet(false);
-    enableScroll();
-    getdata();
-
-    // }
-  }, [address]);
+  //   // }
+  //   return () => enableScroll();
+  // }, [address]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -130,45 +121,45 @@ const Navbar = ({ headerBackground }) => {
 
   const [openLangMenu, setOpenLangMenu] = useState(false);
 
-  const handleMenu = (event) => {
-    anchorEl ? setAnchorEl(null) : setAnchorEl(event.currentTarget);
-  };
   const toggleDrawerHandler = () => {
     setToggleMenu((s) => !s);
-    enableScroll();
+    // enableScroll();
   };
-
-  // if(address&&toggleWallet){
-  //   setToggleWallet(false);
-  //   enableScroll();
-  // }else if(!address&&toggleWallet){
-  //   setToggleWallet(true);
-  // }
 
   const { t } = useTranslation("common");
 
+  useEffect(() => {
+    if (toggleMenu) document.body.style.position = "fixed";
+
+    return () => {
+      document.body.style.position = "relative";
+    };
+  }, [toggleMenu]);
   return (
     <>
       <nav
         className={`fixed flex items-center justify-between w-full h-[3.75rem] bg-invar-dark md:h-[5rem] z-50
         ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}
       >
-        <ModalWallet />
+        <ModalWallet SFTDemo={SFTDemo} />
         <ModalStory />
         <ModalProperty />
         <ModalPremint />
         <Modalappplywhite />
+        <ModalPassNft />
 
         <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[88px] flex">
           <div className="navbar-start flex">
             <button
-              onClick={() => setIsMusicOn((v) => !v)}
+              onClick={() => musicCTX.setIsMusicOn((v) => !v)}
               className="absolute top-[24px] left-[16px] md:hidden"
             >
               <img
                 className="h-[20px] w-[20px]"
                 src={
-                  isMusicOn ? "/icons/ic_music.svg" : "/icons/ic_music_off.svg"
+                  musicCTX.isMusicOn
+                    ? "/icons/ic_music.svg"
+                    : "/icons/ic_music_off.svg"
                 }
                 alt=""
               />
@@ -197,7 +188,12 @@ const Navbar = ({ headerBackground }) => {
               {/* </ScrollLink> */}
               <Link href="/media">
                 <li className="hover:underline font-semibold text-base cursor-pointer">
-                  Media
+                  News
+                </li>
+              </Link>
+              <Link href="invaria2222#faqoutside">
+                <li className="hover:underline font-semibold text-base cursor-pointer ml-8">
+                  Learn
                 </li>
               </Link>
             </ul>
@@ -216,7 +212,7 @@ const Navbar = ({ headerBackground }) => {
                 className=" absolute top-[24px] right-[16px]"
                 onClick={() => {
                   setToggleMenu(true);
-                  disableScroll();
+                  // disableScroll();
                 }}
               >
                 <img
@@ -232,7 +228,7 @@ const Navbar = ({ headerBackground }) => {
                 onClick={() => {
                   setToggleMenu(false);
                   setToggleWallet(false);
-                  enableScroll();
+                  // enableScroll();
                 }}
               >
                 <img
@@ -267,9 +263,20 @@ const Navbar = ({ headerBackground }) => {
                 </Link>
                 <label
                   htmlFor="my-modal-4"
-                  className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
+                  className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[140px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
                 >
                   {shortenAddress(address)}
+                  {SFTDemo && !isGoerli && (
+                    <img src="/icons/ic_warning.svg" className="ml-1" alt="" />
+                  )}
+                  {!SFTDemo &&
+                    !network[0]?.data?.chain?.name?.includes("Mainnet") && (
+                      <img
+                        src="/icons/ic_warning.svg"
+                        className="ml-1"
+                        alt=""
+                      />
+                    )}
                 </label>
               </>
             )}
@@ -301,6 +308,9 @@ const Navbar = ({ headerBackground }) => {
                       sx={{
                         color: router.locale === "en" ? "white" : "#8F97A3",
                         fontWeight: router.locale === "en" ? "600" : "400",
+                        "& a": {
+                          width: "100%",
+                        },
                       }}
                     >
                       <Link href={router.pathname} locale="en">
@@ -314,6 +324,9 @@ const Navbar = ({ headerBackground }) => {
                       sx={{
                         color: router.locale === "tw" ? "white" : "#8F97A3",
                         fontWeight: router.locale === "tw" ? "600" : "400",
+                        "& a": {
+                          width: "100%",
+                        },
                       }}
                     >
                       <Link href={router.pathname} locale="tw">
@@ -325,13 +338,15 @@ const Navbar = ({ headerBackground }) => {
               )}
             </div>
             <button
-              onClick={() => setIsMusicOn((v) => !v)}
+              onClick={() => musicCTX.setIsMusicOn((v) => !v)}
               className="btn btn-sm btn-outline rounded h-[40px] w-[40px] my-[24px] mr-[24px] px-[4px] py-[4px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
             >
               <img
                 className="h-[20px] w-[20px]"
                 src={
-                  isMusicOn ? "/icons/ic_music.svg" : "/icons/ic_music_off.svg"
+                  musicCTX.isMusicOn
+                    ? "/icons/ic_music.svg"
+                    : "/icons/ic_music_off.svg"
                 }
                 alt=""
               />
@@ -342,26 +357,64 @@ const Navbar = ({ headerBackground }) => {
       {toggleMenu && (
         <div
           style={{ zIndex: "25" }}
-          className=" fixed top-[60px] w-full h-screen pt-[18px]  flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722] overflow-scroll pb-16"
+          className=" fixed top-[60px] w-full h-screen pt-4  flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722] overflow-scroll pb-16"
         >
-          <label htmlFor="my-modal-1" className="w-full">
-            <MenuItem sx={menuStyles}>Storyline</MenuItem>
+          <Link href="/dashboard">
+            <MenuItem
+              sx={{ ...menuStyles, fontSize: "20px" }}
+              onClick={toggleDrawerHandler}
+            >
+              Dashboard
+            </MenuItem>
+          </Link>
+          <div className="px-4 w-full mb-2.5">
+            <div className=" border-b border-[#37293E] w-full"></div>
+          </div>
+          <p className="font-normal text-xs leading-4 text-neutral ml-4">
+            {t("menu")}
+          </p>
+          <MenuItem sx={menuStyles} onClick={toggleDrawerHandler} disabled>
+            RWA REFLECTOR
+          </MenuItem>
+          <label htmlFor="premint-modal" className="w-full">
+            <MenuItem sx={{ ...menuStyles, color: "#00DEAE" }}>
+              {t("public_sale")}
+            </MenuItem>
           </label>
+          <Link href={"/sftdemo"} className="w-full h-full text-[#FFC25F]">
+            <MenuItem sx={{ ...menuStyles, color: "#FFC25F" }}>
+              {" "}
+              SFT Demo
+            </MenuItem>
+          </Link>
+
           <Link href="invaria2222#mindmapoutside">
             <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
               Mindmap
             </MenuItem>
           </Link>
-          <label htmlFor="property-modal" className="w-full">
-            <MenuItem sx={menuStyles}>Property Infos</MenuItem>
+          <label htmlFor="my-modal-1" className="w-full">
+            <MenuItem sx={menuStyles}>Storyline</MenuItem>
           </label>
-
           <Link href="/media">
-            <MenuItem sx={menuStyles}>Media</MenuItem>
+            <MenuItem sx={menuStyles}>News</MenuItem>
           </Link>
-          <label htmlFor="premint-modal" className="w-full">
-            <MenuItem sx={menuStyles}>Public Sale</MenuItem>
-          </label>
+
+          <MenuItem sx={menuStyles} disabled>
+            Learn
+          </MenuItem>
+
+          {/* <label htmlFor="property-modal" className="w-full">
+            <MenuItem sx={menuStyles}>{t("property_infos")}</MenuItem>
+          </label> */}
+
+          <div className="px-4 w-full mb-2.5">
+            <div className=" border-b border-primary w-full"></div>
+          </div>
+          <p className="font-normal text-xs leading-4 text-neutral ml-4">
+            {t("setting")}
+          </p>
+
           <Accordion
             sx={{
               backgroundColor: "transparent",
@@ -371,7 +424,10 @@ const Navbar = ({ headerBackground }) => {
             elevation={0}
           >
             <AccordionSummary>
-              <Typography sx={{ fontWeight: "600" }}> Language</Typography>
+              <Typography sx={{ fontWeight: "600" }}>
+                {" "}
+                {t("language")}
+              </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
@@ -388,15 +444,11 @@ const Navbar = ({ headerBackground }) => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Link href="/dashboard">
-            <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
-              Dashboard
-            </MenuItem>
-          </Link>
+
           <div className="px-4 w-full mt-4">
             {!address && (
               <button
-                className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple rounded text-center normal-case	"
+                className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple rounded text-center normal-case	text-white mb-6"
                 onClick={() => setToggleWallet(true)}
               >
                 {t("connect_wallet")}
@@ -454,8 +506,32 @@ const Navbar = ({ headerBackground }) => {
                     )}
                   </div>
                 </div>
+
+                {!isGoerli && SFTDemo && address && (
+                  <button
+                    className="btn bg-invar-error relative w-full h-[56px] mt-5 rounded flex justify-center items-center border-none normal-case"
+                    onClick={() => switchNetwork(ChainId.Goerli)}
+                  >
+                    <p className=" font-semibold text-white">
+                      {t("click_switch")}
+                    </p>
+                  </button>
+                )}
+                {!network[0]?.data?.chain?.name?.includes("Mainnet") &&
+                  !SFTDemo &&
+                  address && (
+                    <button
+                      className="btn bg-invar-error relative w-full h-[56px] mt-5 rounded flex justify-center items-center border-none normal-case"
+                      onClick={() => switchNetwork(ChainId.Mainnet)}
+                    >
+                      <p className=" font-semibold text-white">
+                        {t("click_eth")}
+                      </p>
+                    </button>
+                  )}
+
                 <button
-                  className="btn btn-primary relative w-full h-[56px] mt-[14px] rounded flex justify-center items-center border-none normal-case"
+                  className="btn btn-primary relative w-full h-[56px] mb-6 mt-[14px] rounded flex justify-center items-center border-none normal-case"
                   onClick={disconnectWallet}
                 >
                   <p className=" font-semibold text-white">
@@ -470,46 +546,7 @@ const Navbar = ({ headerBackground }) => {
       )}
       {toggleMenu && toggleWallet && !address && (
         <>
-          <div className=" fixed top-[60px] z-40 w-full h-screen py-[34px] px-[16px] flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]">
-            <div
-              className="flex justify-start items-center mb-[32px] cursor-pointer"
-              onClick={() => setToggleWallet(false)}
-            >
-              <img
-                className="w-[24px] h-[24px]"
-                src="/icons/ic_back.svg"
-                alt=""
-              />
-              <h3 className="text-base font-semibold text-white ml-[15px]">
-                Back
-              </h3>
-            </div>
-            <h3 className="text-2xl font-semibold text-white mb-[22px]">
-              {t("connect_wallet")}
-            </h3>
-            <button
-              className="btn btn-primary relative w-full h-[56px] rounded flex justify-center items-center border-none normal-case"
-              onClick={connectWithMetamask}
-            >
-              <img
-                className="absolute top-[13px] left-4 h-[30px] w-[30px]"
-                src="/icons/ic_metamask.png"
-                alt=""
-              />
-              <p className=" font-semibold text-accent">MetaMask</p>
-            </button>
-            <button
-              className="btn btn-primary mt-3 relative w-full h-[56px] rounded flex justify-center items-center border-none normal-case"
-              onClick={connectWithWalletConnect}
-            >
-              <img
-                className="absolute top-[13px] left-4 h-[30px] w-[30px]"
-                src="/icons/ic_walletconnect.png"
-                alt=""
-              />
-              <p className=" font-semibold text-accent">WalletConnect</p>
-            </button>
-          </div>
+          <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />
         </>
       )}
     </>

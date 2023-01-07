@@ -1,11 +1,9 @@
 {
-  "storyline_popup_story5": "「…先行者優勢…Amwaj 是開啟入口…可以利用裝置將權益進行延伸…」一段意義不明的信息突然顯示在 REFLECTOR 上。經過研究員轉譯後，發現裝置具有信息採集的功能，裝置正運轉將先前輸入的資料、周遭事件進行整合…似乎要再映射出些什麼…",
+  "storyline_popup_story5": "「Semi…Semi…Conductor…」裝置上映射出的信息，「半導體？還是…？怎麼會有這樣的信息？」研究員琢磨了半天，嘗試在 REFLECTOR 上進行轉譯校正，這似乎又是一個對未知領域的一個提示。經過一番折騰，轉譯器突發巨響開始進行重組，並在裝置上顯現出一道字樣「SFT」…",
   "homepage_dialog_woman5": "資產碎片化 NFT 如何運用、與資產價值連結變成後續的問題，部落正在研擬解決方案…財務工程師多雷米拉提出將 Amwaj20 資產統一由專業領袖管理，並將產出的價值分配給 NFT 持有者；而持有者可以通過協議質押 NFT 獲取對應的價值。",
-
   "homepage_intro_title": "探索資產代幣化的世界",
   "homepage_intro_desc1": "InVaria 2222 是一個基於 RWA 的代幣化世界，目標是在實物經濟和數字經濟之間建立連結。此外，InVaria 2222 定位為 InVar Finance 的試驗型首發項目與基礎。在 InVaria 世界觀中，大量的機會和財富等待著人類去發現和享受；沒有人知道這個世界的全貌…",
   "homepage_intro_desc2": "在第一階段，一群 InVariants 將首先建立一個代幣化的房地產模型，然後……故事和旅程開始……",
-
   "homepage_mindmap_title": "Mindmap",
   "homepage_mindmap_desc": "加密市場、技術和行業框架的迭代速度飛快，我們不喜歡過度承諾以至於無法實現原有構思的計劃。然而，我們確實有預先計畫的幾項里程碑，稱之為 Mindmap，既然都有了，我們選擇真誠地分享，而非隱藏。",
   "homepage_mindmap_phaseone": "第一階段 - APR. ~ DEC. 2022",
@@ -25,7 +23,6 @@
   "homepage_mindmap_phasethree_title": "整合階段",
   "homepage_mindmap_phasethree_desc": "InVaria 2222 是 InVar 生態的基礎。以建立堅實的基礎設施和價值支撐作為第一步，來構建多元金融生態系統，InVaria 2222 是可持續經濟不可或缺的舉措。",
   "homepage_mindmap_phasethree_point1": "InVar 服務、經濟整合",
-
   "faq_1_title": "為什麼 InVaria 2222 是獨一無二的？",
   "faq_1_desc": "InVaria 2222 是使命導向的代幣化世界，不是定位為房地產或其他實物資產的銷售網站，而是期望打造鏈接實體經濟、數字經濟的前沿概念平台，即多元金融。 InVaria 2222 NFT 持有者能通過 NFT 進行質押或其他衍伸操作策略，來獲取經濟活動與投資產生的價值。",
   "faq_2_title": "InVaria 2222 如何運作？",
@@ -79,7 +76,6 @@
   "faq_13_desc_1": "您可以加入我們的官方頻道",
   "faq_13_desc_2": "關注最新消息，也可以寄信至",
   "faq_13_desc_3": " 諮詢或討論合作事項。",
-
   "tutorials_1_title": "在開始之前我需要準備什麼？",
   "tutorials_1_desc_1": "首先，您需要學習如何使用 Metamask（或其他數字錢包），它允許用戶通過瀏覽器擴展程序或手機 APP 訪問 InVaria 2222 服務。",
   "tutorials_1_desc_2": "其次，你需要在以太坊主網中擁有一些加密貨幣（如 USDC 和 ETH），可以在 Metamask 中購買，或是從您的加密貨幣交易所賬戶中移轉。 通過使用應用程序並與之交互，您將需要足夠的 ETH 來支付 Gas Fee（交易費用）。 一般情況下，準備 0.05 ETH 就足夠鑄造 NFT。",
@@ -91,5 +87,28 @@
   "tutorials_4_title": "NFT 質押是什麼？",
   "tutorials_4_desc_1": "NFT 質押是指將 NFT 鎖定在智能合約中，以換取質押獎勵與其他好處。質押 NFT 允許持有者在保持所有權的同時從他們的代幣資產中獲得收入。",
   "tutorials_5_title": "為什麼我必須驗證我的身份（KYC）？",
-  "tutorials_5_desc_1": "為了在我們的網站上進行某些活動，InVaria 2222 落實 KYC（了解您的客戶）政策以遵守適用的法律、法規或對加密服務提供商的相關指導。我們對您遵守的法律法規中對管理 NFT 轉讓和使用的規定不承擔任何責任、義務。"
+  "tutorials_5_desc_1": "為了在我們的網站上進行某些活動，InVaria 2222 落實 KYC（了解您的客戶）政策以遵守適用的法律、法規或對加密服務提供商的相關指導。我們對您遵守的法律法規中對管理 NFT 轉讓和使用的規定不承擔任何責任、義務。",
+  "property_infos": "物業信息",
+  "public_sale": "公售鑄造",
+  "language": "語言",
+  "bring":"通過",
+  "real_world_asset":"現實世界資產，",
+"generate":"創造",
+"real_value":"真實價值",
+"pass_eco":"生態系統通過 NFT 獲得獨家投資產品以及多項特權。",
+"price_eth":"價格 (ETH)",
+"type":"類型",
+"utility":"效用",
+"elements":"元素",
+"earth_ocean_sky":"地球款、海洋款以及天空款",
+"research_more":"查看更多",
+"trust_minimized":"信任最小化模型促進更美好的加密世界",
+"invaria_open_platform":"InVaria 旨在為現實世界資產所有者構建開放平台和代幣化基礎設施，並使代幣化的資產成為去中心化經濟的強大後盾。",
+"trust_min":"信任最小化模型帶來真實價值 - InVaria 通過鏈上與鏈下協同機制來發行以資產支持的碎片化 NFT，確保投資者的權益。",
+"b_real_estate":"巴林房地產",
+"est_apr":"預估年化收益（APR）",
+"token_val":"代幣化價值（USDC）",
+"developing":"開發中",
+"curr_tvl":"當前總鎖倉價值",
+"interest_accured":"累計應計利息"
 }

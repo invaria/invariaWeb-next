@@ -69,7 +69,7 @@ const FormInfo = () => {
     <>
       {!signed && (
         <div className=" w-full p-16 mb-64 rounded flex flex-col justify-center items-center bg-invar-main-purple text-white font-semibold">
-          <p className=" text-xl ">
+          <p className=" text-xl text-accent">
             {t("dashbaord_profile_table_signconfirm")}
           </p>
           <button

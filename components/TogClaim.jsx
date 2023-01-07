@@ -1,35 +1,27 @@
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import { ethers } from "ethers";
 import { useNetwork, useAddress } from "@thirdweb-dev/react";
-import erc20ABI from "../src/utils/erc20ABI.json";
-import inVariaJSON from "../src/utils/InVaria.json";
 import stakeABI from "../src/utils/invarstaking.json";
-import { nftAddress, stakeAddress } from "../src/utils/web3utils";
-import Image from "next/image";
+import { stakeAddress } from "../src/utils/web3utils";
 import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
-import { ItemActivity, HisClaim } from ".";
+import { HisClaim } from ".";
 import { useTranslation } from "next-i18next";
 
-let pervState = [];
-let etherScan;
-let openSea;
-
-const TogClaim = ({ start, end }) => {
+const TogClaim = ({ start, end, setAllActivityData}) => {
   const [collapse, setCollapse] = useState(true);
   const address = useAddress();
   const network = useNetwork();
   const [transactions, setTransactions] = useState([]);
+  const [allTransactions, setAllTransactions] = useState([]);
 
   async function getActivity() {
-    // console.log("get activity")
     if (!address) return;
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     const filter = stakeContract.filters.WithDraw(address, null, null);
     const unstake = await stakeContract.queryFilter(filter);
-    const unitems = await Promise.all(
+    let unitems = await Promise.all(
       unstake?.map(async (i, index) => {
         const blockTime = new Date(i.args.withdrawTime * 1000);
         const item = {
@@ -44,78 +36,44 @@ const TogClaim = ({ start, end }) => {
         return item;
       })
     );
-    setTransactions(unitems);
+    unitems = unitems.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+    if(unitems.length>0)  setAllActivityData((d) => [...d, "claim"]);
+    setAllTransactions(unitems);
   }
 
   useEffect(() => {
-    // if (typeof window == "undefined") return
-    // console.log("activity")
-    // 當scroll時，不知為何network == undefined
-    if (network[0].data.chain == undefined) {
-      return;
-    } else {
-      if (pervState[0] == network[0].data.chain.name) return;
-    }
-    pervState[0] = network[0].data.chain.name;
-    pervState[1] = address;
-    if (pervState[0] == "Goerli") {
-      etherScan = "https://goerli.etherscan.io/tx/";
-      openSea = `https://testnets.opensea.io/assets/goerli/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`;
-    } else if (pervState[0] == "Ethereum Mainnet") {
-      etherScan = "https://etherscan.io/tx/";
-      openSea = `https://opensea.io/assets/ethereum/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`;
-    }
-    getActivity();
-
-    // }, [address, network])
-  }, [address]);
-
-  useEffect(() => {
-    getActivity();
-  }, []);
-
-  useEffect(() => {
-    // getActivity()
-    let arr = [];
-    async function getAct() {
-      if (!address) return;
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
-      const filter = stakeContract.filters.WithDraw(address, null, null);
-      const unstake = await stakeContract.queryFilter(filter);
-      const unitems = await Promise.all(
-        unstake?.map(async (i, index) => {
-          const blockTime = new Date(i.args.withdrawTime * 1000);
-          const item = {
-            date: blockTime.toString(),
-            year: blockTime.getFullYear(),
-            month: blockTime.getMonth() + 1,
-            day: blockTime.getDate(),
-            amount: i.args.amount.toNumber(),
-            txid: `${i.transactionHash}`,
-            time: i.args.withdrawTime.toNumber() * 1000,
-          };
-          return item;
-        })
-      );
-      // setTransactions(unitems)
-      arr = unitems;
-      // console.log(arr, start)
-
-      if (start != undefined) {
-        console.log(arr);
-        let obj = arr.filter(
-          (person) => person.time > start && person.time < end
-        );
-        // console.log("obj", obj, start, arr[0]?.time, arr, Array.isArray(transactions), transactions.length)
-
-        setTransactions(obj);
+    setTransactions([]);
+    setAllTransactions([]);
+    setAllActivityData(prev=>{
+      let index=prev.indexOf("claim");
+      if (index > -1) { 
+        prev.splice(index, 1); 
       }
-      // console.log("start", start, transactions, Array.isArray(transactions), transactions.length)
+      return prev;
+    });
+    if (address) {
+      console.log("test unstake mounted");
+      getActivity();
     }
-    getAct();
-  }, [start, end]);
+  }, [address, network[0]?.data?.chain?.name]);
+
+  useEffect(() => {
+    if (address && allTransactions.length > 0) {
+      let tx = [...allTransactions];
+      if (start && end) {
+        tx = tx.filter(
+          (t) =>
+            new Date(t.date).getTime() > start &&
+            new Date(t.date).getTime() < end
+        );
+      }
+      setTransactions(tx);
+    }
+  }, [start, end, allTransactions]);
+
+
 
   const { t } = useTranslation("dashboard");
   return (

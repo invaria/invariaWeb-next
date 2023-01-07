@@ -13,9 +13,9 @@
 body,
 html {
   font-family: 'Inter', sans-serif;
-  min-width: 400px;
   background: hsl(0, 0%, 0%);
 }
+
 
 .flameWidth {
   width: 100%;
@@ -129,6 +129,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0;
   -webkit-appearance: none;
 }
+
 /* input[type=date]::placeholder,
  input[type=time]::placeholder {
      font-family: 'Roboto';
@@ -173,23 +174,16 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Inter',-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-    font-family: 'Inter' !important;
-    color: white;
+
+  /* font-family: 'Inter' !important; */
+  color: white;
 }
+
 /* we need to preload partners imgs to avoid blinking */
 
 body::after {
   display: none;
-  content: url("../assets/images/circle_hover.png")
-    url("../assets/images/labs_hover.png")
-    url("../assets/images/flowBay_hover.png")
-    url("../assets/images/headDao_hover.png")
-    url("../assets/images/hashEx_hover.png")
-    url("../assets/images/kryptoGO_hover.png")
-    url("../assets/images/ceres_hover.png")
-    url("../assets/images/router_hover.png");
+  content: url("../assets/images/circle_hover.png") url("../assets/images/labs_hover.png") url("../assets/images/flowBay_hover.png") url("../assets/images/headDao_hover.png") url("../assets/images/hashEx_hover.png") url("../assets/images/kryptoGO_hover.png") url("../assets/images/ceres_hover.png") url("../assets/images/router_hover.png");
 }
 
 a {
@@ -214,28 +208,34 @@ a {
   padding: 0;
 }
 
-.text-center{
+.text-center {
   text-align: center;
 }
-.purpleGrey{
+
+.purpleGrey {
   color: #8F97A3;
   font-weight: 600 !important;
 }
-.purple{
+
+.purple {
   color: #752EE5;
   font-weight: 600 !important;
 }
-.linksColor{
+
+.linksColor {
   color: #752EE5;
 }
-.purple:hover,.linksColor:hover{
+
+.purple:hover,
+.linksColor:hover {
   /* border-bottom:1px solid #755EE5; */
   text-decoration: underline !important;
 }
 
-.m-0{
+.m-0 {
   margin: 0px !important;
 }
+
 input {
   position: relative;
 }
@@ -251,7 +251,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   top: 0;
   width: auto;
 }
-input[type="date"]:not(.has-value):before{
+
+.empty-date-cont input[type="date"]:not(.has-value):before {
   color: lightgray;
   content: attr(placeholder);
+}
+
+
+
+input[type="date"]:focus::before {
+  content: none
+}
+
+.non-empty-date input[type="date"]:disabled::before {
+  content: none;
+}
+
+.empty-date input[type="date"]:disabled::before {
+  content: attr(data-placeholder);
+  width: 100%;
+}
+.page-bg{
+  background: linear-gradient(180deg, #44334C 0%, #1E1722 100%);
+}
+.tvl-bg{
+  background: linear-gradient(101.67deg, rgba(24, 20, 27, 0.3) 0%, #18141B 32.81%, #18141B 66.67%, rgba(24, 20, 27, 0.3) 100%);
 }

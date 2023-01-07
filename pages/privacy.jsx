@@ -1,7 +1,7 @@
 import { ButtonMailto } from "../components/icons/Link";
 import Image from "next/image";
 import Link from "next/link";
-import { Navbar, Footer } from "../components";
+import { Navbar, Footer, ScrollToTop } from "../components";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
@@ -80,7 +80,7 @@ const Privacy = () => {
         getRectTop(footer) + document.body.scrollTop - 10
       ) {
         float.style.bottom = `${footer.scrollHeight + 70}px`;
-        float.style.top="unset";
+        float.style.top = "unset";
       }
       if (
         document.body.scrollTop + window.innerHeight <
@@ -223,7 +223,10 @@ const Privacy = () => {
             {router.locale !== "tw" && "."} {t("privacy_9_desc_3")}
           </p>
         </div>
-        <div className="md:col-span-3 hidden md:block fixed top-[144px] right-6 xl:right-40" id="float">
+        <div
+          className="md:col-span-3 hidden md:block fixed top-[144px] right-6 xl:right-40"
+          id="float"
+        >
           <div className="bg-invar-dark px-6 pt-6 pb-3 rounded text-invar-light-grey">
             {titleList.map((item, index) => (
               <div key={index} className="pb-3 hover:underline" id={item.id}>
@@ -241,8 +244,10 @@ const Privacy = () => {
           </div>
         </div>
       </div>
+      <ScrollToTop />
+
       <div id="footer">
-      <Footer />
+        <Footer />
       </div>
     </div>
   );

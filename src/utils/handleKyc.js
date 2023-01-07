@@ -2,7 +2,7 @@ import fetch from "isomorphic-unfetch";  //used for SSR
 import { createUser } from "../../src/utils/storeFirebase";
 
 export const handleKyc = async (formdata) => {
-  const { selectIDtype, selectCountryRegion, inputName, selectDate, inputIDnumber } = formdata
+  const { selectIDtype, selectCountryRegion, inputName, selectDate, inputIDnumber,language } = formdata
   let kycURL
   //kryptogo 會檢查url是可行的，所以用localhost測試會失敗，實際部署後沒問題。
   let origin = window.location.origin
@@ -21,8 +21,8 @@ export const handleKyc = async (formdata) => {
     "customer_reference": "000000123",
     "auto_create_dd_task": false,
     "dd_task_callback_url": originString + "/api/callback",
+    "language":language
   });
-  console.log(data)
 
   try {
     const resData = await fetch("/api/cors?url=https://external-api.kryptogo.com/idv/init"
@@ -37,11 +37,11 @@ export const handleKyc = async (formdata) => {
     );
 
     const resText = await resData.text();  //.text()!==.toString(), .text() invokes body text.
-    console.log("domain:", window.location.href)
+    console.log("testdomain:", window.location.href)
     // console.log("req body data:", data)
-    // console.log("resDATA:",resData)
-    console.log("resTEXT:", resText)
-    console.log("resTEXTJSON:", JSON.parse(resText))
+    console.log("test1resDATA:",resData)
+    console.log("test1resTEXT:", resText)
+    console.log("test1lastresTEXTJSON:", JSON.parse(resText))
     // console.log("resDATAJSON:", JSON.parse(resData))   //fail
 
     const resJSON = JSON.parse(resText)

@@ -25,10 +25,11 @@ module.exports = {
         'invar-validation': '#FFC25F',
         'invar-error': '#F04679',
         'invar-success': '#00DEAE',
-        'B4B7C0':"B4B7C0;"
+        'B4B7C0': "B4B7C0;"
       },
       spacing: {
         '960': '240rem',
+        '100': '25rem',
       },
       keyframes: {
         'fade-in-down': {
@@ -70,10 +71,10 @@ module.exports = {
       screens: {
         'tablet': '640px',
         // => @media (min-width: 640px) { ... }
-  
+
         'laptop': '1024px',
         // => @media (min-width: 1024px) { ... }
-  
+
         'desktop': '1400px',
         // => @media (min-width: 1280px) { ... }
       },

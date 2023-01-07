@@ -168,7 +168,7 @@
   "connectwallet_mywallet": "My Wallet",
   "connectwallet_disconnect": "取消連結",
 
-  "dashbaord_activity_searchbar_nft_item": "Item",
+  "dashbaord_activity_searchbar_nft_item": "項目",
   "dashbaord_activity_searchbar_nft_all": "All",
   "dashbaord_activity_searchbar_type_minting": "鑄造",
   "dashbaord_activity_searchbar_type_whitelist": "白名單",
@@ -179,5 +179,8 @@
   "NFT": "NFT",
   "marketplace": "市場",
 
-  "Rejected": "拒絕"
+  "Rejected": "拒絕",
+  "staking-redemption-no-data":"無查詢紀錄",
+  "loading":"載入中"
+
 }

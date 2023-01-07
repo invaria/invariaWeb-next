@@ -5,6 +5,7 @@ import {
   useNetwork,
   useAddress,
   useDisconnect,
+  ChainId,
 } from "@thirdweb-dev/react";
 import { shortenAddress } from "../src/utils/shortenAddress";
 import {
@@ -12,10 +13,9 @@ import {
   addTokenFunction,
 } from "../src/utils/web3utils";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 
-let pervState = [];
-
-const ModalWallet = () => {
+const ModalWallet = ({ SFTDemo }) => {
   const connectWithMetamask = useMetamask();
   const connectWithWalletConnect = useWalletConnect();
   const disconnectWallet = useDisconnect();
@@ -23,9 +23,12 @@ const ModalWallet = () => {
   const [usdcBalance, setUsdcBalance] = useState(0);
   const address = useAddress();
   const network = useNetwork();
+  const isGoerli = network[0]?.data?.chain?.name == "Goerli";
+  const [, switchNetwork] = useNetwork();
   const [getCoinPrice, setgetCoinPrice] = useState();
   const { t } = useTranslation("common");
-
+  const router=useRouter();
+const path=router.pathname;
   useEffect(() => {
     if (typeof window !== "undefined" && network[0].data.chain !== undefined) {
       // // 當scroll時，不知為何network == undefined
@@ -125,7 +128,7 @@ const ModalWallet = () => {
                 <span className=" flex flex-col justify-center items-end text-white font-semibold">
                   <p>{ethBalance}</p>
                   <p className=" text-sm font-normal text-neutral">
-                    ${(ethBalance * getCoinPrice?.ethereum.usd).toFixed(3)} USD
+                    ${(ethBalance * getCoinPrice?.ethereum?.usd).toFixed(3)} USD
                   </p>
                 </span>
               </div>
@@ -158,11 +161,23 @@ const ModalWallet = () => {
                   Add Token
                 </button>
               </div>
+              {!isGoerli &&path=="/sftdemo"&& address && <button
+                className="btn relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case bg-invar-error"
+                onClick={() => switchNetwork(ChainId.Goerli)}
+              >
+                <p className=" font-semibold text-white">{t("click_switch")}</p>
+              </button>}
+              {!network[0]?.data?.chain?.name?.includes("Mainnet") &&path!=="/sftdemo"&& address && <button
+                className="btn relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case bg-invar-error"
+                onClick={() => switchNetwork(ChainId.Mainnet)}
+              >
+                <p className=" font-semibold text-white">{t("click_eth")}</p>
+              </button>}
               <button
-                className="btn btn-primary relative w-[327px] h-[56px] mt-[14px] rounded flex justify-center items-center border-none normal-case"
+                className="btn btn-primary relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case"
                 onClick={disconnectWallet}
               >
-                <p className=" font-semibold text-accent">{t("disconnect")}</p>
+                <p className=" font-semibold text-white">{t("disconnect")}</p>
               </button>
             </label>
           </label>

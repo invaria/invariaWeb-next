@@ -14,7 +14,7 @@ import { Link as ScrollLink } from "react-scroll";
 const Footer = ({ c }) => {
   const { t } = useTranslation("common");
   return (
-    <footer id="footer" className={`${styles.footer} relative z-20`}>
+    <footer id="footer" className={`${styles.footer} relative`}>
       <div className={styles.footerContent}>
         <div className={styles.footerLeft}>
           <div className={styles.winnerBtn}>
@@ -44,6 +44,7 @@ const Footer = ({ c }) => {
             >
               <li>Audit </li>
             </a>
+    
             {/* <ScrollLink
                     activeClass="active"
                     offset={-100}
@@ -52,7 +53,7 @@ const Footer = ({ c }) => {
                     to="faq"
                   > */}
             <Link href="invaria2222#faqoutside">
-              <li>FAQ & Tutorials</li>
+              <li> Learn</li>
             </Link>
             {/* </ScrollLink> */}
             <Link href="/privacy">
@@ -65,6 +66,16 @@ const Footer = ({ c }) => {
         </div>
         <div className={styles.footerRight}>
           <div className={styles.footerIconCont}>
+          <a
+              href="https://defillama.com/protocol/invar-finance"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <div className={styles.footerIcon}>
+                <Image src={'/ic_defi.png'} width={22} height={22} />
+              </div>
+            </a>
+
             <a
               href="https://www.youtube.com/channel/UCE6nLXvFjITq0IAsXipnkqQ"
               rel="noopener noreferrer"
