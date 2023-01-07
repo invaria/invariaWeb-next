@@ -5,7 +5,7 @@ import { appWithTranslation } from "next-i18next";
 import { MusicProvider } from "../context/music-context"
 
 export const desiredChainId = ChainId.Mainnet
-//export const desiredChainId = ChainId.Goerli;
+export const desiredChainId = ChainId.Goerli;
 
 // export const AppContext = createContext();
 
