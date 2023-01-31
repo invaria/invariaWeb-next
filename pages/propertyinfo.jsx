@@ -405,7 +405,7 @@ const PropertyInfo = () => {
                 )}
               </div>
 
-              {!isCorrectNetwork && isGoerli && (
+              { process.env.PRODUCTION === "true"&&network[0]?.data?.chain?.name !== "Ethereum Mainnet" && (
                 <>
                   <p className="font-normal text-base leading-6 text-center text-white mt-28 mb-12">
                     Wrong Network!
@@ -468,7 +468,7 @@ const PropertyInfo = () => {
                 </>
               )}
 
-              {!isCorrectNetwork && isMainnet && (
+              {process.env.PRODUCTION === "false"&&network[0]?.data?.chain?.name !== "Goerli" && (
                 <>
                   <p className="font-normal text-base leading-6 text-center text-white mt-28 mb-12">
                     Wrong Network!
