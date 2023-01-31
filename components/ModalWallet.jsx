@@ -27,8 +27,8 @@ const ModalWallet = ({ SFTDemo }) => {
   const [, switchNetwork] = useNetwork();
   const [getCoinPrice, setgetCoinPrice] = useState();
   const { t } = useTranslation("common");
-  const router=useRouter();
-const path=router.pathname;
+  const router = useRouter();
+  const path = router.pathname;
   useEffect(() => {
     if (typeof window !== "undefined" && network[0].data.chain !== undefined) {
       // // 當scroll時，不知為何network == undefined
@@ -161,18 +161,29 @@ const path=router.pathname;
                   Add Token
                 </button>
               </div>
-              {!isGoerli &&path=="/sftdemo"&& address && <button
-                className="btn relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case bg-invar-error"
-                onClick={() => switchNetwork(ChainId.Goerli)}
-              >
-                <p className=" font-semibold text-white">{t("click_switch")}</p>
-              </button>}
-              {!network[0]?.data?.chain?.name?.includes("Mainnet") &&path!=="/sftdemo"&& address && <button
-                className="btn relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case bg-invar-error"
-                onClick={() => switchNetwork(ChainId.Mainnet)}
-              >
-                <p className=" font-semibold text-white">{t("click_eth")}</p>
-              </button>}
+              {!isGoerli && path == "/sftdemo" && address && (
+                <button
+                  className="btn relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case bg-invar-error"
+                  onClick={() => switchNetwork(ChainId.Goerli)}
+                >
+                  <p className=" font-semibold text-white">
+                    {t("click_switch")}
+                  </p>
+                </button>
+              )}
+            
+              {network[0]?.data?.chain?.id!=1 &&
+                path !== "/sftdemo" &&
+                address && (
+                  <button
+                    className="btn relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case bg-invar-error"
+                    onClick={() => switchNetwork(ChainId.Mainnet)}
+                  >
+                    <p className=" font-semibold text-white">
+                      {t("click_eth")}
+                    </p>
+                  </button>
+                )}
               <button
                 className="btn btn-primary relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case"
                 onClick={disconnectWallet}

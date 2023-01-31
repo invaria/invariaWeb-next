@@ -135,6 +135,7 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
   }, [toggleMenu]);
   return (
     <>
+    {console.log("currentNetwork",typeof(network[0]?.data?.chain?.id))}
       <nav
         className={`fixed flex items-center justify-between w-full h-[3.75rem] bg-invar-dark md:h-[5rem] z-50
         ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}
@@ -269,7 +270,7 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                     <img src="/icons/ic_warning.svg" className="ml-1" alt="" />
                   )}
                   {!SFTDemo &&
-                    !network[0]?.data?.chain?.name?.includes("Mainnet") && (
+                    network[0]?.data?.chain?.id!=1&& (
                       <img
                         src="/icons/ic_warning.svg"
                         className="ml-1"
@@ -521,7 +522,7 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                     </p>
                   </button>
                 )}
-                {!network[0]?.data?.chain?.name?.includes("Mainnet") &&
+                {network[0]?.data?.chain?.id!=1 &&
                   !SFTDemo &&
                   address && (
                     <button
