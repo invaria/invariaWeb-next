@@ -183,7 +183,7 @@ body {
 
 body::after {
   display: none;
-  content: url("../assets/images/circle_hover.png") url("../assets/images/labs_hover.png") url("../assets/images/flowBay_hover.png") url("../assets/images/headDao_hover.png") url("../assets/images/hashEx_hover.png") url("../assets/images/kryptoGO_hover.png") url("../assets/images/ceres_hover.png") url("../assets/images/router_hover.png");
+  content: url("../public/v2imgs/circle_hover.png") url("../public/v2imgs/labs_hover.png") url("../public/v2imgs/flowBay_hover.png") url("../public/v2imgs/headDao_hover.png") url("../public/v2imgs/hashEx_hover.png") url("../public/v2imgs/kryptoGO_hover.png") url("../public/v2imgs/ceres_hover.png") url("../public/v2imgs/router_hover.png");
 }
 
 a {
@@ -270,4 +270,10 @@ input[type="date"]:focus::before {
 .empty-date input[type="date"]:disabled::before {
   content: attr(data-placeholder);
   width: 100%;
+}
+.page-bg{
+  background: linear-gradient(180deg, #44334C 0%, #1E1722 100%);
+}
+.tvl-bg{
+  background: linear-gradient(101.67deg, rgba(24, 20, 27, 0.3) 0%, #18141B 32.81%, #18141B 66.67%, rgba(24, 20, 27, 0.3) 100%);
 }

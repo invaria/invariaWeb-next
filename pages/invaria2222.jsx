@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Twitter, Discord } from "../components/icons/Link";
 import { ScrollToTop, Footer, Navbar } from "../components";
@@ -9,22 +9,22 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Link as ScrollLink } from "react-scroll";
 
-import explore from "../assets/images/explore.png";
-import exploreTW from "../assets/images/explore_tw.png";
 import styles from "../styles/Home.module.css";
 
 import CollapseMenu from "../components/CollapseMenu";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useAddress } from "@thirdweb-dev/react";
-import MobileWalletConnect from "../components/MobileWalletConnect";
+import axios from "axios";
+import { Dialog, Slide } from "@mui/material";
+import { ModalContext } from "../context/Modals-context";
 
 export const endtimestamp = 1664582400000;
 
-const typewriterTW =
-  "資產碎片化 NFT 如何運用、與資產價值連結變成後續的問題，部落正在研擬解決方案…財務工程師多雷米拉提出將 Amwaj20 資產統一由專業領袖管理，並將產出的價值分配給 NFT 持有者；而持有者可以通過協議質押 NFT 獲取對應的價值。";
-const typewriterEN =
-  "How to utilize the NFT, which is a fractionalization of the property, and the correlated values attribute to it have become follow-up concerns. The tribe is working on a solution... Dyoremira, a financial engineer, proposed to unify the management of Amwaj20 to professional leaders for creating stable returns, and distribute the consecutive values to NFT holders; holders are allowed to stake NFT through the protocol to obtain the corresponding values.";
+// const typewriterTW =
+//   "資產碎片化 NFT 如何運用、與資產價值連結變成後續的問題，部落正在研擬解決方案…財務工程師多雷米拉提出將 Amwaj20 資產統一由專業領袖管理，並將產出的價值分配給 NFT 持有者；而持有者可以通過協議質押 NFT 獲取對應的價值。";
+// const typewriterEN =
+//   "How to utilize the NFT, which is a fractionalization of the property, and the correlated values attribute to it have become follow-up concerns. The tribe is working on a solution... Dyoremira, a financial engineer, proposed to unify the management of Amwaj20 to professional leaders for creating stable returns, and distribute the consecutive values to NFT holders; holders are allowed to stake NFT through the protocol to obtain the corresponding values.";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -43,9 +43,14 @@ export async function getStaticProps({ locale }) {
 
 function App() {
   const [headerBackground, setHeaderBackground] = useState(false);
+  const [currentTVL, setCurrentTVL] = useState("");
+  const [interestAccured, setInterestAccured] = useState("");
+
   const [toggleWallet, setToggleWallet] = useState(false);
   const { t } = useTranslation(["index", "storyline", "common"]);
   const [origin, setorigin] = useState();
+  const modals = useContext(ModalContext);
+
   const router = useRouter();
   const address = useAddress();
   useEffect(() => {
@@ -80,7 +85,27 @@ function App() {
   // }, [router.locale]);
   useEffect(() => {
     if (!address && toggleWallet) setToggleWallet(false);
-  }, [address]);
+    if (!currentTVL) {
+      axios
+        .get("https://api.llama.fi/tvl/invar-finance")
+        .then((response) => {
+          console.log("currentTVL", response.data);
+          setCurrentTVL(response.data);
+        })
+        .catch((e) => console.log(e));
+
+      axios
+        .get(
+          "https://us-central1-invaria2222.cloudfunctions.net/total-interest-accrued"
+        )
+        .then((response) => {
+          console.log("interestaccured", response.data.totalInterestAccrued);
+          setInterestAccured(Number(response.data.totalInterestAccrued));
+        })
+        .catch((e) => console.log(e));
+    }
+  }, []);
+
   return (
     <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
       <Navbar headerBackground={headerBackground} />
@@ -95,7 +120,7 @@ function App() {
       )}
       {!address && toggleWallet && <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />} */}
       <div className="w-full flex flex-col justify-center items-center h-0 ">
-        <label
+        {/* <label
           htmlFor="my-modal-1"
           onClick={() => disableScroll()}
           className="btn modal-button w-[183px] md:w-min btnShadow bg-white 
@@ -103,8 +128,8 @@ function App() {
       top-[188px] md:top-[408px] md:left-[245px] z-[21] normal-case border-none md:hidden"
         >
           Storyline
-        </label>
-        <ScrollLink
+        </label> */}
+        {/* <ScrollLink
           activeClass="active"
           offset={-100}
           smooth
@@ -115,47 +140,64 @@ function App() {
     absolute top-[236px] md:top-[232px] md:right-1/2 normal-case border-none z-20 md:hidden"
         >
           <p>Mindmap</p>
-        </ScrollLink>
+        </ScrollLink> */}
 
-        <ScrollLink
-          activeClass="active"
-          offset={-100}
-          smooth
-          spy
-          to="faq"
-          className="btn w-[183px] md:w-max btnShadow bg-white 
+        <Link href="/media">
+          <p
+            className="btn w-[183px] md:w-max btnShadow bg-white 
     opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[300px] md:top-[280px] md:right-1/4 normal-case border-none z-20 md:hidden"
-        >
-          <p>FAQ & Tutorials</p>
-        </ScrollLink>
-        <label
-          htmlFor="property-modal"
-          onClick={() => disableScroll()}
+    rounded absolute top-[184px] md:top-[280px] md:right-1/4 normal-case border-none z-20 md:hidden"
+          >
+            News
+          </p>
+        </Link>
+
+        <Link href="invaria2222#faqoutside">
+        <div
+          // htmlFor="property-modal"
+          // onClick={() => disableScroll()}
+          // onClick={() => modals.setPropertyModal(true)}
           className=" md:hidden btn modal-button w-[183px] md:w-max btnShadow bg-white 
     opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 "
+    rounded absolute top-[248px] md:top-[280px] md:right-1/4 normal-case border-none z-20 "
         >
-          {t("property_infos")}
-        </label>
-        {Date.now() >= 1665936000000 && (
-          <label
-            htmlFor="premint-modal"
-            onClick={() => disableScroll()}
+          {t("Learn")}
+        </div>
+        </Link>
+        {/* {Date.now() >= 1665936000000 && (
+          <div
+            onClick={() => modals.setPremintModal(true)}
             className="btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
     opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[428px] md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 "
+    rounded absolute top-[312px] md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 "
           >
             {t("public_sale")}
-          </label>
-        )}
+          </div>
+        )} */}
+
+<Link href='/rwa-reflector' >
+          <div
+            className="btn modal-button w-[183px] md:w-max btnShadow bg-white
+    opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
+    rounded absolute top-[312px] md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 "
+          >
+            {t("RWA REFLECTOR")}
+          </div>
+          </Link>
 
         <div
-        onClick={()=>router.push('/sftdemo')}
-          className=" z-20 absolute top-[508px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-[#FFC25F] opacity-90 hover:bg-[#FFC25F] hover:opacity-100
+          onClick={() => router.push("/sftdemo")}
+          className="mt-4 z-20 absolute top-[376px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-[#FFC25F] opacity-80 hover:bg-[#FFC25F] hover:opacity-100
       rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden"
         >
           <div className=" text-sm ">SFT Demo</div>
+        </div>
+        <div
+          onClick={() => modals.setPassNFTModal(true)}
+          className="mt-4 z-20 absolute top-[440px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-white hover:bg-white opacity-80  hover:opacity-100
+      rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden"
+        >
+          <div className=" text-sm ">PASS: InVariant</div>
         </div>
       </div>
 
@@ -188,8 +230,9 @@ function App() {
     alt="bg"
   /> */}
         <label
-          htmlFor="property-modal"
-          onClick={() => disableScroll()}
+          // htmlFor="property-modal"
+          // onClick={() => disableScroll()}
+          onClick={() => modals.setPropertyModal(true)}
           className=" hidden z-10 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[62%] right-[51%] md:flex justify-end items-start"
         >
           <div className=" hidden md:flex justify-center items-center z-10">
@@ -221,19 +264,23 @@ function App() {
             <div className="z-10 hover:cursor-pointer absolute top-[47%] lg:right-[55%] right-[57%] hidden md:flex w-14 h-24"></div>
           </Link>
         </div>
-        {Date.now() >= 1665936000000 && (
-          <div className="absolute top-[57%] right-[53%] hidden md:flex">
-            <label
-              htmlFor="premint-modal"
-              onClick={() => disableScroll()}
+        {/* {Date.now() >= 1665936000000 && (
+          <div className="absolute top-[72%] lg:right-[75%] right-[83%] hidden md:flex">
+            <div
+              onClick={() => modals.setPremintModal(true)}
               className="btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
     opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded  normal-case border-none z-20 relative left-40 top-12"
+    rounded  normal-case border-none z-20 relative left-[9rem] top-7"
             >
               {t("public_sale")}
-            </label>
+            </div>
           </div>
-        )}
+        )} */}
+        <Link href="/rwa-reflector">
+          <div className=" z-10 w-[154px] h-10 bg-white text-info top-[54%] right-[39%] absolute rounded md:flex items-center justify-center font-semibold text-sm leading-6 btn modal-bottom btnShadow  opacity-80 border-none hover:bg-white hover:opacity-100 hidden">
+            RWA REFLECTOR
+          </div>
+        </Link>
         <div className="mt-[88px]  hidden absolute top-0 left-[24px] md:flex flex-row items-start justify-start h-[592px] w-[300px] text-white indent-0.5 font-normal text-sm z-10 animate-fade-in-down">
           <div className="flex flex-col items-center justify-center mr-3 ">
             <span className="flex h-3 w-3 justify-center items-center">
@@ -242,27 +289,48 @@ function App() {
             </span>
             <div className="h-[540px] w-[1px] border-l bg-white -mt-1 z-0"></div>
           </div>
-          {t("storyline_popup_story6", { ns: "storyline" })}
+          {t("storyline_popup_story7", { ns: "storyline" })}
         </div>
-
-        {/* <div className=" hidden absolute bottom-0 left-0 right-0 z-10 md:flex justify-center items-center">
+        {/* 
+        <div className=" hidden absolute bottom-0 left-0 right-0 z-10 md:flex justify-center items-center">
     <div
       style={{ height: router.locale === 'en' ? "145px" : "99px" }}
       className=" flex justify-start items-start text-start w-[826px] m-6 p-6 px-[87px] bg-invar-main-purple 
       bg-opacity-60 text-white text-sm font-normal leading-[19.6px] rounded-lg animate-fade-in-up"
     >
       <div className="text-start flex justify-start" id="typeWriter">
-        <Typewriter
-            options={{
-              delay: 10,
-            }}
-            onInit={(typewriter) => {
-              typewriter.pauseFor(1000).typeString(t("homepage_dialog_woman5")).start();
-            }}
-          />
+   
       </div>
     </div>
   </div> */}
+        {router.locale === "en" && (
+          <h3 className="font-semibold md:text-[56px] md:leading-[61px] text-[26px] leading-7 text-invar-dark absolute bottom-[86px] right-6 z-10 text-right">
+            {t("bring")}
+            <br />
+            {t("real_world_asset")}
+            <br />
+            {t("generate")}
+            <br />
+            {t("real_value")}
+          </h3>
+        )}
+        {router.locale === "tw" && (
+          <h3 className="font-semibold md:text-[56px] md:leading-[61px] text-2xl leading-7 text-invar-dark absolute bottom-[86px] right-6 z-10 text-right">
+            通過 現實世界資產，
+            <br />
+            創造 真實價值
+          </h3>
+        )}
+
+        <div
+          onClick={() => modals.setPassNFTModal(true)}
+          className=" hidden z-10 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[81%] right-[55%] lg:right-[56%] md:right-[58%] md:flex justify-end items-start"
+        >
+          <div className=" hidden md:flex justify-center items-center z-10">
+            <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
+          </div>
+        </div>
 
         <div className="m-6 flex justify-between absolute bottom-[0px] right-0 z-20">
           <Twitter />
@@ -289,6 +357,213 @@ function App() {
           </div>
         </div>
       </div> */}
+      <div className="tvl-bg ">
+        <div className="relative mx-auto max-w-[1112px] lg:h-[265px] h-[380px] w-full px-4 lg:pt-6 pt-4 lg:pb-7 pb-4 ">
+          <div className="hidden lg:flex">
+            <div className="flex items-center border border-[#413148] flex-1 relative">
+              <Link href="/propertyinfo">
+                <label
+                  // htmlFor="property-modal"
+                  // onClick={() => disableScroll()}
+                  // onClick={() => modals.setPropertyModal(true)}
+                  className="w-full h-full top-0 right-0 absolute cursor-pointer z-[1]"
+                ></label>
+              </Link>
+              <div className="w-6 h-[109px] bg-invar-success roounded mr-6 hidden lg:block"></div>
+              <div className="w-[89px] h-[91px] mr-4 ">
+                <Image width={89} height={91} src="/amwaj-sm.png" />
+              </div>
+              <div className="flex justify-between items-center lg:mr-12 flex-1 lg:flex-row flex-col">
+                <div>
+                  <h6 className="font-normal text-sm leading-5 text-white mb-0.5">
+                    {t("b_real_estate")}
+                  </h6>
+                  <p className="font-semibold text-2xl leading-7">Amwaj20</p>
+                </div>
+                <div>
+                  <h6 className="font-normal text-sm leading-5 text-white mb-0.5">
+                    {t("est_apr")}
+                  </h6>
+                  <p className="font-semibold text-2xl leading-7">12%</p>
+                </div>
+                <div>
+                  <h6 className="font-normal text-sm leading-5 text-white mb-0.5">
+                    {t("token_val")}
+                  </h6>
+                  <p className="font-semibold text-2xl leading-7">
+                    $20,000,000
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="border border-[#413148] rounded ml-6 lg:flex items-center hidden">
+              <div className="w-6 h-[109px] bg-[#646A79] roounded mr-6 relative"></div>
+              <div className="w-[89px] h-[91px]  border border-[#646A79] mr-4 relative">
+                <span className="w-[23px] h-[1px] absolute top-1/2 right-1/2 bg-[#646A79] translate-y-1/2 translate-x-1/2"></span>
+                <span className="w-[1px] h-[23px] absolute top-[26%] right-1/2 bg-[#646A79] translate-y-1/2 translate-x-1/2"></span>
+              </div>
+              <div className="mr-4">
+                <p className="font-normal text-sm leading-5 text-invar-grey">
+                  {t("developing")}
+                </p>
+                <p className="font-semibold text-2xl leading-7 text-invar-grey">
+                  ...
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:flex justify-between mt-1 hidden ml-[50px] mr-10 lg:mt-7">
+            <div className="my-auto md:flex-col flex-row flex">
+              <p
+                className={`font-semibold text-2xl leading-7 md:mr-0 sm:mr-5 mr-4`}
+              >
+                {t("curr_tvl")}
+              </p>
+              <p className="font-semibold text-[44px] leading-[52px]">
+                {currentTVL
+                  .toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  })
+                  .slice(0, -3)}
+              </p>
+            </div>
+
+            <div className="my-auto md:flex-col flex-row flex">
+              <p
+                className={`font-semibold text-2xl leading-7 md:mr-0 sm:mr-5 mr-4`}
+              >
+                {t("interest_accured")}
+              </p>
+              <p className="font-semibold text-[44px] leading-[52px]">
+                {
+                  interestAccured.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }) //("en-US", {
+                  //   style: "currency",
+                  //   currency: "USD",
+                  //   maximumSignificantDigits: 3
+
+                  //.slice(0, -3)
+                }
+              </p>
+            </div>
+
+            <div className="flex items-end relative top-2">
+              <a
+                href="https://defillama.com/protocol/invar-finance"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  src="/bg/lama.png"
+                  width={130}
+                  height={101}
+                  alt="lama-img"
+                />
+              </a>
+              <span className="mb-5 text-[#E3D5FA] text-base font-normal rotate-[7.6deg]">
+                We’re in
+                <br />
+                DefiLlama
+              </span>
+            </div>
+          </div>
+
+          <div className="lg:hidden border border-[#413148] rounded mb-[18px]">
+            <div className="h-3 w-full rounded bg-invar-success"></div>
+            <div className="flex px-4 relative">
+              <Link href="/propertyinfo">
+                <label
+                  // htmlFor="property-modal"
+                  // onClick={() => disableScroll()}
+                  // onClick={() => modals.setPropertyModal(true)}
+                  className="w-full h-full top-0 right-0 absolute cursor-pointer z-[1]"
+                ></label>
+              </Link>
+
+              <div className="w-[122px] h-[125px] mr-4 mt-2.5 mb-6">
+                <Image width={122} height={125} src="/amwaj-sm.png" />
+              </div>
+              <div>
+                <h6 className="font-normal text-xs leading-4 mt-1">
+                  {t("b_real_estate")}
+                </h6>
+                <p className="font-semibold text-xl leading-6 mb-1">Amwaj20</p>
+                <h6 className="font-normal text-xs leading-4">
+                  {t("est_apr")}
+                </h6>
+                <p className="font-semibold text-xl leading-6 mb-1">12%</p>
+
+                <h6 className="font-normal text-xs leading-4">
+                  {t("token_val")}
+                </h6>
+                <p className="font-semibold text-xl leading-6 mb-1">
+                  $20,000,000
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="border-t border-l border-r border-[#413148] rounded h-9 flex items-center justify-center text-invar-grey font-normal text-sm leading-5 lg:hidden">
+            <span>...</span>
+          </div>
+          <div className="px-4 relative bottom-4 lg:hidden">
+            <div className="flex justify-between">
+              <p className="font-semibold text-[19px] leading-10">
+                {t("curr_tvl")}
+              </p>
+              <p className="font-semibold text-[30px] leading-[38px]">
+                {currentTVL
+                  .toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  })
+                  .slice(0, -3)}
+              </p>
+            </div>
+            <div className="flex justify-between">
+              <p className="font-semibold text-[19px] leading-10">
+                {t("interest_accured")}
+              </p>
+              <p className="font-semibold text-[30px] leading-[38px]">
+                {
+                  interestAccured.toLocaleString("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }) //("en-US", {
+                  //console.log(number.toLocaleString('en-US', { style: 'currency', currency: 'USD' }))
+
+                  //.slice(0, -3)
+                }
+              </p>
+            </div>
+            <div className="relative bottom-2">
+              <div className="flex items-start justify-center ">
+                <a
+                  href="https://defillama.com/protocol/invar-finance"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <img
+                    src="/bg/lama.png"
+                    width={116}
+                    height={75}
+                    alt="lama-img"
+                    className="relative bottom-1"
+                  />
+                </a>
+                <span className="mt-5 text-[#E3D5FA] text-base font-normal rotate-[7.6deg]">
+                  We’re in
+                  <br />
+                  DefiLlama
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className={styles.firstHalfbg}>
         <section className={`${styles.introSection} ${styles.sidesSpacing}`}>
@@ -305,7 +580,7 @@ function App() {
             <div className={styles.exploreRight}>
               <div className="relative">
                 <Image
-                  src={router.locale === "tw" ? exploreTW : explore}
+                  src={router.locale === "tw" ? "/v2imgs/explore_tw.png" : "/v2imgs/explore.png"}
                   width={558}
                   height={448}
                 />
@@ -332,6 +607,67 @@ function App() {
             </div>
           </div>
         </section>
+
+        <section className=" hidden md:flex mini-modal-section max-w-[1270px] m-auto px-5 w-full mt-10 mb-20">
+          <div className="w-[63.7%] relative flex items-center">
+            <Image src="/mini-modal.png" width={785} height={413} />
+          </div>
+          <div
+            className={`flex-1  ${
+              router.locale == "tw"
+                ? "max-w-[364px] min-w-[364px] mt-12"
+                : "min-w-[350px] mt-8"
+            }`}
+          >
+            <h3
+              className={`font-semibold text-[32px] leading-[38px] ${
+                router.locale === "tw" && "ml-[52px]"
+              }`}
+            >
+              {t("trust_minimized")}
+            </h3>
+            <div className="mt-9 ml-[52px] font-normal text-base leading-6">
+              <p className="mb-10">{t("invaria_open_platform")}</p>
+              <p>{t("trust_min")}</p>
+            </div>
+          </div>
+        </section>
+        <section className="mini-modal-mob mb-10 md:hidden">
+          <h3
+            className={`font-semibold text-2xl leading-7 text-center mb-6 px-4 ${
+              router.locale === "tw" && "w-3/4 m-auto sm:block hidden"
+            }`}
+          >
+            {t("trust_minimized")}
+          </h3>
+          {router.locale === "tw" && (
+            <h3
+              className={`font-semibold text-2xl leading-7 text-center mb-6 px-4 sm:hidden text-center`}
+            >
+              信任最小化模型
+              <br />
+              促進更美好的加密世界
+            </h3>
+          )}
+          <p className="font-normal text-base leading-6 mb-6 px-4">
+            {t("invaria_open_platform")}
+          </p>
+          <div className="flex flex-col relative sm:h-auto h-[630px]">
+            <div className="w-[327px] h-[312px]">
+              <Image src="/modal-img-3.png" width={327} height={312} />
+            </div>
+            <div className="absolute w-[261px] h-[386px] left-32 top-28">
+              <Image src="/modal-img-2.png" width={261} height={386} />
+            </div>
+            <div className="w-[152px] h-[384px] relative bottom-16">
+              <Image src="/modal-img-1.png" width={152} height={384} />
+            </div>
+          </div>
+          <p className="font-normal text-base leading-6 mt-2 px-4">
+            {t("trust_min")}{" "}
+          </p>
+        </section>
+
         <span id="mindmapoutside" className="relative bottom-28"></span>
         <section
           id="mindmap"
@@ -673,6 +1009,15 @@ function App() {
               </div>
             </a>
             <a
+              href="https://cerestoken.io/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <div className={`${styles.logoCont}`}>
+                <div className={styles.logo6}></div>
+              </div>
+            </a>
+            <a
               href="https://flowbay.co/"
               rel="noopener noreferrer"
               target="_blank"
@@ -700,15 +1045,6 @@ function App() {
               </div>
             </a>
             <a
-              href="https://cerestoken.io/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div className={`${styles.logoCont}`}>
-                <div className={styles.logo6}></div>
-              </div>
-            </a>
-            <a
               href="https://www.kryptogo.com/"
               rel="noopener noreferrer"
               target="_blank"
@@ -718,12 +1054,58 @@ function App() {
               </div>
             </a>
             <a
+              href="https://www.xpacebbs.com/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <div className={`${styles.logoCont} `}>
+                <div className="flex items-center">
+                  <div className="sm:w-[150px] sm:h-[76px] w-[88px] h-[67px] bg-[url('/linkalive-black.png')] sm:hover:bg-[url('/linkalive.png')]  bg-cover" />
+                </div>
+              </div>
+            </a>
+            <a
+              href="https://twitter.com/_ORCTrade"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <div className={`${styles.logoCont} `}>
+                <div className="flex items-center">
+                  <div className="sm:w-[150px] sm:h-[76px] w-[88px] h-[67px] bg-[url('/orc-black.png')] sm:hover:bg-[url('/orc.png')]  bg-cover" />
+                </div>
+              </div>
+            </a>
+
+            <a
+              href="https://twitter.com/PlayEstates"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <div className={`${styles.logoCont} `}>
+                <div className="flex items-center">
+                  <div className="sm:w-[150px] sm:h-[110px] w-[120px] h-[74px] bg-[url('/playEstate-black.png')] sm:hover:bg-[url('/playEstate.png')]  bg-cover" />
+                </div>
+              </div>
+            </a>
+
+            <a
               href="https://www.routerprotocol.com/"
               rel="noopener noreferrer"
               target="_blank"
             >
               <div className={`${styles.logoCont}`}>
                 <div className={styles.logo8}></div>
+              </div>
+            </a>
+            <a
+              href="https://sftlabs.io/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <div className={`${styles.logoCont} `}>
+                <div className="flex items-center">
+                  <div className="sm:w-[150px] sm:h-[30px] w-[120px] h-[74px] bg-[url('/sftlabs-black.png')] sm:hover:bg-[url('/sftlabs.png')]  bg-cover" />
+                </div>
               </div>
             </a>
           </div>

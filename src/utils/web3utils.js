@@ -2,7 +2,6 @@ import axios from "axios";
 import { ethers } from "ethers";
 import erc20ABI from "./erc20ABI.json";
 import { desiredChainId } from "../../pages/_app.jsx";
-//remember to change: 1.desiredChainId 2.usdcAddress 3.nftAddress
 
 let lastTime;
 let price={
@@ -39,11 +38,29 @@ export const USDCToWEIConverter=async(usdcAmount)=>{
     const parsed=utils.parseEther(valInEth.toString());
     return parsed.toString()
 }
-export const nftAddress = process.env.NEXT_PUBLIC_NFT_ADDRESS;
-export const stakeAddress = process.env.NEXT_PUBLIC_STAKE_ADDRESS;
-export const usdcAddress = process.env.NEXT_PUBLIC_USDC_ADDRESS;
-//testUSDC 0x38eFbd7A5A03d8AC9886140Ad5b393e39c85049d  //lfg 0x002fF2aD81F0Fa36387eC6F4565B9667516C5342
-//USDC(eth) 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
+
+const PRODUCTION=process.env.PRODUCTION==="true"?true:false;
+
+let nftAddress;
+let stakeAddress;
+let usdcAddress;
+
+if(PRODUCTION){
+  nftAddress = "0x502818ec5767570F7fdEe5a568443dc792c4496b";  
+  stakeAddress="0x10a92B12Da3DEE9a3916Dbaa8F0e141a75F0712";
+  usdcAddress="0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
+}else{
+  nftAddress="0x98A107e2d232F5b1f63013b22045Eac0605ECb15";
+  stakeAddress="0x158DFe56A8c7c4d8195cbbb7070eFe515Ccefaf0";
+  usdcAddress="0x092232e8a7d6018c5a63dA113229597ce03ec0Ec";
+}
+const SFT_LOGIC="0x1F5352b46D868fb26D97213D229E97B3De65254F"
+const SFT_PUBLIC_NFT="0x5eF95B8676953076779322291a8720a923b86426"
+const SFT_ERC_20="0x6b48D3467DE7D45de55A3703D12a1005440eDc7b"
+
+
+export { nftAddress, stakeAddress, usdcAddress,SFT_LOGIC,SFT_PUBLIC_NFT,SFT_ERC_20 };
+
 const tokenSymbol = "USDC";
 const tokenDecimals = 6;
 const tokenImage =
@@ -73,32 +90,6 @@ export const addTokenFunction = async () => {
   }
 };
 
-///// checkIfWalletIsConnected /////
-// const desiredChainId = "0x1";  //mainnetChainId = "0x1"; goerliChainId = "0x4";
-/* essensial params, hooks:
-  import { useNetwork, useAddress } from "@thirdweb-dev/react";
-  let pervState = []
-  //const ..... =()=>{ .....
-      const [ethBalance, setEthBalance] = useState()
-      const [usdcBalance, setUsdcBalance] = useState()
-      const address = useAddress();
-      const network = useNetwork();
-      const [getCoinPrice, setgetCoinPrice] = useState()
-      useEffect(() => {
-        if (typeof window !== "undefined") {
-          // 當scroll時，不知為何network == undefined
-          if (network[0].data.chain == undefined) {
-            return
-          } else {
-            if (pervState[0] == network[0].data.chain.name && pervState[1] == address) return
-          }
-          pervState[0] = network[0].data.chain.name
-          pervState[1] = address
-          console.log(network[0].data.chain.name, pervState)
-          checkIfWalletIsConnected(address, setEthBalance, setUsdcBalance, setgetCoinPrice) 
-        }
-      }, [address, network])
-*/
 export const checkIfWalletIsConnected = async (address, setEthBalance, setUsdcBalance, setgetCoinPrice) => {
   const { ethereum } = window;
   //console.log("address",address);
@@ -111,12 +102,13 @@ export const checkIfWalletIsConnected = async (address, setEthBalance, setUsdcBa
   }
   let chainId = await ethereum.request({ method: 'eth_chainId' });
    console.log("Connected to chain " + chainId);
-  setEthBalance((+ethers.utils.formatEther(await signer.getBalance())).toFixed(3))
-  setgetCoinPrice(await fetchPrice("ethereum"))
+
   if (chainId.slice(2, 3) !== desiredChainId.toString()) {
     console.log("You are not connected to the desiredChainId:" + desiredChainId.toString() + "==" + chainId.slice(2, 3));
     return
   } else {
+    setEthBalance((+ethers.utils.formatEther(await signer.getBalance())).toFixed(3))
+    setgetCoinPrice(await fetchPrice("ethereum"))
     const usdcContract = new ethers.Contract(usdcAddress, erc20ABI, signer);
     const decimals = await usdcContract.decimals();
     setUsdcBalance((+(ethers.utils.formatUnits(await usdcContract.balanceOf(address), decimals))).toFixed(3))  //.toNumber()  //.toFixed(1)

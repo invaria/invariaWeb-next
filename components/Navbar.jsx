@@ -3,16 +3,11 @@ import { useRouter } from "next/router";
 import {
   useNetwork,
   useAddress,
-  useMetamask,
-  useWalletConnect,
   useDisconnect,
   ChainId,
 } from "@thirdweb-dev/react";
-import ModalStory from './ModalStory'
+import ModalStory from "./ModalStory";
 import ModalWallet from "./ModalWallet";
-import ModalProperty from './ModalProperty'
-import ModalPremint from './ModalPremint'
-import Modalappplywhite from './Modalappplywhite'
 import { shortenAddress } from "../src/utils/shortenAddress";
 import { disableScroll, enableScroll } from "../src/utils/disableScroll";
 
@@ -32,6 +27,10 @@ import { checkIfWalletIsConnected } from "../src/utils/web3utils";
 import { useContext } from "react";
 import { MusicContext } from "../context/music-context";
 import MobileWalletConnect from "./MobileWalletConnect";
+import { ModalContext } from "../context/Modals-context";
+import PropertyModal from "./PropertyModal";
+import PassNFTModal from "./PassNFTModal";
+import PremintModal from "./PremintModal";
 
 const menuStyles = {
   paddingY: "16px",
@@ -40,6 +39,12 @@ const menuStyles = {
   fontSize: "16px",
   lineHeight: "20px",
   width: "100%",
+  "&.Mui-disabled": {
+    opacity: "0.5",
+  },
+  "&.MuiButtonBase-root-MuiMenuItem-root": {
+    opacity: "0.5",
+  },
 };
 let pervState = [];
 
@@ -60,22 +65,22 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
   const [verify, setVerify] = useState(false);
 
   const musicCTX = useContext(MusicContext);
+  const modals=useContext(ModalContext)
+
   async function getdata() {
     const state = await getUser(address);
     console.log("ver state", state);
     setVerify(state);
   }
 
-  // useEffect(() => {
-  //   // if (typeof window !== "undefined") {
-  //   if (!address) return;
-  //   setToggleWallet(false);
-  //   // enableScroll();
-  //   getdata();
-
-  //   // }
-  //   return () => enableScroll();
-  // }, [address]);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+    if (!address) return;
+    setToggleWallet(false);
+    getdata();
+    }
+    return () => enableScroll();
+  }, [address]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -121,24 +126,26 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
 
   const { t } = useTranslation("common");
 
-  useEffect(()  => {
-    if(toggleMenu) document.body.style.position="fixed";
+  useEffect(() => {
+    if (toggleMenu) document.body.style.position = "fixed";
 
     return () => {
-      document.body.style.position="relative";
+      document.body.style.position = "relative";
     };
-},[toggleMenu]);
+  }, [toggleMenu]);
   return (
     <>
       <nav
         className={`fixed flex items-center justify-between w-full h-[3.75rem] bg-invar-dark md:h-[5rem] z-50
         ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}
       >
+<PropertyModal/>
+<PassNFTModal/>
+<PremintModal/>
+
         <ModalWallet SFTDemo={SFTDemo} />
+
         <ModalStory />
-        <ModalProperty />
-        <ModalPremint />
-        <Modalappplywhite />
 
         <div className="navbar w-full sticky top-0 left-0 right-0 bg-[#fff0] md:justify-center items-center h-[60px] md:h-[88px] flex">
           <div className="navbar-start flex">
@@ -149,7 +156,9 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
               <img
                 className="h-[20px] w-[20px]"
                 src={
-                  musicCTX.isMusicOn ? "/icons/ic_music.svg" : "/icons/ic_music_off.svg"
+                  musicCTX.isMusicOn
+                    ? "/icons/ic_music.svg"
+                    : "/icons/ic_music_off.svg"
                 }
                 alt=""
               />
@@ -179,6 +188,11 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
               <Link href="/media">
                 <li className="hover:underline font-semibold text-base cursor-pointer">
                   News
+                </li>
+              </Link>
+              <Link href="invaria2222#faqoutside">
+                <li className="hover:underline font-semibold text-base cursor-pointer ml-8">
+                  Learn
                 </li>
               </Link>
             </ul>
@@ -248,9 +262,20 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                 </Link>
                 <label
                   htmlFor="my-modal-4"
-                  className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
+                  className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[143px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
                 >
                   {shortenAddress(address)}
+                  {SFTDemo && !isGoerli && (
+                    <img src="/icons/ic_warning.svg" className="ml-1" alt="" />
+                  )}
+                  {!SFTDemo &&
+                    !network[0]?.data?.chain?.name?.includes("Mainnet") && (
+                      <img
+                        src="/icons/ic_warning.svg"
+                        className="ml-1"
+                        alt=""
+                      />
+                    )}
                 </label>
               </>
             )}
@@ -283,8 +308,8 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                         color: router.locale === "en" ? "white" : "#8F97A3",
                         fontWeight: router.locale === "en" ? "600" : "400",
                         "& a": {
-                          width: "100%"
-                        }
+                          width: "100%",
+                        },
                       }}
                     >
                       <Link href={router.pathname} locale="en">
@@ -299,8 +324,8 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                         color: router.locale === "tw" ? "white" : "#8F97A3",
                         fontWeight: router.locale === "tw" ? "600" : "400",
                         "& a": {
-                          width: "100%"
-                        }
+                          width: "100%",
+                        },
                       }}
                     >
                       <Link href={router.pathname} locale="tw">
@@ -318,7 +343,9 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
               <img
                 className="h-[20px] w-[20px]"
                 src={
-                  musicCTX.isMusicOn ? "/icons/ic_music.svg" : "/icons/ic_music_off.svg"
+                  musicCTX.isMusicOn
+                    ? "/icons/ic_music.svg"
+                    : "/icons/ic_music_off.svg"
                 }
                 alt=""
               />
@@ -329,28 +356,69 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
       {toggleMenu && (
         <div
           style={{ zIndex: "25" }}
-          className=" fixed top-[60px] w-full h-screen pt-[18px]  flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722] overflow-scroll pb-16"
+          className=" fixed top-[60px] w-full h-screen pt-4  flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722] overflow-scroll pb-16"
         >
-          <label htmlFor="my-modal-1" className="w-full">
-            <MenuItem sx={menuStyles}>Storyline</MenuItem>
-          </label>
+          <Link href="/dashboard">
+            <MenuItem
+              sx={{ ...menuStyles, fontSize: "20px",display:"flex",justifyContent:"space-between" }}
+              onClick={toggleDrawerHandler}
+            >
+             <div> Dashboard</div>
+             {verify == "Unverified" && (
+                      <img
+                        src="/icons/ic_warning.svg"
+                        className="ml-1"
+                        alt=""
+                      />
+                    )}
+            </MenuItem>
+          </Link>
+          <div className="px-4 w-full mb-2.5">
+            <div className=" border-b border-[#37293E] w-full"></div>
+          </div>
+          <p className="font-normal text-xs leading-4 text-neutral ml-4">
+            {t("menu")}
+          </p>
+          <Link href='/rwa-reflector' >
+          <MenuItem sx={menuStyles} onClick={toggleDrawerHandler} >
+            RWA REFLECTOR
+          </MenuItem>
+          </Link>
+          {/* <div onClick={()=>modals.setPremintModal(true)} className="w-full">
+            <MenuItem sx={{ ...menuStyles, color: "#00DEAE" }}>
+              {t("public_sale")}
+            </MenuItem>
+          </div> */}
+          <Link href={"/sftdemo"} className="w-full h-full text-[#FFC25F]">
+            <MenuItem sx={{ ...menuStyles, color: "#FFC25F" }}>
+              {" "}
+              SFT Demo
+            </MenuItem>
+          </Link>
+
           <Link href="invaria2222#mindmapoutside">
             <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
               Mindmap
             </MenuItem>
           </Link>
+          <label htmlFor="my-modal-1" className="w-full">
+            <MenuItem sx={menuStyles}>Storyline</MenuItem>
+          </label>
           <Link href="/media">
             <MenuItem sx={menuStyles}>News</MenuItem>
           </Link>
-          <label htmlFor="property-modal" className="w-full">
-            <MenuItem sx={menuStyles}>{t("property_infos")}</MenuItem>
-          </label>
 
-          <label htmlFor="premint-modal" className="w-full">
-            <MenuItem sx={{ ...menuStyles, color: "#00DEAE" }}>{t("public_sale")}</MenuItem>
-          </label>
-          <Link href={'/sftdemo'} className="w-full h-full text-[#FFC25F]">
-            <MenuItem sx={{ ...menuStyles, color: "#FFC25F" }}> SFT Demo</MenuItem></Link>
+          <MenuItem sx={menuStyles} disabled>
+            Learn
+          </MenuItem>
+
+          <div className="px-4 w-full mb-2.5">
+            <div className=" border-b border-primary w-full"></div>
+          </div>
+          <p className="font-normal text-xs leading-4 text-neutral ml-4">
+            {t("setting")}
+          </p>
+
           <Accordion
             sx={{
               backgroundColor: "transparent",
@@ -360,16 +428,19 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
             elevation={0}
           >
             <AccordionSummary>
-              <Typography sx={{ fontWeight: "600" }}> {t("language")}</Typography>
+              <Typography sx={{ fontWeight: "600" }}>
+                {" "}
+                {t("language")}
+              </Typography>
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
-                  <Link href={router.pathname} locale="en">
+                <MenuItem sx={{...menuStyles,color:router.locale==='en'?"white":"#B4B7C0"}} onClick={toggleDrawerHandler}>
+                  <Link href={router.pathname} locale="en"  >
                     English
                   </Link>
                 </MenuItem>
-                <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
+                <MenuItem sx={{...menuStyles,color:router.locale==='tw'?"white":"#B4B7C0"}} onClick={toggleDrawerHandler}>
                   <Link href={router.pathname} locale="tw">
                     繁體中文
                   </Link>
@@ -377,15 +448,11 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-          <Link href="/dashboard">
-            <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
-              Dashboard
-            </MenuItem>
-          </Link>
+
           <div className="px-4 w-full mt-4">
             {!address && (
               <button
-                className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple rounded text-center normal-case	text-white"
+                className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple rounded text-center normal-case	text-white mb-6"
                 onClick={() => setToggleWallet(true)}
               >
                 {t("connect_wallet")}
@@ -444,17 +511,31 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                   </div>
                 </div>
 
-                {!isGoerli && address && < button
-                  className="btn bg-invar-error relative w-full h-[56px] mt-5 rounded flex justify-center items-center border-none normal-case"
-                  onClick={() => switchNetwork(ChainId.Goerli)}
-                >
-                  <p className=" font-semibold text-white">
-                  {t("click_switch")}
-                  </p>
-                </button>}
+                {!isGoerli && SFTDemo && address && (
+                  <button
+                    className="btn bg-invar-error relative w-full h-[56px] mt-5 rounded flex justify-center items-center border-none normal-case"
+                    onClick={() => switchNetwork(ChainId.Goerli)}
+                  >
+                    <p className=" font-semibold text-white">
+                      {t("click_switch")}
+                    </p>
+                  </button>
+                )}
+                {!network[0]?.data?.chain?.name?.includes("Mainnet") &&
+                  !SFTDemo &&
+                  address && (
+                    <button
+                      className="btn bg-invar-error relative w-full h-[56px] mt-5 rounded flex justify-center items-center border-none normal-case"
+                      onClick={() => switchNetwork(ChainId.Mainnet)}
+                    >
+                      <p className=" font-semibold text-white">
+                        {t("click_eth")}
+                      </p>
+                    </button>
+                  )}
 
                 <button
-                  className="btn btn-primary relative w-full h-[56px] mt-[14px] rounded flex justify-center items-center border-none normal-case"
+                  className="btn btn-primary relative w-full h-[56px] mb-6 mt-[14px] rounded flex justify-center items-center border-none normal-case"
                   onClick={disconnectWallet}
                 >
                   <p className=" font-semibold text-white">
@@ -466,15 +547,13 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
             )}
           </div>
         </div>
-      )
-      }
-      {
-        toggleMenu && toggleWallet && !address && (
-          <>
-            <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />
-          </>
-        )
-      }
+      )}
+      {toggleMenu && toggleWallet && !address && (
+        <>
+          <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />
+        </>
+      )}
+
     </>
   );
 };

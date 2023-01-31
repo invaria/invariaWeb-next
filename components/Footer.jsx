@@ -2,14 +2,7 @@ import React from "react";
 import styles from "../styles/footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
-
-import youtube from "../assets/images/icons/youtube.png";
-import dots from "../assets/images/icons/dots.png";
-import twitter from "../assets/images/icons/twitter.png";
-import discord from "../assets/images/icons/discord.png";
-import email from "../assets/images/icons/email.png";
 import { useTranslation } from "next-i18next";
-import { Link as ScrollLink } from "react-scroll";
 
 const Footer = ({ c }) => {
   const { t } = useTranslation("common");
@@ -44,6 +37,7 @@ const Footer = ({ c }) => {
             >
               <li>Audit </li>
             </a>
+    
             {/* <ScrollLink
                     activeClass="active"
                     offset={-100}
@@ -52,7 +46,7 @@ const Footer = ({ c }) => {
                     to="faq"
                   > */}
             <Link href="invaria2222#faqoutside">
-              <li>FAQ & Tutorials</li>
+              <li> Learn</li>
             </Link>
             {/* </ScrollLink> */}
             <Link href="/privacy">
@@ -65,13 +59,23 @@ const Footer = ({ c }) => {
         </div>
         <div className={styles.footerRight}>
           <div className={styles.footerIconCont}>
+          <a
+              href="https://defillama.com/protocol/invar-finance"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <div className={styles.footerIcon}>
+                <img src={'/ic_defi.png'} width={22} height={22} />
+              </div>
+            </a>
+
             <a
               href="https://www.youtube.com/channel/UCE6nLXvFjITq0IAsXipnkqQ"
               rel="noopener noreferrer"
               target="_blank"
             >
               <div className={styles.footerIcon}>
-                <Image src={youtube} />
+                <img src={"/v2imgs/icons/youtube.png"} />
               </div>
             </a>
             <a
@@ -80,7 +84,7 @@ const Footer = ({ c }) => {
               target="_blank"
             >
               <div className={styles.footerIcon}>
-                <Image src={dots} />
+                <img src={"/v2imgs/icons/dots.png"} />
               </div>
             </a>
             <a
@@ -89,7 +93,7 @@ const Footer = ({ c }) => {
               target="_blank"
             >
               <div className={styles.footerIcon}>
-                <Image src={twitter} />
+                <img src={"/v2imgs/icons/twitter.png"} />
               </div>
             </a>
             <a
@@ -98,7 +102,7 @@ const Footer = ({ c }) => {
               target="_blank"
             >
               <div className={styles.footerIcon}>
-                <Image src={discord} />
+                <img src={"/v2imgs/icons/discord.png"}  />
               </div>
             </a>
 
@@ -108,7 +112,7 @@ const Footer = ({ c }) => {
               target="_blank"
             >
               <div className={styles.lastIcon}>
-                <Image src={email} />
+                <img src={"/v2imgs/icons/email.png"}/>
               </div>
             </a>
           </div>

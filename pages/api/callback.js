@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         if(!language)language="en";
 
         sgMail.setApiKey(
-          "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"
+          "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"
         ); //kyc2
         let msg;
         if (req.body.audit_status == "Pending") {
@@ -64,7 +64,7 @@ export default async function handler(req, res) {
     const {inputEmail:email} = await getUserByid("11776");
     console.log("email", email);
     sgMail.setApiKey(
-      "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"
+      "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"
     ); //kyc2
     let msg;
     // if (state == "Unverified") {

@@ -1,3026 +1,408 @@
 {
-    "abi": [
-      {
-        "inputs": [],
-        "name": "CannotMintZeroValue",
-        "type": "error"
-      },
-      {
-        "inputs": [],
-        "name": "InsufficientBalance",
-        "type": "error"
-      },
-      {
-        "inputs": [],
-        "name": "NotERC3525",
-        "type": "error"
-      },
-      {
-        "inputs": [],
-        "name": "UnderMinimumValue",
-        "type": "error"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "_to",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "enum IRLogic.Operation",
-            "name": "_operation",
-            "type": "uint8"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256[]",
-            "name": "_tokenIds",
-            "type": "uint256[]"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256[]",
-            "name": "_values",
-            "type": "uint256[]"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256[]",
-            "name": "_balances",
-            "type": "uint256[]"
-          }
-        ],
-        "name": "Claim",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256[]",
-            "name": "_sourceTokenIds",
-            "type": "uint256[]"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256[]",
-            "name": "_values",
-            "type": "uint256[]"
-          }
-        ],
-        "name": "Merge",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "name": "Mint",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "_to",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256[]",
-            "name": "_tokenIds",
-            "type": "uint256[]"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256[]",
-            "name": "_principals",
-            "type": "uint256[]"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256[]",
-            "name": "_interests",
-            "type": "uint256[]"
-          }
-        ],
-        "name": "Redeem",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "uint256",
-            "name": "_slot",
-            "type": "uint256"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "_oldValue",
-            "type": "uint256"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "_newValue",
-            "type": "uint256"
-          }
-        ],
-        "name": "SlotValueChanged",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "_fromTokenId",
-            "type": "uint256"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256[]",
-            "name": "_toTokenIds",
-            "type": "uint256[]"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256[]",
-            "name": "_splitUnits",
-            "type": "uint256[]"
-          }
-        ],
-        "name": "Split",
-        "type": "event"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "enum IRLogic.Operation",
-            "name": "_operation",
-            "type": "uint8"
-          }
-        ],
-        "name": "beforeTransfer",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "claim",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "string",
-            "name": "_category",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "_rwaName",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_rwaValue",
-            "type": "uint256"
-          }
-        ],
-        "name": "createSlot",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          }
-        ],
-        "name": "getTokensByOwner",
-        "outputs": [
-          {
-            "internalType": "uint256[]",
-            "name": "",
-            "type": "uint256[]"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256[]",
-            "name": "_sourceIds",
-            "type": "uint256[]"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_targetId",
-            "type": "uint256"
-          }
-        ],
-        "name": "merge",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_sourceId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_targetId",
-            "type": "uint256"
-          }
-        ],
-        "name": "merge",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "name": "mint",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "redeem",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256[]",
-            "name": "_tokenIds",
-            "type": "uint256[]"
-          }
-        ],
-        "name": "redeem",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "reset",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "name": "split",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256[]",
-            "name": "_values",
-            "type": "uint256[]"
-          }
-        ],
-        "name": "split",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "withdraw",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      }
-    ],
-    "bytecode": {
-      "object": "0x",
-      "sourceMap": "",
-      "linkReferences": {}
+  "abi": [
+    {
+      "inputs": [],
+      "name": "CannotMintZeroValue",
+      "type": "error"
     },
-    "deployedBytecode": {
-      "object": "0x",
-      "sourceMap": "",
-      "linkReferences": {}
+    {
+      "inputs": [],
+      "name": "InsufficientBalance",
+      "type": "error"
     },
-    "methodIdentifiers": {
-      "beforeTransfer(uint256,uint8)": "1fe99f07",
-      "claim()": "4e71d92d",
-      "createSlot(string,string,uint256)": "ab8b063c",
-      "getTokensByOwner(address)": "40398d67",
-      "merge(uint256,uint256)": "d1c2babb",
-      "merge(uint256[],uint256)": "bbe33ea5",
-      "mint(uint256)": "a0712d68",
-      "redeem(uint256)": "db006a75",
-      "redeem(uint256[])": "f9afb26a",
-      "reset()": "d826f88f",
-      "split(uint256,uint256)": "4b19becc",
-      "split(uint256,uint256[])": "69c67247",
-      "withdraw()": "3ccfd60b"
+    {
+      "inputs": [],
+      "name": "NotERC3525",
+      "type": "error"
     },
-    "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"CannotMintZeroValue\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InsufficientBalance\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"NotERC3525\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"UnderMinimumValue\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"enum IRLogic.Operation\",\"name\":\"_operation\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"uint256[]\",\"name\":\"_tokenIds\",\"type\":\"uint256[]\"},{\"indexed\":false,\"internalType\":\"uint256[]\",\"name\":\"_values\",\"type\":\"uint256[]\"},{\"indexed\":false,\"internalType\":\"uint256[]\",\"name\":\"_balances\",\"type\":\"uint256[]\"}],\"name\":\"Claim\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256[]\",\"name\":\"_sourceTokenIds\",\"type\":\"uint256[]\"},{\"indexed\":false,\"internalType\":\"uint256[]\",\"name\":\"_values\",\"type\":\"uint256[]\"}],\"name\":\"Merge\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"Mint\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256[]\",\"name\":\"_tokenIds\",\"type\":\"uint256[]\"},{\"indexed\":false,\"internalType\":\"uint256[]\",\"name\":\"_principals\",\"type\":\"uint256[]\"},{\"indexed\":false,\"internalType\":\"uint256[]\",\"name\":\"_interests\",\"type\":\"uint256[]\"}],\"name\":\"Redeem\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"_slot\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_oldValue\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_newValue\",\"type\":\"uint256\"}],\"name\":\"SlotValueChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_fromTokenId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256[]\",\"name\":\"_toTokenIds\",\"type\":\"uint256[]\"},{\"indexed\":false,\"internalType\":\"uint256[]\",\"name\":\"_splitUnits\",\"type\":\"uint256[]\"}],\"name\":\"Split\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"internalType\":\"enum IRLogic.Operation\",\"name\":\"_operation\",\"type\":\"uint8\"}],\"name\":\"beforeTransfer\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"claim\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"_category\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_rwaName\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_rwaValue\",\"type\":\"uint256\"}],\"name\":\"createSlot\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"}],\"name\":\"getTokensByOwner\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256[]\",\"name\":\"_sourceIds\",\"type\":\"uint256[]\"},{\"internalType\":\"uint256\",\"name\":\"_targetId\",\"type\":\"uint256\"}],\"name\":\"merge\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_sourceId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_targetId\",\"type\":\"uint256\"}],\"name\":\"merge\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"mint\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"redeem\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256[]\",\"name\":\"_tokenIds\",\"type\":\"uint256[]\"}],\"name\":\"redeem\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"reset\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"split\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256[]\",\"name\":\"_values\",\"type\":\"uint256[]\"}],\"name\":\"split\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"withdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"beforeTransfer(uint256,uint8)\":{\"params\":{\"_operation\":\"The operation of the tranfser(Merge / Transfer)\",\"_tokenId\":\"The token is about to transfer\"}},\"createSlot(string,string,uint256)\":{\"params\":{\"_category\":\"The RWA category\",\"_rwaName\":\"The name of RWA\",\"_rwaValue\":\"The RWA value priced by USDC\"}},\"getTokensByOwner(address)\":{\"params\":{\"_owner\":\"The owner\"},\"returns\":{\"_0\":\"The tokens that owner has\"}},\"merge(uint256,uint256)\":{\"params\":{\"_sourceId\":\"The token is about to be merged\",\"_targetId\":\"The token is about to merge\"}},\"merge(uint256[],uint256)\":{\"params\":{\"_sourceIds\":\"The tokens are about to be merged\",\"_targetId\":\"The token is about to merge\"}},\"mint(uint256)\":{\"params\":{\"_value\":\"The value that minter is desired to mint\"}},\"redeem(uint256)\":{\"params\":{\"_tokenId\":\"The token is about to redeem\"}},\"redeem(uint256[])\":{\"params\":{\"_tokenIds\":\"The tokens are about to redeem\"}},\"split(uint256,uint256)\":{\"params\":{\"_tokenId\":\"The token is about to split\",\"_value\":\"The value is splitted into new token\"}},\"split(uint256,uint256[])\":{\"params\":{\"_tokenId\":\"The token is about to split\",\"_values\":\"The values are splitted into new tokens\"}}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"beforeTransfer(uint256,uint8)\":{\"notice\":\"this function will be triggered when the token or value of    ERC-3525 is transfered, it will claim the interest\"},\"claim()\":{\"notice\":\"Claim the interest of msg.sender\"},\"createSlot(string,string,uint256)\":{\"notice\":\"Create a slot and save the asset data\"},\"getTokensByOwner(address)\":{\"notice\":\"Get all tokens owned by the owner\"},\"merge(uint256,uint256)\":{\"notice\":\"Merge two tokens into one token\"},\"merge(uint256[],uint256)\":{\"notice\":\"Merge multiple tokens into one token\"},\"mint(uint256)\":{\"notice\":\"Mint a ERC-3525 NFT for the given slot with value\"},\"redeem(uint256)\":{\"notice\":\"Redeem one token\"},\"redeem(uint256[])\":{\"notice\":\"Redeem multiple tokens at once\"},\"reset()\":{\"notice\":\"Slot owner resets all slot data and token data\"},\"split(uint256,uint256)\":{\"notice\":\"Split one token to two tokens\"},\"split(uint256,uint256[])\":{\"notice\":\"Split one token to multiple tokens\"},\"withdraw()\":{\"notice\":\"Owner withdraws test usdc\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/interfaces/IRLogic.sol\":\"IRLogic\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":ds-test/=lib/solmate/lib/ds-test/src/\",\":erc-3525/=lib/erc-3525/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/solmate/src/\"]},\"sources\":{\"src/interfaces/IRLogic.sol\":{\"keccak256\":\"0x20c6f213027096cd2623c9f8a398bc27414c6e101cf7a616516fc8e089376924\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b2343e67b90120f2fe6e141377496c325d7b3a3a5a664c4af5008aff80e128fd\",\"dweb:/ipfs/QmdmtH66VwLzpANhWkiWqZRefgqYkWH75RMbd9Yn3tyKfY\"]}},\"version\":1}",
-    "metadata": {
-      "compiler": {
-        "version": "0.8.17+commit.8df45f5f"
-      },
-      "language": "Solidity",
-      "output": {
-        "abi": [
-          {
-            "inputs": [],
-            "type": "error",
-            "name": "CannotMintZeroValue"
-          },
-          {
-            "inputs": [],
-            "type": "error",
-            "name": "InsufficientBalance"
-          },
-          {
-            "inputs": [],
-            "type": "error",
-            "name": "NotERC3525"
-          },
-          {
-            "inputs": [],
-            "type": "error",
-            "name": "UnderMinimumValue"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_to",
-                "type": "address",
-                "indexed": true
-              },
-              {
-                "internalType": "enum IRLogic.Operation",
-                "name": "_operation",
-                "type": "uint8",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "_tokenIds",
-                "type": "uint256[]",
-                "indexed": false
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "_values",
-                "type": "uint256[]",
-                "indexed": false
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "_balances",
-                "type": "uint256[]",
-                "indexed": false
-              }
-            ],
-            "type": "event",
-            "name": "Claim",
-            "anonymous": false
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256",
-                "indexed": false
-              },
-              {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256",
-                "indexed": false
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "_sourceTokenIds",
-                "type": "uint256[]",
-                "indexed": false
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "_values",
-                "type": "uint256[]",
-                "indexed": false
-              }
-            ],
-            "type": "event",
-            "name": "Merge",
-            "anonymous": false
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256",
-                "indexed": false
-              },
-              {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256",
-                "indexed": false
-              }
-            ],
-            "type": "event",
-            "name": "Mint",
-            "anonymous": false
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_to",
-                "type": "address",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "_tokenIds",
-                "type": "uint256[]",
-                "indexed": false
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "_principals",
-                "type": "uint256[]",
-                "indexed": false
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "_interests",
-                "type": "uint256[]",
-                "indexed": false
-              }
-            ],
-            "type": "event",
-            "name": "Redeem",
-            "anonymous": false
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_slot",
-                "type": "uint256",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256",
-                "name": "_oldValue",
-                "type": "uint256",
-                "indexed": false
-              },
-              {
-                "internalType": "uint256",
-                "name": "_newValue",
-                "type": "uint256",
-                "indexed": false
-              }
-            ],
-            "type": "event",
-            "name": "SlotValueChanged",
-            "anonymous": false
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256",
-                "name": "_fromTokenId",
-                "type": "uint256",
-                "indexed": false
-              },
-              {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256",
-                "indexed": false
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "_toTokenIds",
-                "type": "uint256[]",
-                "indexed": false
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "_splitUnits",
-                "type": "uint256[]",
-                "indexed": false
-              }
-            ],
-            "type": "event",
-            "name": "Split",
-            "anonymous": false
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "enum IRLogic.Operation",
-                "name": "_operation",
-                "type": "uint8"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "beforeTransfer"
-          },
-          {
-            "inputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "claim"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "string",
-                "name": "_category",
-                "type": "string"
-              },
-              {
-                "internalType": "string",
-                "name": "_rwaName",
-                "type": "string"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_rwaValue",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "createSlot"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "getTokensByOwner",
-            "outputs": [
-              {
-                "internalType": "uint256[]",
-                "name": "",
-                "type": "uint256[]"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256[]",
-                "name": "_sourceIds",
-                "type": "uint256[]"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_targetId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "merge"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_sourceId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_targetId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "merge"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "mint"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "redeem"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256[]",
-                "name": "_tokenIds",
-                "type": "uint256[]"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "redeem"
-          },
-          {
-            "inputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "reset"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "split"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256[]",
-                "name": "_values",
-                "type": "uint256[]"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "split"
-          },
-          {
-            "inputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "withdraw"
-          }
-        ],
-        "devdoc": {
-          "kind": "dev",
-          "methods": {
-            "beforeTransfer(uint256,uint8)": {
-              "params": {
-                "_operation": "The operation of the tranfser(Merge / Transfer)",
-                "_tokenId": "The token is about to transfer"
-              }
-            },
-            "createSlot(string,string,uint256)": {
-              "params": {
-                "_category": "The RWA category",
-                "_rwaName": "The name of RWA",
-                "_rwaValue": "The RWA value priced by USDC"
-              }
-            },
-            "getTokensByOwner(address)": {
-              "params": {
-                "_owner": "The owner"
-              },
-              "returns": {
-                "_0": "The tokens that owner has"
-              }
-            },
-            "merge(uint256,uint256)": {
-              "params": {
-                "_sourceId": "The token is about to be merged",
-                "_targetId": "The token is about to merge"
-              }
-            },
-            "merge(uint256[],uint256)": {
-              "params": {
-                "_sourceIds": "The tokens are about to be merged",
-                "_targetId": "The token is about to merge"
-              }
-            },
-            "mint(uint256)": {
-              "params": {
-                "_value": "The value that minter is desired to mint"
-              }
-            },
-            "redeem(uint256)": {
-              "params": {
-                "_tokenId": "The token is about to redeem"
-              }
-            },
-            "redeem(uint256[])": {
-              "params": {
-                "_tokenIds": "The tokens are about to redeem"
-              }
-            },
-            "split(uint256,uint256)": {
-              "params": {
-                "_tokenId": "The token is about to split",
-                "_value": "The value is splitted into new token"
-              }
-            },
-            "split(uint256,uint256[])": {
-              "params": {
-                "_tokenId": "The token is about to split",
-                "_values": "The values are splitted into new tokens"
-              }
-            }
-          },
-          "version": 1
-        },
-        "userdoc": {
-          "kind": "user",
-          "methods": {
-            "beforeTransfer(uint256,uint8)": {
-              "notice": "this function will be triggered when the token or value of    ERC-3525 is transfered, it will claim the interest"
-            },
-            "claim()": {
-              "notice": "Claim the interest of msg.sender"
-            },
-            "createSlot(string,string,uint256)": {
-              "notice": "Create a slot and save the asset data"
-            },
-            "getTokensByOwner(address)": {
-              "notice": "Get all tokens owned by the owner"
-            },
-            "merge(uint256,uint256)": {
-              "notice": "Merge two tokens into one token"
-            },
-            "merge(uint256[],uint256)": {
-              "notice": "Merge multiple tokens into one token"
-            },
-            "mint(uint256)": {
-              "notice": "Mint a ERC-3525 NFT for the given slot with value"
-            },
-            "redeem(uint256)": {
-              "notice": "Redeem one token"
-            },
-            "redeem(uint256[])": {
-              "notice": "Redeem multiple tokens at once"
-            },
-            "reset()": {
-              "notice": "Slot owner resets all slot data and token data"
-            },
-            "split(uint256,uint256)": {
-              "notice": "Split one token to two tokens"
-            },
-            "split(uint256,uint256[])": {
-              "notice": "Split one token to multiple tokens"
-            },
-            "withdraw()": {
-              "notice": "Owner withdraws test usdc"
-            }
-          },
-          "version": 1
-        }
-      },
-      "settings": {
-        "remappings": [
-          ":@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
-          ":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
-          ":ds-test/=lib/solmate/lib/ds-test/src/",
-          ":erc-3525/=lib/erc-3525/",
-          ":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
-          ":forge-std/=lib/forge-std/src/",
-          ":openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
-          ":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/",
-          ":solmate/=lib/solmate/src/"
-        ],
-        "optimizer": {
-          "enabled": true,
-          "runs": 200
-        },
-        "metadata": {
-          "bytecodeHash": "ipfs"
-        },
-        "compilationTarget": {
-          "src/interfaces/IRLogic.sol": "IRLogic"
-        },
-        "libraries": {}
-      },
-      "sources": {
-        "src/interfaces/IRLogic.sol": {
-          "keccak256": "0x20c6f213027096cd2623c9f8a398bc27414c6e101cf7a616516fc8e089376924",
-          "urls": [
-            "bzz-raw://b2343e67b90120f2fe6e141377496c325d7b3a3a5a664c4af5008aff80e128fd",
-            "dweb:/ipfs/QmdmtH66VwLzpANhWkiWqZRefgqYkWH75RMbd9Yn3tyKfY"
-          ],
-          "license": "MIT"
-        }
-      },
-      "version": 1
+    {
+      "inputs": [],
+      "name": "UnderMinimumValue",
+      "type": "error"
     },
-    "ast": {
-      "absolutePath": "src/interfaces/IRLogic.sol",
-      "id": 35051,
-      "exportedSymbols": {
-        "IRLogic": [
-          35050
-        ]
-      },
-      "nodeType": "SourceUnit",
-      "src": "32:3813:59",
-      "nodes": [
+    {
+      "anonymous": false,
+      "inputs": [
         {
-          "id": 34870,
-          "nodeType": "PragmaDirective",
-          "src": "32:23:59",
-          "nodes": [],
-          "literals": [
-            "solidity",
-            "^",
-            "0.8",
-            ".0"
-          ]
+          "indexed": true,
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
         },
         {
-          "id": 35050,
-          "nodeType": "ContractDefinition",
-          "src": "57:3788:59",
-          "nodes": [
-            {
-              "id": 34872,
-              "nodeType": "ErrorDefinition",
-              "src": "81:28:59",
-              "nodes": [],
-              "errorSelector": "59abde98",
-              "name": "CannotMintZeroValue",
-              "nameLocation": "87:19:59",
-              "parameters": {
-                "id": 34871,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "106:2:59"
-              }
-            },
-            {
-              "id": 34874,
-              "nodeType": "ErrorDefinition",
-              "src": "114:28:59",
-              "nodes": [],
-              "errorSelector": "f4d678b8",
-              "name": "InsufficientBalance",
-              "nameLocation": "120:19:59",
-              "parameters": {
-                "id": 34873,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "139:2:59"
-              }
-            },
-            {
-              "id": 34876,
-              "nodeType": "ErrorDefinition",
-              "src": "147:19:59",
-              "nodes": [],
-              "errorSelector": "3719025a",
-              "name": "NotERC3525",
-              "nameLocation": "153:10:59",
-              "parameters": {
-                "id": 34875,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "163:2:59"
-              }
-            },
-            {
-              "id": 34878,
-              "nodeType": "ErrorDefinition",
-              "src": "171:26:59",
-              "nodes": [],
-              "errorSelector": "37fff75c",
-              "name": "UnderMinimumValue",
-              "nameLocation": "177:17:59",
-              "parameters": {
-                "id": 34877,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "194:2:59"
-              }
-            },
-            {
-              "id": 34883,
-              "nodeType": "EnumDefinition",
-              "src": "203:84:59",
-              "nodes": [],
-              "canonicalName": "IRLogic.Operation",
-              "members": [
-                {
-                  "id": 34879,
-                  "name": "Claim",
-                  "nameLocation": "228:5:59",
-                  "nodeType": "EnumValue",
-                  "src": "228:5:59"
-                },
-                {
-                  "id": 34880,
-                  "name": "Merge",
-                  "nameLocation": "243:5:59",
-                  "nodeType": "EnumValue",
-                  "src": "243:5:59"
-                },
-                {
-                  "id": 34881,
-                  "name": "Split",
-                  "nameLocation": "258:5:59",
-                  "nodeType": "EnumValue",
-                  "src": "258:5:59"
-                },
-                {
-                  "id": 34882,
-                  "name": "Transfer",
-                  "nameLocation": "273:8:59",
-                  "nodeType": "EnumValue",
-                  "src": "273:8:59"
-                }
-              ],
-              "name": "Operation",
-              "nameLocation": "208:9:59"
-            },
-            {
-              "id": 34899,
-              "nodeType": "EventDefinition",
-              "src": "293:124:59",
-              "nodes": [],
-              "anonymous": false,
-              "eventSelector": "abdc3e692405e1e0de159c5d168bdcc9d1b06527f8d0ac837bdb1744add725f9",
-              "name": "Claim",
-              "nameLocation": "299:5:59",
-              "parameters": {
-                "id": 34898,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 34885,
-                    "indexed": true,
-                    "mutability": "mutable",
-                    "name": "_to",
-                    "nameLocation": "321:3:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34899,
-                    "src": "305:19:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 34884,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "305:7:59",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34888,
-                    "indexed": true,
-                    "mutability": "mutable",
-                    "name": "_operation",
-                    "nameLocation": "344:10:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34899,
-                    "src": "326:28:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Operation_$34883",
-                      "typeString": "enum IRLogic.Operation"
-                    },
-                    "typeName": {
-                      "id": 34887,
-                      "nodeType": "UserDefinedTypeName",
-                      "pathNode": {
-                        "id": 34886,
-                        "name": "Operation",
-                        "nameLocations": [
-                          "326:9:59"
-                        ],
-                        "nodeType": "IdentifierPath",
-                        "referencedDeclaration": 34883,
-                        "src": "326:9:59"
-                      },
-                      "referencedDeclaration": 34883,
-                      "src": "326:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_enum$_Operation_$34883",
-                        "typeString": "enum IRLogic.Operation"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34891,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_tokenIds",
-                    "nameLocation": "366:9:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34899,
-                    "src": "356:19:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 34889,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "356:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 34890,
-                      "nodeType": "ArrayTypeName",
-                      "src": "356:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34894,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_values",
-                    "nameLocation": "387:7:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34899,
-                    "src": "377:17:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 34892,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "377:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 34893,
-                      "nodeType": "ArrayTypeName",
-                      "src": "377:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34897,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_balances",
-                    "nameLocation": "406:9:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34899,
-                    "src": "396:19:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 34895,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "396:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 34896,
-                      "nodeType": "ArrayTypeName",
-                      "src": "396:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "304:112:59"
-              }
-            },
-            {
-              "id": 34912,
-              "nodeType": "EventDefinition",
-              "src": "422:100:59",
-              "nodes": [],
-              "anonymous": false,
-              "eventSelector": "cec99d8aff543036ca33633e4ca62c4b1ab45a4359da9cf317771d08cf423655",
-              "name": "Redeem",
-              "nameLocation": "428:6:59",
-              "parameters": {
-                "id": 34911,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 34901,
-                    "indexed": true,
-                    "mutability": "mutable",
-                    "name": "_to",
-                    "nameLocation": "451:3:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34912,
-                    "src": "435:19:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 34900,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "435:7:59",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34904,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_tokenIds",
-                    "nameLocation": "466:9:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34912,
-                    "src": "456:19:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 34902,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "456:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 34903,
-                      "nodeType": "ArrayTypeName",
-                      "src": "456:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34907,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_principals",
-                    "nameLocation": "487:11:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34912,
-                    "src": "477:21:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 34905,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "477:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 34906,
-                      "nodeType": "ArrayTypeName",
-                      "src": "477:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34910,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_interests",
-                    "nameLocation": "510:10:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34912,
-                    "src": "500:20:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 34908,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "500:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 34909,
-                      "nodeType": "ArrayTypeName",
-                      "src": "500:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "434:87:59"
-              }
-            },
-            {
-              "id": 34926,
-              "nodeType": "EventDefinition",
-              "src": "527:116:59",
-              "nodes": [],
-              "anonymous": false,
-              "eventSelector": "f099478bf1c16866980db01861cc886ab27b9cd36c7dce33ba9892205344b5e1",
-              "name": "Merge",
-              "nameLocation": "533:5:59",
-              "parameters": {
-                "id": 34925,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 34914,
-                    "indexed": true,
-                    "mutability": "mutable",
-                    "name": "_owner",
-                    "nameLocation": "555:6:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34926,
-                    "src": "539:22:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 34913,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "539:7:59",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34916,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_tokenId",
-                    "nameLocation": "571:8:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34926,
-                    "src": "563:16:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34915,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "563:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34918,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_value",
-                    "nameLocation": "589:6:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34926,
-                    "src": "581:14:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34917,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "581:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34921,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_sourceTokenIds",
-                    "nameLocation": "607:15:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34926,
-                    "src": "597:25:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 34919,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "597:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 34920,
-                      "nodeType": "ArrayTypeName",
-                      "src": "597:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34924,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_values",
-                    "nameLocation": "634:7:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34926,
-                    "src": "624:17:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 34922,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "624:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 34923,
-                      "nodeType": "ArrayTypeName",
-                      "src": "624:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "538:104:59"
-              }
-            },
-            {
-              "id": 34940,
-              "nodeType": "EventDefinition",
-              "src": "648:120:59",
-              "nodes": [],
-              "anonymous": false,
-              "eventSelector": "df9a793391a6da0fe2f8113b8b5be2c8e6a7d8df0dbc17ee0d6d9f2f25cac493",
-              "name": "Split",
-              "nameLocation": "654:5:59",
-              "parameters": {
-                "id": 34939,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 34928,
-                    "indexed": true,
-                    "mutability": "mutable",
-                    "name": "_owner",
-                    "nameLocation": "676:6:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34940,
-                    "src": "660:22:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 34927,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "660:7:59",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34930,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_fromTokenId",
-                    "nameLocation": "692:12:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34940,
-                    "src": "684:20:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34929,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "684:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34932,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_value",
-                    "nameLocation": "714:6:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34940,
-                    "src": "706:14:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34931,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "706:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34935,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_toTokenIds",
-                    "nameLocation": "732:11:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34940,
-                    "src": "722:21:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 34933,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "722:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 34934,
-                      "nodeType": "ArrayTypeName",
-                      "src": "722:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34938,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_splitUnits",
-                    "nameLocation": "755:11:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34940,
-                    "src": "745:21:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 34936,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "745:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 34937,
-                      "nodeType": "ArrayTypeName",
-                      "src": "745:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "659:108:59"
-              }
-            },
-            {
-              "id": 34948,
-              "nodeType": "EventDefinition",
-              "src": "773:69:59",
-              "nodes": [],
-              "anonymous": false,
-              "eventSelector": "4c209b5fc8ad50758f13e2e1088ba56a560dff690a1c6fef26394f4c03821c4f",
-              "name": "Mint",
-              "nameLocation": "779:4:59",
-              "parameters": {
-                "id": 34947,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 34942,
-                    "indexed": true,
-                    "mutability": "mutable",
-                    "name": "_owner",
-                    "nameLocation": "800:6:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34948,
-                    "src": "784:22:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 34941,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "784:7:59",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34944,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_tokenId",
-                    "nameLocation": "816:8:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34948,
-                    "src": "808:16:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34943,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "808:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34946,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_value",
-                    "nameLocation": "834:6:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34948,
-                    "src": "826:14:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34945,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "826:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "783:58:59"
-              }
-            },
-            {
-              "id": 34956,
-              "nodeType": "EventDefinition",
-              "src": "847:84:59",
-              "nodes": [],
-              "anonymous": false,
-              "eventSelector": "4fa568d7ff23cce2bef28503a358c0ffc263e4d43d5b209da6e485e41963e44a",
-              "name": "SlotValueChanged",
-              "nameLocation": "853:16:59",
-              "parameters": {
-                "id": 34955,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 34950,
-                    "indexed": true,
-                    "mutability": "mutable",
-                    "name": "_slot",
-                    "nameLocation": "886:5:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34956,
-                    "src": "870:21:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34949,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "870:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34952,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_oldValue",
-                    "nameLocation": "901:9:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34956,
-                    "src": "893:17:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34951,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "893:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34954,
-                    "indexed": false,
-                    "mutability": "mutable",
-                    "name": "_newValue",
-                    "nameLocation": "920:9:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34956,
-                    "src": "912:17:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34953,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "912:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "869:61:59"
-              }
-            },
-            {
-              "id": 34960,
-              "nodeType": "FunctionDefinition",
-              "src": "1065:29:59",
-              "nodes": [],
-              "documentation": {
-                "id": 34957,
-                "nodeType": "StructuredDocumentation",
-                "src": "1008:52:59",
-                "text": " @notice Owner withdraws test usdc"
-              },
-              "functionSelector": "3ccfd60b",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "withdraw",
-              "nameLocation": "1074:8:59",
-              "parameters": {
-                "id": 34958,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "1082:2:59"
-              },
-              "returnParameters": {
-                "id": 34959,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "1093:0:59"
-              },
-              "scope": 35050,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 34964,
-              "nodeType": "FunctionDefinition",
-              "src": "1178:26:59",
-              "nodes": [],
-              "documentation": {
-                "id": 34961,
-                "nodeType": "StructuredDocumentation",
-                "src": "1100:73:59",
-                "text": " @notice Slot owner resets all slot data and token data"
-              },
-              "functionSelector": "d826f88f",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "reset",
-              "nameLocation": "1187:5:59",
-              "parameters": {
-                "id": 34962,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "1192:2:59"
-              },
-              "returnParameters": {
-                "id": 34963,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "1203:0:59"
-              },
-              "scope": 35050,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 34974,
-              "nodeType": "FunctionDefinition",
-              "src": "1478:127:59",
-              "nodes": [],
-              "documentation": {
-                "id": 34965,
-                "nodeType": "StructuredDocumentation",
-                "src": "1276:197:59",
-                "text": " @notice Create a slot and save the asset data\n @param _category The RWA category\n @param _rwaName The name of RWA\n @param _rwaValue The RWA value priced by USDC"
-              },
-              "functionSelector": "ab8b063c",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "createSlot",
-              "nameLocation": "1487:10:59",
-              "parameters": {
-                "id": 34972,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 34967,
-                    "mutability": "mutable",
-                    "name": "_category",
-                    "nameLocation": "1521:9:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34974,
-                    "src": "1507:23:59",
-                    "stateVariable": false,
-                    "storageLocation": "memory",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_string_memory_ptr",
-                      "typeString": "string"
-                    },
-                    "typeName": {
-                      "id": 34966,
-                      "name": "string",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1507:6:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_string_storage_ptr",
-                        "typeString": "string"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34969,
-                    "mutability": "mutable",
-                    "name": "_rwaName",
-                    "nameLocation": "1554:8:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34974,
-                    "src": "1540:22:59",
-                    "stateVariable": false,
-                    "storageLocation": "memory",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_string_memory_ptr",
-                      "typeString": "string"
-                    },
-                    "typeName": {
-                      "id": 34968,
-                      "name": "string",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1540:6:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_string_storage_ptr",
-                        "typeString": "string"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34971,
-                    "mutability": "mutable",
-                    "name": "_rwaValue",
-                    "nameLocation": "1580:9:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34974,
-                    "src": "1572:17:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34970,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1572:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "1497:98:59"
-              },
-              "returnParameters": {
-                "id": 34973,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "1604:0:59"
-              },
-              "scope": 35050,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 34983,
-              "nodeType": "FunctionDefinition",
-              "src": "1811:83:59",
-              "nodes": [],
-              "documentation": {
-                "id": 34975,
-                "nodeType": "StructuredDocumentation",
-                "src": "1674:132:59",
-                "text": " @notice Get all tokens owned by the owner\n @param _owner The owner\n @return The tokens that owner has"
-              },
-              "functionSelector": "40398d67",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "getTokensByOwner",
-              "nameLocation": "1820:16:59",
-              "parameters": {
-                "id": 34978,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 34977,
-                    "mutability": "mutable",
-                    "name": "_owner",
-                    "nameLocation": "1845:6:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34983,
-                    "src": "1837:14:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 34976,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1837:7:59",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "1836:16:59"
-              },
-              "returnParameters": {
-                "id": 34982,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 34981,
-                    "mutability": "mutable",
-                    "name": "",
-                    "nameLocation": "-1:-1:-1",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34983,
-                    "src": "1876:16:59",
-                    "stateVariable": false,
-                    "storageLocation": "memory",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 34979,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "1876:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 34980,
-                      "nodeType": "ArrayTypeName",
-                      "src": "1876:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "1875:18:59"
-              },
-              "scope": 35050,
-              "stateMutability": "view",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 34989,
-              "nodeType": "FunctionDefinition",
-              "src": "2043:39:59",
-              "nodes": [],
-              "documentation": {
-                "id": 34984,
-                "nodeType": "StructuredDocumentation",
-                "src": "1900:138:59",
-                "text": " @notice Mint a ERC-3525 NFT for the given slot with value\n @param _value The value that minter is desired to mint"
-              },
-              "functionSelector": "a0712d68",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "mint",
-              "nameLocation": "2052:4:59",
-              "parameters": {
-                "id": 34987,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 34986,
-                    "mutability": "mutable",
-                    "name": "_value",
-                    "nameLocation": "2065:6:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34989,
-                    "src": "2057:14:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34985,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2057:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "2056:16:59"
-              },
-              "returnParameters": {
-                "id": 34988,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "2081:0:59"
-              },
-              "scope": 35050,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 34997,
-              "nodeType": "FunctionDefinition",
-              "src": "2259:62:59",
-              "nodes": [],
-              "documentation": {
-                "id": 34990,
-                "nodeType": "StructuredDocumentation",
-                "src": "2088:166:59",
-                "text": " @notice Merge two tokens into one token\n @param _sourceId The token is about to be merged\n @param _targetId The token is about to merge"
-              },
-              "functionSelector": "d1c2babb",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "merge",
-              "nameLocation": "2268:5:59",
-              "parameters": {
-                "id": 34995,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 34992,
-                    "mutability": "mutable",
-                    "name": "_sourceId",
-                    "nameLocation": "2282:9:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34997,
-                    "src": "2274:17:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34991,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2274:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 34994,
-                    "mutability": "mutable",
-                    "name": "_targetId",
-                    "nameLocation": "2301:9:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 34997,
-                    "src": "2293:17:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 34993,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2293:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "2273:38:59"
-              },
-              "returnParameters": {
-                "id": 34996,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "2320:0:59"
-              },
-              "scope": 35050,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35006,
-              "nodeType": "FunctionDefinition",
-              "src": "2506:72:59",
-              "nodes": [],
-              "documentation": {
-                "id": 34998,
-                "nodeType": "StructuredDocumentation",
-                "src": "2327:174:59",
-                "text": " @notice Merge multiple tokens into one token\n @param _sourceIds The tokens are about to be merged\n @param _targetId The token is about to merge"
-              },
-              "functionSelector": "bbe33ea5",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "merge",
-              "nameLocation": "2515:5:59",
-              "parameters": {
-                "id": 35004,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35001,
-                    "mutability": "mutable",
-                    "name": "_sourceIds",
-                    "nameLocation": "2538:10:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35006,
-                    "src": "2521:27:59",
-                    "stateVariable": false,
-                    "storageLocation": "memory",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 34999,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "2521:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 35000,
-                      "nodeType": "ArrayTypeName",
-                      "src": "2521:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35003,
-                    "mutability": "mutable",
-                    "name": "_targetId",
-                    "nameLocation": "2558:9:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35006,
-                    "src": "2550:17:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35002,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2550:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "2520:48:59"
-              },
-              "returnParameters": {
-                "id": 35005,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "2577:0:59"
-              },
-              "scope": 35050,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35014,
-              "nodeType": "FunctionDefinition",
-              "src": "2754:58:59",
-              "nodes": [],
-              "documentation": {
-                "id": 35007,
-                "nodeType": "StructuredDocumentation",
-                "src": "2584:165:59",
-                "text": " @notice Split one token to two tokens\n @param _tokenId The token is about to split\n @param _value The value is splitted into new token"
-              },
-              "functionSelector": "4b19becc",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "split",
-              "nameLocation": "2763:5:59",
-              "parameters": {
-                "id": 35012,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35009,
-                    "mutability": "mutable",
-                    "name": "_tokenId",
-                    "nameLocation": "2777:8:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35014,
-                    "src": "2769:16:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35008,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2769:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35011,
-                    "mutability": "mutable",
-                    "name": "_value",
-                    "nameLocation": "2795:6:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35014,
-                    "src": "2787:14:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35010,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2787:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "2768:34:59"
-              },
-              "returnParameters": {
-                "id": 35013,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "2811:0:59"
-              },
-              "scope": 35050,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35023,
-              "nodeType": "FunctionDefinition",
-              "src": "2997:68:59",
-              "nodes": [],
-              "documentation": {
-                "id": 35015,
-                "nodeType": "StructuredDocumentation",
-                "src": "2818:174:59",
-                "text": " @notice Split one token to multiple tokens\n @param _tokenId The token is about to split\n @param _values The values are splitted into new tokens"
-              },
-              "functionSelector": "69c67247",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "split",
-              "nameLocation": "3006:5:59",
-              "parameters": {
-                "id": 35021,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35017,
-                    "mutability": "mutable",
-                    "name": "_tokenId",
-                    "nameLocation": "3020:8:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35023,
-                    "src": "3012:16:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35016,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "3012:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35020,
-                    "mutability": "mutable",
-                    "name": "_values",
-                    "nameLocation": "3047:7:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35023,
-                    "src": "3030:24:59",
-                    "stateVariable": false,
-                    "storageLocation": "memory",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 35018,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "3030:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 35019,
-                      "nodeType": "ArrayTypeName",
-                      "src": "3030:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "3011:44:59"
-              },
-              "returnParameters": {
-                "id": 35022,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "3064:0:59"
-              },
-              "scope": 35050,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35027,
-              "nodeType": "FunctionDefinition",
-              "src": "3135:26:59",
-              "nodes": [],
-              "documentation": {
-                "id": 35024,
-                "nodeType": "StructuredDocumentation",
-                "src": "3071:59:59",
-                "text": " @notice Claim the interest of msg.sender"
-              },
-              "functionSelector": "4e71d92d",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "claim",
-              "nameLocation": "3144:5:59",
-              "parameters": {
-                "id": 35025,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "3149:2:59"
-              },
-              "returnParameters": {
-                "id": 35026,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "3160:0:59"
-              },
-              "scope": 35050,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35033,
-              "nodeType": "FunctionDefinition",
-              "src": "3267:43:59",
-              "nodes": [],
-              "documentation": {
-                "id": 35028,
-                "nodeType": "StructuredDocumentation",
-                "src": "3167:95:59",
-                "text": " @notice Redeem one token\n @param _tokenId The token is about to redeem"
-              },
-              "functionSelector": "db006a75",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "redeem",
-              "nameLocation": "3276:6:59",
-              "parameters": {
-                "id": 35031,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35030,
-                    "mutability": "mutable",
-                    "name": "_tokenId",
-                    "nameLocation": "3291:8:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35033,
-                    "src": "3283:16:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35029,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "3283:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "3282:18:59"
-              },
-              "returnParameters": {
-                "id": 35032,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "3309:0:59"
-              },
-              "scope": 35050,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35040,
-              "nodeType": "FunctionDefinition",
-              "src": "3433:53:59",
-              "nodes": [],
-              "documentation": {
-                "id": 35034,
-                "nodeType": "StructuredDocumentation",
-                "src": "3316:112:59",
-                "text": " @notice Redeem multiple tokens at once\n @param _tokenIds The tokens are about to redeem"
-              },
-              "functionSelector": "f9afb26a",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "redeem",
-              "nameLocation": "3442:6:59",
-              "parameters": {
-                "id": 35038,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35037,
-                    "mutability": "mutable",
-                    "name": "_tokenIds",
-                    "nameLocation": "3466:9:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35040,
-                    "src": "3449:26:59",
-                    "stateVariable": false,
-                    "storageLocation": "memory",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
-                      "typeString": "uint256[]"
-                    },
-                    "typeName": {
-                      "baseType": {
-                        "id": 35035,
-                        "name": "uint256",
-                        "nodeType": "ElementaryTypeName",
-                        "src": "3449:7:59",
-                        "typeDescriptions": {
-                          "typeIdentifier": "t_uint256",
-                          "typeString": "uint256"
-                        }
-                      },
-                      "id": 35036,
-                      "nodeType": "ArrayTypeName",
-                      "src": "3449:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                        "typeString": "uint256[]"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "3448:28:59"
-              },
-              "returnParameters": {
-                "id": 35039,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "3485:0:59"
-              },
-              "scope": 35050,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35049,
-              "nodeType": "FunctionDefinition",
-              "src": "3770:73:59",
-              "nodes": [],
-              "documentation": {
-                "id": 35041,
-                "nodeType": "StructuredDocumentation",
-                "src": "3492:273:59",
-                "text": " @notice this function will be triggered when the token or value of \n   ERC-3525 is transfered, it will claim the interest\n @param _tokenId The token is about to transfer\n @param _operation The operation of the tranfser(Merge / Transfer)"
-              },
-              "functionSelector": "1fe99f07",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "beforeTransfer",
-              "nameLocation": "3779:14:59",
-              "parameters": {
-                "id": 35047,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35043,
-                    "mutability": "mutable",
-                    "name": "_tokenId",
-                    "nameLocation": "3802:8:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35049,
-                    "src": "3794:16:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35042,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "3794:7:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35046,
-                    "mutability": "mutable",
-                    "name": "_operation",
-                    "nameLocation": "3822:10:59",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35049,
-                    "src": "3812:20:59",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Operation_$34883",
-                      "typeString": "enum IRLogic.Operation"
-                    },
-                    "typeName": {
-                      "id": 35045,
-                      "nodeType": "UserDefinedTypeName",
-                      "pathNode": {
-                        "id": 35044,
-                        "name": "Operation",
-                        "nameLocations": [
-                          "3812:9:59"
-                        ],
-                        "nodeType": "IdentifierPath",
-                        "referencedDeclaration": 34883,
-                        "src": "3812:9:59"
-                      },
-                      "referencedDeclaration": 34883,
-                      "src": "3812:9:59",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_enum$_Operation_$34883",
-                        "typeString": "enum IRLogic.Operation"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "3793:40:59"
-              },
-              "returnParameters": {
-                "id": 35048,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "3842:0:59"
-              },
-              "scope": 35050,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            }
-          ],
-          "abstract": false,
-          "baseContracts": [],
-          "canonicalName": "IRLogic",
-          "contractDependencies": [],
-          "contractKind": "interface",
-          "fullyImplemented": false,
-          "linearizedBaseContracts": [
-            35050
-          ],
-          "name": "IRLogic",
-          "nameLocation": "67:7:59",
-          "scope": 35051,
-          "usedErrors": [
-            34872,
-            34874,
-            34876,
-            34878
-          ]
+          "indexed": true,
+          "internalType": "enum IRLogic.Operation",
+          "name": "_operation",
+          "type": "uint8"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "_tokenIds",
+          "type": "uint256[]"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "_values",
+          "type": "uint256[]"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "_balances",
+          "type": "uint256[]"
         }
       ],
-      "license": "MIT"
+      "name": "Claim",
+      "type": "event"
     },
-    "id": 59
-  }
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "_sourceTokenIds",
+          "type": "uint256[]"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "_values",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "Merge",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Mint",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "_tokenIds",
+          "type": "uint256[]"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "_principals",
+          "type": "uint256[]"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "_interests",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "Redeem",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_slot",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_oldValue",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_newValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "SlotValueChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_fromTokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "_toTokenIds",
+          "type": "uint256[]"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256[]",
+          "name": "_splitUnits",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "Split",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "enum IRLogic.Operation",
+          "name": "_operation",
+          "type": "uint8"
+        }
+      ],
+      "name": "beforeTransfer",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "claim",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_category",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_rwaName",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_rwaValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "createSlot",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "getTokensByOwner",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "_sourceIds",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_targetId",
+          "type": "uint256"
+        }
+      ],
+      "name": "merge",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_sourceId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_targetId",
+          "type": "uint256"
+        }
+      ],
+      "name": "merge",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "mint",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "redeem",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "_tokenIds",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "redeem",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "reset",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "split",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_values",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "split",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}

@@ -5,11 +5,11 @@
 }
 
 .headerBg {
-  background-image: url("../assets//images/header-bg.png");
+  background-image: url("../public/v2imgs/header-bg.png");
   background-size: cover;
   height: 100vh;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: right bottom;
   position: relative;
 }
 
@@ -100,7 +100,7 @@
 }
 
 .phase1 {
-  background-image: url("../assets/images/phase1.png");
+  background-image: url("../public/v2imgs/phase1.png");
   background-repeat: no-repeat;
   background-position: left;
   height: 500px;
@@ -122,7 +122,7 @@
 
 /* phase 2 */
 .phase2 {
-  background-image: url("../assets/images/phase2.png");
+  background-image: url("../public/v2imgs/phase2.png");
   background-repeat: no-repeat;
   background-position: right;
   height: 500px;
@@ -146,7 +146,7 @@
 
 /* phase 3 */
 .phase3 {
-  background-image: url("../assets/images/phase3.png");
+  background-image: url("../public/v2imgs/phase3.png");
   background-repeat: no-repeat;
   height: 590px;
 }
@@ -322,84 +322,85 @@
 
 @media (min-width: 600px) {
   .logo1 {
-    background-image: url("../assets/images/circle.png");
+    background-image: url("../public/v2imgs/circle.png");
     width: 150px;
     height: 38px;
   }
 
   .logo1:hover {
-    background-image: url("../assets/images/circle_hover.png");
+    background-image: url("../public/v2imgs/circle_hover.png");
   }
 
   .logo2 {
-    background-image: url("../assets/images/labs.png");
+    background-image: url("../public/v2imgs/labs.png");
     width: 79px;
     height: 60px;
   }
 
   .logo2:hover {
-    background-image: url("../assets/images/labs_hover.png");
+    background-image: url("../public/v2imgs/labs_hover.png");
   }
 
   .logo3 {
-    background-image: url("../assets/images/flowBay.png");
+    background-image: url("../public/v2imgs/flowBay.png");
     width: 150px;
     height: 30px;
   }
 
   .logo3:hover {
-    background-image: url("../assets/images/flowBay_hover.png");
+    background-image: url("../public/v2imgs/flowBay_hover.png");
   }
 
   .logo4 {
-    background-image: url("../assets/images/headDao.png");
+    background-image: url("../public/v2imgs/headDao.png");
     width: 150px;
     height: 32px;
   }
 
   .logo4:hover {
-    background-image: url("../assets/images/headDao_hover.png");
+    background-image: url("../public/v2imgs/headDao_hover.png");
   }
 
   .logo5 {
-    background-image: url("../assets/images/hashEx.png");
+    background-image: url("../public/v2imgs/hashEx.png");
     width: 94px;
     height: 60px;
   }
 
   .logo5:hover {
-    background-image: url("../assets/images/hashEx_hover.png");
+    background-image: url("../public/v2imgs/hashEx_hover.png");
   }
 
   .logo6 {
-    background-image: url("../assets/images/ceres.png");
+    background-image: url("../public/v2imgs/ceres.png");
     width: 125px;
     height: 60px;
   }
 
   .logo6:hover {
-    background-image: url("../assets/images/ceres_hover.png");
+    background-image: url("../public/v2imgs/ceres_hover.png");
   }
 
   .logo7 {
-    background-image: url("../assets/images/kryptoGO.png");
+    background-image: url("../public/v2imgs/kryptoGO.png");
     width: 150px;
     height: 30px;
   }
 
   .logo7:hover {
-    background-image: url("../assets/images/kryptoGO_hover.png");
+    background-image: url("../public/v2imgs/kryptoGO_hover.png");
   }
 
   .logo8 {
-    background-image: url("../assets/images/router.png");
+    background-image: url("../public/v2imgs/router.png");
     width: 150px;
     height: 46px;
   }
 
   .logo8:hover {
-    background-image: url("../assets/images/router_hover.png");
+    background-image: url("../public/v2imgs/router_hover.png");
   }
+  
 }
 
 @media (max-width: 1050px) {
@@ -486,7 +487,7 @@
 
   .introSection,
   .phase2 {
-    padding: 44px 0px 44px 0px;
+    padding: 44px 0px 36px 0px;
   }
 
   .exploreLeft,
@@ -569,15 +570,15 @@
   }
 
   .phase1Left {
-    background-image: url("../assets/images/phase1.png");
+    background-image: url("../public/v2imgs/phase1.png");
   }
 
   .phase2Right {
-    background-image: url("../assets/images/phase2.png");
+    background-image: url("../public/v2imgs/phase2.png");
   }
 
   .phase3Left {
-    background-image: url("../assets/images/phase3.png");
+    background-image: url("../public/v2imgs/phase3.png");
     background-position: top;
   }
 
@@ -638,49 +639,49 @@
   }
 
   .logo1 {
-    background-image: url("../assets/images/circle-mob.png");
+    background-image: url("../public/v2imgs/circle-mob.png");
     width: 120px;
     height: 31px;
   }
 
   .logo2 {
-    background-image: url("../assets/images/labs-mob.png");
+    background-image: url("../public/v2imgs/labs-mob.png");
     width: 53px;
     height: 40px;
   }
 
   .logo3 {
-    background-image: url("../assets/images/flowBay-mob.png");
+    background-image: url("../public/v2imgs/flowBay-mob.png");
     width: 120px;
     height: 24px;
   }
 
   .logo4 {
-    background-image: url("../assets/images/headDao-mob.png");
+    background-image: url("../public/v2imgs/headDao-mob.png");
     width: 121px;
     height: 27px;
   }
 
   .logo5 {
-    background-image: url("../assets/images/hashEx-mob.png");
+    background-image: url("../public/v2imgs/hashEx-mob.png");
     width: 63px;
     height: 40px;
   }
 
   .logo6 {
-    background-image: url("../assets/images/ceres.png");
+    background-image: url("../public/v2imgs/ceres.png");
     width: 90px;
     height: 43px;
   }
 
   .logo7 {
-    background-image: url("../assets/images/kryptoGO-mob.png");
+    background-image: url("../public/v2imgs/kryptoGO-mob.png");
     width: 120px;
     height: 25px;
   }
 
   .logo8 {
-    background-image: url("../assets/images/router-mob.png");
+    background-image: url("../public/v2imgs/router-mob.png");
     width: 100px;
     height: 30px;
   }

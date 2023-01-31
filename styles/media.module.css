@@ -1,6 +1,6 @@
 .mediaPage {
 
-    background-image: url('../assets/images/media-bg.png'),url('../assets/images/media-bg-2.png');
+    background-image: url('../public/v2imgs/media-bg.png'),url('../public/v2imgs/media-bg-2.png');
     background-position: right top, left bottom;
    background-repeat: no-repeat,no-repeat;
    background-color: #35283c;

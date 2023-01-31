@@ -280,7 +280,7 @@ const Nfts = () => {
   };
 
   return (
-    <div className="relative flex min-h-[70vw] w-full border-t border-invar-main-purple">
+    <div className="relative flex min-h-[70vh] w-full border-t border-invar-main-purple">
       {showtoast && <div className=" absolute bg-black w-screen">{toast}</div>}
       <div className="w-full z-10 mt-12 mb-10">
         {nfts == 0 && staked == 0 && interest == 0 ? (

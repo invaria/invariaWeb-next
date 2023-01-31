@@ -6,7 +6,7 @@ export const Twitter = () => (
 );
 
 export const Discord = () => (
-  <a className='mr-3 w-[40px] btnShadow bg-white opacity-80 hover:bg-white rounded flex justify-center items-center ' href='https://discord.gg/BrzPWYut4p' target="_blank" rel="noopener noreferrer">
+  <a className=' w-[40px] btnShadow bg-white opacity-80 hover:bg-white rounded flex justify-center items-center ' href='https://discord.gg/BrzPWYut4p' target="_blank" rel="noopener noreferrer">
     <img className=" w-[18px]" src="/discord_1.svg" alt="Logo" />
   </a>
 );

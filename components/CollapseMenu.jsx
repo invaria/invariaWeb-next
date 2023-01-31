@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import styles from "../styles/collapse.module.css";
-import plus from "../assets/images/plus.png";
-import minus from "../assets/images/minus.png";
 import Image from "next/image";
 
 const CollapseMenu = ({ heading, para }) => {
@@ -14,7 +12,7 @@ const CollapseMenu = ({ heading, para }) => {
       <div className={styles.questHeader}>
         <p style={{ color: expanded ? "white" : "#B4B7C0" }}>{heading}</p>
         <div className={styles.expandImg}>
-          <Image src={expanded ? minus : plus} />
+          <img src={expanded ? "/v2imgs/minus.png" : "/v2imgs/plus.png"}  />
         </div>
       </div>
       {expanded && <div>{para}</div>}

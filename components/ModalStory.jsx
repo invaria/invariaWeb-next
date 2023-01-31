@@ -147,7 +147,7 @@ const ModalStory = () => {
 
           {/* story 6 */}
           {/* story 7 */}
-          {/* <div className="h-[188px] w-full flex px-[36px] pt-[24px] bg-primary justify-start items-start">
+          <div className="h-[188px] w-full flex px-[36px] pt-[24px] bg-primary justify-start items-start">
             <img
               className="h-[86px] w-[154px] mr-[44px]"
               src="/story/img_story7.png"
@@ -163,7 +163,7 @@ const ModalStory = () => {
             <div className=" w-[485px] font-noraml text-sm">
               {t("storyline_popup_story7")}{" "}
             </div>
-          </div> */}
+          </div>
           {/* story 7*/}
         </div>
 
@@ -317,7 +317,7 @@ const ModalStory = () => {
           </div>
           {/* story 6 */}
           {/* story 7 */}
-          {/* <div className=" relative w-full flex px-[24px] py-[24px] bg-primary justify-start items-start">
+          <div className=" relative w-full flex px-[24px] py-[24px] bg-primary justify-start items-start">
             <div className="flex flex-col items-center justify-center mr-6">
               <span className="flex h-3 w-3 justify-center items-center z-20">
                 <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
@@ -335,7 +335,7 @@ const ModalStory = () => {
                 {t("storyline_popup_story7")}
               </div>
             </div>
-          </div> */}
+          </div>
           {/* story 7 */}
         </div>
       </div>

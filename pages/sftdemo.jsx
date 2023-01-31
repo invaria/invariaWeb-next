@@ -1,738 +1,2029 @@
-import { useEffect, useState } from "react";
-
-import { Twitter, Discord } from "../components/icons/Link";
-import { ScrollToTop, Footer, Navbar } from "../components";
-
-import Image from "next/image";
-import { disableScroll } from "../src/utils/disableScroll";
-import { useTranslation } from "next-i18next";
+import React, { useEffect, useState } from "react";
+import styles from "../styles/sft.module.css";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Link as ScrollLink } from "react-scroll";
+import { ScrollToTop } from "../components";
+import Image from "next/image";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import { useTranslation } from "next-i18next";
+import {
+  ClickAwayListener,
+  styled,
+  Tooltip,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import { tooltipClasses } from "@mui/material/Tooltip";
+import dragCard from "../public/drag-card.png";
+import factoryImg from "../public/factory.png";
+import { ChainId, useAddress, useNetwork } from "@thirdweb-dev/react";
+// import stakeABI from "../src/utils/invarstaking.json";
+import logicABI from "../src/utils/logicABI.json";
+import RNFTABI from "../src/utils/RNFTABI.json";
+import ERC20ABI_new from "../src/utils/ERC20ABI_new.json";
 
-import explore from "../assets/images/explore.png";
-import exploreTW from "../assets/images/explore_tw.png";
-import styles from "../styles/Home.module.css";
+import { ethers, utils } from "ethers";
+import SplitModal from "../components/SplitModal";
+import BurnModal from "../components/BurnModal";
+import MergeBurnModal from "../components/MergeBurnModal";
+import { enableScroll } from "../src/utils/disableScroll";
+import IcLight from "../public/icons/ic_light.png";
+import { async } from "@firebase/util";
+import { SFT_ERC_20, SFT_LOGIC, SFT_PUBLIC_NFT } from "../src/utils/web3utils";
 
-import CollapseMenu from "../components/CollapseMenu";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { useAddress } from "@thirdweb-dev/react";
-import MobileWalletConnect from "../components/MobileWalletConnect";
+const RLOGIC =SFT_LOGIC
+const RNFT = SFT_PUBLIC_NFT
+const ERC20 = SFT_ERC_20;
 
-export const endtimestamp = 1664582400000;
-
-const typewriterTW =
-  "資產碎片化 NFT 如何運用、與資產價值連結變成後續的問題，部落正在研擬解決方案…財務工程師多雷米拉提出將 Amwaj20 資產統一由專業領袖管理，並將產出的價值分配給 NFT 持有者；而持有者可以通過協議質押 NFT 獲取對應的價值。";
-const typewriterEN =
-  "How to utilize the NFT, which is a fractionalization of the property, and the correlated values attribute to it have become follow-up concerns. The tribe is working on a solution... Dyoremira, a financial engineer, proposed to unify the management of Amwaj20 to professional leaders for creating stable returns, and distribute the consecutive values to NFT holders; holders are allowed to stake NFT through the protocol to obtain the corresponding values.";
+let tokenUri = {
+  name: "real estate #1",
+  description: "",
+  external_url: "https://app.invar.finance/sftdemo",
+  image:
+    "https://ipfs.filebase.io/ipfs/QmbNg29bQpr4wC5qDoCzt8uBYKUc5U15uvuarvydLwsTMK",
+  properties: {
+    Factory: "InVaria SFT Factory",
+    Standards: "ERC-3525",
+    NFT_Type: "RWA Tokenization",
+  },
+};
 
 export async function getStaticProps({ locale }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, [
-        "index",
         "common",
         "storyline",
         "propertyInfo",
         "sale",
-        "dashboard",
+        "sft",
       ])),
     },
   };
 }
 
-function App() {
+const SFTDemo = () => {
   const [headerBackground, setHeaderBackground] = useState(false);
-  const [toggleWallet, setToggleWallet] = useState(false);
-  const { t } = useTranslation(["index", "storyline", "common"]);
-  const [origin, setorigin] = useState();
-  const router = useRouter();
+  const [rwaNameError, setRwaNameError] = useState(false);
+  const [rwaNameLengthErr, setRWANameLengthErr] = useState(false);
+  const [rwaTypeError, setRwaTypeError] = useState(false);
+  const [mintAmountError, setMintAmountError] = useState(false);
+  const [btnState, setBtnState] = useState("all");
+  const [showData, setShowData] = useState(true);
+  const [rwaName, setRwaName] = useState("");
+  const [rwaType, setRwaType] = useState("");
+  const [marketValue, setMarketValue] = useState("1");
+  const [alreadyClaimedUSDC, setAlreadyClaimedUSDC] = useState(false);
+  const [mintAmount, setMintAmount] = useState("0.1");
+  const [marketValueError, setMarketValueError] = useState(false);
+  const [alreadyApprovedForAll, setAlreadyApprovedForAll] = useState(false);
+  const [alreadyHaveAllowence,setAlreadyHaveAllowence]=useState(false)
+  const [tokensData, setTokensData] = useState([]);
+  const [openSplit, setOpenSplit] = useState(false);
+  const [openBurn, setOpenBurn] = useState(false);
+  const [selectedToken, setSelectedToken] = useState();
+  const [openMerge, setOpenMerge] = useState(false);
+  const [openBurnMany, setOpenBurnMany] = useState(false);
+  const [showCard,setShowCard]=useState(true)
+
+  const [showTotalValTooltip, setShowTotalValTooltip] = useState(false);
+  const [showReturnValToolTip, setShowReturnValTooltip] = useState(false);
+  const [showDailyValTooltip, setShowDailyValTooltip] = useState(false);
+  const [showBurnableTooltip, setShowBurnableTooltip] = useState(false);
+  const [showTotalInterestTooltip, setShowTotalInterestTooltip] =
+    useState(false);
+  const [showUSDCInfoTooltip, setShowUSDCInfoTooltip] = useState(false);
+
+  const [assetSnap, setAssetSnap] = useState({
+    mintableValue: "",
+    rwaValue: "",
+  });
+
+  const [toast, setToast] = useState({ open: false, error: false, text: "" });
+  const [maturity, setMaturity] = useState(600);
+  const network = useNetwork();
   const address = useAddress();
+  const { t } = useTranslation("sft");
+
+  const [, switchNetwork] = useNetwork();
+
+  const isGoerli = network[0]?.data?.chain?.name == "Goerli";
+
+  const themes = useTheme();
+  const isMobile = useMediaQuery(themes.breakpoints.down("sm"));
+
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setorigin(window.location.origin);
       window.addEventListener("scroll", () =>
         setHeaderBackground(window.pageYOffset > 20)
       );
     }
   }, []);
+  const closeAllTooltips=()=>{
+    setShowTotalValTooltip(false);
+    setShowReturnValTooltip(false);
+    setShowDailyValTooltip(false);
+    setShowBurnableTooltip(false)
+    setShowTotalInterestTooltip(false)
+    setShowUSDCInfoTooltip(false)
+  }
+  const dragEnd = ({ source, destination }) => {
+    if (!destination || !address || !isGoerli) {
+      return;
+    }
+    if (!rwaName && !rwaType) {
+      setRwaNameError(true);
+      setRwaTypeError(true);
+      return;
+    }
+    if (!rwaName) {
+      setRwaNameError(true);
+      return;
+    }
+    if (!rwaType) {
+      setRwaTypeError(true);
+      return;
+    }
+    if (+marketValue < 1 || rwaNameLengthErr) return;
+    if(assetSnap.rwaValue)return
+    if (destination.droppableId === "droppable-2") {
+      setShowData(false);
+      setShowCard(false)
+      createSlot();
+    }
+  };
 
-  // useEffect(() => {
-  //   const node = document.getElementById("typeWriter");
-  //   if (!node) return;
-  //   let timer;
-  //   let text;
-  //   let i = 0;
-  //   node.textContent = "";
-  //   if (router.locale === "tw") text = typewriterTW;
-  //   else text = typewriterEN;
-  //   function typeWriter() {
-  //     if (i < text.length) {
-  //       node.innerHTML += text.charAt(i);
-  //       i++;
-  //       timer = setTimeout(typeWriter, 20);
-  //     }
-  //   }
-  //   typeWriter();
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [router.locale]);
+  const claimUSDC = async () => {
+    if (!address) return;
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
+    const signer = provider.getSigner();
+    const erc20contract = new ethers.Contract(ERC20, ERC20ABI_new.abi, signer);
+    try {
+      const res = await erc20contract.claim({ gasLimit: 1359265 });
+      res.wait().then((res) => {
+        if (res.blockNumber) {
+          setAlreadyClaimedUSDC(true);
+          setToast({
+            open: true,
+            error: false,
+            text: t("claim_success"),
+          });
+        }
+      });
+    } catch (e) {
+      setToast({
+        open: true,
+        error: true,
+        text: t("claim_fail"),
+      });
+      RefreshData();
+    }
+  };
+
+  const createSlot = async () => {
+    if (!address) return;
+
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
+    const signer = provider.getSigner();
+    const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
+
+    try {
+      const result = await rlogic.createSlot(
+        rwaType,
+        rwaName,
+        (marketValue / 2) * 1e6,
+        {
+          gasLimit: 250000,
+        }
+      );
+      result.wait().then((receipt) => {
+        console.log(receipt);
+        if (receipt.blockNumber) {
+          setRwaName("");
+          setRwaType("");
+          setMarketValue("1");
+          RefreshData();
+          setShowCard(true)
+        } else {
+          setShowData(true);
+          setShowCard(true)
+          RefreshData();
+        }
+      });
+    } catch (e) {
+      console.log(e);
+      console.log("canceled")
+      setShowData(true);
+      setShowCard(true)
+      RefreshData();
+    }
+  };
+  const mint = async () => {
+    if (!address) return;
+
+    if (
+      !mintAmount ||
+      +mintAmount < 0.1 ||
+      mintAmount == "." ||
+      mintAmountError ||
+      !assetSnap.mintableValue
+    )
+      return;
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
+    const signer = provider.getSigner();
+    const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
+    try {
+      const result = await rlogic.mint(mintAmount * 1e6, {
+        gasLimit: 25000000,
+      });
+      result.wait().then((receipt) => {
+        console.log(receipt);
+        if (receipt.blockNumber) {
+          RefreshData();
+          setMintAmount("0.1");
+          setToast({
+            open: true,
+            error: false,
+            text: t("mint_success"),
+          });
+        } else {
+          setToast({
+            open: true,
+            error: true,
+            text: t("mint_fail"),
+          });
+          throw new Error("Transaction encountered a problem");
+        }
+      });
+    } catch (e) {
+      setToast({
+        open: true,
+        error: true,
+        text: t("mint_fail"),
+      });
+    }
+  };
+  const resetRWAData = async () => {
+    if (!address) return;
+
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
+    const signer = provider.getSigner();
+    const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
+    try {
+      const result = await rlogic.reset({ gasLimit: 700000 });
+      result.wait().then((receipt) => {
+        console.log(receipt);
+        if (receipt.blockNumber) {
+          setAssetSnap({ mintableValue: "", rwaValue: "" });
+          setRwaName("");
+          setRwaType("");
+          setMarketValue(1)
+          setShowData(true)
+          setTokensData([]);
+          RefreshData();
+        }
+      });
+    } catch (e) {
+      console.log(e);
+      RefreshData();
+    }
+  };
+  const handleInputField = (event) => {
+    if (event.target.value.length > 5 || /[a-zA-Z]/g.test(event.target.value))
+      return;
+    event.target.value < 1 || event.target.value > 200
+      ? setMarketValueError(true)
+      : setMarketValueError(false);
+    setMarketValue(event.target.value);
+  };
+
+  const approve = async () => {
+    if (!address) return;
+
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
+    const signer = provider.getSigner();
+    const erc20contract = new ethers.Contract(ERC20, ERC20ABI_new.abi, signer);
+    const rnft = new ethers.Contract(RNFT, RNFTABI.abi, signer);
+    let erc20receiopt=alreadyHaveAllowence;
+    try {
+      if(!alreadyHaveAllowence){const result1 = await erc20contract.approve(
+        RLOGIC,
+        ethers.constants.MaxUint256,
+        {
+          gasLimit: 1359265,
+        }
+      );
+      result1.wait().then((receipt) => {
+        if (receipt.blockNumber) {erc20receiopt = true;setAlreadyHaveAllowence(true)}
+      });}
+      
+     if(!alreadyApprovedForAll) {const result2 = await rnft.setApprovalForAll(RLOGIC, true, {
+        gasLimit: 7000000,
+      });
+    
+      result2.wait().then((receipt) => {
+        if (receipt.blockNumber && erc20receiopt) {
+          setAlreadyApprovedForAll(true);
+        }
+      });
+    }
+      RefreshData();
+    } catch (e) {
+      console.log(e);
+      RefreshData();
+    }
+  };
+
+  const burnNft = async (id) => {
+    if (!address) return;
+
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
+    const signer = provider.getSigner();
+    const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
+    try {
+      const resulttt = await rlogic["redeem(uint256)"](id, {
+        gasLimit: 250000,
+      });
+      resulttt.wait().then((receipt) => {
+        if (receipt.blockNumber) {
+          setToast({
+            open: true,
+            error: false,
+            text: t("burning_success"),
+          });
+
+          RefreshData();
+        } else {
+          setToast({
+            open: true,
+            error: true,
+            text: t("burning_failed"),
+          });
+        }
+      });
+    } catch (e) {
+      console.log(e);
+      setToast({
+        open: true,
+        error: true,
+        text: t("burning_failed"),
+      });
+      RefreshData();
+    }
+  };
+  const splitSFT = async (token, values) => {
+    if (!address) return;
+
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
+    const signer = provider.getSigner();
+    const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
+    try {
+      if (values.length == 1) {
+        console.log(values[0] * 1e6);
+        const resulttt = await rlogic["split(uint256,uint256)"](
+          token.tokenId,
+          values[0] * 1e6,
+          { gasLimit: 2500000 }
+        );
+        resulttt.wait().then((receipt) => {
+          console.log(receipt);
+          receipt.blockNumber &&
+            setToast({
+              open: true,
+              error: false,
+              text: t("split_success"),
+            });
+          RefreshData();
+        });
+        return;
+      } else {
+        let vals = values.map((v) => v * 1e6);
+        const resulttt = await rlogic["split(uint256,uint256[])"](
+          token.tokenId,
+          vals,
+          { gasLimit: 2500000 }
+        );
+        resulttt.wait().then((receipt) => {
+          console.log(receipt);
+          receipt.blockNumber &&
+            setToast({
+              open: true,
+              error: false,
+              text: t("split_success"),
+            });
+          RefreshData();
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      RefreshData();
+      setToast({
+        open: true,
+        error: true,
+        text: t("split_fail"),
+      });
+    }
+  };
+
+  const mergeSFT = async (tokensArr) => {
+    if (!address) return;
+
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
+    const signer = provider.getSigner();
+    const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
+    try {
+      if (tokensArr.length == 2) {
+        const resulttt = await rlogic["merge(uint256,uint256)"](
+          tokensArr[0],
+          tokensArr[1],
+          { gasLimit: 2500000 }
+        );
+        resulttt.wait().then((receipt) => {
+          console.log(receipt);
+          if (receipt.blockNumber) {
+            setToast({
+              open: true,
+              error: false,
+              text: t("merge_success"),
+            });
+          }
+          RefreshData();
+        });
+      } else {
+        const allTokens = tokensArr;
+        const result = await rlogic["merge(uint256[],uint256)"](
+          allTokens.splice(1),
+          tokensArr[0],
+          { gasLimit: 2500000 }
+        );
+        result.wait().then((receipt) => {
+          console.log(receipt);
+          if (receipt.blockNumber) {
+            setToast({
+              open: true,
+              error: false,
+              text: t("merge_success"),
+            });
+          }
+          RefreshData();
+        });
+      }
+    } catch (e) {
+      setToast({
+        open: true,
+        error: true,
+        text: t("merge_fail"),
+      });
+      console.log(e);
+    }
+  };
+  const burnMany = async (ids) => {
+    if (!address) return;
+
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
+    const signer = provider.getSigner();
+    const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
+    try {
+      const result = await rlogic["redeem(uint256[])"](ids, {
+        gasLimit: 2500000,
+      });
+      result.wait().then((receipt) => {
+        console.log(receipt);
+        if (receipt.blockNumber) {
+          setToast({
+            open: true,
+            error: false,
+            text: t("burning_success"),
+          });
+        } else {
+          setToast({
+            open: true,
+            error: true,
+            text: t("burning_failed"),
+          });
+        }
+        RefreshData();
+      });
+    } catch (e) {
+      console.log(e);
+      setToast({
+        open: true,
+        error: true,
+        text: t("burning_failed"),
+      });
+      RefreshData();
+    }
+  };
+
+  const claim = async (ids) => {
+    if (!address) return;
+
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
+    const signer = provider.getSigner();
+    const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
+    try {
+      const result = await rlogic.claim({ gasLimit: 7000000 });
+      result.wait().then((receipt) => {
+        if (receipt.blockNumber) {
+          setToast({
+            open: true,
+            error: false,
+            text: t("claiming_success"),
+          });
+        }
+        RefreshData();
+      });
+    } catch (e) {
+      console.log(e);
+      RefreshData();
+      setToast({
+        open: true,
+        error: true,
+        text: t("claiming_failed"),
+      });
+    }
+  };
+  let tryCount = 0;
+  const RefreshData = async () => {
+    if (!address) return;
+
+    console.log("refreshed data");
+    const provider = new ethers.providers.Web3Provider(window?.ethereum);
+    const erc20contract = new ethers.Contract(
+      ERC20,
+      ERC20ABI_new.abi,
+      provider
+    );
+    const rnft = new ethers.Contract(RNFT, RNFTABI.abi, provider);
+    const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, provider);
+
+    const result = await erc20contract.isClaimedAlready(address, {
+      gasLimit: 250000,
+    });
+    setAlreadyClaimedUSDC(result);
+
+    const isApprovedForAllForAll = await rnft.isApprovedForAll(address, RLOGIC);
+    const allow=await erc20contract.allowance(address,RLOGIC)
+if(+allow.toString()==0)setAlreadyHaveAllowence(false);else{
+  setAlreadyHaveAllowence(true)
+}  
+  setAlreadyApprovedForAll(isApprovedForAllForAll&&+allow.toString()>0);
+
+
+    try {
+      const slot = await rnft.slotByOwner(address);
+      const assets = await rnft.getAssetSnapshot(slot.toString());
+      setAssetSnap(assets);
+      console.log(assets)
+      if(!assets.rwaValue)setShowData(true)
+      else {
+        setRwaName(assets.rwaName)
+        setRwaType(assets.category)
+        setMarketValue((assets.rwaValue/1e6)*2)
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
+    try {
+      const tokens = await rlogic.getTokensByOwner(address);
+      let balancePromises = [];
+      let tokensTimebalancePromises = [];
+      tokens.forEach((val, ind) => {
+        balancePromises.push(
+          rnft["balanceOf(uint256)"](tokens[ind].toString())
+        );
+        tokensTimebalancePromises.push(
+          rnft.getTimeSnapshot(tokens[ind].toString())
+        );
+      });
+
+      // const maturityy = await rnft.MATURITY();
+      // setMaturity(+maturityy.toString());
+
+      let results = await Promise.all(balancePromises);
+      let timeSnaps = await Promise.all(tokensTimebalancePromises);
+
+      results = results.map((R, i) => {
+        return {
+          tokenId: tokens[i].toString(),
+          tokenVal: R.toString(),
+
+          claimTime: +timeSnaps[i].claimTime.toString(),
+          mintTime: +timeSnaps[i].mintTime.toString(),
+          interest:
+            0.3 *
+            ((new Date().getTime() / 1000 -
+              +timeSnaps[i].claimTime.toString()) /
+              31536000) *
+            (+R.toString() / 1e6),
+          burnable:
+            new Date().getTime() / 1000 - +timeSnaps[i].mintTime > 600
+              ? true
+              : false,
+        };
+      });
+      setTokensData(results);
+    } catch (e) {
+      tryCount < 4 &&
+        setTimeout(() => {
+          tryCount += 1;
+          RefreshData();
+        }, 3000);
+    }
+    
+  };
+  const resetEverything = () => {
+    setRwaNameError(false);
+    setRWANameLengthErr(false);
+    setRwaTypeError(false);
+    setMintAmountError(false);
+    setBtnState("all");
+    setRwaName("");
+    setRwaType("");
+    setMarketValue("1");
+    setAlreadyClaimedUSDC(false);
+    setMintAmount("0.1");
+    setMarketValueError(false);
+    setAlreadyApprovedForAll(false);
+    setTokensData([]);
+    setOpenSplit(false);
+    setOpenBurn(false);
+    setSelectedToken("");
+    setOpenMerge(false);
+    setOpenBurnMany(false);
+    setAssetSnap({
+      mintableValue: "",
+      rwaValue: "",
+    });
+  };
+  useEffect(()=>{
+    resetEverything()
+  },[address])
+  
   useEffect(() => {
-    if (!address && toggleWallet) setToggleWallet(false);
-  }, [address]);
-  return (
-    <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
-      <Navbar headerBackground={headerBackground} />
+    enableScroll();
+    RefreshData();
+    let interval = setInterval(() => {
+      console.log("timer refreshed");
+      RefreshData();
+    }, 45000);
+    return () => clearInterval(interval);
+  }, [address, network[0]?.data?.chain?.name]);
 
-      {/* {!address && (
-        <button
-          className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple text-center normal-case	text-white absolute top-[60px] z-10 rounded-none md:hidden"
-          onClick={() => setToggleWallet(true)}
-        >
-          {t('connect_wallet', { ns: 'common' })}
-        </button>
-      )}
-      {!address && toggleWallet && <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />} */}
-      <div className="w-full flex flex-col justify-center items-center h-0 ">
-        <label
-          htmlFor="my-modal-1"
-          onClick={() => disableScroll()}
-          className="btn modal-button w-[183px] md:w-min btnShadow bg-white 
-      opacity-80 hover:bg-white hover:opacity-100 px-6  text-sm text-info rounded absolute 
-      top-[188px] md:top-[408px] md:left-[245px] z-[21] normal-case border-none md:hidden"
-        >
-          Storyline
-        </label>
-        <ScrollLink
-          activeClass="active"
-          offset={-100}
-          smooth
-          spy
-          to="mindmap"
-          className="btn w-[183px] md:w-max btnShadow bg-white 
-    opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded 
-    absolute top-[236px] md:top-[232px] md:right-1/2 normal-case border-none z-20 md:hidden"
-        >
-          <p>Mindmap</p>
-        </ScrollLink>
+  let accDailyInterest = 0;
+  let totalTokansVal = 0;
+  let totalBurnable = 0;
+  tokensData.forEach((t) => {
+    accDailyInterest += t.interest;
+    totalTokansVal += +t.tokenVal;
+    if (t.burnable) totalBurnable += 1;
+  });
+  let dailyReturn = ((totalTokansVal / 1e6) * 0.3) / 365;
 
-        <ScrollLink
-          activeClass="active"
-          offset={-100}
-          smooth
-          spy
-          to="faq"
-          className="btn w-[183px] md:w-max btnShadow bg-white 
-    opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[300px] md:top-[280px] md:right-1/4 normal-case border-none z-20 md:hidden"
-        >
-          <p>FAQ & Tutorials</p>
-        </ScrollLink>
-        <label
-          htmlFor="property-modal"
-          onClick={() => disableScroll()}
-          className=" md:hidden btn modal-button w-[183px] md:w-max btnShadow bg-white 
-    opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[364px] md:top-[280px] md:right-1/4 normal-case border-none z-20 "
-        >
-          {t("property_infos")}
-        </label>
-        {Date.now() >= 1665936000000 && (
-          <label
-            htmlFor="premint-modal"
-            onClick={() => disableScroll()}
-            className="btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
-    opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[428px] md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 "
-          >
-            {t("public_sale")}
-          </label>
-        )}
+  let burnableTokens = tokensData.filter((t) => t.burnable);
 
-        <div
-        onClick={()=>router.push('/sftdemo')}
-          className=" z-20 absolute top-[508px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-[#FFC25F] opacity-90 hover:bg-[#FFC25F] hover:opacity-100
-      rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden"
-        >
-          <div className=" text-sm ">SFT Demo</div>
-        </div>
-      </div>
+  let splittableTokens = tokensData.filter((t) => t.tokenVal > 0.1 * 1e6);
 
-      <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
-        {/* <img className=' z-0 h-screen min-h-screen w-full object-cover overflow-hidden' draggable="false" src='/bg/bg.png' alt="bg" /> */}
-        <img
-          className=" cloud1 absolute top-56 md:top-[161px] -left-16 md:left-0 right-0 w-[500px] md:w-[600px] object-contain z-10 "
-          draggable="false"
-          src="/cloud1.png"
-          alt="cloud1"
-        />
-        <img
-          className=" cloud2 absolute top-[430px] -right-20 md:right-0 w-[600px] md:w-[600px] object-contain z-10 "
-          draggable="false"
-          src="/cloud2.png"
-          alt="cloud2"
-        />
-        <div className=" relative z-0 h-screen min-h-screen w-full object-cover overflow-hidden">
-          <Image
-            layout="fill"
-            objectFit="cover"
-            draggable="false"
-            src="/bg/bg.png"
-          />
-        </div>
-        {/* <img
-    className=" w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left"
-    draggable="false"
-    src="/bg/bg_1.png"
-    alt="bg"
-  /> */}
-        <label
-          htmlFor="property-modal"
-          onClick={() => disableScroll()}
-          className=" hidden z-10 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[62%] right-[51%] md:flex justify-end items-start"
-        >
-          <div className=" hidden md:flex justify-center items-center z-10">
-            <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
-          </div>
-        </label>
+  let shortlistedTokens = tokensData;
+  if (btnState !== "all") shortlistedTokens = burnableTokens;
 
-        <Link href={"/sftdemo"}>
-          <div className="z-30 hover:cursor-pointer absolute top-[46%] right-[53.5%] hidden md:flex">
-            <span className="animate-ping z-[1] absolute inline-flex h-[16px] bottom-1 left-0.5 w-[16px] rounded-full bg-[#ffc25f] opacity-75"></span>
-            <img
-              src="/icons/ic_arrow.svg"
-              className="z-[2]"
-              width={21}
-              height={19}
-              alt="arrow icon"
-            />
-          </div>
-        </Link>
+  const CustomWidthTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))({
+    [`& .${tooltipClasses.tooltip}`]: {
+      maxWidth: 375,
+      background: "rgb(25, 20, 28,0.8)",
+      padding: "28px 24px 20px 24px",
+      borderRadius: "4px",
+    },
+    [`& .${tooltipClasses.arrow}`]: {
+      color: "rgb(25, 20, 28,0.8)",
+      "&::before": {
+        backgroundColor: "rgb(25, 20, 28,0.8)",
+        border: "rgb(25, 20, 28,0.8)",
+      },
+    },
+    "& .MuiTooltip-tooltip": {
+      padding: "0px",
+      maxWidth: isMobile ? "336px" : "375PX",
+    },
+  });
 
-        {/* <div className=" hidden md:flex justify-center items-center z-10">
-            <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
-          </div> */}
+  const CustomWidthUSDCTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))({
+    [`& .${tooltipClasses.tooltip}`]: {
+      maxWidth: "375px",
+      width: "360px",
+      background: "linear-gradient(180deg, #44334C 0%, #1E1722 100%)",
+      padding: "28px 24px 20px 24px",
+      borderRadius: "4px",
+    },
+    [`& .${tooltipClasses.arrow}`]: {
+      color: "rgb(25, 20, 28,0.8)",
+      "&::before": {
+        backgroundColor: "rgb(25, 20, 28,0.8)",
+        border: "rgb(25, 20, 28,0.8)",
+      },
+    },
+    "& .MuiTooltip-tooltip": {
+      padding: "0px",
+      maxWidth: isMobile ? "336px" : "360px",
+    },
+  });
 
-        <div>
-          <Link href={"/sftdemo"}>
-            <div className="z-10 hover:cursor-pointer absolute top-[47%] lg:right-[55%] right-[57%] hidden md:flex w-14 h-24"></div>
-          </Link>
-        </div>
-        {Date.now() >= 1665936000000 && (
-          <div className="absolute top-[57%] right-[53%] hidden md:flex">
-            <label
-              htmlFor="premint-modal"
-              onClick={() => disableScroll()}
-              className="btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
-    opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded  normal-case border-none z-20 relative left-40 top-12"
+  const TotalValTooltip = () => {
+    const { t } = useTranslation("sft");
+    return (
+      <CustomWidthTooltip
+        open={showTotalValTooltip}
+        title={
+          <ClickAwayListener onClickAway={() => setShowTotalValTooltip(false)}>
+            <div
+              className="text-xs font-normal text-invar-light-grey rounded leading-5 py-1 px-6"
+              style={{ background: "rgb(25, 20, 28,0.8)" }}
             >
-              {t("public_sale")}
-            </label>
+              <div className="flex">
+                <div>1.&nbsp;</div>
+                <div>
+                  <p>{t("total_val_1")}</p>
+                </div>
+              </div>
+              <div className="flex">
+                <div>2.&nbsp;</div>
+                <div>
+                  <p>{t("total_val_2")}</p>
+                </div>
+              </div>
+            </div>
+          </ClickAwayListener>
+        }
+        arrow
+      >
+        <img
+          src="icons/ic_info.svg"
+          className="inline-block cursor-pointer mb-0.5 sm:mb-[2.5px]"
+          width={16}
+          height={16}
+          alt="info"
+          onClick={() => {
+            setShowUSDCInfoTooltip(false);
+            setShowTotalInterestTooltip(false);
+            setShowReturnValTooltip(false);
+            setShowDailyValTooltip(false);
+            setShowBurnableTooltip(false);
+            setShowTotalValTooltip(true);
+          }}
+        />
+      </CustomWidthTooltip>
+    );
+  };
+
+  const ReturnValTooltip = () => {
+    const { t } = useTranslation("sft");
+    return (
+      <CustomWidthTooltip
+        open={showReturnValToolTip}
+        title={
+          <ClickAwayListener onClickAway={() => setShowReturnValTooltip(false)}>
+            <div
+              className="text-xs font-normal text-invar-light-grey rounded leading-5 py-1 px-6"
+              style={{ background: "rgb(25, 20, 28,0.8)" }}
+            >
+              <div className="flex">
+                <div>1.&nbsp;</div>
+                <div>
+                  <p>{t("return_val_1")}</p>
+                </div>
+              </div>
+              <div className="flex">
+                <div>2.&nbsp;</div>
+                <div>
+                  <p>{t("return_val_2")}</p>
+                </div>
+              </div>
+            </div>
+          </ClickAwayListener>
+        }
+        arrow
+      >
+        <img
+          src="icons/ic_info.svg"
+          className="inline-block cursor-pointer  mb-[2.5px]"
+          width={16}
+          height={16}
+          alt="info"
+          onClick={() => {
+            setShowUSDCInfoTooltip(false);
+            setShowTotalInterestTooltip(false);
+            setShowReturnValTooltip(true);
+            setShowDailyValTooltip(false);
+            setShowBurnableTooltip(false);
+            setShowTotalValTooltip(false);
+          }}
+        />
+      </CustomWidthTooltip>
+    );
+  };
+  const DailyValTooltip = () => {
+    const { t } = useTranslation("sft");
+    return (
+      <CustomWidthTooltip
+        open={showDailyValTooltip}
+        title={
+          <ClickAwayListener onClickAway={() => setShowDailyValTooltip(false)}>
+            <div
+              className="text-xs font-normal text-invar-light-grey rounded leading-5 py-1 px-6"
+              style={{ background: "rgb(25, 20, 28,0.8)" }}
+            >
+              <div className="flex">
+                <div>1.&nbsp;</div>
+                <div>
+                  <p>{t("daily_val_1")}</p>
+                </div>
+              </div>
+              <div className="flex">
+                <div>2.&nbsp;</div>
+                <div>
+                  <p>{t("return_val_2")}</p>
+                </div>
+              </div>
+            </div>
+          </ClickAwayListener>
+        }
+        arrow
+      >
+        <img
+          src="icons/ic_info.svg"
+          className="inline-block cursor-pointer  mb-[2.5px]"
+          width={16}
+          height={16}
+          alt="info"
+          onClick={() => {
+            setShowUSDCInfoTooltip(false);
+            setShowTotalInterestTooltip(false);
+            setShowReturnValTooltip(false);
+            setShowDailyValTooltip(true);
+            setShowBurnableTooltip(false);
+            setShowTotalValTooltip(false);
+          }}
+        />
+      </CustomWidthTooltip>
+    );
+  };
+
+  const BurnableTooltip = () => {
+    const { t } = useTranslation("sft");
+    return (
+      <CustomWidthTooltip
+        open={showBurnableTooltip}
+        title={
+          <ClickAwayListener onClickAway={() => setShowBurnableTooltip(false)}>
+            <div
+              className="text-xs font-normal text-invar-light-grey rounded leading-5 py-1 px-6"
+              style={{ background: "rgb(25, 20, 28,0.8)" }}
+            >
+              <div className="flex">
+                <div>1.&nbsp;</div>
+                <div>
+                  <p>{t("burnable_1")}</p>
+                </div>
+              </div>
+              <div className="flex">
+                <div>2.&nbsp;</div>
+                <div>
+                  <p>{t("burnable_2")}</p>
+                </div>
+              </div>
+              <div className="flex">
+                <div>3.&nbsp;</div>
+                <div>
+                  <p>{t("burnable_3")}</p>
+                </div>
+              </div>
+            </div>
+          </ClickAwayListener>
+        }
+        arrow
+      >
+        <img
+          src="icons/ic_info.svg"
+          className="inline-block cursor-pointer  mb-[2.5px]"
+          width={16}
+          height={16}
+          alt="info"
+          onClick={() => {
+            setShowUSDCInfoTooltip(false);
+            setShowTotalInterestTooltip(false);
+            setShowReturnValTooltip(false);
+            setShowDailyValTooltip(false);
+            setShowBurnableTooltip(true);
+            setShowTotalValTooltip(false);
+          }}
+        />
+      </CustomWidthTooltip>
+    );
+  };
+
+  const TotalInterestTooltip = () => {
+    const { t } = useTranslation("sft");
+    return (
+      <CustomWidthTooltip
+        open={showTotalInterestTooltip}
+        title={
+          <ClickAwayListener
+            onClickAway={() => setShowTotalInterestTooltip(false)}
+          >
+            <div
+              className="text-xs font-norma text-invar-light-grey rounded leading-5 py-1 px-6"
+              style={{ background: "rgb(25, 20, 28,0.8)" }}
+            >
+              <div className="flex">
+                <div>1.&nbsp;</div>
+                <div>
+                  <p>{t("total_interest_1")}</p>
+                </div>
+              </div>
+              <div className="flex">
+                <div>2.&nbsp;</div>
+                <div>
+                  <p>{t("total_interest_2")}</p>
+                </div>
+              </div>
+              <div className="flex">
+                <div>3.&nbsp;</div>
+                <div>
+                  <p>{t("total_interest_3")}</p>
+                </div>
+              </div>
+            </div>
+          </ClickAwayListener>
+        }
+        arrow
+      >
+        <img
+          src="icons/ic_info.svg"
+          className="inline-block cursor-pointer  mb-[2.5px]"
+          width={16}
+          height={16}
+          alt="info"
+          onClick={() => {
+            setShowUSDCInfoTooltip(false);
+            setShowTotalInterestTooltip(true);
+            setShowReturnValTooltip(false);
+            setShowDailyValTooltip(false);
+            setShowBurnableTooltip(false);
+            setShowTotalValTooltip(false);
+          }}
+        />
+      </CustomWidthTooltip>
+    );
+  };
+  const USDCInfoTooltip = (props) => {
+    const { t } = useTranslation("sft");
+    return (
+      <CustomWidthUSDCTooltip
+        open={showUSDCInfoTooltip}
+        title={
+          <ClickAwayListener onClickAway={() => setShowUSDCInfoTooltip(false)}>
+            <div
+              className="text-xs font-normal leading-5 text-invar-light-grey rounded py-1 px-6"
+              style={{ background: "rgb(25, 20, 28,0.8)" }}
+            >
+              <p>{t("test_usdc_address")} </p>
+              <p className="mb-1.5">
+                0xB33b0524B0C48ecB4500227234f364d6FBd7CD15
+              </p>
+              <p>{t("user_will_get")}</p>
+            </div>
+          </ClickAwayListener>
+        }
+        arrow
+      >
+        <div
+          onClick={() => {
+            setShowUSDCInfoTooltip(true);
+            setShowTotalInterestTooltip(false);
+            setShowReturnValTooltip(false);
+            setShowDailyValTooltip(false);
+            setShowBurnableTooltip(false);
+            setShowTotalValTooltip(false);
+          }}
+        >
+          {props.children}
+        </div>
+      </CustomWidthUSDCTooltip>
+    );
+  };
+  console.log("rwatype",rwaType)
+  const typeOptions={
+    "select":t("select"),
+    "Real Estate":t("real_estate"),
+    "Artwork":t("artwork"),
+    "Commodity":t("commodity"),
+    "Industrial Equipment":t("industrial_equipment"),
+    "Others":t("others")
+  }
+const test=async()=>{
+  const provider = new ethers.providers.Web3Provider(window?.ethereum);
+  const signer = provider.getSigner();
+  const erc20contract = new ethers.Contract(ERC20, ERC20ABI_new.abi, signer);
+ const allow=await erc20contract.allowance(address,RLOGIC)
+ console.log("allowence")
+}
+  return (
+    <div className={styles.mediaPage} onClick={test}>
+      <div className={styles.navWrapper}>
+        <Navbar headerBackground={headerBackground} SFTDemo={true} />
+      </div>
+      <div className={styles.pageWrapper} style={{}}>
+        {!isGoerli && address && (
+          <div
+            className="fixed w-full py-1.5 bg-invar-error md:top-20 top-[60px] z-20 flex items-center justify-center px-10 text-center cursor-pointer"
+            onClick={() => switchNetwork(ChainId.Goerli)}
+          >
+            <p className="text-white font-semibold text-base leading-5 cursor-pointer">
+              {t("switch_network")}
+            </p>
           </div>
         )}
-        <div className="mt-[88px]  hidden absolute top-0 left-[24px] md:flex flex-row items-start justify-start h-[592px] w-[300px] text-white indent-0.5 font-normal text-sm z-10 animate-fade-in-down">
-          <div className="flex flex-col items-center justify-center mr-3 ">
-            <span className="flex h-3 w-3 justify-center items-center">
-              <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-            </span>
-            <div className="h-[540px] w-[1px] border-l bg-white -mt-1 z-0"></div>
+
+        <section
+          className={`${styles.SFTSection} sm:pt-32 ${
+            !isGoerli && address ? "pt-32" : "pt-24"
+          }`}
+        >
+          <h4 className="font-semibold md:text-[32px] md:leading-10 text-2xl leading-7 mb-4">
+            {t("sft_factory")}
+          </h4>
+          <p className="font-normal md:text-base md:leading-5 text-sm leading-5 md:mb-1 mb-8">
+            {t("welcome")}
+          </p>
+        </section>
+        {/* {address && isGoerli && !alreadyClaimedUSDC && (
+          <div className={styles.emptyBox}>
+            <div className={styles.borderBox}></div>
           </div>
-          {t("storyline_popup_story6", { ns: "storyline" })}
-        </div>
-
-        {/* <div className=" hidden absolute bottom-0 left-0 right-0 z-10 md:flex justify-center items-center">
-    <div
-      style={{ height: router.locale === 'en' ? "145px" : "99px" }}
-      className=" flex justify-start items-start text-start w-[826px] m-6 p-6 px-[87px] bg-invar-main-purple 
-      bg-opacity-60 text-white text-sm font-normal leading-[19.6px] rounded-lg animate-fade-in-up"
-    >
-      <div className="text-start flex justify-start" id="typeWriter">
-        <Typewriter
-            options={{
-              delay: 10,
-            }}
-            onInit={(typewriter) => {
-              typewriter.pauseFor(1000).typeString(t("homepage_dialog_woman5")).start();
-            }}
-          />
-      </div>
-    </div>
-  </div> */}
-
-        <div className="m-6 flex justify-between absolute bottom-[0px] right-0 z-20">
-          <Twitter />
-          <Discord />
-        </div>
-      </div>
-
-      {/* <div className={`w-full md:h-[108px] z-20 relative pt-11 md:pt-0 ${styles.stripBG}`}>
-        <div className={`${styles.sidesSpacing} flex justify-between h-full md:flex-row flex-col md:items-end items-center`} >
-          <div className="my-auto md:flex-col flex-row flex">
-            <p className={`${styles.stripHeadingInfo} md:mr-0 sm:mr-5 mr-4`}>Current TVL</p>
-            <p className={styles.stripHeading}>$224,000</p>
+        )}
+        {address && !isGoerli && (
+          <div className={styles.emptyBox}>
+            <div className={styles.borderBox}></div>
           </div>
-
-
-          <div className="my-auto md:flex-col flex-row flex">
-            <p className={`${styles.stripHeadingInfo} md:mr-0 sm:mr-5 mr-4`}>Interest Accrued</p>
-            <p className={styles.stripHeading}>$x,xxx</p>
+        )}
+        {!address && (
+          <div className={styles.emptyBox}>
+            <div
+              className={styles.borderBox}
+              style={{ backgroundColor: "#D9D9D9" }}
+            ></div>
           </div>
+        )} */}
 
-          <div className="flex items-end relative">
-            <Image src="/bg/lama.png" width={96} height={101} alt="lama-img" />
-            <span className="xl:absolute left-24 bottom-4 xl:mb-0 mb-4 text-[#E3D5FA] text-base font-normal rotate-[7.6deg]">We’re in<br />DefiLlama</span>
-          </div>
-        </div>
-      </div> */}
-
-      <div className={styles.firstHalfbg}>
-        <section className={`${styles.introSection} ${styles.sidesSpacing}`}>
-          <div className={styles.exploreContWrapper}>
-            <div className={styles.exploreLeft}>
-              <h3 className={styles.h3}>{t("homepage_intro_title")}</h3>
-              <p className={styles.p}>
-                {t("homepage_intro_desc1")}
-                <br />
-                <br />
-                {t("homepage_intro_desc2")}
-              </p>
+        {
+          <>
+            <div className="bg-[url('/bg/layer.png')] xl:w-[1167px] bg-no-repeat lg:h-[383px] md:h-[300px] m-auto bg-bottom bg-contain md:flex hidden">
+              <div className="relative lg:h-72 md:h-[14rem] lg:max-w-[1020px] md:w-11/12 m-auto bg-[url('/bg/sft-landscape-bg.png')] bg-contain bg-no-repeat bg-center sm:bg-contain">
+                <div className="lg:w-[1020px] max-w-full m-auto px-5 relative bottom-4 font-semibold md:text-xl leading-6 md:flex justify-between hidden">
+                  <p> {t("100x")}</p>
+                  <p>{t("real_world_asset")}</p>
+                  <p>{t("fraction")}</p>
+                </div>
+                <div className="absolute top-[44%] flex">
+                  <img
+                    src="icons/ic_block.png"
+                    width={20}
+                    height={20}
+                    alt="blocks"
+                    className="w-[30px] h-[30px]"
+                  />
+                  <p className="ml-2 text-invar-light-purple font-normal text-xs leading-4">
+                    {t("tradfi_1")}
+                    <br />
+                    {t("tradfi_2")}
+                  </p>
+                </div>
+                <div className="absolute bottom-[25%] left-[6.5%] flex items-center">
+                  <img
+                    src="icons/ic_building.png"
+                    width={20}
+                    height={20}
+                    className="w-[25px] h-[25px]"
+                  />
+                  <p className="ml-2 text-invar-light-purple font-normal text-xs leading-4">
+                    {t("global_real_estate_1")}
+                    <br />
+                    {t("global_real_estate_2")}
+                  </p>
+                </div>
+                <div className="absolute bottom-[0%] left-[9.5%] flex items-center">
+                  <img
+                    src="icons/ic_money.png"
+                    width={20}
+                    height={15}
+                    className="w-[25px] h-[25px]"
+                  />
+                  <p className="ml-2 text-invar-light-purple font-normal text-xs leading-4">
+                    {t("gold_trillion_1")}
+                    <br />
+                    <span className="whitespace-nowrap">
+                      {t("gold_trillion_2")}
+                    </span>{" "}
+                  </p>
+                </div>
+                <div className="absolute bottom-[11%] left-[18%] flex items-center">
+                  <img
+                    src="icons/ic_ethereum.png"
+                    width={20}
+                    height={20}
+                    className="w-[25px] h-[25px]"
+                  />
+                  <p className="ml-2 text-invar-light-purple font-normal text-xs leading-4">
+                    {t("cryptocurrency_trillion_1")}
+                    <br />
+                    {t("cryptocurrency_trillion_2")}
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className={styles.exploreRight}>
-              <div className="relative">
-                <Image
-                  src={router.locale === "tw" ? exploreTW : explore}
-                  width={558}
-                  height={448}
+
+            {/* mobile section style */}
+            <div className="bg-[url('/bg/sft-bg-sm.png')] bg-no-repeat bg-right relative md:hidden">
+              {/* <div className="bg-[url('/bg/layer.png')] bg-no-repeat rotate-90 w-[585px] h-[192px]"></div> */}
+              <p className="font-semibold text-xl leading-6 text-right mr-[10%] mb-3">
+                {" "}
+                {t("100x")}
+              </p>
+              <div className="bg-[url('/bg/landscape-circles.png')]  bg-no-repeat  w-[202px] h-[184px] sm:w-[250px] sm:h-[230px] ml-6 relative bg-contain">
+                <div className="absolute top-[39%] flex">
+                  <img
+                    src="icons/ic_block.png"
+                    width={20}
+                    height={20}
+                    alt="blocks"
+                    className="w--[18px] h-[18px]"
+                  />
+                  <p className="ml-2 text-invar-light-purple font-normal text-sm leading-4">
+                    {t("tradfi_1")}
+                    <br />
+                    {t("tradfi_2")}
+                  </p>
+                </div>
+                <div className="absolute bottom-[25%] left-[23%] flex items-center">
+                  <img
+                    src="icons/ic_building.png"
+                    width={20}
+                    height={20}
+                    className="w-[18px] h-[18px]"
+                  />
+                  <p className="ml-2 text-invar-light-purple font-normal text-sm leading-4">
+                    {t("global_real_estate_1")}
+                    <br />
+                    {t("global_real_estate_2")}
+                  </p>
+                </div>
+                <div className="absolute bottom-[-3%] left-[34%] flex items-center">
+                  <img
+                    src="icons/ic_money.png"
+                    width={20}
+                    height={15}
+                    className="w-[18px] h-[18px]"
+                  />
+                  <p className="ml-2 text-invar-light-purple font-normal text-sm leading-4">
+                    {t("gold_trillion_1")}
+                    <br />
+                    <span className="whitespace-nowrap">
+                      {t("gold_trillion_2")}
+                    </span>{" "}
+                  </p>
+                </div>
+                <div className="absolute bottom-[9%] left-[63%] flex items-center">
+                  <img
+                    src="icons/ic_ethereum.png"
+                    width={20}
+                    height={20}
+                    className="w-[18px] h-[18px]"
+                  />
+                  <p className="ml-2 text-invar-light-purple font-normal text-sm leading-4">
+                    {t("cryptocurrency_trillion_1")}
+                    <br />
+                    {t("cryptocurrency_trillion_2")}
+                  </p>
+                </div>
+              </div>
+              <div className="arrows flex flex-col items-end justify-center mr-[25%] ">
+                <img
+                  src="/icons/arrow-down-sm.png"
+                  width={30}
+                  height={16}
+                  alt="arrow-down"
                 />
-                <div className="absolute w-20 h-[75px] flex items-center flex-col sm:left-[40%] sm:bottom-[25%] left-[35%] bottom-[18%]">
-                  <span className="wm:text-base sm:text-base text-xs">
-                    Youtube
-                  </span>
+                <img
+                  src="/icons/arrow-down-lg.png"
+                  width={43}
+                  height={24}
+                  alt="arrow-down"
+                />
+              </div>
+              <div className="ml-[8%]">
+                <p className="font-semibold text-xl leading-6 ml-[6%]">
+                  {t("real_world_asset")}
+                </p>
+                <img
+                  src="/bg/landscape-second.png"
+                  className="w-full h-auto"
+                  alt="building"
+                />
+              </div>
+              <div className="arrows flex flex-col items-start justify-center ml-[20%]">
+                <img
+                  src="/icons/arrow-down-sm.png"
+                  width={30}
+                  height={16}
+                  alt="arrow-down"
+                />
+                <img
+                  src="/icons/arrow-down-lg.png"
+                  width={43}
+                  height={24}
+                  alt="arrow-down"
+                />
+              </div>
+              <div className="ml-6">
+                <p className="font-semibold text-xl leading-6 text-right mr-[15%] mb-3">
+                  {t("fraction")}
+                </p>
+                <img
+                  src="/bg/landscape-dots.png"
+                  width={224}
+                  height={189}
+                  alt="dots"
+                />
+              </div>
+            </div>
+          </>
+        }
+        {
+          <div
+            className={`w-full ${
+              alreadyApprovedForAll && "border-b-2"
+            } border-invar-main-purple flex justify-end md:relative md:bottom-2`}
+          >
+            <div
+              className={`md:flex ${
+                isMobile ? "md:mt-8 mt-14" : styles.claiming
+              }`}
+            >
+              <div className="md:flex justify-between items-center md:w-[95%] relative md:bottom-5 md:h-unset ">
+                <div className="px-4 md:px-0 md:basis-[52%] md:flex justify-between items-center">
+                  <p className="m-0 md:m-auto font-semibold sm:text-base text-sm sm:leading-5 leading-4 mb-1.5">
+                    {t("new_type")} {t("claim_tokens")}
+                  </p>
+                </div>
+                {isMobile ? (
+                  <div className="relative ml-[26%] bottom-[-11px]">
+                    <img
+                      src={"/icons/down-arrow.svg"}
+                      className="w-6 h-5 inline"
+                      width={24}
+                      height={14}
+                      alt="arrow-icon"
+                    />
+                    <img
+                      src={"/icons/down-arrow.svg"}
+                      className="w-6 h-5 inline relative right-1.5 sm:m-0 mx-3"
+                      width={24}
+                      height={14}
+                      alt="arrow-icon"
+                    />
+                    <img
+                      src={"/icons/down-arrow.svg"}
+                      className="w-6 h-5 inline relative right-3"
+                      width={24}
+                      height={14}
+                      alt="arrow-icon"
+                    />
+                  </div>
+                ) : (
+                  <img
+                    src={'/v2imgs/h-arrows.png'}
+                    className="object-contain"
+                    alt="clain eth"
+                    
+                  />
+                )}
+                {isMobile && (
+                  <div className="bg-invar-main-purple h-14 md:mb-0 mb-8"></div>
+                )}
+                <div
+                  className={`inline-flex gap-4 ${
+                    isMobile
+                      ? "w-full  justify-center absolute bottom-[-20px]"
+                      : ""
+                  }`}
+                >
                   <a
-                    href="https://www.youtube.com/watch?v=JYqibpdg-Yk"
+                    href="https://goerlifaucet.com/"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <div className="sm:w-16 sm:h-11 w-10 h-7 bg-[#646A79] hover:bg-[#FF0000] sm:rounded-2xl rounded-[10px] flex items-center">
-                      <img
-                        src="/icons/ic_play.svg"
-                        width={23}
-                        height={23}
-                        className="sm:w-[23px] sm:h-[23px] w-4 h-4 ml-auto sm:mr-[18px] mr-[11px]"
-                      />
-                    </div>
+                    <button className="btn w-[140px] h-[52px] font-semibold text-sm text-white border-none normal-case rounded bg-invar-dark">
+                      {t("claim_eth")}
+                    </button>
                   </a>
+                  <button
+                    disabled={alreadyClaimedUSDC || !address}
+                    className="disabled:bg-invar-grey disabled:text-invar-light-grey  btn w-[140px] h-[52px] font-semibold text-sm text-white border-none normal-case rounded bg-invar-dark"
+                    onClick={claimUSDC}
+                  >
+                    {t("claim_usdc")}
+                  </button>
+                </div>
+              </div>
+              <div className="w-4 h-4 relative bottom-1.5 ml-5 mr-5 md:block hidden">
+                <USDCInfoTooltip>
+                  <img
+                    src="/icons/ic_black_info.svg"
+                    className="cursor-pointer"
+                    alt="info"
+                    width={16}
+                    height={16}
+                  />
+                </USDCInfoTooltip>
+              </div>
+              <div className="md:hidden mt-10 mb-4">
+                <div className="px-5 flex items-start">
+                  <img
+                    src="/icons/ic_black_info.svg"
+                    className="mr-1.5 mt-2"
+                    width={16}
+                    height={16}
+                  />
+                  <div className="text-xs font-normal leading-5 text-invar-light-grey rounded">
+                    <p>{t("test_usdc_address")}</p>
+                    <p className="mb-1.5">
+                      0xB33b0524B0C48ecB4500227234f364d6FBd7CD15
+                    </p>
+                    <p>{t("user_will_get")}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </section>
-        <span id="mindmapoutside" className="relative bottom-28"></span>
-        <section
-          id="mindmap"
-          className={`${styles.mindmapSection} ${styles.sidesSpacing}`}
-        >
-          <h3 className={styles.h3}>{t("homepage_mindmap_title")}</h3>
-          <p className={styles.p}>{t("homepage_mindmap_desc")}</p>
-        </section>
-
-        <section id="storyline" className={styles.phase1}>
-          <div className={`${styles.phase1Content} ${styles.sidesSpacing}`}>
-            <div className={styles.phase1Left}></div>
-
-            <div className={styles.phase1Right}>
-              <h5 className={styles.h5}>{t("homepage_mindmap_phaseone")}</h5>
-              <h3 className={styles.h3}>
-                {t("homepage_mindmap_phaseone_title")}
-              </h3>
-              <p className={styles.p}>{t("homepage_mindmap_phaseone_desc")}</p>
-              <ul className={styles.ul}>
-                <li>{t("homepage_mindmap_phaseone_point1")}</li>
-                <li>{t("homepage_mindmap_phaseone_point2")}</li>
-                <li>{t("homepage_mindmap_phaseone_point3")}</li>
-                <li>{t("homepage_mindmap_phaseone_point4")}</li>
-              </ul>
+        }
+        {alreadyClaimedUSDC && (
+          <section className={`${styles.rwaSection}`}>
+            <div className="h-12 md:h-auto md:flex md:gap-[8%] lg:gap-[16%] sm:mb-7 mb-4">
+              <p className="font-normal sm:text-base text-sm leading-5 md:self-center lg:self-end">
+                {t("enter_data")}
+              </p>
+              <div className="hidden md:block">
+                <Image src={'v2imgs/v-arrows.png'} alt="rwa" />
+              </div>
             </div>
-          </div>
-        </section>
-      </div>
-      <div className={styles.secondHalfbg}>
-        <section className={styles.phase2}>
-          <div className={`${styles.phase2Content} ${styles.sidesSpacing}`}>
-            <div className={styles.phase2Left}>
-              <h5 className={styles.h5}>{t("homepage_mindmap_phasetwo")}</h5>
-              <h3 className={styles.h3}>
-                {t("homepage_mindmap_phasetwo_title")}
-              </h3>
-              <p className={styles.p}>{t("homepage_mindmap_phasetwo_desc")}</p>
-              <ul className={styles.ul}>
-                <li>{t("homepage_mindmap_phasetwo_point1")}</li>
-                <li>{t("homepage_mindmap_phasetwo_point2")}</li>
-                <li>{t("homepage_mindmap_phasetwo_point3")}</li>
-              </ul>
+            <div className="flex md:mb-5 mb-6 md:flex-row flex-col md:mt-0">
+              <div className="lg:w-[48%] lg:min-w-[470px] md:min-w-[350px] md:w-[40%] lg:px-7 px-3 flex justify-between items-center">
+                <div className="lg:min-w-[400px] flex justify-between w-full relative">
+                  <DragDropContext onDragEnd={dragEnd}>
+                    <Droppable key={"drag1"} droppableId="droppable-1" cl>
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className="flex items-center"
+                        >
+                          <Draggable
+                            key={"drag1"}
+                            draggableId={"drag1"}
+                            index={0}
+                          >
+                            {(provided) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                              >
+                                { showCard&&(
+                                  <div className="w-36 h-20 lg:w-[200px] lg:h-full  md:w-36 md:h-20 lg:flex lg:items-center relative">
+                                    <Image
+                                      src={dragCard}
+                                      alt="rwa img"
+                                      className="z-10 select-none h-full w-full"
+                                    />
+                                    <div className="absolute text-invar-purple z-10 p-2 top-0 lg:top-1 text-xs capitalize">
+                                    <p className="whitespace-nowrap lg:mb-1.5">
+                                        {t("name")}:{" "}
+                                        <span className="md:font-semibold">
+                                          {rwaName}
+                                        </span>
+                                      </p>
+                                      <p className="whitespace-nowrap lg:mb-1.5">
+                                        {t("type")}:{" "}
+                                        <span className="md:font-semibold">
+                                          {typeOptions[rwaType]}
+                                        </span>
+                                      </p>
+                                      <p className="lg:mb-1.5">
+                                        {t("market_val")}:{" "}
+                                        <span className="md:font-semibold">
+                                          {marketValue}
+                                        </span>
+                                      </p>
+                                      <p>
+                                        {t("tokenized_value")}:{" "}
+                                        <span className="font-semibold">
+                                          {(marketValue / 2).toFixed(1)}
+                                        </span>
+                                      </p>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </Draggable>
+
+                          {provided.placeholder}
+                        </div>
+                      )}
+                    </Droppable>
+                    <Droppable key={"test2"} droppableId="droppable-2">
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                        >
+                          <div className="w-28 lg:w-40 lg:h-44 md:w-32 md:h-32">
+                            {" "}
+                            <Image
+                              src={factoryImg}
+                              alt="rwa img"
+                              className="z-10 select-none"
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </Droppable>
+                  </DragDropContext>
+             
+                   {showCard&& <img
+                      src="icons/ic_direction.svg"
+                      className="left-[40%] absolute lg:left-[47%] left-[40%] md:left-[40%] lg:left-[45%]  top-1/3 z-0 select-none"
+                    />}
+                
+                </div>
+              </div>
+
+              <div className="flex-1">
+                <div className="flex justify-between md:flex-row flex-col">
+                  <div className="lg:w-[54%] md:w-[48%]">
+                    <label className="w-full mb-3.5 block md:mt-0 sm:mt-4 mt-2.5">
+                      <p className=" text-invar-light-grey text-sm leading-4 font-normal mb-1">
+                        {t("rwa_name")}
+                      </p>
+                      <input
+                      disabled={assetSnap.rwaValue}
+                        name="inputIDnumber"
+                        type="text"
+                        required=""
+                        className="block bg-invar-main-purple w-full h-12 rounded focus:border border-white text-white font-normal px-[15px]"
+                        value={rwaName}
+                        onChange={(e) => {
+                          if (e.target.value.length < 15)
+                            setRwaName(e.target.value);
+                          e.target.value.length && setRwaNameError(false);
+                          e.target.value.length > 13
+                            ? setRWANameLengthErr(true)
+                            : setRWANameLengthErr(false);
+                        }}
+                      />
+                      {rwaNameError && (
+                        <span className="text-invar-error text-sm">
+                          {t("rwa_name_error")}
+                        </span>
+                      )}
+                      {rwaNameLengthErr && (
+                        <span className="text-invar-error text-sm">
+                          {t("long_must_13")}
+                        </span>
+                      )}
+                      {!isMobile&&!rwaNameError&&!rwaNameLengthErr&&rwaTypeError&& <span className="text-invar-error text-sm invisible">
+                          {t("long_must_13")}
+                        </span>}
+                    </label>
+
+                    <label className="w-full block md:mt-0 mt-4">
+                      <p className="block text-invar-light-grey text-sm leading-4 font-normal mb-1">
+                        {t("estimated_value")}
+                      </p>
+                      <div className="relative">
+                        <input
+                                              disabled={assetSnap.rwaValue}
+
+                          name="marketValue"
+                          type="text"
+                          required=""
+                          className="block bg-invar-main-purple w-full h-12 rounded focus:border border-white outline-none text-white font-normal px-[15px] appearance-none"
+                          value={marketValue}
+                          onChange={handleInputField}
+                        />
+                        <span className=" pointer-events-none absolute inset-y-0 right-[15px] flex items-center text-white text-base font-semibold leading-5">
+                          USDC
+                        </span>
+                        {!marketValue && (
+                          <span className=" pointer-events-none absolute inset-y-0 left-[15px] flex items-center text-invar-light-grey text-base font-semibold leading-5">
+                            ≥ 1
+                          </span>
+                        )}
+                      </div>
+                      {marketValueError && (
+                        <span className="text-invar-error text-sm">
+                          {t("market_value_error")}
+                        </span>
+                      )}
+                    </label>
+                  </div>
+
+                  <div className="lg:w-[43%] md:w-[48%] relative">
+                    <label className="w-full mb-3.5 block md:mt-0 mt-4">
+                      <p className="block text-invar-light-grey text-sm leading-4 font-normal mb-1">
+                        {t("rwa_type")}
+                      </p>
+                      <div className="relative">
+                        <select
+                                              disabled={assetSnap.rwaValue}
+
+                          name="rwatype"
+                          className="appearance-none block bg-invar-main-purple w-full h-12 rounded focus:border border-white focus:outline-none text-white font-normal px-[15px]"
+                          value={rwaType}
+                          onChange={(e) => {
+                            setRwaType(e.target.value);
+                            e.target.value != "" && setRwaTypeError(false);
+                          }}
+                        >  
+                          <option value="">{t("select")}</option>
+                          <option value="Real Estate">
+                            {t("real_estate")}
+                          </option>
+                          <option value="Artwork">{t("artwork")}</option>
+                          <option value="Commodity">{t("commodity")}</option>
+                          <option value="Industrial Equipment">
+                            {t("industrial_equipment")}
+                          </option>
+                          <option value="Others">{t("others")}</option>
+                        </select>
+                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+                          <svg
+                            className="fill-current h-4 w-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+                          </svg>
+                        </div>
+                      </div>
+                      {rwaTypeError && (
+                        <span className="text-invar-error text-sm">
+                          {t("rwa_type_error")}
+                        </span>
+                      )}
+                         {(!rwaTypeError&&(rwaNameError||rwaNameLengthErr))&&!isMobile&& (
+                        <span className="text-invar-error text-sm invisible">
+                          {t("rwa_type_error")}
+                        </span>
+                      )}
+                    </label>
+
+                    <label className="w-full block md:mt-0 mt-4">
+                      <p className="block text-invar-light-grey text-sm leading-4 font-normal mb-1">
+                        {t("token_value")}
+                      </p>
+                      <div className="relative">
+                        <input
+                          name="tokenized value"
+                          disabled
+                          type="text"
+                          required=""
+                          className="block bg-invar-main-purple w-full h-12 rounded focus:border border-white outline-none text-white font-normal px-[15px] appearance-none"
+                          value=""
+                        />
+                        <span className=" pointer-events-none absolute inset-y-0 right-[15px] flex items-center text-white text-base font-semibold leading-5">
+                          USDC
+                        </span>
+                        <span className=" pointer-events-none absolute inset-y-0 left-[15px] flex items-center text-invar-light-grey text-base font-semibold leading-5">
+                          0{" "}
+                          {marketValue / 2 > 0 && (
+                            <span className="text-white">
+                              &nbsp;~ {(marketValue / 2).toFixed(1)}
+                            </span>
+                          )}
+                        </span>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <p className="font-normal text-base leading-6 md:mt-[22px] mt-4">
+                  {t("make_sure")}
+                </p>
+              </div>
             </div>
-            <div className={styles.phase2Right}></div>
-          </div>
-        </section>
 
-        <section className={styles.phase3}>
-          <div className={`${styles.phase1Content} ${styles.sidesSpacing}`}>
-            <div className={styles.phase3Left}></div>
-            <div className={`${styles.phase1Right} ${styles.phase3Right}`}>
-              <h5 className={styles.h5}>{t("homepage_mindmap_phasethree")}</h5>
-              <h3 className={styles.h3}>
-                {t("homepage_mindmap_phasethree_title")}
-              </h3>
-              <p className={styles.p}>
-                {t("homepage_mindmap_phasethree_desc")}
-              </p>
-              <ul className={styles.ul}>
-                <li>{t("homepage_mindmap_phasethree_point1")}</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-        <span id="faqoutside" className="relative bottom-28"></span>
-        <section
-          id="faq"
-          className={`${styles.faqSection} ${styles.sidesSpacing}`}
-        >
-          <h3 className={`${styles.h3} text-center`}>FAQ</h3>
+            <button
+              disabled={!assetSnap.rwaValue}
+              className="btn w-full h-[52px] font-semibold text-sm text-white border-none normal-case rounded bg-invar-dark mr-4 mb-6 disabled:bg-invar-grey disabled:text-invar-light-grey"
+              onClick={resetRWAData}
+            >
+              {t("reset_data")}
+            </button>
+            {assetSnap.rwaValue&&
+              <>
+                {" "}
+                <div className="hidden md:block md:flex md:justify-center mb-6">
+                  <Image src={'v2imgs/v-arrows.png'} />
+                </div>
+                <div className="w-full md:h-[395px] bg-invar-main-purple flex relative rounded md:flex-row flex-col md:px-  lg:px-4 md:px-4 shadow-xl shadow-[rgba(0, 0, 0, 0.12)]">
+                  <div className="z-0 w-full h-full absolute left-0 top-0 bg-[#37293E] rounded">
+                    <div className="w-full h-[184px] lg:bg-invar-main-purple md:bg-invar-main-purple rounded"></div>
+                  </div>
 
-          <CollapseMenu
-            heading={t("faq_1_title")}
-            para={<p className={styles.p}>{t("faq_1_desc")}</p>}
-          />
-          <CollapseMenu
-            heading={t("faq_2_title")}
-            para={<p className={styles.p}>{t("faq_2_desc")}</p>}
-          />
-          <CollapseMenu
-            heading={t("faq_3_title")}
-            para={
-              <>
-                <p className={styles.p}>
-                  <span className="purpleGrey">{t("faq_3_desc_1")}</span>
-                  {t("faq_3_desc_2")}
-                </p>
-                <br />
-                <Link href="/terms">
-                  <p className={`${styles.p} m-0`}>
-                    {t("faq_3_desc_3")}
-                    <span className="purple">{t("faq_3_desc_4")}</span>
-                    {t("faq_3_desc_5")}
-                  </p>
-                </Link>
-              </>
-            }
-          />
-          <CollapseMenu
-            heading={t("faq_4_title")}
-            para={<p className={styles.p}>{t("faq_4_desc")}</p>}
-          />
-          <CollapseMenu
-            heading={t("faq_5_title")}
-            para={
-              <p className={styles.p}>
-                {t("faq_5_desc_1")}
-                <span className="purpleGrey">{t("faq_5_desc_2")}</span>
-                {t("faq_5_desc_3")} (
-                <a
-                  className="linksColor"
-                  href="https://twitter.com/InVarFinance"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Twitter
-                </a>
-                ,
-                <a
-                  className="linksColor"
-                  href="https://discord.com/invite/BrzPWYut4p"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {" "}
-                  Discord
-                </a>
-                ){t("faq_5_desc_4")}.
-              </p>
-            }
-          />
-
-          <CollapseMenu
-            heading={t("faq_6_title")}
-            para={
-              <p className={styles.p}>
-                {t("faq_6_desc_1")}
-                <span className="purpleGrey">{t("faq_6_desc_2")}</span>
-                <span className="linksColor text-semibold">
-                  <a
-                    className="linksColor"
-                    href="https://coinmarketcap.com/currencies/usd-coin/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {t("faq_6_desc_3")}
-                  </a>
-                </span>
-                <span className="purpleGrey">{t("faq_6_desc_4")}</span>
-                {t("faq_6_desc_5")}
-                <a
-                  className="linksColor"
-                  href="https://ethereum.org/en/developers/docs/gas/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t("faq_6_desc_6")}
-                </a>
-                {t("faq_6_desc_7")}
-              </p>
-            }
-          />
-          <CollapseMenu
-            heading={t("faq_7_title")}
-            para={
-              <p className={styles.p}>
-                <span className="purpleGrey">{t("faq_7_desc_1")}</span>
-                {t("faq_7_desc_2")}
-              </p>
-            }
-          />
-          <CollapseMenu
-            heading={t("faq_8_title")}
-            para={
-              <p className={styles.p}>
-                {t("faq_8_desc_1")}
-                <span className="purpleGrey">{t("faq_8_desc_2")}</span>
-              </p>
-            }
-          />
-          <CollapseMenu
-            heading={t("faq_9_title")}
-            para={<p className={styles.p}>{t("faq_9_desc")}</p>}
-          />
-          <CollapseMenu
-            heading={t("faq_10_title")}
-            para={
-              <p className={styles.p}>
-                <span className="purpleGrey">{t("faq_10_desc_1")}</span>
-                {t("faq_10_desc_2")}
-              </p>
-            }
-          />
-          <CollapseMenu
-            heading={t("faq_11_title")}
-            para={
-              <>
-                <p className={styles.p}>
-                  <span className="purpleGrey">{t("faq_11_desc_1")}</span>
-                  {t("faq_11_desc_2")}
-                </p>
-                <br />
-                <p className={`${styles.p} m-0`}>
-                  <span className="purpleGrey">{t("faq_11_desc_3")}</span>
-                  {t("faq_11_desc_4")}
-                </p>
-              </>
-            }
-          />
-          <CollapseMenu
-            heading={t("faq_12_title")}
-            para={
-              <>
-                <ul
-                  style={{ marginTop: "12px", marginLeft: "20px" }}
-                  className={styles.ul}
-                >
-                  <li>
-                    {t("faq_12_desc_1")}
-                    <br />{" "}
-                    <p className={`${styles.p} m-0`}>
-                      {t("faq_12_desc_2")}
-                      <span className=" text-invar-grey font-semibold break-all">
-                        {t("faq_12_desc_3")}
-                      </span>{" "}
-                    </p>{" "}
-                    <p className={`${styles.p} m-0`}>
-                      {t("faq_12_desc_4")}
-                      <span className=" text-invar-grey font-semibold break-all">
-                        {t("faq_12_desc_5")}
-                      </span>
+                  <div className="bg-invar-main-purple lg:bg-transparent md:bg-transparent md:w-[47.5%] w-full flex flex-col justify-start items-center md:pt-9 pt-10 pb-4 mb-7 md:mb-0 lg:mb-0 md:pb-10 lg:pb-12 relative z-10 rounded-t lg:rounded md:rounded md:px-0 px-4 ">
+                    <div className="md:w-[395px] md:h-[211px] w-full max-w-full h-[336px] flex justify-center">
+                      <Image
+                        src="/rwa-img.png"
+                        width={395}
+                        height={211}
+                        alt="rwa-nft-img"
+                        className="rounded"
+                      />
+                    </div>
+                    <h6 className="font-semibold text-2xl leading-7 md:mt-4 mt-6 mb-6  md:mb-2">
+                      {assetSnap.rwaName || "RWA SFT"}
+                    </h6>
+                    <p className="font-normal text-sm leading5 text-invar-light-grey text-center mb-2">
+                      {t("total_value_usdc")}&nbsp;
+                      <TotalValTooltip />
                     </p>
-                  </li>
-                  <li>
-                    {t("faq_12_desc_6")}
-                    <br />{" "}
-                    <p className={`${styles.p} m-0`}>
-                      <span className=" text-invar-grey font-semibold break-all">
-                        {t("faq_12_desc_7")}
-                      </span>{" "}
+                    <p className=" text-center font-semibold md:text-[32px] text-2xl md:leading-10 leading-7 text-invar-success">
+                      {(+totalTokansVal / 1e6 + accDailyInterest).toFixed(4)}
                     </p>
-                  </li>
-                </ul>
+                  </div>
+                  <div className="flex-1 md:pt-20 md:pb-10 relative z-10 rounded px-4 md:px-0 lg:px-0">
+                    <div className="flex md:flex-row flex-col md:items-start items-center md:mb-9 mb-2">
+                      <div className="sm:w-1/2">
+                        <p className="font-normal text-sm leading5 text-invar-light-grey text-center mb-2 ">
+                          {t("est_return")}&nbsp;
+                          <ReturnValTooltip />
+                        </p>
+                        <p className="text-center font-semibold md:text-[32px] text-2xl md:leading-10 leading-7 md:mb-0 mb-6">
+                          30%
+                        </p>
+                      </div>
+                      <div className="sm:w-1/2">
+                        <p className="font-normal text-sm leading5 text-invar-light-grey text-center mb-2 ">
+                          {t("est_daily")}&nbsp;
+                          <DailyValTooltip />
+                        </p>
+                        <p className="text-center font-semibold md:text-[32px] text-2xl md:leading-10 leading-7">
+                          {dailyReturn.toFixed(4)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex md:flex-row flex-col-reverse  md:items-start items-center sm:mb-[22px] mb-2">
+                      <div className="sm:w-1/2 sm:mt-0 mt-6">
+                        <p className="font-normal text-sm leading5 text-invar-light-grey text-center mb-2 md:mt-2.5 ">
+                          {t("burnable_usdc")}&nbsp;
+                          <BurnableTooltip />
+                        </p>
+                        <p className="text-center font-semibold md:text-[32px] text-2xl md:leading-10 leading-7">
+                          {totalBurnable}
+                        </p>
+                      </div>
+                      <div className="sm:w-1/2">
+                        <p className="font-normal text-sm leading5 text-invar-light-grey text-center mb-2 md:mt-2.5 mt-4">
+                          {t("total_interest")}&nbsp;
+                          <TotalInterestTooltip />
+                        </p>
+                        <p className="text-center font-semibold md:text-[32px] text-2xl md:leading-10 leading-7 md:text-white text-invar-success">
+                          {accDailyInterest.toFixed(4)}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex md:flex-row flex-col">
+                      <label className="flex-1 block">
+                        <p className="block text-invar-light-grey text-sm leading-4 font-normal mb-1">
+                          {t("enter_amount")}
+                        </p>
+                        <div className="relative">
+                          <input
+                            name="mint"
+                            type="text"
+                            className="block bg-invar-main-purple w-full h-12 rounded focus:border border-white outline-none text-white font-normal px-[15px] appearance-none"
+                            value={mintAmount}
+                            disabled={!alreadyApprovedForAll}
+                            onChange={(e) => {
+                              if (
+                                e.target.value.length > 5 ||
+                                /[a-zA-Z]/g.test(e.target.value)
+                              )
+                                return;
+                              setMintAmount(e.target.value);
+                              +e.target.value < 0.1 ||
+                              +e.target.value >
+                                +assetSnap.mintableValue.toString() / 1e6
+                                ? setMintAmountError(true)
+                                : setMintAmountError(false);
+                            }}
+                          />
+                          <span className=" pointer-events-none absolute inset-y-0 right-[15px] flex items-center text-white text-base font-semibold leading-5">
+                            USDC
+                          </span>
+                          {!mintAmount && (
+                            <span className=" pointer-events-none absolute inset-y-0 left-[15px] flex items-center text-invar-light-grey text-base font-semibold leading-5">
+                              ≥ 0.1
+                            </span>
+                          )}
+                        </div>
+                        {mintAmountError && (
+                          <span className="text-invar-error text-sm">
+                            {t("mint_amount_error", {
+                              min: "0.1",
+                              max: +assetSnap.mintableValue.toString() / 1e6,
+                            })}
+                          </span>
+                        )}
+                      </label>
+                      <div className="min-w-52 md:mr-5 md:ml-2 flex md:flex-col flex-col-reverse md:mt-0 md:mb-0 mt-4 mb-5 items-end">
+                        <p className="block text-invar-light-grey text-sm leading-4 font-normal mb-1 text-right sm:mt-0 mt-1">
+                          {t("available")} :{" "}
+                          {assetSnap.mintableValue
+                            ? +assetSnap?.mintableValue?.toString() / 1e6
+                            : 0}{" "}
+                          USDC
+                        </p>
+                        {alreadyApprovedForAll ? (
+                          <button
+                            className="btn md:w-52 w-full h-12 font-semibold text-sm text-white border-none normal-case rounded bg-invar-dark disabled:bg-invar-grey disabled:text-invar-light-grey "
+                            onClick={mint}
+                            disabled={!address || !isGoerli || mintAmountError}
+                          >
+                            {t("mint")}
+                          </button>
+                        ) : (
+                          <button
+                            className="btn md:w-52 w-full h-12 font-semibold text-sm text-white border-none normal-case rounded bg-invar-dark disabled:bg-invar-grey"
+                            onClick={approve}
+                            disabled={!address || !isGoerli}
+                          >
+                            Approve
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </>
             }
-          />
-          <CollapseMenu
-            heading={t("faq_13_title")}
-            para={
-              <p className={styles.p}>
-                {t("faq_13_desc_1")} (
-                <a
-                  className="linksColor"
-                  href="https://twitter.com/InVarFinance"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Twitter
-                </a>
-                ,
-                <a
-                  className="linksColor"
-                  href="https://discord.com/invite/BrzPWYut4p"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {" "}
-                  Discord
-                </a>
-                ) {t("faq_13_desc_2")}{" "}
-                <a
-                  href="mailto:info@invar.finance"
-                  className="linksColor"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  info@invar.finance
-                </a>
-                {t("faq_13_desc_3")}
-              </p>
-            }
-          />
-        </section>
-        <section className={`${styles.tutorialSection} ${styles.sidesSpacing}`}>
-          <h3 className={`${styles.h3} text-center`}>Tutorials</h3>
-          <CollapseMenu
-            heading={t("tutorials_1_title")}
-            para={
+            {assetSnap.rwaValue&&
               <>
-                <p className={styles.p}>{t("tutorials_1_desc_1")}</p>
-                <br />
-                <p className={`m-0 ${styles.p}`}>
-                  {t("tutorials_1_desc_2")}
-                  <span className="text-invar-error font-semibold">
-                    {t("tutorials_1_desc_3")}
-                  </span>
-                </p>
+                {" "}
+                <div className="controls-bar md:h-10 w-full mt-9 md:mb-6 mb-4 flex justify-between md:flex-row flex-col">
+                  <div className="flex">
+                    <button
+                      className={
+                        " mr-3 w-[42px] h-[40px] lg:h-[40px] lg:w-[130px] md:h-[40px] md:w-[130px] rounded border border-invar-main-purple text-sm font-semibold text-center" +
+                        (btnState == "all"
+                          ? " text-white bg-invar-main-purple "
+                          : " text-invar-light-grey hover:text-white ")
+                      }
+                      onClick={() => {
+                        setBtnState("all");
+                      }}
+                    >
+                      All
+                    </button>
+                    <button
+                      className={
+                        " sm:mr-9 h-[40px] w-[130px] rounded border border-invar-main-purple text-sm font-semibold text-center" +
+                        (btnState == "redemption"
+                          ? " text-white bg-invar-main-purple"
+                          : " text-invar-light-grey hover:text-white")
+                      }
+                      onClick={() => {
+                        setBtnState("redemption");
+                      }}
+                    >
+                      {t("redemption")}
+                    </button>
+                  </div>
+                  <div className="flex gap-3 md:mt-0 mt-4">
+                    <button
+                      onClick={claim}
+                      disabled={tokensData.length < 1}
+                      className="flex-auto  h-10 lg:w-[102px] lg:h-[40px] md:w-[102px] md:h-[40px] rounded disabled:bg-invar-grey font-semibold text-sm leading-4 disabled:text-invar-light-grey bg-invar-dark text-white"
+                    >
+                      {t("claim")}
+                    </button>
+                    <button
+                      onClick={() => {closeAllTooltips();setOpenMerge(true)}}
+                      disabled={tokensData.length < 2}
+                      className=" flex-auto h-10 lg:w-[102px] lg:h-[40px] md:w-[102px] md:h-[40px] rounded disabled:bg-invar-grey font-semibold text-sm leading-4 disabled:text-invar-light-grey bg-invar-dark text-white"
+                    >
+                      {t("merge")}
+                    </button>
+                    <button
+                      onClick={() => {closeAllTooltips();setOpenBurnMany(true)}}
+                      disabled={totalBurnable == 0}
+                      className="flex-auto lg:block md:block h-10 lg:w-[102px] lg:h-[40px] md:w-[102px] md:h-[40px] rounded disabled:bg-invar-grey font-semibold text-sm leading-4 disabled:text-invar-light-grey bg-invar-dark text-white"
+                    >
+                      {t("burn")}
+                    </button>
+                  </div>
+                </div>
+                {/* <div className="details-section flex md:flex-row flex-col md:gap-2"> */}
+                {shortlistedTokens.length === 0 ? (
+                  <div className=" mt-16 w-full flex justify-center items-center">
+                    <div>
+                      <Image width={162} height={200} src={IcLight} alt="" />
+                      <p className=" text-lg font-normal text-center text-invar-light-grey">
+                        {t("no_records")}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="details-section md:grid-cols-2 grid-cols-1 md:gap-2 grid">
+                    {shortlistedTokens.map((d) => (
+                      <div
+                        key={d.tokenId}
+                        className="md:h-48 md:w-full md:max-w-1/2 rounded border border-invar-main-purple flex md:flex-row flex-col relative md:mb-0 mb-4"
+                      >
+                        <div className="max-h-[114px] md:w-1/2 md:max-h-[103px] h-[114px] sm:h-auto flex md:flex-col flex-row">
+                          <div className="w-[154px] md:w-full first:block sm:max-h-[103px] max-h-[114px] min-width-[154px]" style={{minWidth:"154px"}}>
+                            <img
+                              className="sm:w-full w-[154px] block md:max-h-[103px] sm:h-[102px] h-[114px] md:h-28  rounded"
+                              src="/rwa-img.png"
+                              width={239}
+                              height={103}
+                              alt="rwa img"
+                            />
+                          </div>
+
+                          <div className="sm:ml-6 ml-3 sm:mt-2 mt-auto sm:mb-0 mb-4">
+                            <p className="text-sm font-normal leading-5 text-invar-light-grey mb-1">
+                              {/* {t("unlock_time")} */}
+                              {t("redemption_time")}
+                            </p>
+                            <p className="text-base font-normal leading-6 text-white w-11/12">
+                              {/* 2023/07/01 10:00 (UTC){" "} */}
+                              {new Date(
+                                (d.mintTime + maturity) * 1000
+                              ).toLocaleString({
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              })}&nbsp;
+                              (UTC{
+                                new Date().getTimezoneOffset()/60<0?"+":"-"
+                              }
+                              {Math.abs(new Date().getTimezoneOffset()/60)}
+                              )
+                            </p>
+                          </div>
+                        </div>
+                        <div className={`md:w-1/2 bg-invar-main-purple border border-invar-main-purple md:block flex ${isMobile&&"h-[115px]"}`}>
+                          <div className="sm:pl-5 pl-4">
+                            <div className="flex sm:mt-11 mt-7">
+                              <p className=" w-16 mr-3 mb-5 font-normal text-sm leading-5 text-invar-light-grey inline-block">
+                                {t("interests")}
+                              </p>
+                              <p className="font-normal text-base leading-6 text-white">
+                                {d.interest.toFixed(4)} USDC
+                              </p>
+                            </div>
+                            <div className="flex">
+                              <p className=" w-16 mr-3 mb-6 sm:mb-4 font-normal text-sm leading-5 text-invar-light-grey inline-block">
+                                {t("value")}
+                              </p>
+                              <p className="font-normal text-base leading-6 text-invar-success">
+                                {(d.tokenVal / 1e6).toFixed(4)} USDC
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex sm:justify-center justify-end flex-1">
+                            <div className="sm:mt-2.5 mt-6 mb-6 sm:mb-0 flex sm:items-start sm:justify-center justify-end items-end sm:flex-row flex-col-reverse sm:mr-0 mr-4">
+                              <button
+                                className="disabled:bg-invar-grey disabled:text-invar-light-grey mb-0 text-white bg-invar-dark w-[51px]  h-7 rounded sm:w-[102px]  sm:h-10 sm:mr-3 text-sm font-semibold"
+                                onClick={() => {
+                                  setSelectedToken(d);
+                                  closeAllTooltips()
+                                  setOpenSplit(true);
+                                }}
+                                disabled={d.tokenVal <= 0.1 * 1e6}
+                              >
+                                {t("split")}
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setSelectedToken(d);
+                                  closeAllTooltips()
+                                  setOpenBurn(true);
+                                }}
+                                disabled={!d.burnable}
+                                className="bg-invar-dark disabled:bg-invar-grey disabled:text-invar-light-grey border-none w-[51px] h-7 rounded sm:w-12 sm:h-10 p-0 flex justify-center items-center sm:mb-0 mb-3"
+                              >
+                                {d.burnable ? (
+                                  <img
+                                    src="/icons/fire_on.png"
+                                    width={22}
+                                    height={22}
+                                    alt="fire"
+                                    className="sm:block sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
+                                  />
+                                ) : (
+                                  <img
+                                    src="/icons/ic_fire_off.svg"
+                                    width={22}
+                                    height={22}
+                                    alt="fire"
+                                    className="sm:block sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
+                                  />
+                                )}
+                               
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </>
             }
-          />
-          <CollapseMenu
-            heading={t("tutorials_2_title")}
-            para={<p className={styles.p}>{t("tutorials_2_desc_1")}</p>}
-          />
-          <CollapseMenu
-            heading={t("tutorials_3_title")}
-            para={<p className={styles.p}>{t("tutorials_3_desc_1")}</p>}
-          />
-          <CollapseMenu
-            heading={t("tutorials_4_title")}
-            para={<p className={styles.p}>{t("tutorials_4_desc_1")}</p>}
-          />
-          <CollapseMenu
-            heading={t("tutorials_5_title")}
-            para={<p className={styles.p}>{t("tutorials_5_desc_1")}</p>}
-          />
-        </section>
-
-        <section className={`${styles.partnersSection} ${styles.sidesSpacing}`}>
-          <h3 className={`${styles.h3} text-center`}>Partners</h3>
-          <div className={styles.partnerSectionWrapper}>
-            <a
-              href="https://www.circle.com/en/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div className={`${styles.logoCont}`}>
-                <div className={styles.logo1}></div>
-              </div>
-            </a>
-            <a
-              href="https://www.catchonlabs.xyz/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div className={`${styles.logoCont}`}>
-                <div className={styles.logo2}></div>
-              </div>
-            </a>
-            <a
-              href="https://flowbay.co/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div className={`${styles.logoCont}`}>
-                <div className={styles.logo3}></div>
-              </div>
-            </a>
-            <a
-              href="https://headdao.com/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div className={`${styles.logoCont}`}>
-                <div className={styles.logo4}></div>
-              </div>
-            </a>
-            <a
-              href="https://hashex.org/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div className={`${styles.logoCont}`}>
-                <div className={styles.logo5}></div>
-              </div>
-            </a>
-            <a
-              href="https://cerestoken.io/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div className={`${styles.logoCont}`}>
-                <div className={styles.logo6}></div>
-              </div>
-            </a>
-            <a
-              href="https://www.kryptogo.com/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div className={`${styles.logoCont}`}>
-                <div className={styles.logo7}></div>
-              </div>
-            </a>
-            <a
-              href="https://www.routerprotocol.com/"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <div className={`${styles.logoCont}`}>
-                <div className={styles.logo8}></div>
-              </div>
-            </a>
-          </div>
-        </section>
+          </section>
+        )}
+        {!alreadyClaimedUSDC && <div className="h-[140px] w-full"></div>}
         <ScrollToTop />
+        {openSplit && (
+          <SplitModal
+            selectedToken={selectedToken}
+            splitFn={splitSFT}
+            closeModal={() => setOpenSplit(false)}
+            tt={t}
+          />
+        )}
+        {openBurn && (
+          <BurnModal
+            selectedToken={selectedToken}
+            burnFn={burnNft}
+            closeModal={() => setOpenBurn(false)}
+            tt={t}
+          />
+        )}
+        {openMerge && (
+          <MergeBurnModal
+            tokensList={tokensData}
+            perform={mergeSFT}
+            closeModal={() => setOpenMerge(false)}
+            modalType="merge"
+            tt={t}
+          />
+        )}
+        {openBurnMany && (
+          <MergeBurnModal
+            tokensList={burnableTokens}
+            perform={burnMany}
+            closeModal={() => setOpenBurnMany(false)}
+            modalType="burn"
+            tt={t}
+          />
+        )}
         <Footer />
+        {toast.open && (
+          <div className=" z-40 w-screen fixed sm:bottom-20 bottom-8 left-0 right-0 ">
+            <div className=" flex justify-center items-center text-center w-full">
+              <div
+                className={`bg-black sm:w-[568px] sm:h-[52px] w-[343px] h-[74px] flex items-center justify-between px-4 text-sm font-normal ${
+                  toast.error ? "text-invar-error" : "text-invar-success"
+                }`}
+              >
+                <p className="">{toast.text}</p>
+                <div
+                  className="h-[30px] w-[30px] cursor-pointer"
+                  onClick={() => setToast({ ...toast, open: false })}
+                >
+                  <img
+                    className="h-[24px] w-[24px] cursor-pointer"
+                    src="/icons/ic_close.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
-}
+};
 
-export default App;
+export default SFTDemo;

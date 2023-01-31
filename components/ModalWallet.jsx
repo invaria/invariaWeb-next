@@ -161,19 +161,17 @@ const path=router.pathname;
                   Add Token
                 </button>
               </div>
-              {!isGoerli && <button
+              {!isGoerli &&path=="/sftdemo"&& address && <button
                 className="btn relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case bg-invar-error"
                 onClick={() => switchNetwork(ChainId.Goerli)}
-                
               >
                 <p className=" font-semibold text-white">{t("click_switch")}</p>
               </button>}
-              {isGoerli &&path!=="/sftdemo"&& <button
+              {!network[0]?.data?.chain?.name?.includes("Mainnet") &&path!=="/sftdemo"&& address && <button
                 className="btn relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case bg-invar-error"
                 onClick={() => switchNetwork(ChainId.Mainnet)}
-                
               >
-                <p className=" font-semibold text-white">{t("click_switch")}</p>
+                <p className=" font-semibold text-white">{t("click_eth")}</p>
               </button>}
               <button
                 className="btn btn-primary relative w-[327px] h-[56px] mt-4 rounded flex justify-center items-center border-none normal-case"

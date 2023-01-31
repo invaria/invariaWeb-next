@@ -1,4074 +1,1025 @@
 {
-    "abi": [
-      {
-        "inputs": [],
-        "name": "InvalidSlot",
-        "type": "error"
-      },
-      {
-        "inputs": [],
-        "name": "InvalidToken",
-        "type": "error"
-      },
-      {
-        "inputs": [],
-        "name": "NotLogic",
-        "type": "error"
-      },
-      {
-        "inputs": [],
-        "name": "NotOwnerNorApproved",
-        "type": "error"
-      },
-      {
-        "inputs": [],
-        "name": "NotRedeemable",
-        "type": "error"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "_approved",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "Approval",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "_operator",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "internalType": "bool",
-            "name": "_approved",
-            "type": "bool"
-          }
-        ],
-        "name": "ApprovalForAll",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "_operator",
-            "type": "address"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "name": "ApprovalValue",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          },
-          {
-            "indexed": true,
-            "internalType": "uint256",
-            "name": "_oldSlot",
-            "type": "uint256"
-          },
-          {
-            "indexed": true,
-            "internalType": "uint256",
-            "name": "_newSlot",
-            "type": "uint256"
-          }
-        ],
-        "name": "SlotChanged",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "_from",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "address",
-            "name": "_to",
-            "type": "address"
-          },
-          {
-            "indexed": true,
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "Transfer",
-        "type": "event"
-      },
-      {
-        "anonymous": false,
-        "inputs": [
-          {
-            "indexed": true,
-            "internalType": "uint256",
-            "name": "_fromTokenId",
-            "type": "uint256"
-          },
-          {
-            "indexed": true,
-            "internalType": "uint256",
-            "name": "_toTokenId",
-            "type": "uint256"
-          },
-          {
-            "indexed": false,
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "name": "TransferValue",
-        "type": "event"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "_operator",
-            "type": "address"
-          }
-        ],
-        "name": "allowance",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_approved",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "approve",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "_operator",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "name": "approve",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          }
-        ],
-        "name": "balanceOf",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "balanceOf",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "claim",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "contractURI",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          },
-          {
-            "internalType": "string",
-            "name": "_category",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "_rwaName",
-            "type": "string"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_rwaValue",
-            "type": "uint256"
-          }
-        ],
-        "name": "createSlot",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "getApproved",
-        "outputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_slot",
-            "type": "uint256"
-          }
-        ],
-        "name": "getAssetSnapshot",
-        "outputs": [
-          {
-            "components": [
-              {
-                "internalType": "address",
-                "name": "originator",
-                "type": "address"
-              },
-              {
-                "internalType": "string",
-                "name": "category",
-                "type": "string"
-              },
-              {
-                "internalType": "string",
-                "name": "rwaName",
-                "type": "string"
-              },
-              {
-                "internalType": "uint256",
-                "name": "rwaValue",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "mintableValue",
-                "type": "uint256"
-              }
-            ],
-            "internalType": "struct SlotLibrary.AssetData",
-            "name": "",
-            "type": "tuple"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "getTimeSnapshot",
-        "outputs": [
-          {
-            "components": [
-              {
-                "internalType": "uint64",
-                "name": "mintTime",
-                "type": "uint64"
-              },
-              {
-                "internalType": "uint64",
-                "name": "claimTime",
-                "type": "uint64"
-              }
-            ],
-            "internalType": "struct TokenLibrary.TimeData",
-            "name": "",
-            "type": "tuple"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "_operator",
-            "type": "address"
-          }
-        ],
-        "name": "isApprovedForAll",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_sourceId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_targetId",
-            "type": "uint256"
-          }
-        ],
-        "name": "merge",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_minter",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "name": "mint",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "name",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "ownerOf",
-        "outputs": [
-          {
-            "internalType": "address",
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "redeem",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          }
-        ],
-        "name": "reset",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_from",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "_to",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "safeTransferFrom",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_from",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "_to",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "bytes",
-            "name": "data",
-            "type": "bytes"
-          }
-        ],
-        "name": "safeTransferFrom",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_operator",
-            "type": "address"
-          },
-          {
-            "internalType": "bool",
-            "name": "_approved",
-            "type": "bool"
-          }
-        ],
-        "name": "setApprovalForAll",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_index",
-            "type": "uint256"
-          }
-        ],
-        "name": "slotByIndex",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          }
-        ],
-        "name": "slotByOwner",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "slotCount",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "slotOf",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_slot",
-            "type": "uint256"
-          }
-        ],
-        "name": "slotURI",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "name": "split",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "bytes4",
-            "name": "interfaceId",
-            "type": "bytes4"
-          }
-        ],
-        "name": "supportsInterface",
-        "outputs": [
-          {
-            "internalType": "bool",
-            "name": "",
-            "type": "bool"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "symbol",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_index",
-            "type": "uint256"
-          }
-        ],
-        "name": "tokenByIndex",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_slot",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_index",
-            "type": "uint256"
-          }
-        ],
-        "name": "tokenInSlotByIndex",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_owner",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_index",
-            "type": "uint256"
-          }
-        ],
-        "name": "tokenOfOwnerByIndex",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_slot",
-            "type": "uint256"
-          }
-        ],
-        "name": "tokenSupplyInSlot",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "tokenURI",
-        "outputs": [
-          {
-            "internalType": "string",
-            "name": "",
-            "type": "string"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "totalSupply",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_fromTokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "_to",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "name": "transferFrom",
-        "outputs": [
-          {
-            "internalType": "uint256",
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "address",
-            "name": "_from",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "_to",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_tokenId",
-            "type": "uint256"
-          }
-        ],
-        "name": "transferFrom",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "inputs": [
-          {
-            "internalType": "uint256",
-            "name": "_fromTokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_toTokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "_value",
-            "type": "uint256"
-          }
-        ],
-        "name": "transferFrom",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "inputs": [],
-        "name": "valueDecimals",
-        "outputs": [
-          {
-            "internalType": "uint8",
-            "name": "",
-            "type": "uint8"
-          }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-      }
-    ],
-    "bytecode": {
-      "object": "0x",
-      "sourceMap": "",
-      "linkReferences": {}
+  "abi": [
+    {
+      "inputs": [],
+      "name": "InvalidSlot",
+      "type": "error"
     },
-    "deployedBytecode": {
-      "object": "0x",
-      "sourceMap": "",
-      "linkReferences": {}
+    {
+      "inputs": [],
+      "name": "InvalidToken",
+      "type": "error"
     },
-    "methodIdentifiers": {
-      "allowance(uint256,address)": "e345e0bc",
-      "approve(address,uint256)": "095ea7b3",
-      "approve(uint256,address,uint256)": "8cb0a511",
-      "balanceOf(address)": "70a08231",
-      "balanceOf(uint256)": "9cc7f708",
-      "claim(uint256)": "379607f5",
-      "contractURI()": "e8a3d485",
-      "createSlot(address,string,string,uint256)": "8df87fba",
-      "getApproved(uint256)": "081812fc",
-      "getAssetSnapshot(uint256)": "aa5f95f6",
-      "getTimeSnapshot(uint256)": "c8dd9dc5",
-      "isApprovedForAll(address,address)": "e985e9c5",
-      "merge(address,uint256,uint256)": "463dcf0a",
-      "mint(address,uint256)": "40c10f19",
-      "name()": "06fdde03",
-      "ownerOf(uint256)": "6352211e",
-      "redeem(address,uint256)": "1e9a6950",
-      "reset(address)": "6b8ab97d",
-      "safeTransferFrom(address,address,uint256)": "42842e0e",
-      "safeTransferFrom(address,address,uint256,bytes)": "b88d4fde",
-      "setApprovalForAll(address,bool)": "a22cb465",
-      "slotByIndex(uint256)": "993bef8d",
-      "slotByOwner(address)": "21f638ef",
-      "slotCount()": "ed08fa80",
-      "slotOf(uint256)": "263f3e7e",
-      "slotURI(uint256)": "09c3dd87",
-      "split(address,uint256,uint256)": "8afbc1ed",
-      "supportsInterface(bytes4)": "01ffc9a7",
-      "symbol()": "95d89b41",
-      "tokenByIndex(uint256)": "4f6ccce7",
-      "tokenInSlotByIndex(uint256,uint256)": "00cd0110",
-      "tokenOfOwnerByIndex(address,uint256)": "2f745c59",
-      "tokenSupplyInSlot(uint256)": "4f8a0f83",
-      "tokenURI(uint256)": "c87b56dd",
-      "totalSupply()": "18160ddd",
-      "transferFrom(address,address,uint256)": "23b872dd",
-      "transferFrom(uint256,address,uint256)": "0f485c02",
-      "transferFrom(uint256,uint256,uint256)": "310ed7f0",
-      "valueDecimals()": "3e7e8669"
+    {
+      "inputs": [],
+      "name": "NotLogic",
+      "type": "error"
     },
-    "rawMetadata": "{\"compiler\":{\"version\":\"0.8.17+commit.8df45f5f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"InvalidSlot\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"InvalidToken\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"NotLogic\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"NotOwnerNorApproved\",\"type\":\"error\"},{\"inputs\":[],\"name\":\"NotRedeemable\",\"type\":\"error\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_approved\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"Approval\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_operator\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bool\",\"name\":\"_approved\",\"type\":\"bool\"}],\"name\":\"ApprovalForAll\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_operator\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"ApprovalValue\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"_oldSlot\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"_newSlot\",\"type\":\"uint256\"}],\"name\":\"SlotChanged\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_from\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"Transfer\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"_fromTokenId\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"_toTokenId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"TransferValue\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_operator\",\"type\":\"address\"}],\"name\":\"allowance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_approved\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_operator\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"balanceOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"claim\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"contractURI\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_category\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"_rwaName\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"_rwaValue\",\"type\":\"uint256\"}],\"name\":\"createSlot\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"getApproved\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_slot\",\"type\":\"uint256\"}],\"name\":\"getAssetSnapshot\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"originator\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"category\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"rwaName\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"rwaValue\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"mintableValue\",\"type\":\"uint256\"}],\"internalType\":\"struct SlotLibrary.AssetData\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"getTimeSnapshot\",\"outputs\":[{\"components\":[{\"internalType\":\"uint64\",\"name\":\"mintTime\",\"type\":\"uint64\"},{\"internalType\":\"uint64\",\"name\":\"claimTime\",\"type\":\"uint64\"}],\"internalType\":\"struct TokenLibrary.TimeData\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_operator\",\"type\":\"address\"}],\"name\":\"isApprovedForAll\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_sourceId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_targetId\",\"type\":\"uint256\"}],\"name\":\"merge\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_minter\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"mint\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"name\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"ownerOf\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"redeem\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"}],\"name\":\"reset\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"safeTransferFrom\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"name\":\"safeTransferFrom\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_operator\",\"type\":\"address\"},{\"internalType\":\"bool\",\"name\":\"_approved\",\"type\":\"bool\"}],\"name\":\"setApprovalForAll\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_index\",\"type\":\"uint256\"}],\"name\":\"slotByIndex\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"}],\"name\":\"slotByOwner\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"slotCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"slotOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_slot\",\"type\":\"uint256\"}],\"name\":\"slotURI\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"split\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"symbol\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_index\",\"type\":\"uint256\"}],\"name\":\"tokenByIndex\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_slot\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_index\",\"type\":\"uint256\"}],\"name\":\"tokenInSlotByIndex\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_index\",\"type\":\"uint256\"}],\"name\":\"tokenOfOwnerByIndex\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_slot\",\"type\":\"uint256\"}],\"name\":\"tokenSupplyInSlot\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"tokenURI\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"totalSupply\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_fromTokenId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_fromTokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_toTokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_value\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"valueDecimals\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"allowance(uint256,address)\":{\"params\":{\"_operator\":\"The address of an operator\",\"_tokenId\":\"The token for which to query the allowance\"},\"returns\":{\"_0\":\"The current approval value of `_tokenId` that `_operator` is allowed to manage\"}},\"approve(address,uint256)\":{\"details\":\"The zero address indicates there is no approved address.  Throws unless `msg.sender` is the current NFT owner, or an authorized  operator of the current owner.\",\"params\":{\"_approved\":\"The new approved NFT controller\",\"_tokenId\":\"The NFT to approve\"}},\"approve(uint256,address,uint256)\":{\"details\":\"MUST revert unless caller is the current owner, an authorized operator, or the approved  address for `_tokenId`.  MUST emit ApprovalValue event.\",\"params\":{\"_operator\":\"The operator to be approved\",\"_tokenId\":\"The token to approve\",\"_value\":\"The maximum value of `_toTokenId` that `_operator` is allowed to manage\"}},\"balanceOf(address)\":{\"details\":\"NFTs assigned to the zero address are considered invalid, and this  function throws for queries about the zero address.\",\"params\":{\"_owner\":\"An address for whom to query the balance\"},\"returns\":{\"_0\":\"The number of NFTs owned by `_owner`, possibly zero\"}},\"balanceOf(uint256)\":{\"params\":{\"_tokenId\":\"The token for which to query the balance\"},\"returns\":{\"_0\":\"The value of `_tokenId`\"}},\"claim(uint256)\":{\"params\":{\"_tokenId\":\"The token\"},\"returns\":{\"_0\":\"The principal with the interest of the token\"}},\"contractURI()\":{\"details\":\"This function SHOULD return the URI for this contract in JSON format, starting with  header `data:application/json;`.  See https://eips.ethereum.org/EIPS/eip-3525 for the JSON schema for contract URI.\",\"returns\":{\"_0\":\"The JSON formatted URI of the current ERC3525 contract\"}},\"createSlot(address,string,string,uint256)\":{\"params\":{\"_category\":\"The RWA category\",\"_owner\":\"The owner of the slot\",\"_rwaName\":\"The RWA name\",\"_rwaValue\":\"The RWA tokenization value\"}},\"getApproved(uint256)\":{\"details\":\"Throws if `_tokenId` is not a valid NFT.\",\"params\":{\"_tokenId\":\"The NFT to find the approved address for\"},\"returns\":{\"_0\":\"The approved address for this NFT, or the zero address if there is none\"}},\"getAssetSnapshot(uint256)\":{\"params\":{\"_slot\":\"The owner of the slot\"},\"returns\":{\"_0\":\"The asset data for the given slot \"}},\"getTimeSnapshot(uint256)\":{\"params\":{\"_tokenId\":\"The token of the time data\"},\"returns\":{\"_0\":\"The time data for the given token\"}},\"isApprovedForAll(address,address)\":{\"params\":{\"_operator\":\"The address that acts on behalf of the owner\",\"_owner\":\"The address that owns the NFTs\"},\"returns\":{\"_0\":\"True if `_operator` is an approved operator for `_owner`, false otherwise\"}},\"merge(address,uint256,uint256)\":{\"params\":{\"_owner\":\"The owner of tokens\",\"_sourceId\":\"The source token\",\"_targetId\":\"The target token\"},\"returns\":{\"_0\":\"The source token value\"}},\"mint(address,uint256)\":{\"params\":{\"_minter\":\"The minter is to mint a ERC-3525\",\"_value\":\"The value that minter is desired to mint\"},\"returns\":{\"_0\":\"The minted tokenId\"}},\"ownerOf(uint256)\":{\"details\":\"NFTs assigned to zero address are considered invalid, and queries  about them do throw.\",\"params\":{\"_tokenId\":\"The identifier for an NFT\"},\"returns\":{\"_0\":\"The address of the owner of the NFT\"}},\"redeem(address,uint256)\":{\"params\":{\"_owner\":\"The token owner\",\"_tokenId\":\"The token is about to redeem\"},\"returns\":{\"_0\":\"The principal with the interest of the token\"}},\"reset(address)\":{\"params\":{\"_owner\":\"The owner of the slot\"}},\"safeTransferFrom(address,address,uint256)\":{\"details\":\"This works identically to the other function with an extra data parameter,  except this function just sets data to \\\"\\\".\",\"params\":{\"_from\":\"The current owner of the NFT\",\"_to\":\"The new owner\",\"_tokenId\":\"The NFT to transfer\"}},\"safeTransferFrom(address,address,uint256,bytes)\":{\"details\":\"Throws unless `msg.sender` is the current owner, an authorized  operator, or the approved address for this NFT. Throws if `_from` is  not the current owner. Throws if `_to` is the zero address. Throws if  `_tokenId` is not a valid NFT. When transfer is complete, this function  checks if `_to` is a smart contract (code size > 0). If so, it calls  `onERC721Received` on `_to` and throws if the return value is not  `bytes4(keccak256(\\\"onERC721Received(address,address,uint256,bytes)\\\"))`.\",\"params\":{\"_from\":\"The current owner of the NFT\",\"_to\":\"The new owner\",\"_tokenId\":\"The NFT to transfer\",\"data\":\"Additional data with no specified format, sent in call to `_to`\"}},\"setApprovalForAll(address,bool)\":{\"details\":\"Emits the ApprovalForAll event. The contract MUST allow  multiple operators per owner.\",\"params\":{\"_approved\":\"True if the operator is approved, false to revoke approval\",\"_operator\":\"Address to add to the set of authorized operators\"}},\"slotByIndex(uint256)\":{\"params\":{\"_index\":\"The index in the slot list\"},\"returns\":{\"_0\":\"The slot at `index` of all slots.\"}},\"slotByOwner(address)\":{\"params\":{\"_owner\":\"The owner of the slot\"},\"returns\":{\"_0\":\"The slot\"}},\"slotCount()\":{\"returns\":{\"_0\":\"The total amount of slots\"}},\"slotOf(uint256)\":{\"params\":{\"_tokenId\":\"The identifier for a token\"},\"returns\":{\"_0\":\"The slot of the token\"}},\"slotURI(uint256)\":{\"details\":\"This function SHOULD return the URI for `_slot` in JSON format, starting with header  `data:application/json;`.  See https://eips.ethereum.org/EIPS/eip-3525 for the JSON schema for slot URI.\",\"returns\":{\"_0\":\"The JSON formatted URI of `_slot`\"}},\"split(address,uint256,uint256)\":{\"params\":{\"_owner\":\"The owner of tokens\",\"_tokenId\":\"The token is to splitted\",\"_value\":\"The value of new token\"},\"returns\":{\"_0\":\"The splitted token\"}},\"supportsInterface(bytes4)\":{\"details\":\"Returns true if this contract implements the interface defined by `interfaceId`. See the corresponding https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section] to learn more about how these ids are created. This function call must use less than 30 000 gas.\"},\"tokenByIndex(uint256)\":{\"details\":\"Throws if `_index` >= `totalSupply()`.\",\"params\":{\"_index\":\"A counter less than `totalSupply()`\"},\"returns\":{\"_0\":\"The token identifier for the `_index`th NFT,  (sort order not specified)\"}},\"tokenInSlotByIndex(uint256,uint256)\":{\"params\":{\"_index\":\"The index in the token list of the slot\",\"_slot\":\"The slot to query tokens with\"},\"returns\":{\"_0\":\"The token ID at `_index` of all tokens with `_slot`\"}},\"tokenOfOwnerByIndex(address,uint256)\":{\"details\":\"Throws if `_index` >= `balanceOf(_owner)` or if  `_owner` is the zero address, representing invalid NFTs.\",\"params\":{\"_index\":\"A counter less than `balanceOf(_owner)`\",\"_owner\":\"An address where we are interested in NFTs owned by them\"},\"returns\":{\"_0\":\"The token identifier for the `_index`th NFT assigned to `_owner`,  (sort order not specified)\"}},\"tokenSupplyInSlot(uint256)\":{\"params\":{\"_slot\":\"The slot to query token supply for\"},\"returns\":{\"_0\":\"The total amount of tokens with the specified `_slot`\"}},\"tokenURI(uint256)\":{\"details\":\"Throws if `_tokenId` is not a valid NFT. URIs are defined in RFC  3986. The URI may point to a JSON file that conforms to the \\\"ERC721  Metadata JSON Schema\\\".\"},\"totalSupply()\":{\"returns\":{\"_0\":\"A count of valid NFTs tracked by this contract, where each one of  them has an assigned and queryable owner not equal to the zero address\"}},\"transferFrom(address,address,uint256)\":{\"details\":\"Throws unless `msg.sender` is the current owner, an authorized  operator, or the approved address for this NFT. Throws if `_from` is  not the current owner. Throws if `_to` is the zero address. Throws if  `_tokenId` is not a valid NFT.\",\"params\":{\"_from\":\"The current owner of the NFT\",\"_to\":\"The new owner\",\"_tokenId\":\"The NFT to transfer\"}},\"transferFrom(uint256,address,uint256)\":{\"details\":\"This function MUST create a new ERC3525 token with the same slot for `_to` to receive  the transferred value.  MUST revert if `_fromTokenId` is zero token id or does not exist.  MUST revert if `_to` is zero address.  MUST revert if `_value` exceeds the balance of `_fromTokenId` or its allowance to the  operator.  MUST emit `Transfer` and `TransferValue` events.\",\"params\":{\"_fromTokenId\":\"The token to transfer value from\",\"_to\":\"The address to transfer value to\",\"_value\":\"The transferred value\"},\"returns\":{\"_0\":\"ID of the new token created for `_to` which receives the transferred value\"}},\"transferFrom(uint256,uint256,uint256)\":{\"details\":\"Caller MUST be the current owner, an authorized operator or an operator who has been  approved the whole `_fromTokenId` or part of it.  MUST revert if `_fromTokenId` or `_toTokenId` is zero token id or does not exist.  MUST revert if slots of `_fromTokenId` and `_toTokenId` do not match.  MUST revert if `_value` exceeds the balance of `_fromTokenId` or its allowance to the  operator.  MUST emit `TransferValue` event.\",\"params\":{\"_fromTokenId\":\"The token to transfer value from\",\"_toTokenId\":\"The token to transfer value to\",\"_value\":\"The transferred value\"}},\"valueDecimals()\":{\"returns\":{\"_0\":\"The number of decimals for value\"}}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"allowance(uint256,address)\":{\"notice\":\"Get the maximum value of a token that an operator is allowed to manage.\"},\"approve(address,uint256)\":{\"notice\":\"Change or reaffirm the approved address for an NFT\"},\"approve(uint256,address,uint256)\":{\"notice\":\"Allow an operator to manage the value of a token, up to the `_value` amount.\"},\"balanceOf(address)\":{\"notice\":\"Count all NFTs assigned to an owner\"},\"balanceOf(uint256)\":{\"notice\":\"Get the value of a token.\"},\"claim(uint256)\":{\"notice\":\"Calculate the claimable interest for the given token\"},\"contractURI()\":{\"notice\":\"Returns the Uniform Resource Identifier (URI) for the current ERC3525 contract.\"},\"createSlot(address,string,string,uint256)\":{\"notice\":\"create a slot of ERC-3525\"},\"getApproved(uint256)\":{\"notice\":\"Get the approved address for a single NFT\"},\"getAssetSnapshot(uint256)\":{\"notice\":\"Get the Snapshot of the asset\"},\"getTimeSnapshot(uint256)\":{\"notice\":\"Get the snapshot of the time data\"},\"isApprovedForAll(address,address)\":{\"notice\":\"Query if an address is an authorized operator for another address\"},\"merge(address,uint256,uint256)\":{\"notice\":\"Merge two tokens with the same slot into one token\"},\"mint(address,uint256)\":{\"notice\":\"Mint a token with the slot for the specific value\"},\"name()\":{\"notice\":\"A descriptive name for a collection of NFTs in this contract\"},\"ownerOf(uint256)\":{\"notice\":\"Find the owner of an NFT\"},\"redeem(address,uint256)\":{\"notice\":\"Redeem the principal with interest,   and burn the redeemed token\"},\"reset(address)\":{\"notice\":\"Reset the slot data and the token data\"},\"safeTransferFrom(address,address,uint256)\":{\"notice\":\"Transfers the ownership of an NFT from one address to another address\"},\"safeTransferFrom(address,address,uint256,bytes)\":{\"notice\":\"Transfers the ownership of an NFT from one address to another address\"},\"setApprovalForAll(address,bool)\":{\"notice\":\"Enable or disable approval for a third party (\\\"operator\\\") to manage  all of `msg.sender`'s assets\"},\"slotByIndex(uint256)\":{\"notice\":\"Get the slot at the specified index of all slots stored by the contract.\"},\"slotByOwner(address)\":{\"notice\":\"Get the slot of owner\"},\"slotCount()\":{\"notice\":\"Get the total amount of slots stored by the contract.\"},\"slotOf(uint256)\":{\"notice\":\"Get the slot of a token.\"},\"slotURI(uint256)\":{\"notice\":\"Returns the Uniform Resource Identifier (URI) for the specified slot.\"},\"split(address,uint256,uint256)\":{\"notice\":\"Split the token to two tokens\"},\"symbol()\":{\"notice\":\"An abbreviated name for NFTs in this contract\"},\"tokenByIndex(uint256)\":{\"notice\":\"Enumerate valid NFTs\"},\"tokenInSlotByIndex(uint256,uint256)\":{\"notice\":\"Get the token at the specified index of all tokens with the same slot.\"},\"tokenOfOwnerByIndex(address,uint256)\":{\"notice\":\"Enumerate NFTs assigned to an owner\"},\"tokenSupplyInSlot(uint256)\":{\"notice\":\"Get the total amount of tokens with the same slot.\"},\"tokenURI(uint256)\":{\"notice\":\"A distinct Uniform Resource Identifier (URI) for a given asset.\"},\"totalSupply()\":{\"notice\":\"Count NFTs tracked by this contract\"},\"transferFrom(address,address,uint256)\":{\"notice\":\"Transfer ownership of an NFT -- THE CALLER IS RESPONSIBLE  TO CONFIRM THAT `_to` IS CAPABLE OF RECEIVING NFTS OR ELSE  THEY MAY BE PERMANENTLY LOST\"},\"transferFrom(uint256,address,uint256)\":{\"notice\":\"Transfer value from a specified token to an address. The caller should confirm that  `_to` is capable of receiving ERC3525 tokens.\"},\"transferFrom(uint256,uint256,uint256)\":{\"notice\":\"Transfer value from a specified token to another specified token with the same slot.\"},\"valueDecimals()\":{\"notice\":\"Get the number of decimals the token uses for value - e.g. 6, means the user  representation of the value of a token can be calculated by dividing it by 1,000,000.  Considering the compatibility with third-party wallets, this function is defined as  `valueDecimals()` instead of `decimals()` to avoid conflict with ERC20 tokens.\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/interfaces/IRNFT.sol\":\"IRNFT\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\":@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":ds-test/=lib/solmate/lib/ds-test/src/\",\":erc-3525/=lib/erc-3525/\",\":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/\",\":forge-std/=lib/forge-std/src/\",\":openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/\",\":solmate/=lib/solmate/src/\"]},\"sources\":{\"lib/erc-3525/contracts/IERC3525Upgradeable.sol\":{\"keccak256\":\"0x4d254f7e3df352ebfafcc5822547089a764dca5cbeeeaabad5b5539694027a2d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3dcee0a5ba2754802eee93fb5ece49ca423392a5839d48397746e08bf89433a3\",\"dweb:/ipfs/QmPrn2KoPDZumQYxG9reDM2fqRmiXNtQtwSStXebjcHbfK\"]},\"lib/erc-3525/contracts/IERC721Upgradeable.sol\":{\"keccak256\":\"0x30ce6d4b2c1818766dff3e15b2af11cf6ec26ed8b8496f6c9c0da4701f67d197\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://01a9c68bd5712331eaa0f8af209cf57f4fd5f8886c10eafc0e3f41a42c370786\",\"dweb:/ipfs/QmegLSG7jwfVbWmECzBg81irAVPzZErd8dTUoLhBMQBr18\"]},\"lib/erc-3525/contracts/extensions/IERC3525MetadataUpgradeable.sol\":{\"keccak256\":\"0x3d4c0fc2a6058b8b73dbd0a679aa5fe1317b48ff062ae7c526739e025c7300a3\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c8a3bbc919c8c68dff98d89386b704686c1ee9a83107adfa5b3b41661af45060\",\"dweb:/ipfs/QmPgCLvMhQNTVrpSUqHsfypqpo9fgCYxecVURGDv9tg4Gi\"]},\"lib/erc-3525/contracts/extensions/IERC3525SlotEnumerableUpgradeable.sol\":{\"keccak256\":\"0xd5d85bce00951a1e4960c3eaa4c71170daefc61c83b0adaf04e67370a2846a4f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://3603be1d0411b66a6aa8a23c7383cd7c6c0cba30fcd016b45b5ec8142118c103\",\"dweb:/ipfs/QmZKrCMh9opiCtD8V7neywgvhM3eDEsjYG7rCvtZXZ6aJW\"]},\"lib/erc-3525/contracts/extensions/IERC721EnumerableUpgradeable.sol\":{\"keccak256\":\"0xbbe1725b8cca2f56769f8e45593fa084e5e40b5fa601b5e737905b2184930d4a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://c6ba54e6bd31771b0d5beace822b5b66322fd9b656aa8ac92a7c679f9aa59570\",\"dweb:/ipfs/Qme8SZ2fW3VCr58pxjo3RW1vf8akoXzF24zvJtuRCUwpci\"]},\"lib/erc-3525/contracts/extensions/IERC721MetadataUpgradeable.sol\":{\"keccak256\":\"0xbf8c80caeb05f88bb859bfc504bec6c902146b67f0cff5e4b7c0e89a773977eb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://623a1328e685c0f3f0b26b173c63c436e9282ac0effbb8fd5d24de6edb7f54bc\",\"dweb:/ipfs/QmQeM85ZJMiN89z4n8zHXWqiLU4HQNLt51YzDLqnub7bRo\"]},\"lib/openzeppelin-contracts-upgradeable/contracts/utils/introspection/IERC165Upgradeable.sol\":{\"keccak256\":\"0xc6cef87559d0aeffdf0a99803de655938a7779ec0a3cd5d4383483ad85565a09\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://92ad7e572cf44e6b4b37631b44b62f9eb9fb1cf14d9ce51c1504d5dc7ccaf758\",\"dweb:/ipfs/QmcnbqX85tsWnUXPmtuPLE4SczME2sJaTfmqEFkuAJvWhy\"]},\"src/interfaces/IRNFT.sol\":{\"keccak256\":\"0x64be01109af5e3d4fd012d3d1128f14b7a0d62f5aa1b94c928eea6b5206074bf\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://bbdda6358b71db0d953ef2a6a6f024046251157e5ac71ef2d1fc0d71c1af197f\",\"dweb:/ipfs/QmcgBZirRP5kpiPjv9wwhthyyemBFZXmfdqrjJAXEvL16h\"]},\"src/libraries/SlotLibrary.sol\":{\"keccak256\":\"0xfc332d79f0a5489c53a74a5aab6d1f8c1ad1e8189150617edbcd240f4fd8b4a6\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://8b35fa8a369d455f39f339b4b7e23a71873df848ca3cccea91b89f12260e7d52\",\"dweb:/ipfs/QmNmv7deme7r4nqVJ5qXSFRgVXK8g8bK1EftwHRiWNUNnd\"]},\"src/libraries/TokenLibrary.sol\":{\"keccak256\":\"0xa036e10b2bdeac7fa55894b8b9078661e70fdf749b7e7aeb31273aa508337ba6\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2ca0d52ef5566c84264c2fa07c7eea5c489299680c6f1755043ac9b3a537d4ea\",\"dweb:/ipfs/QmezKpNNUGPg2T73sqGrp27jmQdagvQaxr4kmbW2bSwRus\"]}},\"version\":1}",
-    "metadata": {
-      "compiler": {
-        "version": "0.8.17+commit.8df45f5f"
-      },
-      "language": "Solidity",
-      "output": {
-        "abi": [
-          {
-            "inputs": [],
-            "type": "error",
-            "name": "InvalidSlot"
-          },
-          {
-            "inputs": [],
-            "type": "error",
-            "name": "InvalidToken"
-          },
-          {
-            "inputs": [],
-            "type": "error",
-            "name": "NotLogic"
-          },
-          {
-            "inputs": [],
-            "type": "error",
-            "name": "NotOwnerNorApproved"
-          },
-          {
-            "inputs": [],
-            "type": "error",
-            "name": "NotRedeemable"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address",
-                "indexed": true
-              },
-              {
-                "internalType": "address",
-                "name": "_approved",
-                "type": "address",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256",
-                "indexed": true
-              }
-            ],
-            "type": "event",
-            "name": "Approval",
-            "anonymous": false
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address",
-                "indexed": true
-              },
-              {
-                "internalType": "address",
-                "name": "_operator",
-                "type": "address",
-                "indexed": true
-              },
-              {
-                "internalType": "bool",
-                "name": "_approved",
-                "type": "bool",
-                "indexed": false
-              }
-            ],
-            "type": "event",
-            "name": "ApprovalForAll",
-            "anonymous": false
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256",
-                "indexed": true
-              },
-              {
-                "internalType": "address",
-                "name": "_operator",
-                "type": "address",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256",
-                "indexed": false
-              }
-            ],
-            "type": "event",
-            "name": "ApprovalValue",
-            "anonymous": false
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256",
-                "name": "_oldSlot",
-                "type": "uint256",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256",
-                "name": "_newSlot",
-                "type": "uint256",
-                "indexed": true
-              }
-            ],
-            "type": "event",
-            "name": "SlotChanged",
-            "anonymous": false
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_from",
-                "type": "address",
-                "indexed": true
-              },
-              {
-                "internalType": "address",
-                "name": "_to",
-                "type": "address",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256",
-                "indexed": true
-              }
-            ],
-            "type": "event",
-            "name": "Transfer",
-            "anonymous": false
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_fromTokenId",
-                "type": "uint256",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256",
-                "name": "_toTokenId",
-                "type": "uint256",
-                "indexed": true
-              },
-              {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256",
-                "indexed": false
-              }
-            ],
-            "type": "event",
-            "name": "TransferValue",
-            "anonymous": false
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "address",
-                "name": "_operator",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "allowance",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_approved",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "payable",
-            "type": "function",
-            "name": "approve"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "address",
-                "name": "_operator",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "payable",
-            "type": "function",
-            "name": "approve"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "balanceOf",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "balanceOf",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "claim",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "contractURI",
-            "outputs": [
-              {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-              },
-              {
-                "internalType": "string",
-                "name": "_category",
-                "type": "string"
-              },
-              {
-                "internalType": "string",
-                "name": "_rwaName",
-                "type": "string"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_rwaValue",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "createSlot",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "getApproved",
-            "outputs": [
-              {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_slot",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "getAssetSnapshot",
-            "outputs": [
-              {
-                "internalType": "struct SlotLibrary.AssetData",
-                "name": "",
-                "type": "tuple",
-                "components": [
-                  {
-                    "internalType": "address",
-                    "name": "originator",
-                    "type": "address"
-                  },
-                  {
-                    "internalType": "string",
-                    "name": "category",
-                    "type": "string"
-                  },
-                  {
-                    "internalType": "string",
-                    "name": "rwaName",
-                    "type": "string"
-                  },
-                  {
-                    "internalType": "uint256",
-                    "name": "rwaValue",
-                    "type": "uint256"
-                  },
-                  {
-                    "internalType": "uint256",
-                    "name": "mintableValue",
-                    "type": "uint256"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "getTimeSnapshot",
-            "outputs": [
-              {
-                "internalType": "struct TokenLibrary.TimeData",
-                "name": "",
-                "type": "tuple",
-                "components": [
-                  {
-                    "internalType": "uint64",
-                    "name": "mintTime",
-                    "type": "uint64"
-                  },
-                  {
-                    "internalType": "uint64",
-                    "name": "claimTime",
-                    "type": "uint64"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-              },
-              {
-                "internalType": "address",
-                "name": "_operator",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "isApprovedForAll",
-            "outputs": [
-              {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_sourceId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_targetId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "merge",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_minter",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "mint",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "name",
-            "outputs": [
-              {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "ownerOf",
-            "outputs": [
-              {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "redeem",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "reset"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_from",
-                "type": "address"
-              },
-              {
-                "internalType": "address",
-                "name": "_to",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "payable",
-            "type": "function",
-            "name": "safeTransferFrom"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_from",
-                "type": "address"
-              },
-              {
-                "internalType": "address",
-                "name": "_to",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "bytes",
-                "name": "data",
-                "type": "bytes"
-              }
-            ],
-            "stateMutability": "payable",
-            "type": "function",
-            "name": "safeTransferFrom"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_operator",
-                "type": "address"
-              },
-              {
-                "internalType": "bool",
-                "name": "_approved",
-                "type": "bool"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "setApprovalForAll"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_index",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "slotByIndex",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "slotByOwner",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "slotCount",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "slotOf",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_slot",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "slotURI",
-            "outputs": [
-              {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "nonpayable",
-            "type": "function",
-            "name": "split",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "bytes4",
-                "name": "interfaceId",
-                "type": "bytes4"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "supportsInterface",
-            "outputs": [
-              {
-                "internalType": "bool",
-                "name": "",
-                "type": "bool"
-              }
-            ]
-          },
-          {
-            "inputs": [],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "symbol",
-            "outputs": [
-              {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_index",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "tokenByIndex",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_slot",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_index",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "tokenInSlotByIndex",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_index",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "tokenOfOwnerByIndex",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_slot",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "tokenSupplyInSlot",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "tokenURI",
-            "outputs": [
-              {
-                "internalType": "string",
-                "name": "",
-                "type": "string"
-              }
-            ]
-          },
-          {
-            "inputs": [],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "totalSupply",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_fromTokenId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "address",
-                "name": "_to",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "payable",
-            "type": "function",
-            "name": "transferFrom",
-            "outputs": [
-              {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-              }
-            ]
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "address",
-                "name": "_from",
-                "type": "address"
-              },
-              {
-                "internalType": "address",
-                "name": "_to",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_tokenId",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "payable",
-            "type": "function",
-            "name": "transferFrom"
-          },
-          {
-            "inputs": [
-              {
-                "internalType": "uint256",
-                "name": "_fromTokenId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_toTokenId",
-                "type": "uint256"
-              },
-              {
-                "internalType": "uint256",
-                "name": "_value",
-                "type": "uint256"
-              }
-            ],
-            "stateMutability": "payable",
-            "type": "function",
-            "name": "transferFrom"
-          },
-          {
-            "inputs": [],
-            "stateMutability": "view",
-            "type": "function",
-            "name": "valueDecimals",
-            "outputs": [
-              {
-                "internalType": "uint8",
-                "name": "",
-                "type": "uint8"
-              }
-            ]
-          }
-        ],
-        "devdoc": {
-          "kind": "dev",
-          "methods": {
-            "allowance(uint256,address)": {
-              "params": {
-                "_operator": "The address of an operator",
-                "_tokenId": "The token for which to query the allowance"
-              },
-              "returns": {
-                "_0": "The current approval value of `_tokenId` that `_operator` is allowed to manage"
-              }
-            },
-            "approve(address,uint256)": {
-              "details": "The zero address indicates there is no approved address.  Throws unless `msg.sender` is the current NFT owner, or an authorized  operator of the current owner.",
-              "params": {
-                "_approved": "The new approved NFT controller",
-                "_tokenId": "The NFT to approve"
-              }
-            },
-            "approve(uint256,address,uint256)": {
-              "details": "MUST revert unless caller is the current owner, an authorized operator, or the approved  address for `_tokenId`.  MUST emit ApprovalValue event.",
-              "params": {
-                "_operator": "The operator to be approved",
-                "_tokenId": "The token to approve",
-                "_value": "The maximum value of `_toTokenId` that `_operator` is allowed to manage"
-              }
-            },
-            "balanceOf(address)": {
-              "details": "NFTs assigned to the zero address are considered invalid, and this  function throws for queries about the zero address.",
-              "params": {
-                "_owner": "An address for whom to query the balance"
-              },
-              "returns": {
-                "_0": "The number of NFTs owned by `_owner`, possibly zero"
-              }
-            },
-            "balanceOf(uint256)": {
-              "params": {
-                "_tokenId": "The token for which to query the balance"
-              },
-              "returns": {
-                "_0": "The value of `_tokenId`"
-              }
-            },
-            "claim(uint256)": {
-              "params": {
-                "_tokenId": "The token"
-              },
-              "returns": {
-                "_0": "The principal with the interest of the token"
-              }
-            },
-            "contractURI()": {
-              "details": "This function SHOULD return the URI for this contract in JSON format, starting with  header `data:application/json;`.  See https://eips.ethereum.org/EIPS/eip-3525 for the JSON schema for contract URI.",
-              "returns": {
-                "_0": "The JSON formatted URI of the current ERC3525 contract"
-              }
-            },
-            "createSlot(address,string,string,uint256)": {
-              "params": {
-                "_category": "The RWA category",
-                "_owner": "The owner of the slot",
-                "_rwaName": "The RWA name",
-                "_rwaValue": "The RWA tokenization value"
-              }
-            },
-            "getApproved(uint256)": {
-              "details": "Throws if `_tokenId` is not a valid NFT.",
-              "params": {
-                "_tokenId": "The NFT to find the approved address for"
-              },
-              "returns": {
-                "_0": "The approved address for this NFT, or the zero address if there is none"
-              }
-            },
-            "getAssetSnapshot(uint256)": {
-              "params": {
-                "_slot": "The owner of the slot"
-              },
-              "returns": {
-                "_0": "The asset data for the given slot "
-              }
-            },
-            "getTimeSnapshot(uint256)": {
-              "params": {
-                "_tokenId": "The token of the time data"
-              },
-              "returns": {
-                "_0": "The time data for the given token"
-              }
-            },
-            "isApprovedForAll(address,address)": {
-              "params": {
-                "_operator": "The address that acts on behalf of the owner",
-                "_owner": "The address that owns the NFTs"
-              },
-              "returns": {
-                "_0": "True if `_operator` is an approved operator for `_owner`, false otherwise"
-              }
-            },
-            "merge(address,uint256,uint256)": {
-              "params": {
-                "_owner": "The owner of tokens",
-                "_sourceId": "The source token",
-                "_targetId": "The target token"
-              },
-              "returns": {
-                "_0": "The source token value"
-              }
-            },
-            "mint(address,uint256)": {
-              "params": {
-                "_minter": "The minter is to mint a ERC-3525",
-                "_value": "The value that minter is desired to mint"
-              },
-              "returns": {
-                "_0": "The minted tokenId"
-              }
-            },
-            "ownerOf(uint256)": {
-              "details": "NFTs assigned to zero address are considered invalid, and queries  about them do throw.",
-              "params": {
-                "_tokenId": "The identifier for an NFT"
-              },
-              "returns": {
-                "_0": "The address of the owner of the NFT"
-              }
-            },
-            "redeem(address,uint256)": {
-              "params": {
-                "_owner": "The token owner",
-                "_tokenId": "The token is about to redeem"
-              },
-              "returns": {
-                "_0": "The principal with the interest of the token"
-              }
-            },
-            "reset(address)": {
-              "params": {
-                "_owner": "The owner of the slot"
-              }
-            },
-            "safeTransferFrom(address,address,uint256)": {
-              "details": "This works identically to the other function with an extra data parameter,  except this function just sets data to \"\".",
-              "params": {
-                "_from": "The current owner of the NFT",
-                "_to": "The new owner",
-                "_tokenId": "The NFT to transfer"
-              }
-            },
-            "safeTransferFrom(address,address,uint256,bytes)": {
-              "details": "Throws unless `msg.sender` is the current owner, an authorized  operator, or the approved address for this NFT. Throws if `_from` is  not the current owner. Throws if `_to` is the zero address. Throws if  `_tokenId` is not a valid NFT. When transfer is complete, this function  checks if `_to` is a smart contract (code size > 0). If so, it calls  `onERC721Received` on `_to` and throws if the return value is not  `bytes4(keccak256(\"onERC721Received(address,address,uint256,bytes)\"))`.",
-              "params": {
-                "_from": "The current owner of the NFT",
-                "_to": "The new owner",
-                "_tokenId": "The NFT to transfer",
-                "data": "Additional data with no specified format, sent in call to `_to`"
-              }
-            },
-            "setApprovalForAll(address,bool)": {
-              "details": "Emits the ApprovalForAll event. The contract MUST allow  multiple operators per owner.",
-              "params": {
-                "_approved": "True if the operator is approved, false to revoke approval",
-                "_operator": "Address to add to the set of authorized operators"
-              }
-            },
-            "slotByIndex(uint256)": {
-              "params": {
-                "_index": "The index in the slot list"
-              },
-              "returns": {
-                "_0": "The slot at `index` of all slots."
-              }
-            },
-            "slotByOwner(address)": {
-              "params": {
-                "_owner": "The owner of the slot"
-              },
-              "returns": {
-                "_0": "The slot"
-              }
-            },
-            "slotCount()": {
-              "returns": {
-                "_0": "The total amount of slots"
-              }
-            },
-            "slotOf(uint256)": {
-              "params": {
-                "_tokenId": "The identifier for a token"
-              },
-              "returns": {
-                "_0": "The slot of the token"
-              }
-            },
-            "slotURI(uint256)": {
-              "details": "This function SHOULD return the URI for `_slot` in JSON format, starting with header  `data:application/json;`.  See https://eips.ethereum.org/EIPS/eip-3525 for the JSON schema for slot URI.",
-              "returns": {
-                "_0": "The JSON formatted URI of `_slot`"
-              }
-            },
-            "split(address,uint256,uint256)": {
-              "params": {
-                "_owner": "The owner of tokens",
-                "_tokenId": "The token is to splitted",
-                "_value": "The value of new token"
-              },
-              "returns": {
-                "_0": "The splitted token"
-              }
-            },
-            "supportsInterface(bytes4)": {
-              "details": "Returns true if this contract implements the interface defined by `interfaceId`. See the corresponding https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section] to learn more about how these ids are created. This function call must use less than 30 000 gas."
-            },
-            "tokenByIndex(uint256)": {
-              "details": "Throws if `_index` >= `totalSupply()`.",
-              "params": {
-                "_index": "A counter less than `totalSupply()`"
-              },
-              "returns": {
-                "_0": "The token identifier for the `_index`th NFT,  (sort order not specified)"
-              }
-            },
-            "tokenInSlotByIndex(uint256,uint256)": {
-              "params": {
-                "_index": "The index in the token list of the slot",
-                "_slot": "The slot to query tokens with"
-              },
-              "returns": {
-                "_0": "The token ID at `_index` of all tokens with `_slot`"
-              }
-            },
-            "tokenOfOwnerByIndex(address,uint256)": {
-              "details": "Throws if `_index` >= `balanceOf(_owner)` or if  `_owner` is the zero address, representing invalid NFTs.",
-              "params": {
-                "_index": "A counter less than `balanceOf(_owner)`",
-                "_owner": "An address where we are interested in NFTs owned by them"
-              },
-              "returns": {
-                "_0": "The token identifier for the `_index`th NFT assigned to `_owner`,  (sort order not specified)"
-              }
-            },
-            "tokenSupplyInSlot(uint256)": {
-              "params": {
-                "_slot": "The slot to query token supply for"
-              },
-              "returns": {
-                "_0": "The total amount of tokens with the specified `_slot`"
-              }
-            },
-            "tokenURI(uint256)": {
-              "details": "Throws if `_tokenId` is not a valid NFT. URIs are defined in RFC  3986. The URI may point to a JSON file that conforms to the \"ERC721  Metadata JSON Schema\"."
-            },
-            "totalSupply()": {
-              "returns": {
-                "_0": "A count of valid NFTs tracked by this contract, where each one of  them has an assigned and queryable owner not equal to the zero address"
-              }
-            },
-            "transferFrom(address,address,uint256)": {
-              "details": "Throws unless `msg.sender` is the current owner, an authorized  operator, or the approved address for this NFT. Throws if `_from` is  not the current owner. Throws if `_to` is the zero address. Throws if  `_tokenId` is not a valid NFT.",
-              "params": {
-                "_from": "The current owner of the NFT",
-                "_to": "The new owner",
-                "_tokenId": "The NFT to transfer"
-              }
-            },
-            "transferFrom(uint256,address,uint256)": {
-              "details": "This function MUST create a new ERC3525 token with the same slot for `_to` to receive  the transferred value.  MUST revert if `_fromTokenId` is zero token id or does not exist.  MUST revert if `_to` is zero address.  MUST revert if `_value` exceeds the balance of `_fromTokenId` or its allowance to the  operator.  MUST emit `Transfer` and `TransferValue` events.",
-              "params": {
-                "_fromTokenId": "The token to transfer value from",
-                "_to": "The address to transfer value to",
-                "_value": "The transferred value"
-              },
-              "returns": {
-                "_0": "ID of the new token created for `_to` which receives the transferred value"
-              }
-            },
-            "transferFrom(uint256,uint256,uint256)": {
-              "details": "Caller MUST be the current owner, an authorized operator or an operator who has been  approved the whole `_fromTokenId` or part of it.  MUST revert if `_fromTokenId` or `_toTokenId` is zero token id or does not exist.  MUST revert if slots of `_fromTokenId` and `_toTokenId` do not match.  MUST revert if `_value` exceeds the balance of `_fromTokenId` or its allowance to the  operator.  MUST emit `TransferValue` event.",
-              "params": {
-                "_fromTokenId": "The token to transfer value from",
-                "_toTokenId": "The token to transfer value to",
-                "_value": "The transferred value"
-              }
-            },
-            "valueDecimals()": {
-              "returns": {
-                "_0": "The number of decimals for value"
-              }
-            }
-          },
-          "version": 1
-        },
-        "userdoc": {
-          "kind": "user",
-          "methods": {
-            "allowance(uint256,address)": {
-              "notice": "Get the maximum value of a token that an operator is allowed to manage."
-            },
-            "approve(address,uint256)": {
-              "notice": "Change or reaffirm the approved address for an NFT"
-            },
-            "approve(uint256,address,uint256)": {
-              "notice": "Allow an operator to manage the value of a token, up to the `_value` amount."
-            },
-            "balanceOf(address)": {
-              "notice": "Count all NFTs assigned to an owner"
-            },
-            "balanceOf(uint256)": {
-              "notice": "Get the value of a token."
-            },
-            "claim(uint256)": {
-              "notice": "Calculate the claimable interest for the given token"
-            },
-            "contractURI()": {
-              "notice": "Returns the Uniform Resource Identifier (URI) for the current ERC3525 contract."
-            },
-            "createSlot(address,string,string,uint256)": {
-              "notice": "create a slot of ERC-3525"
-            },
-            "getApproved(uint256)": {
-              "notice": "Get the approved address for a single NFT"
-            },
-            "getAssetSnapshot(uint256)": {
-              "notice": "Get the Snapshot of the asset"
-            },
-            "getTimeSnapshot(uint256)": {
-              "notice": "Get the snapshot of the time data"
-            },
-            "isApprovedForAll(address,address)": {
-              "notice": "Query if an address is an authorized operator for another address"
-            },
-            "merge(address,uint256,uint256)": {
-              "notice": "Merge two tokens with the same slot into one token"
-            },
-            "mint(address,uint256)": {
-              "notice": "Mint a token with the slot for the specific value"
-            },
-            "name()": {
-              "notice": "A descriptive name for a collection of NFTs in this contract"
-            },
-            "ownerOf(uint256)": {
-              "notice": "Find the owner of an NFT"
-            },
-            "redeem(address,uint256)": {
-              "notice": "Redeem the principal with interest,   and burn the redeemed token"
-            },
-            "reset(address)": {
-              "notice": "Reset the slot data and the token data"
-            },
-            "safeTransferFrom(address,address,uint256)": {
-              "notice": "Transfers the ownership of an NFT from one address to another address"
-            },
-            "safeTransferFrom(address,address,uint256,bytes)": {
-              "notice": "Transfers the ownership of an NFT from one address to another address"
-            },
-            "setApprovalForAll(address,bool)": {
-              "notice": "Enable or disable approval for a third party (\"operator\") to manage  all of `msg.sender`'s assets"
-            },
-            "slotByIndex(uint256)": {
-              "notice": "Get the slot at the specified index of all slots stored by the contract."
-            },
-            "slotByOwner(address)": {
-              "notice": "Get the slot of owner"
-            },
-            "slotCount()": {
-              "notice": "Get the total amount of slots stored by the contract."
-            },
-            "slotOf(uint256)": {
-              "notice": "Get the slot of a token."
-            },
-            "slotURI(uint256)": {
-              "notice": "Returns the Uniform Resource Identifier (URI) for the specified slot."
-            },
-            "split(address,uint256,uint256)": {
-              "notice": "Split the token to two tokens"
-            },
-            "symbol()": {
-              "notice": "An abbreviated name for NFTs in this contract"
-            },
-            "tokenByIndex(uint256)": {
-              "notice": "Enumerate valid NFTs"
-            },
-            "tokenInSlotByIndex(uint256,uint256)": {
-              "notice": "Get the token at the specified index of all tokens with the same slot."
-            },
-            "tokenOfOwnerByIndex(address,uint256)": {
-              "notice": "Enumerate NFTs assigned to an owner"
-            },
-            "tokenSupplyInSlot(uint256)": {
-              "notice": "Get the total amount of tokens with the same slot."
-            },
-            "tokenURI(uint256)": {
-              "notice": "A distinct Uniform Resource Identifier (URI) for a given asset."
-            },
-            "totalSupply()": {
-              "notice": "Count NFTs tracked by this contract"
-            },
-            "transferFrom(address,address,uint256)": {
-              "notice": "Transfer ownership of an NFT -- THE CALLER IS RESPONSIBLE  TO CONFIRM THAT `_to` IS CAPABLE OF RECEIVING NFTS OR ELSE  THEY MAY BE PERMANENTLY LOST"
-            },
-            "transferFrom(uint256,address,uint256)": {
-              "notice": "Transfer value from a specified token to an address. The caller should confirm that  `_to` is capable of receiving ERC3525 tokens."
-            },
-            "transferFrom(uint256,uint256,uint256)": {
-              "notice": "Transfer value from a specified token to another specified token with the same slot."
-            },
-            "valueDecimals()": {
-              "notice": "Get the number of decimals the token uses for value - e.g. 6, means the user  representation of the value of a token can be calculated by dividing it by 1,000,000.  Considering the compatibility with third-party wallets, this function is defined as  `valueDecimals()` instead of `decimals()` to avoid conflict with ERC20 tokens."
-            }
-          },
-          "version": 1
-        }
-      },
-      "settings": {
-        "remappings": [
-          ":@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
-          ":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
-          ":ds-test/=lib/solmate/lib/ds-test/src/",
-          ":erc-3525/=lib/erc-3525/",
-          ":erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
-          ":forge-std/=lib/forge-std/src/",
-          ":openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/",
-          ":openzeppelin-contracts/=lib/openzeppelin-contracts/contracts/",
-          ":solmate/=lib/solmate/src/"
-        ],
-        "optimizer": {
-          "enabled": true,
-          "runs": 200
-        },
-        "metadata": {
-          "bytecodeHash": "ipfs"
-        },
-        "compilationTarget": {
-          "src/interfaces/IRNFT.sol": "IRNFT"
-        },
-        "libraries": {}
-      },
-      "sources": {
-        "lib/erc-3525/contracts/IERC3525Upgradeable.sol": {
-          "keccak256": "0x4d254f7e3df352ebfafcc5822547089a764dca5cbeeeaabad5b5539694027a2d",
-          "urls": [
-            "bzz-raw://3dcee0a5ba2754802eee93fb5ece49ca423392a5839d48397746e08bf89433a3",
-            "dweb:/ipfs/QmPrn2KoPDZumQYxG9reDM2fqRmiXNtQtwSStXebjcHbfK"
-          ],
-          "license": "MIT"
-        },
-        "lib/erc-3525/contracts/IERC721Upgradeable.sol": {
-          "keccak256": "0x30ce6d4b2c1818766dff3e15b2af11cf6ec26ed8b8496f6c9c0da4701f67d197",
-          "urls": [
-            "bzz-raw://01a9c68bd5712331eaa0f8af209cf57f4fd5f8886c10eafc0e3f41a42c370786",
-            "dweb:/ipfs/QmegLSG7jwfVbWmECzBg81irAVPzZErd8dTUoLhBMQBr18"
-          ],
-          "license": "MIT"
-        },
-        "lib/erc-3525/contracts/extensions/IERC3525MetadataUpgradeable.sol": {
-          "keccak256": "0x3d4c0fc2a6058b8b73dbd0a679aa5fe1317b48ff062ae7c526739e025c7300a3",
-          "urls": [
-            "bzz-raw://c8a3bbc919c8c68dff98d89386b704686c1ee9a83107adfa5b3b41661af45060",
-            "dweb:/ipfs/QmPgCLvMhQNTVrpSUqHsfypqpo9fgCYxecVURGDv9tg4Gi"
-          ],
-          "license": "MIT"
-        },
-        "lib/erc-3525/contracts/extensions/IERC3525SlotEnumerableUpgradeable.sol": {
-          "keccak256": "0xd5d85bce00951a1e4960c3eaa4c71170daefc61c83b0adaf04e67370a2846a4f",
-          "urls": [
-            "bzz-raw://3603be1d0411b66a6aa8a23c7383cd7c6c0cba30fcd016b45b5ec8142118c103",
-            "dweb:/ipfs/QmZKrCMh9opiCtD8V7neywgvhM3eDEsjYG7rCvtZXZ6aJW"
-          ],
-          "license": "MIT"
-        },
-        "lib/erc-3525/contracts/extensions/IERC721EnumerableUpgradeable.sol": {
-          "keccak256": "0xbbe1725b8cca2f56769f8e45593fa084e5e40b5fa601b5e737905b2184930d4a",
-          "urls": [
-            "bzz-raw://c6ba54e6bd31771b0d5beace822b5b66322fd9b656aa8ac92a7c679f9aa59570",
-            "dweb:/ipfs/Qme8SZ2fW3VCr58pxjo3RW1vf8akoXzF24zvJtuRCUwpci"
-          ],
-          "license": "MIT"
-        },
-        "lib/erc-3525/contracts/extensions/IERC721MetadataUpgradeable.sol": {
-          "keccak256": "0xbf8c80caeb05f88bb859bfc504bec6c902146b67f0cff5e4b7c0e89a773977eb",
-          "urls": [
-            "bzz-raw://623a1328e685c0f3f0b26b173c63c436e9282ac0effbb8fd5d24de6edb7f54bc",
-            "dweb:/ipfs/QmQeM85ZJMiN89z4n8zHXWqiLU4HQNLt51YzDLqnub7bRo"
-          ],
-          "license": "MIT"
-        },
-        "lib/openzeppelin-contracts-upgradeable/contracts/utils/introspection/IERC165Upgradeable.sol": {
-          "keccak256": "0xc6cef87559d0aeffdf0a99803de655938a7779ec0a3cd5d4383483ad85565a09",
-          "urls": [
-            "bzz-raw://92ad7e572cf44e6b4b37631b44b62f9eb9fb1cf14d9ce51c1504d5dc7ccaf758",
-            "dweb:/ipfs/QmcnbqX85tsWnUXPmtuPLE4SczME2sJaTfmqEFkuAJvWhy"
-          ],
-          "license": "MIT"
-        },
-        "src/interfaces/IRNFT.sol": {
-          "keccak256": "0x64be01109af5e3d4fd012d3d1128f14b7a0d62f5aa1b94c928eea6b5206074bf",
-          "urls": [
-            "bzz-raw://bbdda6358b71db0d953ef2a6a6f024046251157e5ac71ef2d1fc0d71c1af197f",
-            "dweb:/ipfs/QmcgBZirRP5kpiPjv9wwhthyyemBFZXmfdqrjJAXEvL16h"
-          ],
-          "license": "MIT"
-        },
-        "src/libraries/SlotLibrary.sol": {
-          "keccak256": "0xfc332d79f0a5489c53a74a5aab6d1f8c1ad1e8189150617edbcd240f4fd8b4a6",
-          "urls": [
-            "bzz-raw://8b35fa8a369d455f39f339b4b7e23a71873df848ca3cccea91b89f12260e7d52",
-            "dweb:/ipfs/QmNmv7deme7r4nqVJ5qXSFRgVXK8g8bK1EftwHRiWNUNnd"
-          ],
-          "license": "MIT"
-        },
-        "src/libraries/TokenLibrary.sol": {
-          "keccak256": "0xa036e10b2bdeac7fa55894b8b9078661e70fdf749b7e7aeb31273aa508337ba6",
-          "urls": [
-            "bzz-raw://2ca0d52ef5566c84264c2fa07c7eea5c489299680c6f1755043ac9b3a537d4ea",
-            "dweb:/ipfs/QmezKpNNUGPg2T73sqGrp27jmQdagvQaxr4kmbW2bSwRus"
-          ],
-          "license": "MIT"
-        }
-      },
-      "version": 1
+    {
+      "inputs": [],
+      "name": "NotOwnerNorApproved",
+      "type": "error"
     },
-    "ast": {
-      "absolutePath": "src/interfaces/IRNFT.sol",
-      "id": 35176,
-      "exportedSymbols": {
-        "IERC3525MetadataUpgradeable": [
-          3027
-        ],
-        "IERC3525SlotEnumerableUpgradeable": [
-          3069
-        ],
-        "IRNFT": [
-          35175
-        ],
-        "SlotLibrary": [
-          35315
-        ],
-        "TokenLibrary": [
-          35530
-        ]
-      },
-      "nodeType": "SourceUnit",
-      "src": "31:3560:60",
-      "nodes": [
+    {
+      "inputs": [],
+      "name": "NotRedeemable",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
         {
-          "id": 35052,
-          "nodeType": "PragmaDirective",
-          "src": "31:23:60",
-          "nodes": [],
-          "literals": [
-            "solidity",
-            "^",
-            "0.8",
-            ".0"
-          ]
+          "indexed": true,
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
         },
         {
-          "id": 35054,
-          "nodeType": "ImportDirective",
-          "src": "56:118:60",
-          "nodes": [],
-          "absolutePath": "lib/erc-3525/contracts/extensions/IERC3525SlotEnumerableUpgradeable.sol",
-          "file": "erc-3525/contracts/extensions/IERC3525SlotEnumerableUpgradeable.sol",
-          "nameLocation": "-1:-1:-1",
-          "scope": 35176,
-          "sourceUnit": 3070,
-          "symbolAliases": [
-            {
-              "foreign": {
-                "id": 35053,
-                "name": "IERC3525SlotEnumerableUpgradeable",
-                "nodeType": "Identifier",
-                "overloadedDeclarations": [],
-                "referencedDeclaration": 3069,
-                "src": "64:33:60",
-                "typeDescriptions": {}
-              },
-              "nameLocation": "-1:-1:-1"
-            }
-          ],
-          "unitAlias": ""
+          "indexed": true,
+          "internalType": "address",
+          "name": "_approved",
+          "type": "address"
         },
         {
-          "id": 35056,
-          "nodeType": "ImportDirective",
-          "src": "175:106:60",
-          "nodes": [],
-          "absolutePath": "lib/erc-3525/contracts/extensions/IERC3525MetadataUpgradeable.sol",
-          "file": "erc-3525/contracts/extensions/IERC3525MetadataUpgradeable.sol",
-          "nameLocation": "-1:-1:-1",
-          "scope": 35176,
-          "sourceUnit": 3028,
-          "symbolAliases": [
-            {
-              "foreign": {
-                "id": 35055,
-                "name": "IERC3525MetadataUpgradeable",
-                "nodeType": "Identifier",
-                "overloadedDeclarations": [],
-                "referencedDeclaration": 3027,
-                "src": "183:27:60",
-                "typeDescriptions": {}
-              },
-              "nameLocation": "-1:-1:-1"
-            }
-          ],
-          "unitAlias": ""
-        },
-        {
-          "id": 35057,
-          "nodeType": "ImportDirective",
-          "src": "283:38:60",
-          "nodes": [],
-          "absolutePath": "src/libraries/SlotLibrary.sol",
-          "file": "../libraries/SlotLibrary.sol",
-          "nameLocation": "-1:-1:-1",
-          "scope": 35176,
-          "sourceUnit": 35316,
-          "symbolAliases": [],
-          "unitAlias": ""
-        },
-        {
-          "id": 35058,
-          "nodeType": "ImportDirective",
-          "src": "322:39:60",
-          "nodes": [],
-          "absolutePath": "src/libraries/TokenLibrary.sol",
-          "file": "../libraries/TokenLibrary.sol",
-          "nameLocation": "-1:-1:-1",
-          "scope": 35176,
-          "sourceUnit": 35531,
-          "symbolAliases": [],
-          "unitAlias": ""
-        },
-        {
-          "id": 35175,
-          "nodeType": "ContractDefinition",
-          "src": "363:3228:60",
-          "nodes": [
-            {
-              "id": 35064,
-              "nodeType": "ErrorDefinition",
-              "src": "451:17:60",
-              "nodes": [],
-              "errorSelector": "e8eff41b",
-              "name": "NotLogic",
-              "nameLocation": "457:8:60",
-              "parameters": {
-                "id": 35063,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "465:2:60"
-              }
-            },
-            {
-              "id": 35066,
-              "nodeType": "ErrorDefinition",
-              "src": "473:28:60",
-              "nodes": [],
-              "errorSelector": "4b6e7f18",
-              "name": "NotOwnerNorApproved",
-              "nameLocation": "479:19:60",
-              "parameters": {
-                "id": 35065,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "498:2:60"
-              }
-            },
-            {
-              "id": 35068,
-              "nodeType": "ErrorDefinition",
-              "src": "506:22:60",
-              "nodes": [],
-              "errorSelector": "c8501880",
-              "name": "NotRedeemable",
-              "nameLocation": "512:13:60",
-              "parameters": {
-                "id": 35067,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "525:2:60"
-              }
-            },
-            {
-              "id": 35070,
-              "nodeType": "ErrorDefinition",
-              "src": "533:20:60",
-              "nodes": [],
-              "errorSelector": "1258e443",
-              "name": "InvalidSlot",
-              "nameLocation": "539:11:60",
-              "parameters": {
-                "id": 35069,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "550:2:60"
-              }
-            },
-            {
-              "id": 35072,
-              "nodeType": "ErrorDefinition",
-              "src": "558:21:60",
-              "nodes": [],
-              "errorSelector": "c1ab6dc1",
-              "name": "InvalidToken",
-              "nameLocation": "564:12:60",
-              "parameters": {
-                "id": 35071,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "576:2:60"
-              }
-            },
-            {
-              "id": 35078,
-              "nodeType": "FunctionDefinition",
-              "src": "769:40:60",
-              "nodes": [],
-              "documentation": {
-                "id": 35073,
-                "nodeType": "StructuredDocumentation",
-                "src": "656:108:60",
-                "text": " @notice Reset the slot data and the token data\n @param _owner The owner of the slot"
-              },
-              "functionSelector": "6b8ab97d",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "reset",
-              "nameLocation": "778:5:60",
-              "parameters": {
-                "id": 35076,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35075,
-                    "mutability": "mutable",
-                    "name": "_owner",
-                    "nameLocation": "792:6:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35078,
-                    "src": "784:14:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 35074,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "784:7:60",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "783:16:60"
-              },
-              "returnParameters": {
-                "id": 35077,
-                "nodeType": "ParameterList",
-                "parameters": [],
-                "src": "808:0:60"
-              },
-              "scope": 35175,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35086,
-              "nodeType": "FunctionDefinition",
-              "src": "993:69:60",
-              "nodes": [],
-              "documentation": {
-                "id": 35079,
-                "nodeType": "StructuredDocumentation",
-                "src": "873:115:60",
-                "text": " @notice Get the slot of owner\n @param _owner The owner of the slot\n @return The slot"
-              },
-              "functionSelector": "21f638ef",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "slotByOwner",
-              "nameLocation": "1002:11:60",
-              "parameters": {
-                "id": 35082,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35081,
-                    "mutability": "mutable",
-                    "name": "_owner",
-                    "nameLocation": "1022:6:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35086,
-                    "src": "1014:14:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 35080,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1014:7:60",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "1013:16:60"
-              },
-              "returnParameters": {
-                "id": 35085,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35084,
-                    "mutability": "mutable",
-                    "name": "",
-                    "nameLocation": "-1:-1:-1",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35086,
-                    "src": "1053:7:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35083,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1053:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "1052:9:60"
-              },
-              "scope": 35175,
-              "stateMutability": "view",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35095,
-              "nodeType": "FunctionDefinition",
-              "src": "1221:94:60",
-              "nodes": [],
-              "documentation": {
-                "id": 35087,
-                "nodeType": "StructuredDocumentation",
-                "src": "1068:148:60",
-                "text": " @notice Get the Snapshot of the asset\n @param _slot The owner of the slot\n @return The asset data for the given slot "
-              },
-              "functionSelector": "aa5f95f6",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "getAssetSnapshot",
-              "nameLocation": "1230:16:60",
-              "parameters": {
-                "id": 35090,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35089,
-                    "mutability": "mutable",
-                    "name": "_slot",
-                    "nameLocation": "1255:5:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35095,
-                    "src": "1247:13:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35088,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1247:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "1246:15:60"
-              },
-              "returnParameters": {
-                "id": 35094,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35093,
-                    "mutability": "mutable",
-                    "name": "",
-                    "nameLocation": "-1:-1:-1",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35095,
-                    "src": "1285:28:60",
-                    "stateVariable": false,
-                    "storageLocation": "memory",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_AssetData_$35200_memory_ptr",
-                      "typeString": "struct SlotLibrary.AssetData"
-                    },
-                    "typeName": {
-                      "id": 35092,
-                      "nodeType": "UserDefinedTypeName",
-                      "pathNode": {
-                        "id": 35091,
-                        "name": "SlotLibrary.AssetData",
-                        "nameLocations": [
-                          "1285:11:60",
-                          "1297:9:60"
-                        ],
-                        "nodeType": "IdentifierPath",
-                        "referencedDeclaration": 35200,
-                        "src": "1285:21:60"
-                      },
-                      "referencedDeclaration": 35200,
-                      "src": "1285:21:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_AssetData_$35200_storage_ptr",
-                        "typeString": "struct SlotLibrary.AssetData"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "1284:30:60"
-              },
-              "scope": 35175,
-              "stateMutability": "view",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35109,
-              "nodeType": "FunctionDefinition",
-              "src": "1549:131:60",
-              "nodes": [],
-              "documentation": {
-                "id": 35096,
-                "nodeType": "StructuredDocumentation",
-                "src": "1321:223:60",
-                "text": " @notice create a slot of ERC-3525\n @param _owner The owner of the slot\n @param _category The RWA category\n @param _rwaName The RWA name\n @param _rwaValue The RWA tokenization value"
-              },
-              "functionSelector": "8df87fba",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "createSlot",
-              "nameLocation": "1558:10:60",
-              "parameters": {
-                "id": 35105,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35098,
-                    "mutability": "mutable",
-                    "name": "_owner",
-                    "nameLocation": "1577:6:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35109,
-                    "src": "1569:14:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 35097,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1569:7:60",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35100,
-                    "mutability": "mutable",
-                    "name": "_category",
-                    "nameLocation": "1599:9:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35109,
-                    "src": "1585:23:60",
-                    "stateVariable": false,
-                    "storageLocation": "memory",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_string_memory_ptr",
-                      "typeString": "string"
-                    },
-                    "typeName": {
-                      "id": 35099,
-                      "name": "string",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1585:6:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_string_storage_ptr",
-                        "typeString": "string"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35102,
-                    "mutability": "mutable",
-                    "name": "_rwaName",
-                    "nameLocation": "1624:8:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35109,
-                    "src": "1610:22:60",
-                    "stateVariable": false,
-                    "storageLocation": "memory",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_string_memory_ptr",
-                      "typeString": "string"
-                    },
-                    "typeName": {
-                      "id": 35101,
-                      "name": "string",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1610:6:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_string_storage_ptr",
-                        "typeString": "string"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35104,
-                    "mutability": "mutable",
-                    "name": "_rwaValue",
-                    "nameLocation": "1642:9:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35109,
-                    "src": "1634:17:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35103,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1634:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "1568:84:60"
-              },
-              "returnParameters": {
-                "id": 35108,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35107,
-                    "mutability": "mutable",
-                    "name": "",
-                    "nameLocation": "-1:-1:-1",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35109,
-                    "src": "1671:7:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35106,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1671:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "1670:9:60"
-              },
-              "scope": 35175,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35118,
-              "nodeType": "FunctionDefinition",
-              "src": "1909:96:60",
-              "nodes": [],
-              "documentation": {
-                "id": 35110,
-                "nodeType": "StructuredDocumentation",
-                "src": "1745:159:60",
-                "text": " @notice Get the snapshot of the time data\n @param _tokenId The token of the time data\n @return The time data for the given token"
-              },
-              "functionSelector": "c8dd9dc5",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "getTimeSnapshot",
-              "nameLocation": "1918:15:60",
-              "parameters": {
-                "id": 35113,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35112,
-                    "mutability": "mutable",
-                    "name": "_tokenId",
-                    "nameLocation": "1942:8:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35118,
-                    "src": "1934:16:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35111,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "1934:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "1933:18:60"
-              },
-              "returnParameters": {
-                "id": 35117,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35116,
-                    "mutability": "mutable",
-                    "name": "",
-                    "nameLocation": "-1:-1:-1",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35118,
-                    "src": "1975:28:60",
-                    "stateVariable": false,
-                    "storageLocation": "memory",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_TimeData_$35328_memory_ptr",
-                      "typeString": "struct TokenLibrary.TimeData"
-                    },
-                    "typeName": {
-                      "id": 35115,
-                      "nodeType": "UserDefinedTypeName",
-                      "pathNode": {
-                        "id": 35114,
-                        "name": "TokenLibrary.TimeData",
-                        "nameLocations": [
-                          "1975:12:60",
-                          "1988:8:60"
-                        ],
-                        "nodeType": "IdentifierPath",
-                        "referencedDeclaration": 35328,
-                        "src": "1975:21:60"
-                      },
-                      "referencedDeclaration": 35328,
-                      "src": "1975:21:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_struct$_TimeData_$35328_storage_ptr",
-                        "typeString": "struct TokenLibrary.TimeData"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "1974:30:60"
-              },
-              "scope": 35175,
-              "stateMutability": "view",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35128,
-              "nodeType": "FunctionDefinition",
-              "src": "2243:74:60",
-              "nodes": [],
-              "documentation": {
-                "id": 35119,
-                "nodeType": "StructuredDocumentation",
-                "src": "2011:227:60",
-                "text": " @notice Mint a token with the slot for the specific value\n @param _minter The minter is to mint a ERC-3525\n @param _value The value that minter is desired to mint\n @return The minted tokenId"
-              },
-              "functionSelector": "40c10f19",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "mint",
-              "nameLocation": "2252:4:60",
-              "parameters": {
-                "id": 35124,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35121,
-                    "mutability": "mutable",
-                    "name": "_minter",
-                    "nameLocation": "2265:7:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35128,
-                    "src": "2257:15:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 35120,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2257:7:60",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35123,
-                    "mutability": "mutable",
-                    "name": "_value",
-                    "nameLocation": "2282:6:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35128,
-                    "src": "2274:14:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35122,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2274:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "2256:33:60"
-              },
-              "returnParameters": {
-                "id": 35127,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35126,
-                    "mutability": "mutable",
-                    "name": "",
-                    "nameLocation": "-1:-1:-1",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35128,
-                    "src": "2308:7:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35125,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2308:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "2307:9:60"
-              },
-              "scope": 35175,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35140,
-              "nodeType": "FunctionDefinition",
-              "src": "2551:92:60",
-              "nodes": [],
-              "documentation": {
-                "id": 35129,
-                "nodeType": "StructuredDocumentation",
-                "src": "2323:223:60",
-                "text": " @notice Split the token to two tokens\n @param _owner The owner of tokens\n @param _tokenId The token is to splitted\n @param _value The value of new token\n @return The splitted token"
-              },
-              "functionSelector": "8afbc1ed",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "split",
-              "nameLocation": "2560:5:60",
-              "parameters": {
-                "id": 35136,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35131,
-                    "mutability": "mutable",
-                    "name": "_owner",
-                    "nameLocation": "2574:6:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35140,
-                    "src": "2566:14:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 35130,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2566:7:60",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35133,
-                    "mutability": "mutable",
-                    "name": "_tokenId",
-                    "nameLocation": "2590:8:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35140,
-                    "src": "2582:16:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35132,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2582:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35135,
-                    "mutability": "mutable",
-                    "name": "_value",
-                    "nameLocation": "2608:6:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35140,
-                    "src": "2600:14:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35134,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2600:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "2565:50:60"
-              },
-              "returnParameters": {
-                "id": 35139,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35138,
-                    "mutability": "mutable",
-                    "name": "",
-                    "nameLocation": "-1:-1:-1",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35140,
-                    "src": "2634:7:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35137,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2634:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "2633:9:60"
-              },
-              "scope": 35175,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35152,
-              "nodeType": "FunctionDefinition",
-              "src": "2892:96:60",
-              "nodes": [],
-              "documentation": {
-                "id": 35141,
-                "nodeType": "StructuredDocumentation",
-                "src": "2649:238:60",
-                "text": " @notice Merge two tokens with the same slot into one token\n @param _owner The owner of tokens\n @param _sourceId The source token\n @param _targetId The target token\n @return The source token value"
-              },
-              "functionSelector": "463dcf0a",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "merge",
-              "nameLocation": "2901:5:60",
-              "parameters": {
-                "id": 35148,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35143,
-                    "mutability": "mutable",
-                    "name": "_owner",
-                    "nameLocation": "2915:6:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35152,
-                    "src": "2907:14:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 35142,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2907:7:60",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35145,
-                    "mutability": "mutable",
-                    "name": "_sourceId",
-                    "nameLocation": "2931:9:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35152,
-                    "src": "2923:17:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35144,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2923:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35147,
-                    "mutability": "mutable",
-                    "name": "_targetId",
-                    "nameLocation": "2950:9:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35152,
-                    "src": "2942:17:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35146,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2942:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "2906:54:60"
-              },
-              "returnParameters": {
-                "id": 35151,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35150,
-                    "mutability": "mutable",
-                    "name": "",
-                    "nameLocation": "-1:-1:-1",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35152,
-                    "src": "2979:7:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35149,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "2979:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "2978:9:60"
-              },
-              "scope": 35175,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35164,
-              "nodeType": "FunctionDefinition",
-              "src": "3251:86:60",
-              "nodes": [],
-              "documentation": {
-                "id": 35153,
-                "nodeType": "StructuredDocumentation",
-                "src": "2998:248:60",
-                "text": " @notice Redeem the principal with interest,\n   and burn the redeemed token\n @param _owner The token owner\n @param _tokenId The token is about to redeem\n @return The principal with the interest of the token"
-              },
-              "functionSelector": "1e9a6950",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "redeem",
-              "nameLocation": "3260:6:60",
-              "parameters": {
-                "id": 35158,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35155,
-                    "mutability": "mutable",
-                    "name": "_owner",
-                    "nameLocation": "3275:6:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35164,
-                    "src": "3267:14:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    },
-                    "typeName": {
-                      "id": 35154,
-                      "name": "address",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "3267:7:60",
-                      "stateMutability": "nonpayable",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_address",
-                        "typeString": "address"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35157,
-                    "mutability": "mutable",
-                    "name": "_tokenId",
-                    "nameLocation": "3291:8:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35164,
-                    "src": "3283:16:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35156,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "3283:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "3266:34:60"
-              },
-              "returnParameters": {
-                "id": 35163,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35160,
-                    "mutability": "mutable",
-                    "name": "",
-                    "nameLocation": "-1:-1:-1",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35164,
-                    "src": "3319:7:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35159,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "3319:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35162,
-                    "mutability": "mutable",
-                    "name": "",
-                    "nameLocation": "-1:-1:-1",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35164,
-                    "src": "3328:7:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35161,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "3328:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "3318:18:60"
-              },
-              "scope": 35175,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            },
-            {
-              "id": 35174,
-              "nodeType": "FunctionDefinition",
-              "src": "3520:69:60",
-              "nodes": [],
-              "documentation": {
-                "id": 35165,
-                "nodeType": "StructuredDocumentation",
-                "src": "3343:172:60",
-                "text": " @notice Calculate the claimable interest for the given token\n @param _tokenId The token\n @return The principal with the interest of the token"
-              },
-              "functionSelector": "379607f5",
-              "implemented": false,
-              "kind": "function",
-              "modifiers": [],
-              "name": "claim",
-              "nameLocation": "3529:5:60",
-              "parameters": {
-                "id": 35168,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35167,
-                    "mutability": "mutable",
-                    "name": "_tokenId",
-                    "nameLocation": "3543:8:60",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35174,
-                    "src": "3535:16:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35166,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "3535:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "3534:18:60"
-              },
-              "returnParameters": {
-                "id": 35173,
-                "nodeType": "ParameterList",
-                "parameters": [
-                  {
-                    "constant": false,
-                    "id": 35170,
-                    "mutability": "mutable",
-                    "name": "",
-                    "nameLocation": "-1:-1:-1",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35174,
-                    "src": "3571:7:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35169,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "3571:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  },
-                  {
-                    "constant": false,
-                    "id": 35172,
-                    "mutability": "mutable",
-                    "name": "",
-                    "nameLocation": "-1:-1:-1",
-                    "nodeType": "VariableDeclaration",
-                    "scope": 35174,
-                    "src": "3580:7:60",
-                    "stateVariable": false,
-                    "storageLocation": "default",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    },
-                    "typeName": {
-                      "id": 35171,
-                      "name": "uint256",
-                      "nodeType": "ElementaryTypeName",
-                      "src": "3580:7:60",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "visibility": "internal"
-                  }
-                ],
-                "src": "3570:18:60"
-              },
-              "scope": 35175,
-              "stateMutability": "nonpayable",
-              "virtual": false,
-              "visibility": "external"
-            }
-          ],
-          "abstract": false,
-          "baseContracts": [
-            {
-              "baseName": {
-                "id": 35059,
-                "name": "IERC3525MetadataUpgradeable",
-                "nameLocations": [
-                  "382:27:60"
-                ],
-                "nodeType": "IdentifierPath",
-                "referencedDeclaration": 3027,
-                "src": "382:27:60"
-              },
-              "id": 35060,
-              "nodeType": "InheritanceSpecifier",
-              "src": "382:27:60"
-            },
-            {
-              "baseName": {
-                "id": 35061,
-                "name": "IERC3525SlotEnumerableUpgradeable",
-                "nameLocations": [
-                  "411:33:60"
-                ],
-                "nodeType": "IdentifierPath",
-                "referencedDeclaration": 3069,
-                "src": "411:33:60"
-              },
-              "id": 35062,
-              "nodeType": "InheritanceSpecifier",
-              "src": "411:33:60"
-            }
-          ],
-          "canonicalName": "IRNFT",
-          "contractDependencies": [],
-          "contractKind": "interface",
-          "fullyImplemented": false,
-          "linearizedBaseContracts": [
-            35175,
-            3069,
-            3100,
-            3027,
-            3127,
-            2869,
-            3003,
-            27757
-          ],
-          "name": "IRNFT",
-          "nameLocation": "373:5:60",
-          "scope": 35176,
-          "usedErrors": [
-            35064,
-            35066,
-            35068,
-            35070,
-            35072
-          ]
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
         }
       ],
-      "license": "MIT"
+      "name": "Approval",
+      "type": "event"
     },
-    "id": 60
-  }
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "_approved",
+          "type": "bool"
+        }
+      ],
+      "name": "ApprovalForAll",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "ApprovalValue",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_oldSlot",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_newSlot",
+          "type": "uint256"
+        }
+      ],
+      "name": "SlotChanged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_fromTokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "_toTokenId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "TransferValue",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        }
+      ],
+      "name": "allowance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_approved",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "claim",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "contractURI",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "_category",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_rwaName",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_rwaValue",
+          "type": "uint256"
+        }
+      ],
+      "name": "createSlot",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getApproved",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_slot",
+          "type": "uint256"
+        }
+      ],
+      "name": "getAssetSnapshot",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "originator",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "category",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "rwaName",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "rwaValue",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "mintableValue",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct SlotLibrary.AssetData",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getTimeSnapshot",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint64",
+              "name": "mintTime",
+              "type": "uint64"
+            },
+            {
+              "internalType": "uint64",
+              "name": "claimTime",
+              "type": "uint64"
+            }
+          ],
+          "internalType": "struct TokenLibrary.TimeData",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        }
+      ],
+      "name": "isApprovedForAll",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_sourceId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_targetId",
+          "type": "uint256"
+        }
+      ],
+      "name": "merge",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_minter",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "mint",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "name",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "ownerOf",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "redeem",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "reset",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "safeTransferFrom",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        }
+      ],
+      "name": "safeTransferFrom",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "_approved",
+          "type": "bool"
+        }
+      ],
+      "name": "setApprovalForAll",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_index",
+          "type": "uint256"
+        }
+      ],
+      "name": "slotByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        }
+      ],
+      "name": "slotByOwner",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "slotCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "slotOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_slot",
+          "type": "uint256"
+        }
+      ],
+      "name": "slotURI",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "split",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "symbol",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_index",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_slot",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_index",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenInSlotByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_index",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenOfOwnerByIndex",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_slot",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenSupplyInSlot",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "tokenURI",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalSupply",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_fromTokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_tokenId",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_fromTokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_toTokenId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "valueDecimals",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}
