@@ -1379,7 +1379,7 @@ const test=async()=>{
                 {t("enter_data")}
               </p>
               <div className="hidden md:block">
-                <Image src={'v2imgs/v-arrows.png'} alt="rwa" />
+                <img src={'v2imgs/v-arrows.png'} alt="rwa"  className="w-9 h-[86px]" />
               </div>
             </div>
             <div className="flex md:mb-5 mb-6 md:flex-row flex-col md:mt-0">
@@ -1639,7 +1639,7 @@ const test=async()=>{
               <>
                 {" "}
                 <div className="hidden md:block md:flex md:justify-center mb-6">
-                  <Image src={'v2imgs/v-arrows.png'} />
+                  <img src={'v2imgs/v-arrows.png'} className="w-9 h-[86px]" />
                 </div>
                 <div className="w-full md:h-[395px] bg-invar-main-purple flex relative rounded md:flex-row flex-col md:px-  lg:px-4 md:px-4 shadow-xl shadow-[rgba(0, 0, 0, 0.12)]">
                   <div className="z-0 w-full h-full absolute left-0 top-0 bg-[#37293E] rounded">
