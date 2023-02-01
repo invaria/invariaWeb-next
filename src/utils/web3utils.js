@@ -47,7 +47,7 @@ let usdcAddress;
 
 if(PRODUCTION){
   nftAddress = "0x502818ec5767570F7fdEe5a568443dc792c4496b";  
-  stakeAddress="0x10a92B12Da3DEE9a3916Dbaa8F0e141a75F0712";
+  stakeAddress="0x10a92B12Da3DEE9a3916Dbaa8F0e141a75F07126";
   usdcAddress="0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
 }else{
   nftAddress="0x98A107e2d232F5b1f63013b22045Eac0605ECb15";
