@@ -27,7 +27,7 @@ import erc20ABI from "../src/utils/erc20ABI.json";
 
 let allowedPromo =
   process.env.PRODUCTION === "true"
-    ? ["djjy"]
+    ? ["djjy"] 
     : ["lmg", "hello", "iblackyang", "joyce", "kenjisrealm"];
 
 export async function getStaticProps({ locale }) {
