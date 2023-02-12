@@ -3,12 +3,14 @@ import { ethers } from "ethers";
 import { useNetwork, useAddress } from "@thirdweb-dev/react";
 import inVariaJSON from "../src/utils/InVaria.json";
 import stakeABI from "../src/utils/invarstaking.json";
-import { nftAddress, stakeAddress } from "../src/utils/web3utils";
+import { nftAddress, passAddress, stakeAddress } from "../src/utils/web3utils";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
+import passJSON from "../src/utils/passABI.json";
+import axios from "axios";
 
 import IcLight from "../public/icons/ic_light.png";
-import { useMediaQuery, useTheme } from "@mui/material";
+import { useRouter } from "next/router";
 
 const Nfts = () => {
   const address = useAddress();
@@ -18,7 +20,6 @@ const Nfts = () => {
   const [burnable, setburnable] = useState();
   const [interest, setinterest] = useState();
   const [evestake, setevestake] = useState([]);
-  const [eveunstake, seteveunstake] = useState([{}]);
   const [infos, setinfos] = useState([]);
   const [openinfo, setopeninfo] = useState(false);
   const [tabState, setTabState] = useState("staking");
@@ -28,13 +29,33 @@ const Nfts = () => {
   const [showtoast, setshowtoast] = useState(false);
   const [tt, sett] = useState("sdc");
   const [stkinfo, setstkinfo] = useState();
-  const theme=useTheme();
-  const small = useMediaQuery(theme.breakpoints.down('sm'));
-
+  const [passTokensData, setPassTokenData] = useState([]);
   const { t } = useTranslation("dashboard");
+  const router = useRouter();
   useEffect(() => {
     getNfts();
+    if (!address) {
+      setopeninfo(false);
+      resetAllStates();
+    }
   }, [address]);
+
+  const resetAllStates = () => {
+    setnfts();
+    setstaked();
+    setburnable();
+    setinterest();
+    setevestake([]);
+    setinfos([]);
+    setopeninfo(false);
+    setTabState("staking");
+    setopenact();
+    setInputs({ Burnable: 0 });
+    setBtnState();
+    setshowtoast(false);
+    sett("sdc");
+    setstkinfo();
+  };
 
   let toast = (
     <div className=" z-40 w-screen fixed bottom-20 left-0 right-0 ">
@@ -47,7 +68,7 @@ const Nfts = () => {
           >
             <img
               className="h-[24px] w-[24px] cursor-pointer"
-              src='/icons/ic_close.svg'
+              src="/icons/ic_close.svg"
               alt=""
             />
           </div>
@@ -55,16 +76,6 @@ const Nfts = () => {
       </div>
     </div>
   );
-
-  // function successToast(s) {
-  //   // return (
-  //   console.log("asd activity")
-  //   toast = <div className=''>
-  //     {s && s}
-  //   </div>
-  //   sett("toast")
-  //   // )
-  // }
 
   async function getNfts() {
     // successToast("hoijoijh")
@@ -85,43 +96,49 @@ const Nfts = () => {
 
     const burnbal = (await stakeContract.BurnNftInfo(address)).toString();
     setburnable(burnbal);
+    console.log("burnbal", burnbal);
 
     const intersts =
       +(await stakeContract.CheckClaimValue(address)).toString() / 1000000;
     setinterest(intersts);
-    console.log("trans", stakebal.stakingAmount.toString(), burnbal, intersts);
-    // const stk = (await stakeContract.stakingInfo(address))
-    // console.log(stk,"stk")
-    // ///////
+
     const filter = stakeContract.filters.stakeInfo(address, null, null, null);
     const qq = await stakeContract.queryFilter(filter);
+
     let infosarr = [];
     let stkarr = [];
 
     for (var m = 0; m < 1000; m++) {
       try {
         const stakebal = await stakeContract.burningInfo(address, m);
-        // stakebal.m = m
+        console.log("fetching burningInfo", m);
         let mm = { ...stakebal, m: m };
         infosarr.push(mm);
+        console.log("mmmm", m);
       } catch (error) {
-        console.log("error stk", error);
+        console.log("fetching burning error", error);
         break;
       }
     }
+    console.log(
+      "\n\n",
+      "fetcching burning end---------------------------------\n\n"
+    );
 
     for (var m = 0; m < 100; m++) {
       try {
         const stk = await stakeContract.stakingInfo(address, m);
-
+        console.log("fetching stakingINFO", m);
         // console.log("stk wh", stk, stk.isUnstake, m)
         let mm = { ...stk, m: m };
         if (stk.isUnstake == false) stkarr.push(mm);
       } catch (error) {
+        console.log("fetching staking error", error);
         console.log("error stk");
         break;
       }
     }
+    console.log("infosarr2", stkarr);
 
     const items = await Promise.all(
       qq?.map(async (i, index) => {
@@ -137,49 +154,33 @@ const Nfts = () => {
           // unstaked: numunstake,
           txid: `${i.transactionHash}`,
         };
-        // try {
-        //   // console.log(" burningInfo")
-
-        //   const stakebal = await stakeContract.burningInfo(address, index)
-        //   // console.log("stakebal",stakebal)
-
-        //   const stk = (await stakeContract.stakingInfo(address, index))
-
-        //   console.log("stk", stk,stk.isUnstake,index)
-
-        //   infosarr.push(stakebal)
-        //   if (stk.isUnstake == false) stkarr.push(stk)
-        // } catch (error) {
-        //   console.log("error stk")
-        // }
         return item;
       })
     );
-    /////
+
     const unfilter = stakeContract.filters.unStakeInfo(address, null, null);
     const unqq = await stakeContract.queryFilter(unfilter);
     // console.log("unqq", unqq, stakeAddress, nftAddress)
-    const unitems = await Promise.all(
-      unqq?.map(async (i, index) => {
-        const blockTime = new Date(i.args.unstakeTime * 1000);
-        console.log("blockTime", blockTime);
-        const item = {
-          date: blockTime.toString(),
-          year: blockTime.getFullYear(),
-          month: blockTime.getMonth() + 1,
-          day: blockTime.getDate(),
-          amount: i.args.amount.toNumber(),
-          txid: `${i.transactionHash}`,
-        };
-        return item;
-      })
-    );
+    // const unitems = await Promise.all(
+    //   unqq?.map(async (i, index) => {
+    //     const blockTime = new Date(i.args.unstakeTime * 1000);
+    //     console.log("blockTime", blockTime);
+    //     const item = {
+    //       date: blockTime.toString(),
+    //       year: blockTime.getFullYear(),
+    //       month: blockTime.getMonth() + 1,
+    //       day: blockTime.getDate(),
+    //       amount: i.args.amount.toNumber(),
+    //       txid: `${i.transactionHash}`,
+    //     };
+    //     return item;
+    //   })
+    // );
     const i = [...infosarr].sort((a, b) => b.mm - a.mm);
     const ii = [...stkarr].sort((a, b) => b.mm - a.mm);
     setinfos(i);
     setstkinfo(ii);
     setevestake(items);
-    seteveunstake(unitems);
   }
 
   const stake = async () => {
@@ -279,11 +280,56 @@ const Nfts = () => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
+  const fetchInitialData = async () => {
+     
+    setPassTokenData([]);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const nftContract = new ethers.Contract(
+      passAddress,
+      passJSON.abi,
+      provider
+    );
+
+    const userNftCount = await nftContract.balanceOf(address);
+
+
+    if (+userNftCount.toString() === 0) return;
+
+    let tokenPromises = [];
+    for (let i = 0; i < +userNftCount.toString(); i++) {
+      const tokenId = nftContract.tokenOfOwnerByIndex(address, i);
+      tokenPromises.push(tokenId);
+    }
+    let tokenIds = await Promise.all(tokenPromises);
+tokenIds = tokenIds.map((t) => t.toString());
+
+
+
+    let tokensData = tokenIds.map((t) =>
+      axios.get(
+        `https://asia-southeast1-invaria2222.cloudfunctions.net/invar-pass-metadata/${+t.toString()}`
+      )
+    );
+    let tokenDetails = await Promise.all(tokensData);
+    console.log("tokenDetails", tokenDetails)
+    tokenDetails = tokenDetails.map((t) => t.data);
+    console.log("tokenDetails", tokenDetails);
+    if (tokenDetails.length > 0) setPassTokenData(tokenDetails);
+  };
+
+  useEffect(() => {
+    if (address) fetchInitialData();
+  }, [address, network[0]?.data?.chain?.id]);
+
   return (
     <div className="relative flex min-h-[70vh] w-full border-t border-invar-main-purple">
       {showtoast && <div className=" absolute bg-black w-screen">{toast}</div>}
       <div className="w-full z-10 mt-12 mb-10">
-        {nfts == 0 && staked == 0 && interest == 0 ? (
+        {(nfts == 0 &&
+          staked == 0 &&
+          interest == 0 &&
+          passTokensData.length === 0) ||
+        !address ? (
           <div className="w-full h-full flex justify-center items-center">
             <div>
               <Image width={162} height={200} src={IcLight} alt="" />
@@ -295,21 +341,76 @@ const Nfts = () => {
         ) : (
           <>
             {!openinfo ? (
-              <div
-                onClick={() => setopeninfo(true)}
-                className=" relative w-[310px] h-[382px] bg-black rounded overflow-hidden shadow cursor-pointer"
-              >
-                <img
-                  className=" w-[310px] h-[310px]"
-                  src="https://dev2988.dkotaim8jhfxo.amplifyapp.com/Renft.gif"
-                  alt=""
-                />
-                <p className=" px-[109px] py-6 font-semibold text-xl">
-                  {t("dashbaord_nfts_amwaj20")}
-                </p>
-                <div className=" absolute top-0 left-0 m-3 p-2 bg-invar-dark bg-opacity-70 text-invar-success font-semibold text-sm rounded">
-                  {t("dashbaord_nfts_nftamount", { V: +nfts + +staked })}
-                </div>
+              <div className="flex sm:gap-8 gap-6 sm:flex-row flex-col flex-wrap">
+                {+nfts + +staked > 0 && (
+                  <div
+                    key={"amwaj"}
+                    onClick={() => setopeninfo(true)}
+                    className=" relative w-[300px] h-[382px] bg-black rounded overflow-hidden shadow cursor-pointer"
+                  >
+                    <img
+                      className=" w-[300px] h-[310px]"
+                      src="https://dev2988.dkotaim8jhfxo.amplifyapp.com/Renft.gif"
+                      alt=""
+                    />
+                    <div className="px-[109px] py-6 relative">
+                      <p className="font-semibold text-xl">
+                        {t("dashbaord_nfts_amwaj20")}
+                      </p>
+                      <p
+                        className="absolute top-[30px] right-4 font-normal text-xs leading-4 text-accent text-center cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.push("/propertyinfo");
+                        }}
+                      >
+                        {t("detail")}
+                      </p>
+                    </div>
+                    <div className=" absolute top-0 left-0 m-3 p-2 bg-invar-dark bg-opacity-70 text-invar-success font-semibold text-sm rounded">
+                      {t("dashbaord_nfts_nftamount", { V: +nfts + +staked })}
+                    </div>
+                  </div>
+                )}
+{console.log(passTokensData, "passTokensData")}
+                {passTokensData.length > 0 &&
+                  passTokensData.map((token) => {
+                    let imgUrl;
+                    if (token?.name?.includes("Ocean"))
+                      imgUrl = "/bg/oceanInvariant.png";
+                    else if (token?.name?.includes("Earth"))
+                      imgUrl = "/bg/earthInvariant.png";
+                    else if (token?.name?.includes("Skyline"))
+                      imgUrl = "/bg/skyInvariant.png";
+                    return (
+                      <div
+                        key={token.name}
+                        className="flex flex-col items-center relative w-[300px] h-[382px] bg-black rounded overflow-hidden shadow "
+                      >
+                        <img
+                          className=" w-[300px] min-h-[310px] object-cover"
+                          src={imgUrl}
+                          width={300}
+                          height={310}
+                          alt=""
+                        />
+                        <div className="relative py-6 w-full">
+                          <p className=" font-semibold text-xl text-center">
+                            {token?.name?.slice(0, token?.name?.indexOf("#"))}
+                          </p>
+                          <p
+                            className="cursor-pointer absolute top-[30px] right-4 font-normal text-xs leading-4 text-accent text-center"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              router.push("/pass-nft");
+                            }}
+                          >
+                            {t("detail")}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
               </div>
             ) : (
               <>
@@ -376,13 +477,13 @@ const Nfts = () => {
                               className={
                                 `btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded` +
                                 (+inputs.Balance < 1 ||
-                                  +inputs.Balance > nfts ||
-                                  inputs.Balance == undefined
+                                +inputs.Balance > nfts ||
+                                inputs.Balance == undefined
                                   ? " btn-disabled"
                                   : "") +
                                 (btnState == "loading" ? " loading" : "")
                               }
-                            // onClick={() => stake()}
+                              // onClick={() => stake()}
                             >
                               {t("dashbaord_nfts_info_stake")}
                             </a>
@@ -446,13 +547,13 @@ const Nfts = () => {
                               className={
                                 `btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded` +
                                 (+inputs.unstake < 1 ||
-                                  +inputs.unstake > staked ||
-                                  inputs.unstake == undefined
+                                +inputs.unstake > staked ||
+                                inputs.unstake == undefined
                                   ? " btn-disabled"
                                   : "") +
                                 (btnState == "loading" ? " loading" : "")
                               }
-                            // onClick={() => unstake()}
+                              // onClick={() => unstake()}
                             >
                               {t("dashbaord_activity_unstake_title")}
                             </a>
@@ -518,8 +619,8 @@ const Nfts = () => {
                                 className={
                                   `btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded` +
                                   (+inputs.Burnable < 1 ||
-                                    +inputs.Burnable > burnable ||
-                                    inputs.Burnable == undefined
+                                  +inputs.Burnable > burnable ||
+                                  inputs.Burnable == undefined
                                     ? " btn-disabled"
                                     : " ") +
                                   (btnState == "loading" ? " loading" : "")
@@ -534,8 +635,8 @@ const Nfts = () => {
                                 className={
                                   `btn mt-3 ml-3 bg-invar-dark w-[140px] md:w-[114px] h-[40px] font-semibold text-base text-white border-none normal-case rounded` +
                                   (+inputs.Burnable < 1 ||
-                                    +inputs.Burnable > burnable ||
-                                    inputs.Burnable == undefined
+                                  +inputs.Burnable > burnable ||
+                                  inputs.Burnable == undefined
                                     ? " btn-disabled"
                                     : " ") +
                                   (btnState == "loading" ? " loading" : "")
@@ -735,6 +836,7 @@ const Nfts = () => {
                     ) : (
                       infos?.map((eve, index) => (
                         <>
+                          {console.log(infos, "infoss")}
                           {eve?.isBurn == false && (
                             <div
                               key={index}

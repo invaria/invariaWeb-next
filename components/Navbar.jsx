@@ -31,6 +31,7 @@ import { ModalContext } from "../context/Modals-context";
 import PropertyModal from "./PropertyModal";
 import PassNFTModal from "./PassNFTModal";
 import PremintModal from "./PremintModal";
+import PassModal from "./PassModal";
 
 const menuStyles = {
   paddingY: "16px",
@@ -65,7 +66,7 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
   const [verify, setVerify] = useState(false);
 
   const musicCTX = useContext(MusicContext);
-  const modals=useContext(ModalContext)
+  const modals = useContext(ModalContext);
 
   async function getdata() {
     const state = await getUser(address);
@@ -75,36 +76,49 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-    if (!address) return;
-    setToggleWallet(false);
-    getdata();
+      if (!address) return;
+      setToggleWallet(false);
+      getdata();
     }
     return () => enableScroll();
   }, [address]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      // 當scroll時，不知為何network == undefined
-      if (network[0].data.chain == undefined) {
-        return;
-      } else if (
-        pervState[0] == network[0].data.chain.name &&
-        pervState[1] == address
-      ) {
-        return;
-      } else {
-        pervState[0] = network[0].data.chain.name;
-        pervState[1] = address;
-        console.log(network[0].data.chain.name, pervState, ethBalance);
-        checkIfWalletIsConnected(
-          address,
-          setEthBalance,
-          setUsdcBalance,
-          setgetCoinPrice
-        );
-      }
+    // if (typeof window !== "undefined") {
+    //   // 當scroll時，不知為何network == undefined
+    //   if (network[0].data.chain == undefined) {
+    //     return;
+    //   } else if (
+    //     pervState[0] == network[0].data.chain.name &&
+    //     pervState[1] == address
+    //   ) {
+    //     return;
+    //   } else {
+    // pervState[0] = network[0].data.chain.name;
+    // pervState[1] = address;
+    if(process.env.PRODUCTION==="true"&&network[0]?.data?.chain?.id!==1){
+      setEthBalance(0)
+      setUsdcBalance(0)
+      setgetCoinPrice(0)
+      return;
     }
-  }, [address, network]);
+    if(process.env.PRODUCTION==="false"&&network[0]?.data?.chain?.id!==5){
+      setEthBalance(0)
+      setUsdcBalance(0)
+      setgetCoinPrice(0)
+      return;
+    }
+    if (address)
+      checkIfWalletIsConnected(
+        address,
+        setEthBalance,
+        setUsdcBalance,
+        setgetCoinPrice
+      );
+ 
+    //   }
+    // }
+  }, [address, network[0]?.data?.chain?.id]);
 
   useEffect(() => {
     console.log("ethBalance", ethBalance, address);
@@ -135,14 +149,15 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
   }, [toggleMenu]);
   return (
     <>
-    {console.log("currentNetwork",typeof(network[0]?.data?.chain?.id))}
+      {console.log("currentNetwork", typeof network[0]?.data?.chain?.id)}
       <nav
         className={`fixed flex items-center justify-between w-full h-[3.75rem] bg-invar-dark md:h-[5rem] z-50
         ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}
       >
-<PropertyModal/>
-<PassNFTModal/>
-<PremintModal/>
+        <PropertyModal />
+        <PassNFTModal />
+        <PremintModal />
+        {modals.passBuyModal && <PassModal />}
 
         <ModalWallet SFTDemo={SFTDemo} />
 
@@ -269,14 +284,9 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                   {SFTDemo && !isGoerli && (
                     <img src="/icons/ic_warning.svg" className="ml-1" alt="" />
                   )}
-                  {!SFTDemo &&
-                    network[0]?.data?.chain?.id!=1&& (
-                      <img
-                        src="/icons/ic_warning.svg"
-                        className="ml-1"
-                        alt=""
-                      />
-                    )}
+                  {!SFTDemo && network[0]?.data?.chain?.id != 1 && (
+                    <img src="/icons/ic_warning.svg" className="ml-1" alt="" />
+                  )}
                 </label>
               </>
             )}
@@ -361,17 +371,18 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
         >
           <Link href="/dashboard">
             <MenuItem
-              sx={{ ...menuStyles, fontSize: "20px",display:"flex",justifyContent:"space-between" }}
+              sx={{
+                ...menuStyles,
+                fontSize: "20px",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
               onClick={toggleDrawerHandler}
             >
-             <div> Dashboard</div>
-             {verify == "Unverified" && (
-                      <img
-                        src="/icons/ic_warning.svg"
-                        className="ml-1"
-                        alt=""
-                      />
-                    )}
+              <div> Dashboard</div>
+              {verify == "Unverified" && (
+                <img src="/icons/ic_warning.svg" className="ml-1" alt="" />
+              )}
             </MenuItem>
           </Link>
           <div className="px-4 w-full mb-2.5">
@@ -380,16 +391,18 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
           <p className="font-normal text-xs leading-4 text-neutral ml-4">
             {t("menu")}
           </p>
-          <Link href='/rwa-reflector' >
-          <MenuItem sx={menuStyles} onClick={toggleDrawerHandler} >
-            RWA REFLECTOR
-          </MenuItem>
-          </Link>
-          {/* <div onClick={()=>modals.setPremintModal(true)} className="w-full">
-            <MenuItem sx={{ ...menuStyles, color: "#00DEAE" }}>
-              {t("public_sale")}
+          <Link href="/rwa-reflector">
+            <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
+              RWA REFLECTOR
             </MenuItem>
-          </div> */}
+          </Link>
+          <Link href={"/pass-nft"} className="w-full h-full">
+            <div className="w-full">
+              <MenuItem sx={{ ...menuStyles, color: "#00DEAE" }}>
+                PASS: InVariant Mint
+              </MenuItem>
+            </div>
+          </Link>
           <Link href={"/sftdemo"} className="w-full h-full text-[#FFC25F]">
             <MenuItem sx={{ ...menuStyles, color: "#FFC25F" }}>
               {" "}
@@ -436,12 +449,24 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                <MenuItem sx={{...menuStyles,color:router.locale==='en'?"white":"#B4B7C0"}} onClick={toggleDrawerHandler}>
-                  <Link href={router.pathname} locale="en"  >
+                <MenuItem
+                  sx={{
+                    ...menuStyles,
+                    color: router.locale === "en" ? "white" : "#B4B7C0",
+                  }}
+                  onClick={toggleDrawerHandler}
+                >
+                  <Link href={router.pathname} locale="en">
                     English
                   </Link>
                 </MenuItem>
-                <MenuItem sx={{...menuStyles,color:router.locale==='tw'?"white":"#B4B7C0"}} onClick={toggleDrawerHandler}>
+                <MenuItem
+                  sx={{
+                    ...menuStyles,
+                    color: router.locale === "tw" ? "white" : "#B4B7C0",
+                  }}
+                  onClick={toggleDrawerHandler}
+                >
                   <Link href={router.pathname} locale="tw">
                     繁體中文
                   </Link>
@@ -479,6 +504,12 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                     />
                     <p>ETH</p>
                   </div>
+                  {console.log(
+                    "ethbalance",
+                    ethBalance,
+                    "getcoinPrice",
+                    getCoinPrice
+                  )}
                   {ethBalance && (
                     <div className=" flex flex-col justify-center items-end text-white font-semibold">
                       <p>{ethBalance}</p>
@@ -522,18 +553,16 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                     </p>
                   </button>
                 )}
-                {network[0]?.data?.chain?.id!=1 &&
-                  !SFTDemo &&
-                  address && (
-                    <button
-                      className="btn bg-invar-error relative w-full h-[56px] mt-5 rounded flex justify-center items-center border-none normal-case"
-                      onClick={() => switchNetwork(ChainId.Mainnet)}
-                    >
-                      <p className=" font-semibold text-white">
-                        {t("click_eth")}
-                      </p>
-                    </button>
-                  )}
+                {network[0]?.data?.chain?.id != 1 && !SFTDemo && address && (
+                  <button
+                    className="btn bg-invar-error relative w-full h-[56px] mt-5 rounded flex justify-center items-center border-none normal-case"
+                    onClick={() => switchNetwork(ChainId.Mainnet)}
+                  >
+                    <p className=" font-semibold text-white">
+                      {t("click_eth")}
+                    </p>
+                  </button>
+                )}
 
                 <button
                   className="btn btn-primary relative w-full h-[56px] mb-6 mt-[14px] rounded flex justify-center items-center border-none normal-case"
@@ -554,7 +583,6 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
           <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />
         </>
       )}
-
     </>
   );
 };

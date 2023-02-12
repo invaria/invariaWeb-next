@@ -11,6 +11,7 @@
     "@emotion/styled": "^11.10.4",
     "@heroicons/react": "^1.0.6",
     "@mui/material": "^5.10.8",
+    "@openzeppelin/merkle-tree": "^1.0.2",
     "@sendgrid/mail": "^7.7.0",
     "@thirdweb-dev/react": "^2.4.7",
     "@thirdweb-dev/sdk": "^2.3.23",

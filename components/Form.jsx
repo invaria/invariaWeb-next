@@ -52,7 +52,7 @@ const Form = () => {
     }
     provider = new ethers.providers.Web3Provider(window.ethereum);
     signer = provider.getSigner();
-  }, [address, network]);
+  }, [address, network[0]?.data?.chain?.id]);
 
   const handleSubmit = async (event) => {
     //資料符合才會跑以下

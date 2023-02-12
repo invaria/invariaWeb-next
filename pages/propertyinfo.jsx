@@ -27,7 +27,7 @@ import erc20ABI from "../src/utils/erc20ABI.json";
 
 let allowedPromo =
   process.env.PRODUCTION === "true"
-    ? ["djjy"] 
+    ? ["djjy"]
     : ["lmg", "hello", "iblackyang", "joyce", "kenjisrealm"];
 
 export async function getStaticProps({ locale }) {
@@ -188,7 +188,7 @@ const PropertyInfo = () => {
       setNotiType("fail");
     }
   };
-  //copied
+
   const checkAllowance = async () => {
     if (!address) return;
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -230,7 +230,7 @@ const PropertyInfo = () => {
     );
     checkAllowance();
     getdata();
-  }, [address, network]);
+  }, [address, network[0]?.data?.chain?.id]);
 
   console.log("usdcAllowance", usdcBalance);
   useEffect(() => {
@@ -271,7 +271,7 @@ const PropertyInfo = () => {
       <button
         className="disabled:bg-invar-grey disabled:text-invar-light-grey btn mt-0 bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded"
         onClick={() => mintNft()}
-        disabled={mintNum == 0||!checked}
+        disabled={mintNum == 0 || !checked||verify!=="Accepted"}
       >
         {`Mint (${mintNum})`}
       </button>
@@ -405,131 +405,135 @@ const PropertyInfo = () => {
                 )}
               </div>
 
-              { process.env.PRODUCTION === "true"&&network[0]?.data?.chain?.name !== "Ethereum Mainnet" &&address&& (
-                <>
-                  <p className="font-normal text-base leading-6 text-center text-white mt-28 mb-12">
-                    Wrong Network!
-                    <br /> Please Switch to Ethereum Mainnet
-                  </p>
-                  <div className="font-normal text-xs leading-4 text-invar-light-grey max-w-[327px] mx-auto">
-                    <p className="mb-1.5">{t("mint_notice")} </p>
-                    <div className="flex mb-[2px]">
-                      <div>1.&nbsp;</div>
-                      <div>
-                        <p>{t("notice_1")}</p>
+              {process.env.PRODUCTION === "true" &&
+                network[0]?.data?.chain?.name !== "Ethereum Mainnet" &&
+                address && (
+                  <>
+                    <p className="font-normal text-base leading-6 text-center text-white mt-28 mb-12">
+                      {t("network_error_title")}
+                      <br /> {t("network_error_note")}
+                    </p>
+                    <div className="font-normal text-xs leading-4 text-invar-light-grey max-w-[327px] mx-auto">
+                      <p className="mb-1.5">{t("mint_notice")} </p>
+                      <div className="flex mb-[2px]">
+                        <div>1.&nbsp;</div>
+                        <div>
+                          <p>{t("notice_1")}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex mb-[2px]">
-                      <div>2.&nbsp;</div>
-                      <div>
-                        <p>{t("notice_2")}</p>
+                      <div className="flex mb-[2px]">
+                        <div>2.&nbsp;</div>
+                        <div>
+                          <p>{t("notice_2")}</p>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="flex">
-                      <div>3.&nbsp;</div>
-                      <div>
-                        <p>{t("notice_3")}</p>
+                      <div className="flex">
+                        <div>3.&nbsp;</div>
+                        <div>
+                          <p>{t("notice_3")}</p>
+                        </div>
                       </div>
+                      {expanded && (
+                        <>
+                          <div className="flex">
+                            <div>4.&nbsp;</div>
+                            <div>
+                              <p>{t("notice_4")}</p>
+                            </div>
+                          </div>
+                          <div className="flex">
+                            <div>5.&nbsp;</div>
+                            <div>
+                              <p>{t("notice_5")}</p>
+                            </div>
+                          </div>
+                          <div className="flex">
+                            <div>6.&nbsp;</div>
+                            <div>
+                              <p>
+                                {t("notice_6")} <ButtonMailto />.
+                              </p>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {!expanded && (
+                        <p
+                          className="font-semibold mt-1.5 cursor-pointer"
+                          onClick={() => setExpanded(true)}
+                        >
+                          Read More 
+                        </p>
+                      )}
                     </div>
-                    {expanded && (
-                      <>
-                        <div className="flex">
-                          <div>4.&nbsp;</div>
-                          <div>
-                            <p>{t("notice_4")}</p>
-                          </div>
-                        </div>
-                        <div className="flex">
-                          <div>5.&nbsp;</div>
-                          <div>
-                            <p>{t("notice_5")}</p>
-                          </div>
-                        </div>
-                        <div className="flex">
-                          <div>6.&nbsp;</div>
-                          <div>
-                            <p>
-                              {t("notice_6")} <ButtonMailto />.
-                            </p>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                    {!expanded && (
-                      <p
-                        className="font-semibold mt-1.5 cursor-pointer"
-                        onClick={() => setExpanded(true)}
-                      >
-                        Read More 
-                      </p>
-                    )}
-                  </div>
-                </>
-              )}
+                  </>
+                )}
 
-              {process.env.PRODUCTION === "false"&&network[0]?.data?.chain?.name !== "Goerli" &&address&& (
-                <>
-                  <p className="font-normal text-base leading-6 text-center text-white mt-28 mb-12">
-                    Wrong Network!
-                    <br /> Please Switch to Goerli Network
-                  </p>
-                  <div className="font-normal text-xs leading-4 text-invar-light-grey max-w-[327px] mx-auto">
-                    <p className="mb-1.5">{t("mint_notice")} </p>
-                    <div className="flex mb-[2px]">
-                      <div>1.&nbsp;</div>
-                      <div>
-                        <p>{t("notice_1_goerli")}</p>
+              {process.env.PRODUCTION === "false" &&
+                network[0]?.data?.chain?.name !== "Goerli" &&
+                address && (
+                  <>
+                    <p className="font-normal text-base leading-6 text-center text-white mt-28 mb-12">
+                      Wrong Network!
+                      <br /> Please Switch to Goerli Network
+                    </p>
+                    <div className="font-normal text-xs leading-4 text-invar-light-grey max-w-[327px] mx-auto">
+                      <p className="mb-1.5">{t("mint_notice")} </p>
+                      <div className="flex mb-[2px]">
+                        <div>1.&nbsp;</div>
+                        <div>
+                          <p>{t("notice_1_goerli")}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex mb-[2px]">
-                      <div>2.&nbsp;</div>
-                      <div>
-                        <p>{t("notice_2")}</p>
+                      <div className="flex mb-[2px]">
+                        <div>2.&nbsp;</div>
+                        <div>
+                          <p>{t("notice_2")}</p>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="flex">
-                      <div>3.&nbsp;</div>
-                      <div>
-                        <p>{t("notice_3")}</p>
+                      <div className="flex">
+                        <div>3.&nbsp;</div>
+                        <div>
+                          <p>{t("notice_3")}</p>
+                        </div>
                       </div>
+                      {expanded && (
+                        <>
+                          <div className="flex">
+                            <div>4.&nbsp;</div>
+                            <div>
+                              <p>{t("notice_4")}</p>
+                            </div>
+                          </div>
+                          <div className="flex">
+                            <div>5.&nbsp;</div>
+                            <div>
+                              <p>{t("notice_5")}</p>
+                            </div>
+                          </div>
+                          <div className="flex">
+                            <div>6.&nbsp;</div>
+                            <div>
+                              <p>
+                                {t("notice_6")} <ButtonMailto />.
+                              </p>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {!expanded && (
+                        <p
+                          className="font-semibold mt-1.5 cursor-pointer"
+                          onClick={() => setExpanded(true)}
+                        >
+                          Read More 
+                        </p>
+                      )}
                     </div>
-                    {expanded && (
-                      <>
-                        <div className="flex">
-                          <div>4.&nbsp;</div>
-                          <div>
-                            <p>{t("notice_4")}</p>
-                          </div>
-                        </div>
-                        <div className="flex">
-                          <div>5.&nbsp;</div>
-                          <div>
-                            <p>{t("notice_5")}</p>
-                          </div>
-                        </div>
-                        <div className="flex">
-                          <div>6.&nbsp;</div>
-                          <div>
-                            <p>
-                              {t("notice_6")} <ButtonMailto />.
-                            </p>
-                          </div>
-                        </div>
-                      </>
-                    )}
-                    {!expanded && (
-                      <p
-                        className="font-semibold mt-1.5 cursor-pointer"
-                        onClick={() => setExpanded(true)}
-                      >
-                        Read More 
-                      </p>
-                    )}
-                  </div>
-                </>
-              )}
+                  </>
+                )}
               <div className="lg:px-[70px] lg:pb-11 md:px-8 md:pb-8 px-[11px] pb-[36px]">
                 {(isCorrectNetwork || !address) && (
                   <>
@@ -656,17 +660,17 @@ const PropertyInfo = () => {
                               {t("terms")}
                             </span>
                           </Link>
+                          {router.locale==="tw"&&"、"}
                           <Link href="/privacy">
                             <span className="underline cursor-pointer">
                               {t("privacy")}
                             </span>
                           </Link>
+                          {router.locale==="tw"?"。":"."}
                         </p>
                       </div>
 
-                      {!notification &&(
-                        <>{btnAction}</>
-                      )}
+                      {!notification && <>{btnAction}</>}
 
                       {notification && (
                         <div className="w-full h-[74px] bg-invar-dark rounded relative p-4">

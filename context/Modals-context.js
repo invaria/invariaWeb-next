@@ -7,6 +7,8 @@ const ModalContext = createContext({
   setPassNFTModal: () => {},
   premintModal: false,
   setPremintModal: () => {},
+  passBuyModal: false,
+  setPassBuyModal: () => {},
 });
 const { Provider } = ModalContext;
 
@@ -14,6 +16,7 @@ const ModalsProvider = ({ children }) => {
   const [propertyModal, setPropertyModal] = useState(false);
   const [passNFTModal, setPassNFTModal] = useState(false);
   const [premintModal, setPremintModal] = useState(false);
+  const [passBuyModal, setPassBuyModal] = useState(false);
 
   const obj = {
     propertyModal,
@@ -22,6 +25,8 @@ const ModalsProvider = ({ children }) => {
     setPassNFTModal: (val) => setPassNFTModal(val),
     premintModal,
     setPremintModal: (val) => setPremintModal(val),
+    passBuyModal,
+    setPassBuyModal: (val) => setPassBuyModal(val),
   };
 
   return <Provider value={obj}>{children}</Provider>;

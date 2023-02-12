@@ -97,6 +97,7 @@ const TogActivity = ({ setAllActivityData, start, end }) => {
             new Date(t.date).getTime() < end
         );
       }
+      
       setTransactions(tx);
     }
   }, [start, end, allTransactions]);

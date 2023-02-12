@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Navbar, ScrollToTop } from "../components/";
 import Footer from "../components/Footer";
@@ -7,12 +6,13 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Checkbox } from "@mui/material";
-import { useAddress, useMetamask, useWalletConnect } from "@thirdweb-dev/react";
-import { getUser } from "../src/utils/storeFirebase";
+import { useAddress, useMetamask, useNetwork } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
-import { nftAddress } from "../src/utils/web3utils";
-import inVariaJSON from "../src/utils/InVaria.json";
 import { ButtonMailto } from "../components/icons/Link";
+import passWalletsList from "../src/utils/passWalletsList";
+import { passAddress } from "../src/utils/web3utils";
+import passJSON from "../src/utils/passABI.json";
+import axios from "axios";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -28,40 +28,22 @@ export async function getStaticProps({ locale }) {
   };
 }
 
-const PropertyInfo = () => {
-  const [mintNum, setMintNum] = useState(0);
+const PassNFT = () => {
+  const [mintNum, setMintNum] = useState(1);
   const router = useRouter();
   const headerBackground = true;
-  const [tabState, setTabState] = useState("property");
-  const [verify, setVerify] = useState("Accepted");
-  const { t } = useTranslation("passnft");
+  const { t } = useTranslation(["passnft", "sale"]);
   const [checked, setChecked] = useState(false);
+  const [readmore, setReadmore] = useState(false);
+  const [isFreeMintClaimed, setIsFreeMintClaimed] = useState(true);
+  const [tokensAlreadyMinted, setTokensAlreadyMinted] = useState(0);
   const [notification, setNotification] = useState("");
-  const [soldNft, setSoldNft] = useState(0);
   const [notiType, setNotiType] = useState("success");
-  const [expanded, setExpanded] = useState(false);
+  const [btnState, setBtnState] = useState();
 
+  const connectWithMetamask = useMetamask();
   const address = useAddress();
-
-  async function getdata() {
-    const state = await getUser(address);
-    console.log("state", state);
-    setVerify(state);
-  }
-  // useEffect(() => {
-  //   if (address) getdata();
-  //   if (address) {
-  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //     const nftContract = new ethers.Contract(
-  //       nftAddress,
-  //       inVariaJSON,
-  //       provider
-  //     );
-  //    if(address)  nftContract.Sold().then((res) => {
-  //       setSoldNft(Number(+res.toString()));
-  //     });
-  //   }
-  // }, [address]);
+  const network = useNetwork();
 
   function handleMintNum(c) {
     if (c == "+") {
@@ -80,6 +62,7 @@ const PropertyInfo = () => {
       }
     }
   }
+
   const fixedinfo = (
     <>
       <div className=" md:mb-9 mb-[34px] lg:w-[466px] w-full md:h-[335px]">
@@ -95,7 +78,7 @@ const PropertyInfo = () => {
             {t("pass_heading")}
           </p>
           <p className="font-normal text-base leading-5 ">
-         {t("goals_deliveries")}
+            {t("goals_deliveries")}
           </p>
         </div>
       </div>
@@ -116,19 +99,113 @@ const PropertyInfo = () => {
         </p>
       </div>
       <p className="font-normal md:text-base text-sm md:leading-6 leading-5 mt-6">
-       {t("available_supply")}
+        {t("available_supply")}
       </p>
       <div className="border relative border-white bg-[#37293E] h-8 rounded flex justify-end">
         <div
           className="bg-invar-success h-[30px] w-[73px] rounded absolute top-0 left-0"
-          style={{ width: `${100 - ((500 - soldNft) / 500) * 100}%` }}
+          style={{
+            width: `${(tokensAlreadyMinted / 500) * 100}%`,
+          }}
         ></div>
         <p className="font-normal text-sm leading-5 text-white mt-[6px] mr-1.5 relative z-10">
-          ${(500 - soldNft).toLocaleString()} / $500
+          {500 - tokensAlreadyMinted} / 500
         </p>
       </div>
     </>
   );
+  let inFreeMint = passWalletsList.includes(address);
+  let isCorrectNetwork;
+  if (process.env.PRODUCTION === "true") {
+    isCorrectNetwork = network[0]?.data?.chain?.id === 1;
+  } else {
+    isCorrectNetwork = true;
+  }
+
+  const getProof = async () => {
+    const apiResult = await axios.post("api/freemint-proof", { address });
+    const treeResult = apiResult.data;
+    const proof = treeResult.proof;
+    const root = treeResult.root;
+    console.log("root\n", root);
+    console.log("proof", proof);
+    return proof;
+  };
+
+  const freeminthandler = async () => {
+    setBtnState("minting");
+    const proof = await getProof();
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    try {
+      const nftContract = new ethers.Contract(
+        passAddress,
+        passJSON.abi,
+        signer
+      );
+      let tx = await nftContract.freeMint(proof, { gasLimit: 700000 });
+      await tx.wait();
+      setBtnState("mint");
+
+      setNotiType("success");
+      setNotification(
+        router.locale === "en"
+          ? "Transaction Successful! You can check NFT in Dashboard / Wallet."
+          : "交易成功！您可以到 Dashboard 或錢包查看。"
+      );
+      setIsFreeMintClaimed(true);
+    } catch (error) {
+      setBtnState("mint");
+
+      console.log(error);
+      setNotification(
+        router.locale === "en"
+          ? "Transaction Failed! Please try again or check if any problems."
+          : "交易失敗！請再試一次，或查看是否存在任何問題。"
+      );
+      setNotiType("fail");
+    }
+  };
+
+  const fetchInitialData = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const nftContract = new ethers.Contract(
+      passAddress,
+      passJSON.abi,
+      provider
+    );
+    const tokens = await nftContract.mintRecords(address);
+    console.log("tokens", tokens.freemintClaimed);
+    setIsFreeMintClaimed(tokens.freemintClaimed);
+  };
+
+  useEffect(() => {
+    if (address) fetchInitialData();
+    let rpcUrl;
+    if (process.env.PRODUCTION === "true")
+      rpcUrl = `https://mainnet.infura.io/v3/${process.env.infura_key}`;
+    else rpcUrl = `https://goerli.infura.io/v3/${process.env.infura_key}`;
+
+    console.log("rpcurl", rpcUrl.slice(0, 14));
+
+    const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+    const nftContract = new ethers.Contract(
+      passAddress,
+      passJSON.abi,
+      provider
+    );
+
+    nftContract
+      .currentTokenId()
+      .then((res) => setTokensAlreadyMinted(+res.toString()))
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [address, network[0]?.data?.chain?.id]);
+
+  let mintClosed = new Date().getTime() > 1676851200000;
+  let mintNotStarted = new Date().getTime() < 1676246400000;
+  let soldOut = tokensAlreadyMinted >= 100;
 
   return (
     <div>
@@ -150,63 +227,310 @@ const PropertyInfo = () => {
         <div className="md:pt-[152px] pt-[90px] px-4 max-w-[1010px] lg:mx-auto md:ml-12 relative">
           <div className="flex w-full md:justify-between md:flex-row flex-col mb-10">
             <div className="md:max-w-[466px]">{fixedinfo}</div>
-            <div className="lg:min-w-[466px] max-w-[466px] md:max-h-[486px] md:h-[486px] bg-[#37293E] mt-6 md:mt-12 lg:ml-0 md:ml-2 md:min-w-[340px] lg:px-0 md:px-4">
-              <p className="font-normal text-base leading-6 text-center mt-[172px] mb-[74px]">
-                NFT Mint Coming Soon...
-              </p>
-              <div className="font-normal text-xs leading-4 text-invar-light-grey max-w-[327px] mx-auto">
-                <p className="mb-1.5">{t("mint_notice")} </p>
-                <div className="flex mb-[2px]">
-                  <div>1.&nbsp;</div>
-                  <div>
-                    <p>{t("notice_1")}</p>
+            {soldOut && (
+              <div className="lg:min-w-[466px] max-w-[466px] md:flex md:max-h-[486px] md:h-[486px] lg:ml-0 md:ml-2 md:min-w-[340px] hidden items-center justify-center">
+                <p>SOLD OUT!</p>
+              </div>
+            )}
+            {!soldOut && (
+              <div className="lg:min-w-[466px] max-w-[466px] md:max-h-[486px] md:h-[486px] bg-[#37293E] mt-6 md:mt-12 lg:ml-0 md:ml-2 md:min-w-[340px] lg:px-0 px-4">
+                {mintClosed && (
+                  <div className="md:flex justify-center hidden mt-[318px]">
+                    <button
+                      className="btn bg-invar-dark w-3/4 h-[48px] font-semibold text-sm text-white disabled:bg-invar-grey disabled:text-invar-light-grey border-none normal-case rounded mx-auto"
+                      disabled
+                    >
+                      {t("mint_close")}
+                    </button>
                   </div>
-                </div>
-                <div className="flex mb-[2px]">
-                  <div>2.&nbsp;</div>
-                  <div>
-                    <p>{t("notice_2")}</p>
-                  </div>
-                </div>
-
-                <div className="flex">
-                  <div>3.&nbsp;</div>
-                  <div>
-                    <p>{t("notice_3")}</p>
-                  </div>
-                </div>
-                {expanded && (
-                  <>
-                  <div className="flex">
-                    <div>4.&nbsp;</div>
-                    <div>
-                      <p>{t("notice_4")}</p>
-                    </div>
-                  </div>
-                      <div className="flex">
-                      <div>5.&nbsp;</div>
-                      <div>
-                        <p>{t("notice_5")}</p>
-                      </div>
-                    </div>
-                    <div className="flex">
-                      <div>6.&nbsp;</div>
-                      <div>
-                        <p>{t("notice_6")} <ButtonMailto />.</p>
-                      </div>
-                    </div>
-                    </>
                 )}
-                {!expanded && (
-                  <p
-                    className="font-semibold mt-1.5"
-                    onClick={() => setExpanded(true)}
-                  >
-                    Read More 
-                  </p>
+                {!mintClosed && (
+                  <div>
+                    {((isCorrectNetwork && address) || !address) && (
+                      <div className="md:max-w-[327px] mx-auto pt-[18px]">
+                        <div className=" mt-4 flex justify-between items-baseline">
+                          <p className=" text-sm font-normal text-invar-light-grey ">
+                            {t("mint_stage")}
+                          </p>
+                          <p className=" text-base font-semibold text-white ">
+                            {t("early_stage")}
+                          </p>
+                        </div>
+                        <div className=" mt-4 flex justify-between items-baseline">
+                          <p className=" text-sm font-normal text-invar-light-grey ">
+                            {t("homepage_pubilcsale_mintprice", { ns: "sale" })}
+                          </p>
+                          <p className=" text-base font-semibold text-white ">
+                            {t("eth_each")}
+                          </p>
+                        </div>
+                        <div className=" mt-4 flex justify-between items-baseline">
+                          <p className=" text-sm font-normal text-invar-light-grey ">
+                            {t("mint_time")}
+                          </p>
+                          <p className=" text-base font-semibold text-white max-w-[260px] text-end ">
+                            Feb 13, 00:00 ~ 20, 00:00 UTC
+                          </p>
+                        </div>
+                        {!address && (
+                          <button
+                            onClick={connectWithMetamask}
+                            className="mt-[195px] btn mb-[18px] bg-invar-dark w-full h-[52px] font-semibold text-sm text-white border-none normal-case rounded"
+                          >
+                            {t("connect_wallet")}
+                          </button>
+                        )}
+                      </div>
+                    )}
+                    {address && !isCorrectNetwork && (
+                      <div className="w-full h-32"></div>
+                    )}
+
+                    {address &&
+                      !inFreeMint &&
+                      isCorrectNetwork &&
+                      isCorrectNetwork && (
+                        <p className="font-normal text-base leading-5 text-invar-validation md:max-w-[327px] mx-auto text-center my-9">
+                          {t("adopter_title")}
+                        </p>
+                      )}
+
+                    {address && !isCorrectNetwork && (
+                      <p className="text-center font-normal text-base leading-5 md:max-w-[327px] mx-auto my-9">
+                        {t("wrong_network")}
+                        <br /> {t("switch_mainnet")}
+                      </p>
+                    )}
+
+                    {address && inFreeMint && isCorrectNetwork && (
+                      <div className="md:max-w-[327px] mx-auto">
+                        <>
+                          <p className=" mt-3 text-sm font-normal text-invar-light-grey ">
+                            {t("mint_amount")}
+                          </p>
+                          <div className="relative ">
+                            <input
+                              type="number"
+                              onChange={(e) => handleMintNum(e.target.value)}
+                              value={mintNum}
+                              min="0"
+                              required
+                              disabled
+                              className="appearance-none block mt-1 px-3 h-[48px] bg-invar-main-purple w-full font-semibold text-2xl text-white rounded focus:border border-white text-center"
+                            />
+                            {
+                              //mintNum < 1 ?
+                              <button className=" w-6 absolute inset-y-0 left-[14px] flex items-center text-white">
+                                <img
+                                  className=" w-6 "
+                                  src="/icons/ic_minus_disabled.svg"
+                                  alt=""
+                                />
+                              </button>
+                              //  : (
+                              //   <button
+                              //     className=" w-6 cursor-pointer absolute inset-y-0 left-[14px] flex items-center text-white"
+                              //     onClick={() => handleMintNum("-")}
+                              //   >
+                              //     <img
+                              //       className=" w-6 "
+                              //       src="/icons/ic_minus.svg"
+                              //       alt=""
+                              //     />
+                              //   </button>
+                              // )
+                            }
+                            <button
+                              className=" w-6 cursor-pointer absolute inset-y-0 right-[14px] flex items-center text-white"
+                              //   onClick={() => handleMintNum("+")}
+                            >
+                              <img
+                                className=" w-6 "
+                                src="/icons/ic_plus_disabled.svg"
+                                alt=""
+                              />
+                            </button>
+                          </div>
+                          <div className=" mt-4 flex justify-between items-baseline">
+                            <p className=" text-sm font-normal text-invar-light-grey">
+                              {t("eth_amount")}
+                            </p>
+                            <p className=" font-semibold text-white text-base">
+                              0 ETH
+                            </p>
+                          </div>
+                          <div className="flex mb-3 items-center">
+                            <Checkbox
+                              size="small"
+                              value={checked}
+                              onChange={(e) => setChecked((v) => !v)}
+                              disableFocusRipple
+                              sx={{
+                                color: checked ? "#00deae" : "#B4B7C0",
+                                "&.Mui-checked": {
+                                  color: checked ? "#00deae" : "#B4B7C0",
+                                },
+                                "&.MuiCheckbox-root": {
+                                  paddingLeft: "0px",
+                                },
+                              }}
+                            />
+                            <p className="text-accent font-normal text-xs leading-[18px]">
+                              {t("have_read")}
+                              <Link href={"/terms"}>
+                                <span className="underline cursor-pointer">
+                                  {t("terms")}
+                                </span>
+                              </Link>
+                              {router.locale === "tw" ? "、" : " "}
+                              <Link href="/privacy">
+                                <span className="underline cursor-pointer">
+                                  {t("privacy")}
+                                </span>
+                              </Link>
+                              {router.locale === "tw" ? "。" : "."}
+                            </p>
+                          </div>
+                        </>
+
+                        {!notification && (
+                          <>
+                            {btnState === "minting" ? (
+                              <button className="btn loading bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded">
+                                Minting
+                              </button>
+                            ) : (
+                              <button
+                                className="btn bg-invar-dark w-full h-[48px] font-semibold text-sm text-white disabled:bg-invar-grey disabled:text-invar-light-grey border-none normal-case rounded"
+                                onClick={freeminthandler}
+                                disabled={
+                                  !checked ||
+                                  isFreeMintClaimed ||
+                                  mintNotStarted
+                                }
+                              >
+                                {`${t("mint")} (${mintNum})`}
+                              </button>
+                            )}
+                          </>
+                        )}
+
+                        {notification && (
+                          <div className="w-full h-[74px] bg-invar-dark rounded relative p-4">
+                            <p
+                              className={`w-5/6 ${
+                                notiType === "success"
+                                  ? "text-invar-success"
+                                  : "text-invar-error"
+                              } text-normal text-sm leading-5`}
+                            >
+                              {notification}
+                            </p>
+                            <img
+                              src="/icons/ic_close.svg"
+                              width={20}
+                              height={20}
+                              className="absolute top-7 right-6"
+                              onClick={() => setNotification("")}
+                            />
+                          </div>
+                        )}
+
+                        <>
+                          <p
+                            className={`font-normal text-sm leading-5 text-accent mb-3 mt-[18px] `}
+                            //${notification && "mt-3"}
+                          >
+                            {t("buy_tokens")}
+                          </p>
+
+                          <div className="flex justify-between">
+                            <a
+                              href="https://app.uniswap.org/#/swap"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                              <div className="flex items-center">
+                                <img
+                                  src="/icons/ic_uniswap.png"
+                                  width={24}
+                                  height={24}
+                                />
+                                <p className="font-semibold text-xs leading-4 ml-2">
+                                  Uniswap
+                                </p>
+                              </div>
+                            </a>
+                            <a
+                              href="https://app.1inch.io/#/1/unified/swap/ETH/DAI"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                              <div className="flex items-center">
+                                <img
+                                  src="/icons/ic_1inch.png"
+                                  width={24}
+                                  height={24}
+                                />
+                                <p className="font-semibold text-xs leading-4 ml-2">
+                                  1inch
+                                </p>
+                              </div>
+                            </a>
+                            <a
+                              href="https://app.thevoyager.io/swap"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                              <div className="flex items-center">
+                                <img
+                                  src="/icons/ic_voyager.png"
+                                  width={24}
+                                  height={24}
+                                />
+                                <p className="font-semibold text-xs leading-4 ml-2">
+                                  Voyager
+                                </p>
+                              </div>
+                            </a>
+                          </div>
+                        </>
+                      </div>
+                    )}
+
+                    {address && (!inFreeMint || !isCorrectNetwork) && (
+                      <div className="md:max-w-[327px] mx-auto">
+                        <ul className="list-decimal pl-3 text-xs font-normal text-invar-light-grey mb-3 mx-auto">
+                          <li>{t("adopter_note_1")}</li>
+                          <li>{t("adopter_note_2")}</li>
+                          <li>{t("adopter_note_3")}</li>
+                          {readmore && (
+                            <>
+                              <li>{t("adopter_note_4")}</li>
+                              <li>{t("adopter_note_5")}</li>
+
+                              <li>
+                                {t("adopter_note_6")} <ButtonMailto />.
+                              </li>
+                            </>
+                          )}
+                        </ul>
+                        {!readmore && (
+                          <>
+                            <p
+                              className="my-3 text-invar-light-grey text-xs font-semibold cursor-pointer hover:underline"
+                              onClick={() => setReadmore(true)}
+                            >
+                              Read More
+                            </p>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
-            </div>
+            )}
           </div>
           <h3 className="font-semibold text-[32px] leading-[38px] mb-2 md:block hidden">
             PASS: InVariant
@@ -328,23 +652,29 @@ const PropertyInfo = () => {
                 />
               </div>
               <div className="font-normal md:text-base text-sm leading-5 md:leading-6 w-11/12">
-                <div className="flex mb-[2px]">
-                  <div className="md:text-2xl text-base">&#x2022;&nbsp;</div>
+                <div className="flex mb-[2px] ">
+                  <div className="md:text-2xl text-base self-start">
+                    &#x2022;&nbsp;
+                  </div>
                   <div>
-                    <p>{t("early_access")}</p>
+                    <p className="mt-1">{t("early_access")}</p>
                   </div>
                 </div>
-                <div className="flex mb-[2px]">
-                  <div className="md:text-2xl text-base">&#x2022;&nbsp;</div>
+                <div className="flex mb-[2px] ">
+                  <div className="md:text-2xl text-base self-start">
+                    &#x2022;&nbsp;
+                  </div>
                   <div>
-                    <p>{t("yield_boosting")}</p>
+                    <p className="mt-1">{t("yield_boosting")}</p>
                   </div>
                 </div>
 
                 <div className="flex">
-                  <div className="md:text-2xl text-base">&#x2022;&nbsp;</div>
+                  <div className="md:text-2xl text-base self-start">
+                    &#x2022;&nbsp;
+                  </div>
                   <div>
-                    <p>{t("airdrop")}</p>
+                    <p className="mt-1">{t("airdrop")}</p>
                   </div>
                 </div>
               </div>
@@ -376,28 +706,34 @@ const PropertyInfo = () => {
                 </div>
                 <div className="font-normal md:text-base md:leading-6 text-sm leading-5 w-11/12">
                   <div className="flex mb-[2px]">
-                    <div className="md:text-2xl text-base">&#x2022;&nbsp;</div>
+                    <div className="md:text-2xl text-base self-start">
+                      &#x2022;&nbsp;
+                    </div>
                     <div>
-                      <p>{t("ocean_1")}</p>
+                      <p className="mt-1">{t("ocean_1")}</p>
                     </div>
                   </div>
                   <div className="flex mb-[2px]">
-                    <div className="md:text-2xl text-base">&#x2022;&nbsp;</div>
+                    <div className="md:text-2xl text-base self-start">
+                      &#x2022;&nbsp;
+                    </div>
                     <div>
-                      <p>{t("ocean_2")}</p>
+                      <p className="mt-1">{t("ocean_2")}</p>
                     </div>
                   </div>
 
                   <div className="flex">
-                    <div className="md:text-2xl text-base">&#x2022;&nbsp;</div>
+                    <div className="md:text-2xl text-base self-start">
+                      &#x2022;&nbsp;
+                    </div>
                     <div>
-                      <p>{t("ocean_3")}</p>
+                      <p className="mt-1">{t("ocean_3")}</p>
                     </div>
                   </div>
                   <div className="flex">
                     <div className="md:text-2xl text-base">&#x2022;&nbsp;</div>
                     <div>
-                      <p>{t("ocean_4")}</p>
+                      <p className="mt-1">{t("ocean_4")}</p>
                     </div>
                   </div>
                 </div>
@@ -423,40 +759,63 @@ const PropertyInfo = () => {
               </div>
               <div className="font-normal md:text-base text-sm md:leading-6 leading-5 w-11/12 md:mt-0 mt-5">
                 <div className="flex mb-[2px]">
-                  <div className="md:text-2xl text-base">&#x2022;&nbsp;</div>
+                  <div className="md:text-2xl text-base self-start">
+                    &#x2022;&nbsp;
+                  </div>
                   <div>
-                    <p>{t("sky_1")}</p>
+                    <p className="mt-1">{t("sky_1")}</p>
                   </div>
                 </div>
                 <div className="flex mb-[2px]">
-                  <div className="md:text-2xl text-base">&#x2022;&nbsp;</div>
+                  <div className="md:text-2xl text-base self-start">
+                    &#x2022;&nbsp;
+                  </div>
                   <div>
-                    <p>{t("sky_2")}</p>
+                    <p className="mt-1">{t("sky_2")}</p>
                   </div>
                 </div>
 
                 <div className="flex">
-                  <div className="md:text-2xl text-base">&#x2022;&nbsp;</div>
+                  <div className="md:text-2xl text-base self-start">
+                    &#x2022;&nbsp;
+                  </div>
                   <div>
-                    <p>{t("sky_3")}</p>
+                    <p className="mt-1">{t("sky_3")}</p>
                   </div>
                 </div>
 
                 <div className="flex">
-                  <div className="md:text-2xl text-base">&#x2022;&nbsp;</div>
+                  <div className="md:text-2xl text-base self-start">
+                    &#x2022;&nbsp;
+                  </div>
                   <div>
-                    <p>{t("sky_4")}</p>
+                    <p className="mt-1">{t("sky_4")}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="font-normal text-sm leading-[18px] max-w-[920px] italic text-accent md:mb-[219px] mb-16 md:mt-0 mt-12 md:mx-auto">
+          <div className="font-normal text-sm leading-[18px] max-w-[920px] italic text-accent md:mt-0 mt-12 md:mx-auto">
             <p className="mb-2">{t("notice")}</p>
             <p className="mb-2">{t("note_1")}</p>
             <p>{t("note_2")}</p>
           </div>
+          <a
+            href="https://github.com/HashEx/public_audits/blob/master/PASS%3A%20InVariant/PASS%3A%20InVariant.pdf"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <div className="relative w-full md:max-w-[466px] md:h-[72px] h-16 rounded py-4 md:px-6 px-4 bg-invar-main-purple hover:bg-[#37293E] flex justify-between items-center md:mb-[219px] mb-16 lg:mx-[29px] mt-11">
+              <p className="text-white font-semibold md:text-base text-sm leading-4">
+                {t("audit_report")} <br />{" "}
+                <span className="md:text-sm text-xs font-normal text-invar-light-grey md:whitespace-normal whitespace-nowrap">
+                  {t("audited_by")}
+                </span>
+              </p>
+              <img src="/icons/upright.svg" alt="" />
+            </div>
+          </a>
         </div>
         <ScrollToTop />
         <div id="footer">
@@ -467,4 +826,4 @@ const PropertyInfo = () => {
   );
 };
 
-export default PropertyInfo;
+export default PassNFT;

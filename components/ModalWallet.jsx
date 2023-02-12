@@ -46,7 +46,7 @@ const ModalWallet = ({ SFTDemo }) => {
         setgetCoinPrice
       );
     }
-  }, [address, network]);
+  }, [address, network[0]?.data?.chain?.id]);
 
   return (
     <div>

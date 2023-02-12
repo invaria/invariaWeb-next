@@ -53,7 +53,7 @@ const PassNFTModal = () => {
                 alt=""
               />
             </div>
-            <img className="w-full" src="/pass-nft/pass-nft-img.png" alt="" />
+            <img className="w-full max-w-[327px] max-h-[235px]" width={327} h={235} src="/pass-nft/pass-nft-img.png" alt="" />
             <h3 className="text-2xl font-bold mt-6">PASS: InVariant</h3>
             <p className="pt-1 pb-3 text-base font-normal leading-6 border-b border-invar-main-purple">
               {t("pass_eco")}

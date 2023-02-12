@@ -36,10 +36,10 @@ const Dashboard = () => {
   const headerBackground = true;
   const [tabState, setTabState] = useState("nfts");
   const address = useAddress();
+  const network=useNetwork()
   const [verify, setVerify] = useState("Unverified");
   const [allActivityData, setAllActivityData] = useState([]);
-  const [hiswhiteapply, sethiswhiteapply] = useState();
-
+  console.log("allActivityData", allActivityData);
 
   const [inputs, setInputs] = useState({
     ["address"]: address,

@@ -181,5 +181,6 @@
   "marketplace": "Marketplace",
   "Rejected": "Rejected",
   "staking-redemption-no-data":"No Records Found",
-  "loading":"Loading"
+  "loading":"Loading",
+  "detail":"Detail"
 }

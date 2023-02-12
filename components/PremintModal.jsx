@@ -171,7 +171,7 @@ const PremintModal = () => {
       );
       checkAllowance();
     }
-  }, [address, network]);
+  }, [address, network[0]?.data?.chain?.id]);
 
   useEffect(() => {
     if (address == undefined) return;

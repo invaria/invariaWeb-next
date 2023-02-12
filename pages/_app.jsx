@@ -1,5 +1,5 @@
 import "../styles/globals.css";
-import reportWebVitals from "../src/reportWebVitals";
+//mport reportWebVitals from "../src/reportWebVitals";
 import { ThirdwebProvider, ChainId } from "@thirdweb-dev/react";
 import { appWithTranslation } from "next-i18next";
 import { MusicProvider } from "../context/music-context"
@@ -26,6 +26,6 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-reportWebVitals();
+// reportWebVitals();
 
 export default appWithTranslation(MyApp);

@@ -4,20 +4,21 @@ import { Twitter, Discord } from "../components/icons/Link";
 import { ScrollToTop, Footer, Navbar } from "../components";
 
 import Image from "next/image";
-import { disableScroll } from "../src/utils/disableScroll";
+//import { disableScroll } from "../src/utils/disableScroll";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Link as ScrollLink } from "react-scroll";
+//import { Link as ScrollLink } from "react-scroll";
 
 import styles from "../styles/Home.module.css";
 
 import CollapseMenu from "../components/CollapseMenu";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useAddress } from "@thirdweb-dev/react";
+import { useAddress, useMetamask } from "@thirdweb-dev/react";
 import axios from "axios";
-import { Dialog, Slide } from "@mui/material";
+//import { Dialog, Slide } from "@mui/material";
 import { ModalContext } from "../context/Modals-context";
+//import MobileWalletConnect from "../components/MobileWalletConnect";
 
 export const endtimestamp = 1664582400000;
 
@@ -47,18 +48,34 @@ function App() {
   const [interestAccured, setInterestAccured] = useState("");
 
   const [toggleWallet, setToggleWallet] = useState(false);
+  const [showConnected, setShowConnected] = useState(false);
+
   const { t } = useTranslation(["index", "storyline", "common"]);
   const [origin, setorigin] = useState();
   const modals = useContext(ModalContext);
 
   const router = useRouter();
   const address = useAddress();
+  const connectWithMetamask = useMetamask();
+  let timeout;
   useEffect(() => {
     if (typeof window !== "undefined") {
       setorigin(window.location.origin);
       window.addEventListener("scroll", () =>
         setHeaderBackground(window.pageYOffset > 20)
       );
+      //check if page is not scrolled
+      if (window.pageYOffset < 10) {
+        setShowConnected(true);
+      };
+      timeout=  setTimeout(() => {setShowConnected(false)}, 5000);
+      return () => {
+        window.removeEventListener("scroll", () =>
+          setHeaderBackground(window.pageYOffset > 20)
+        );
+        clearTimeout(timeout);
+      }
+      
     }
   }, []);
 
@@ -106,19 +123,34 @@ function App() {
     }
   }, []);
 
+  const headerWalletConnector = () => {
+    setShowConnected(true);
+    connectWithMetamask();
+    setTimeout(() => {
+      setShowConnected(false);
+    }, 5000);
+  };
+
   return (
     <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
       <Navbar headerBackground={headerBackground} />
 
-      {/* {!address && (
+      {!address && (
         <button
           className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple text-center normal-case	text-white absolute top-[60px] z-10 rounded-none md:hidden"
-          onClick={() => setToggleWallet(true)}
+          onClick={headerWalletConnector}
         >
-          {t('connect_wallet', { ns: 'common' })}
+          {t("connect_wallet", { ns: "common" })}
         </button>
       )}
-      {!address && toggleWallet && <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />} */}
+      {address && showConnected && (
+        <button className="w-full h-[48px] font-semibold text-base text-invar-success text-center normal-case absolute top-[60px] z-10 rounded-none md:hidden pointer-events-none">
+          {t("connected_wallet", { ns: "common" })}
+        </button>
+      )}
+      {/* {!address && toggleWallet && (
+        <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />
+      )} */}
       <div className="w-full flex flex-col justify-center items-center h-0 ">
         {/* <label
           htmlFor="my-modal-1"
@@ -146,23 +178,23 @@ function App() {
           <p
             className="btn w-[183px] md:w-max btnShadow bg-white 
     opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[184px] md:top-[280px] md:right-1/4 normal-case border-none z-20 md:hidden"
+    rounded absolute top-[168px] md:top-[280px] md:right-1/4 normal-case border-none z-20 md:hidden"
           >
             News
           </p>
         </Link>
 
         <Link href="invaria2222#faqoutside">
-        <div
-          // htmlFor="property-modal"
-          // onClick={() => disableScroll()}
-          // onClick={() => modals.setPropertyModal(true)}
-          className=" md:hidden btn modal-button w-[183px] md:w-max btnShadow bg-white 
+          <div
+            // htmlFor="property-modal"
+            // onClick={() => disableScroll()}
+            // onClick={() => modals.setPropertyModal(true)}
+            className=" md:hidden btn modal-button w-[183px] md:w-max btnShadow bg-white 
     opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[248px] md:top-[280px] md:right-1/4 normal-case border-none z-20 "
-        >
-          {t("Learn")}
-        </div>
+    rounded absolute top-[232px] md:top-[280px] md:right-1/4 normal-case border-none z-20 "
+          >
+            {t("Learn")}
+          </div>
         </Link>
         {/* {Date.now() >= 1665936000000 && (
           <div
@@ -175,40 +207,46 @@ function App() {
           </div>
         )} */}
 
-<Link href='/rwa-reflector' >
+        <Link href="/rwa-reflector">
           <div
             className="btn modal-button w-[183px] md:w-max btnShadow bg-white
     opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[312px] md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 "
+    rounded absolute top-[296px] md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 "
           >
             {t("RWA REFLECTOR")}
           </div>
-          </Link>
+        </Link>
 
         <div
           onClick={() => router.push("/sftdemo")}
-          className="mt-4 z-20 absolute top-[376px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-[#FFC25F] opacity-80 hover:bg-[#FFC25F] hover:opacity-100
+          className="mt-4 z-20 absolute top-[360px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-[#FFC25F] opacity-80 hover:bg-[#FFC25F] hover:opacity-100
       rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden"
         >
           <div className=" text-sm ">SFT Demo</div>
         </div>
-        <div
-          onClick={() => modals.setPassNFTModal(true)}
-          className="mt-4 z-20 absolute top-[440px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-white hover:bg-white opacity-80  hover:opacity-100
+        <Link href="/pass-nft">
+          <div
+            className="mt-4 z-20 absolute top-[424px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-invar-success hover:bg-invar-success opacity-80  hover:opacity-100
       rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden"
-        >
-          <div className=" text-sm ">PASS: InVariant</div>
-        </div>
+          >
+            <span className="w-[85px] h-4 bg-invar-error rotate-[19.59deg] absolute text-white font-semibold text-xs leading-4 top-[-2px] right-[-15px] normal-case" style={{clipPath: "polygon(0% 0%, 100% 0%, 95% 49.5%, 100% 100%, 0% 100%, 0% 50%)"}}>
+              Free Mint
+            </span>
+            <div className=" text-sm ">PASS: InVariant</div>
+          </div>
+        </Link>
       </div>
 
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
         {/* <img className=' z-0 h-screen min-h-screen w-full object-cover overflow-hidden' draggable="false" src='/bg/bg.png' alt="bg" /> */}
+
         <img
           className=" cloud1 absolute top-56 md:top-[161px] -left-16 md:left-0 right-0 w-[500px] md:w-[600px] object-contain z-10 "
           draggable="false"
           src="/cloud1.png"
           alt="cloud1"
         />
+
         <img
           className=" cloud2 absolute top-[430px] -right-20 md:right-0 w-[600px] md:w-[600px] object-contain z-10 "
           draggable="false"
@@ -244,9 +282,9 @@ function App() {
         <Link href={"/sftdemo"}>
           <div className="z-30 hover:cursor-pointer absolute top-[46%] right-[53.5%] hidden md:flex">
             <span className="animate-ping z-[1] absolute inline-flex h-[16px] bottom-1 left-0.5 w-[16px] rounded-full bg-[#ffc25f] opacity-75"></span>
-            <img
+
+            <Image
               src="/icons/ic_arrow.svg"
-              className="z-[2]"
               width={21}
               height={19}
               alt="arrow icon"
@@ -281,6 +319,15 @@ function App() {
             RWA REFLECTOR
           </div>
         </Link>
+        <div
+          onClick={() => modals.setPassBuyModal(true)}
+          className="z-20 w-[154px] h-10 bg-invar-success text-info top-[75%] lg:left-[24%] left-[18%] absolute rounded md:flex items-center justify-center font-semibold text-sm leading-6 btn modal-bottom btnShadow  opacity-80 border-none hover:bg-invar-success hover:opacity-100 hidden normal-case"
+        >
+          <span className="w-[85px] h-4 bg-invar-error rotate-[19.59deg] absolute text-white font-semibold text-xs leading-4 top-[-2px] right-[-15px] normal-case" style={{clipPath: "polygon(0% 0%, 100% 0%, 95% 49.5%, 100% 100%, 0% 100%, 0% 50%)"}}>
+            Free Mint
+          </span>
+          PASS: InVariant
+        </div>
         <div className="mt-[88px]  hidden absolute top-0 left-[24px] md:flex flex-row items-start justify-start h-[592px] w-[300px] text-white indent-0.5 font-normal text-sm z-10 animate-fade-in-down">
           <div className="flex flex-col items-center justify-center mr-3 ">
             <span className="flex h-3 w-3 justify-center items-center">
@@ -457,10 +504,10 @@ function App() {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <img
+                <Image
                   src="/bg/lama.png"
                   width={130}
-                  height={101}
+                  height={93}
                   alt="lama-img"
                 />
               </a>
@@ -546,13 +593,14 @@ function App() {
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <img
-                    src="/bg/lama.png"
-                    width={116}
-                    height={75}
-                    alt="lama-img"
-                    className="relative bottom-1"
-                  />
+                  <div className="relative bottom-1">
+                    <Image
+                      src="/bg/lama.png"
+                      width={116}
+                      height={75}
+                      alt="lama-img"
+                    />
+                  </div>
                 </a>
                 <span className="mt-5 text-[#E3D5FA] text-base font-normal rotate-[7.6deg]">
                   We’re in
@@ -580,7 +628,11 @@ function App() {
             <div className={styles.exploreRight}>
               <div className="relative">
                 <Image
-                  src={router.locale === "tw" ? "/v2imgs/explore_tw.png" : "/v2imgs/explore.png"}
+                  src={
+                    router.locale === "tw"
+                      ? "/v2imgs/explore_tw.png"
+                      : "/v2imgs/explore.png"
+                  }
                   width={558}
                   height={448}
                 />
@@ -642,7 +694,7 @@ function App() {
           </h3>
           {router.locale === "tw" && (
             <h3
-              className={`font-semibold text-2xl leading-7 text-center mb-6 px-4 sm:hidden text-center`}
+              className={`font-semibold text-2xl leading-7 mb-6 px-4 sm:hidden text-center`}
             >
               信任最小化模型
               <br />
