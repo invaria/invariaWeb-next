@@ -27,6 +27,8 @@ const FormInfo = () => {
     return message.prepareMessage();
   }
   async function signInWithEthereum() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
     const message = createSiweMessage(
       address,
       "Sign to view personal infomation."
@@ -63,6 +65,8 @@ const FormInfo = () => {
     domain = window.location.host;
     provider = new ethers.providers.Web3Provider(window.ethereum);
     signer = provider.getSigner();
+    console.log("pppaddress", address);
+    console.log("pppnetwork", network);
   }, [address]);
 
   return (

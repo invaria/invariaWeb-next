@@ -34,9 +34,13 @@ const Form = () => {
     return message.prepareMessage();
   }
   async function signInWithEthereum() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
     const message = createSiweMessage(address, "Sign in with Ethereum.");
     const nonce = { ["nonce"]: await signer.signMessage(message) };
     console.log(nonce);
+    console.log("pppaddress", address);
+    console.log("pppnetwork", network);
   }
 
   useEffect(() => {
