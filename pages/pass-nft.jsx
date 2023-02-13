@@ -114,7 +114,7 @@ const PassNFT = () => {
       </div>
     </>
   );
-  let inFreeMint = passWalletsList.includes(address);
+  let inFreeMint = passWalletsList.includes(address?.toLowerCase());
   let isCorrectNetwork;
   if (process.env.PRODUCTION === "true") {
     isCorrectNetwork = network[0]?.data?.chain?.id === 1;

@@ -105,7 +105,7 @@ const PassModal = () => {
     }
   }
 
-  let inFreeMint = passWalletsList.includes(address);
+  let inFreeMint = passWalletsList.includes(address?.toLowerCase());
 
   let isMainnet;
   if (process.env.PRODUCTION === "true") {
