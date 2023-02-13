@@ -122,9 +122,9 @@ const PassNFT = () => {
   } else {
     isCorrectNetwork = true;
   }
-
+address&&console.log("addresss",ethers.utils.getAddress(address))
   const getProof = async () => {
-    const apiResult = await axios.post("api/freemint-proof", { address:ethers.utils.getAddress(address)  });
+    const apiResult = await axios.post("api/freemint-proof", { address:ethers.utils.getAddress(address) });
     const treeResult = apiResult.data;
     const proof = treeResult.proof;
     const root = treeResult.root;
