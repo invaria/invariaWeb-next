@@ -114,7 +114,8 @@ const PassNFT = () => {
       </div>
     </>
   );
-  let inFreeMint = passWalletsList.includes(address?.toLowerCase());
+  let formatted=passWalletsList.map((item)=>ethers.utils.getAddress(item));
+  let inFreeMint =address? formatted.includes(ethers.utils.getAddress(address)):false;
   let isCorrectNetwork;
   if (process.env.PRODUCTION === "true") {
     isCorrectNetwork = network[0]?.data?.chain?.id === 1;

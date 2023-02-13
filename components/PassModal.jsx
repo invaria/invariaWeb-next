@@ -105,7 +105,8 @@ const PassModal = () => {
     }
   }
 
-  let inFreeMint = passWalletsList.includes(address?.toLowerCase());
+  let formatted=passWalletsList.map((item)=>ethers.utils.getAddress(item));
+  let inFreeMint =address? formatted.includes(ethers.utils.getAddress(address)):false;
 
   let isMainnet;
   if (process.env.PRODUCTION === "true") {
