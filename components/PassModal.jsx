@@ -67,7 +67,7 @@ const PassModal = () => {
         passJSON.abi,
         signer
       );
-      let tx = await nftContract.freeMint(proof, { gasLimit: 700000 });
+      let tx = await nftContract.freeMint(proof, { gasLimit: 400000 });
       await tx.wait();
       setBtnState("mint");
       setNotiType("success");
