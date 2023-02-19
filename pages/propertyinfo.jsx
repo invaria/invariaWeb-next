@@ -154,6 +154,12 @@ const PropertyInfo = () => {
       console.log(e);
     }
   };
+  const en_Noti_suc =
+    "Transaction Successful! You can check NFT in Dashboard / Wallet.";
+  const en_Noti_fail =
+    "Transaction Failed! Please try again or check if any problems.";
+  const tw_Noti_suc = "交易成功！您可以到 Dashboard 或錢包查看。";
+  const tw_Noti_fail = "交易失敗！請再試一次，或查看是否存在任何問題。";
 
   const mintNft = async () => {
     if (mintNum <= 0) return;
@@ -172,19 +178,11 @@ const PropertyInfo = () => {
       setPromo("");
       setNotiType("success");
       setMintNum(0);
-      setNotification(
-        router.locale === "en"
-          ? "Transaction Successful! You can check NFT in Dashboard / Wallet."
-          : "交易成功！您可以到 Dashboard 或錢包查看。"
-      );
+      setNotification(router.locale === "en" ? en_Noti_suc : tw_Noti_suc);
     } catch (error) {
       console.log(error);
       setBtnState("mint");
-      setNotification(
-        router.locale === "en"
-          ? "Transaction Failed! Please try again or check if any problems."
-          : "交易失敗！請再試一次，或查看是否存在任何問題。"
-      );
+      setNotification(router.locale === "en" ? en_Noti_fail : tw_Noti_fail);
       setNotiType("fail");
     }
   };
@@ -235,7 +233,7 @@ const PropertyInfo = () => {
   console.log("usdcAllowance", usdcBalance);
   useEffect(() => {
     if (usdcAllowance == null) return;
-    if (+usdcBalance < mintNum * 2000) {
+    if (+usdcBalance < mintNum * 2000&&verify === "Accepted") {
       setBtnState("nofund");
     } else if (+usdcAllowance < 2000) {
       setBtnState("approve");
@@ -254,8 +252,9 @@ const PropertyInfo = () => {
   } else if (btnState == "approve") {
     btnAction = (
       <button
-        className="btn mt-0 bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded"
+        className="btn mt-0 bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded disabled:bg-invar-grey disabled:text-invar-light-grey"
         onClick={() => approveUsdc()}
+        disabled={verify !== "Accepted"}
       >
         Approve USDC
       </button>
@@ -271,21 +270,21 @@ const PropertyInfo = () => {
       <button
         className="disabled:bg-invar-grey disabled:text-invar-light-grey btn mt-0 bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded"
         onClick={() => mintNft()}
-        disabled={mintNum == 0 || !checked||verify!=="Accepted"}
+        disabled={mintNum == 0 || !checked || verify !== "Accepted"}
       >
-        {`Mint (${mintNum})`}
+        {`${t("mint")} (${mintNum})`}
       </button>
     );
   } else if (btnState == "minting") {
     btnAction = (
       <button className="btn loading bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded">
-        Minting
+        {t("minting")}
       </button>
     );
   } else if (btnState == "minted") {
     btnAction = (
       <div className="w-full h-[76px] bg-invar-dark p-4 text-sm text-invar-success font-normal flex justify-between items-center rounded shadow animate-fade-in-left">
-        <p>{t("homepage_pubilcsale_mintsuccess")}</p>
+        <p>{router.locale === "en" ? en_Noti_suc : tw_Noti_suc}</p>
         <button
           className="ml-4 mr-2 h-[24px] w-[24px] min-w-max font-semibold text-sm text-white "
           onClick={() => {
@@ -305,7 +304,7 @@ const PropertyInfo = () => {
   } else if (btnState == "nofund") {
     btnAction = (
       <div className="btn btn-disabled bg-invar-disabled w-full h-[48px] font-semibold text-sm text-invar-light-grey border-none normal-case rounded">
-        Insufficient Fund
+        {t("nofund")}
       </div>
     );
   }
@@ -660,13 +659,13 @@ const PropertyInfo = () => {
                               {t("terms")}
                             </span>
                           </Link>
-                          {router.locale==="tw"&&"、"}
+                          {router.locale === "tw" && "、"}
                           <Link href="/privacy">
                             <span className="underline cursor-pointer">
                               {t("privacy")}
                             </span>
                           </Link>
-                          {router.locale==="tw"?"。":"."}
+                          {router.locale === "tw" ? "。" : "."}
                         </p>
                       </div>
 

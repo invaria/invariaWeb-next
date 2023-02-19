@@ -67,15 +67,16 @@ function App() {
       //check if page is not scrolled
       if (window.pageYOffset < 10) {
         setShowConnected(true);
-      };
-      timeout=  setTimeout(() => {setShowConnected(false)}, 5000);
+      }
+      timeout = setTimeout(() => {
+        setShowConnected(false);
+      }, 5000);
       return () => {
         window.removeEventListener("scroll", () =>
           setHeaderBackground(window.pageYOffset > 20)
         );
         clearTimeout(timeout);
-      }
-      
+      };
     }
   }, []);
 
@@ -229,8 +230,14 @@ function App() {
             className="mt-4 z-20 absolute top-[424px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-invar-success hover:bg-invar-success opacity-80  hover:opacity-100
       rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden"
           >
-            <span className="w-[85px] h-4 bg-invar-error rotate-[19.59deg] absolute text-white font-semibold text-xs leading-4 top-[-2px] right-[-15px] normal-case" style={{clipPath: "polygon(0% 0%, 100% 0%, 95% 49.5%, 100% 100%, 0% 100%, 0% 50%)"}}>
-              Free Mint
+            <span
+              className="w-[85px] h-4 bg-invar-error rotate-[19.59deg] absolute text-white font-semibold text-xs leading-4 top-[-2px] right-[-15px] normal-case"
+              style={{
+                clipPath:
+                  "polygon(0% 0%, 100% 0%, 95% 49.5%, 100% 100%, 0% 100%, 0% 50%)",
+              }}
+            >
+              Whitelist
             </span>
             <div className=" text-sm ">PASS: InVariant</div>
           </div>
@@ -323,8 +330,14 @@ function App() {
           onClick={() => modals.setPassBuyModal(true)}
           className="z-20 w-[154px] h-10 bg-invar-success text-info top-[75%] lg:left-[24%] left-[18%] absolute rounded md:flex items-center justify-center font-semibold text-sm leading-6 btn modal-bottom btnShadow  opacity-80 border-none hover:bg-invar-success hover:opacity-100 hidden normal-case"
         >
-          <span className="w-[85px] h-4 bg-invar-error rotate-[19.59deg] absolute text-white font-semibold text-xs leading-4 top-[-2px] right-[-15px] normal-case" style={{clipPath: "polygon(0% 0%, 100% 0%, 95% 49.5%, 100% 100%, 0% 100%, 0% 50%)"}}>
-            Free Mint
+          <span
+            className="w-[85px] h-4 bg-invar-error rotate-[19.59deg] absolute text-white font-semibold text-xs leading-4 top-[-2px] right-[-15px] normal-case"
+            style={{
+              clipPath:
+                "polygon(0% 0%, 100% 0%, 95% 49.5%, 100% 100%, 0% 100%, 0% 50%)",
+            }}
+          >
+            Whitelist
           </span>
           PASS: InVariant
         </div>

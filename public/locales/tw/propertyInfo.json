@@ -77,6 +77,7 @@
   "terms": "網站條款",
   "privacy": "隱私權政策",
   "mint": "鑄造",
+  "nofund": "資金不足",
   "buy_tokens": "購買代幣",
   "connect_wallet": "連結錢包",
   "best_market": "進入發展中海灣經濟體的最佳市場鏈接渠道，以及為世界帶來房地產革命的新興機會。",
@@ -98,5 +99,6 @@
   "notice_6": "如有任何問題請聯繫：",
 
   "network_error_title": "錯誤的網絡!",
-  "network_error_note": "請切換到以太坊主網"
+  "network_error_note": "請切換到以太坊主網",
+  "minting":"鑄造"
 }

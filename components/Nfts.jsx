@@ -341,7 +341,7 @@ tokenIds = tokenIds.map((t) => t.toString());
         ) : (
           <>
             {!openinfo ? (
-              <div className="flex sm:gap-8 gap-6 sm:flex-row flex-col flex-wrap">
+              <div className="flex sm:gap-8 gap-6 sm:flex-row flex-col flex-wrap sm:items-start items-center">
                 {+nfts + +staked > 0 && (
                   <div
                     key={"amwaj"}
