@@ -31,11 +31,12 @@ const PassModal = () => {
   const [mintNum, setMintNum] = useState(1);
   const [readmore, setReadmore] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [isFreeMintClaimed, setIsFreeMintClaimed] = useState(true);
+  const [isWhitelistClaimed, setIsWhitelistClaimed] = useState(true);
   const [tokensAlreadyMinted, setTokensAlreadyMinted] = useState(0);
   const [notification, setNotification] = useState("");
   const [notiType, setNotiType] = useState("success");
   const [btnState, setBtnState] = useState();
+  const [loading, setLoading] = useState(false);
 
   const address = useAddress();
   const network = useNetwork();
@@ -43,11 +44,19 @@ const PassModal = () => {
 
   const { t } = useTranslation("sale");
   const router = useRouter();
+  let isCorrectNetwork;
+  if (process.env.PRODUCTION === "true") {
+    isCorrectNetwork = network[0]?.data?.chain?.id === 1;
+  } else {
+    isCorrectNetwork = network[0]?.data?.chain?.id === 5;
+  }
 
   const modalOpen = useContext(ModalContext);
 
   const getProof = async () => {
-    const apiResult = await axios.post("api/freemint-proof", { address:ethers.utils.getAddress(address)  });
+    const apiResult = await axios.post("api/whitelist-proof", {
+      address: address.toLowerCase(),
+    });
     const treeResult = apiResult.data;
     const proof = treeResult.proof;
     const root = treeResult.root;
@@ -56,7 +65,7 @@ const PassModal = () => {
     return proof;
   };
 
-  const freeminthandler = async () => {
+  const whitelistHandler = async () => {
     setBtnState("minting");
     const proof = await getProof();
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -67,7 +76,11 @@ const PassModal = () => {
         passJSON.abi,
         signer
       );
-      let tx = await nftContract.freeMint(proof, { gasLimit: 400000 });
+
+      let tx = await nftContract.whitelistMint(proof, {
+        value: ethers.utils.parseEther("0.05"),
+        gasLimit: 230000,
+      });
       await tx.wait();
       setBtnState("mint");
       setNotiType("success");
@@ -76,7 +89,7 @@ const PassModal = () => {
           ? "Transaction Successful! You can check NFT in Dashboard / Wallet."
           : "交易成功！您可以到 Dashboard 或錢包查看。"
       );
-      setIsFreeMintClaimed(true);
+      setIsWhitelistClaimed(true);
     } catch (error) {
       console.log(error);
       setBtnState("mint");
@@ -105,8 +118,9 @@ const PassModal = () => {
     }
   }
 
-  let formatted=passWalletsList.map((item)=>ethers.utils.getAddress(item));
-  let inFreeMint =address? formatted.includes(ethers.utils.getAddress(address)):false;
+  let inWhitelist = address
+    ? passWalletsList.includes(address.toLocaleLowerCase())
+    : false;
 
   let isMainnet;
   if (process.env.PRODUCTION === "true") {
@@ -123,27 +137,45 @@ const PassModal = () => {
       provider
     );
     const tokens = await nftContract.mintRecords(address);
-    console.log("tokens", tokens.freemintClaimed);
-    setIsFreeMintClaimed(tokens.freemintClaimed);
+    console.log("tokens", tokens.whitelistClaimed);
+    setIsWhitelistClaimed(tokens.whitelistClaimed);
     const currentTokenId = await nftContract.currentTokenId();
     console.log("tokens minted", currentTokenId.toString());
     setTokensAlreadyMinted(+currentTokenId.toString());
   };
 
   useEffect(() => {
-    if (address) fetchInitialData();
-    if (address)
-      checkIfWalletIsConnected(
-        address,
-        setEthBalance,
-        setUsdcBalance,
-        setgetCoinPrice
-      );
+    if (!address) return;
+    const func = async () => {
+      isCorrectNetwork&&  setLoading(true);
+      if (address) await fetchInitialData();
+      if (address)
+        await checkIfWalletIsConnected(
+          address,
+          setEthBalance,
+          setUsdcBalance,
+          setgetCoinPrice
+        );
+      setLoading(false);
+    };
+    try{
+    func();
+    }catch(e){
+      setLoading(false)
+    }
   }, [address, network[0]?.data?.chain?.id]);
 
-  let mintClosed = new Date().getTime() > 1676851200000;
-  let mintNotStarted=new Date().getTime() < 1676246400000;
-  let soldOut = tokensAlreadyMinted >= 100;
+  useEffect(() => {
+    if (+ethBalance < 0.05) {
+      setBtnState("nofund");
+    } else {
+      setBtnState("mint");
+    }
+  }, [ethBalance, mintNum]);
+
+  let mintClosed = new Date().getTime() > 1677110400000;
+  let mintNotStarted = new Date().getTime() < 1676851200000;
+  let soldOut = tokensAlreadyMinted >= 400;
   return (
     <Dialog
       sx={{
@@ -218,7 +250,7 @@ const PassModal = () => {
                         {shortenAddress(address)}
                       </span>
 
-                      {inFreeMint ? (
+                      {inWhitelist ? (
                         <span className="font-normal text-sm leading-5 block text-invar-success">
                           {t("early_list")}
                         </span>
@@ -272,7 +304,7 @@ const PassModal = () => {
                   {t("mint_stage")}
                 </p>
                 <p className=" text-base font-semibold text-white ">
-                  {t("early_stage")}
+                  {t("whitelist_stage")}
                 </p>
               </div>
               <div className=" mt-4 flex justify-between items-baseline">
@@ -288,23 +320,27 @@ const PassModal = () => {
                   {t("homepage_pubilcsale_minttime")}
                 </p>
                 <p className=" text-base font-semibold text-white max-w-[260px] text-end ">
-                  Feb 13, 00:00 ~ 20, 00:00 UTC
+                  Feb 20, 00:00 ~ 23, 00:00 UTC
                 </p>
               </div>
-              {address && inFreeMint && (
+              {address && inWhitelist && (
                 <>
                   <p className=" mt-3 text-sm font-normal text-invar-light-grey ">
                     {t("mint_amount")}
                   </p>
                   <div className="relative ">
+                    
                     <input
                       type="number"
                       onChange={(e) => handleMintNum(e.target.value)}
-                      value={mintNum}
-                      min="0"
-                      required
-                      className="appearance-none block mt-1 px-3 h-[48px] bg-invar-main-purple w-full font-semibold text-2xl text-white rounded focus:border border-white text-center"
+                      value={""}
+                      // min="0"
+                      // required
+                      disabled
+                      className="appearance-none disabled:text-white block mt-1 px-3 h-[48px] bg-invar-main-purple w-full font-semibold text-2xl text-white rounded focus:border border-white text-center"
                     />
+                     <p className="text-center absolute top-2 translate-x-[-5px] left-1/2 text-white font-semibold text-2xl">1</p>
+
                     {
                       //mintNum < 1 ?
                       <button className=" w-6 absolute inset-y-0 left-[14px] flex items-center text-white">
@@ -314,18 +350,6 @@ const PassModal = () => {
                           alt=""
                         />
                       </button>
-                      //  : (
-                      //   <button
-                      //     className=" w-6 cursor-pointer absolute inset-y-0 left-[14px] flex items-center text-white"
-                      //     onClick={() => handleMintNum("-")}
-                      //   >
-                      //     <img
-                      //       className=" w-6 "
-                      //       src="/icons/ic_minus.svg"
-                      //       alt=""
-                      //     />
-                      //   </button>
-                      // )
                     }
                     <button
                       className=" w-6 cursor-pointer absolute inset-y-0 right-[14px] flex items-center text-white"
@@ -342,26 +366,36 @@ const PassModal = () => {
                     <p className=" text-sm font-normal text-invar-light-grey">
                       {t("eth_amount")}
                     </p>
-                    <p className=" font-semibold text-white text-base">0 ETH</p>
+                    <p className=" font-semibold text-white text-base">
+                      0.05 ETH
+                    </p>
                   </div>
                   <div className="flex mb-3 items-center">
-                    <Checkbox
-                      size="small"
-                      value={checked}
-                      onChange={(e) => setChecked((v) => !v)}
-                      disableFocusRipple
-                      sx={{
-                        color: checked ? "#00deae" : "#B4B7C0",
-                        //backgroundColor:checked ? "#00deae" : "#B4B7C0",
-                        "&.Mui-checked": {
-                          color: checked ? "#00deae" : "#B4B7C0",
-                          //backgroundColor:checked ? "#00deae" : "#B4B7C0"
-                        },
-                        "&.MuiCheckbox-root": {
-                          paddingLeft: "0px",
-                        },
-                      }}
-                    />
+                    {!checked ? (
+                      <div
+                        className="border rounded-sm border-accent mr-2 cursor-pointer"
+                        style={{ minWidth: "16px", minHeight: "16px" }}
+                        onClick={() => setChecked((v) => !v)}
+                      />
+                    ) : (
+                      <div
+                        className="rounded-sm flex items-center justify-center select-none mr-2 cursor-pointer"
+                        style={{
+                          minWidth: "16px",
+                          minHeight: "16px",
+                          backgroundColor: "#00DEAE",
+                        }}
+                        onClick={() => setChecked((v) => !v)}
+                      >
+                        <Image 
+                      priority
+                          src="/icons/tick.svg"
+                          className="w-3 h-3 select-none"
+                          width={12}
+                          height={12}
+                        />
+                      </div>
+                    )}
                     <p className="text-accent font-normal text-xs leading-[18px]">
                       {t("have_read")}
                       <Link href={"/terms"}>
@@ -386,24 +420,34 @@ const PassModal = () => {
                   </div>
                 </>
               )}
-
-              {!notification && (
+              {!notification && loading &&inWhitelist&& (
+                <button className="btn loading bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded">
+                  Loading
+                </button>
+              )}
+              {!notification && !loading && (
                 <>
-                  {address && inFreeMint && isMainnet && (
+                  {address && inWhitelist && isMainnet && (
                     <>
                       {btnState === "minting" ? (
                         <button className="btn loading bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded">
-                          Minting
+                          {t("minting")}
                         </button>
+                      ) : btnState === "nofund" &&
+                        !mintClosed &&
+                        !isWhitelistClaimed ? (
+                        <div className="btn btn-disabled bg-invar-disabled w-full h-[48px] font-semibold text-sm text-invar-light-grey border-none normal-case rounded">
+                          {t("nofund")}
+                        </div>
                       ) : (
                         <button
                           className="btn bg-invar-dark w-full h-[48px] font-semibold text-sm text-white disabled:bg-invar-grey disabled:text-invar-light-grey border-none normal-case rounded"
-                          onClick={freeminthandler}
+                          onClick={whitelistHandler}
                           disabled={
                             !checked ||
-                            isFreeMintClaimed ||
+                            isWhitelistClaimed ||
                             soldOut ||
-                            mintClosed||
+                            mintClosed ||
                             mintNotStarted
                           }
                         >
@@ -412,7 +456,7 @@ const PassModal = () => {
                       )}
                     </>
                   )}
-                  {address && inFreeMint && !isMainnet && (
+                  {address && inWhitelist && !isMainnet && (
                     <button
                       className="btn bg-invar-error w-full h-[48px] font-semibold text-sm text-white disabled:bg-invar-grey disabled:text-invar-light-grey border-none normal-case rounded"
                       onClick={() => switchNetwork(ChainId.Mainnet)}
@@ -444,7 +488,7 @@ const PassModal = () => {
                 </div>
               )}
 
-              {address && inFreeMint && (
+              {address && inWhitelist && (
                 <>
                   <p
                     className={`font-normal text-sm leading-5 text-accent mb-3 mt-[18px] `}
@@ -501,22 +545,22 @@ const PassModal = () => {
                   </div>
                 </>
               )}
-              {!inFreeMint && (
+              {!inWhitelist && (
                 <div className="my-6 w-full h-[1px] border-b border-b-invar-main-purple"></div>
               )}
-              {((address && !inFreeMint) || !address) && (
+              {((address && !inWhitelist) || !address) && (
                 <div className="md:max-w-[327px] mx-auto">
                   <ul className="list-decimal pl-3 text-xs font-normal text-invar-light-grey mb-3 mx-auto">
-                    <li>{t("adopter_note_1")}</li>
-                    <li>{t("adopter_note_2")}</li>
-                    <li>{t("adopter_note_3")}</li>
+                    <li>{t("whitelist_note_1")}</li>
+                    <li>{t("whitelist_note_2")}</li>
+                    <li>{t("whitelist_note_3")}</li>
                     {readmore && (
                       <>
-                        <li>{t("adopter_note_4")}</li>
-                        <li>{t("adopter_note_5")}</li>
+                        <li>{t("whitelist_note_4")}</li>
+                        <li>{t("whitelist_note_5")}</li>
 
                         <li>
-                          {t("adopter_note_6")} <ButtonMailto />.
+                          {t("whitelist_note_6")} <ButtonMailto />.
                         </li>
                       </>
                     )}

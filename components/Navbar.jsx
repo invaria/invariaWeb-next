@@ -278,7 +278,7 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                 </Link>
                 <label
                   htmlFor="my-modal-4"
-                  className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[143px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
+                  className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[148px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
                 >
                   {shortenAddress(address)}
                   {SFTDemo && !isGoerli && (

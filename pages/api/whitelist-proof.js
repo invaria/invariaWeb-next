@@ -6,7 +6,7 @@ export default function handler(req, res) {
   const { address } = req.body;
   const configDirectory = path.resolve(process.cwd(), "pages", "api");
   const file = readFileSync(
-    path.join(configDirectory, "freeMint.json"),
+    path.join(configDirectory, "whitelist.json"),
     "utf8"
   );
   const tree = StandardMerkleTree.load(JSON.parse(file));

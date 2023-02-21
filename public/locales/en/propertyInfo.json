@@ -76,6 +76,7 @@
   "terms": "Terms & Conditions, ",
   "privacy": "Privacy Policy",
   "mint": "Mint",
+  "nofund": "Insufficient Fund",
   "buy_tokens": "Buy Tokens",
   "connect_wallet": "Connect Wallet",
   "best_market": "The best market access to growing Gulf economies, and emerging opportunities to bring real estate revolution to the world.",
@@ -97,5 +98,6 @@
   "notice_6": "If you have any questions, please contact: ",
 
   "network_error_title": "Wrong Network!",
-  "network_error_note": "Please Switch to Ethereum Mainnet"
+  "network_error_note": "Please Switch to Ethereum Mainnet",
+  "minting":"Minting"
 }

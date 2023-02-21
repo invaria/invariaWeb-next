@@ -13,6 +13,8 @@ import passWalletsList from "../src/utils/passWalletsList";
 import { passAddress } from "../src/utils/web3utils";
 import passJSON from "../src/utils/passABI.json";
 import axios from "axios";
+import { checkIfWalletIsConnected } from "../src/utils/web3utils";
+import Image from "next/image";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -35,11 +37,15 @@ const PassNFT = () => {
   const { t } = useTranslation(["passnft", "sale"]);
   const [checked, setChecked] = useState(false);
   const [readmore, setReadmore] = useState(false);
-  const [isFreeMintClaimed, setIsFreeMintClaimed] = useState(true);
+  const [isWhitelistMintClaimed, setIsWhitelistMintClaimed] = useState(true);
   const [tokensAlreadyMinted, setTokensAlreadyMinted] = useState(0);
   const [notification, setNotification] = useState("");
   const [notiType, setNotiType] = useState("success");
   const [btnState, setBtnState] = useState();
+  const [ethBalance, setEthBalance] = useState(0);
+  const [usdcBalance, setUsdcBalance] = useState(0);
+  const [getCoinPrice, setgetCoinPrice] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const connectWithMetamask = useMetamask();
   const address = useAddress();
@@ -62,6 +68,33 @@ const PassNFT = () => {
       }
     }
   }
+
+  useEffect(() => {
+    if (address == undefined) return;
+    const func = async () => {
+      isCorrectNetwork && setLoading(true);
+      await checkIfWalletIsConnected(
+        address,
+        setEthBalance,
+        setUsdcBalance,
+        setgetCoinPrice
+      );
+      setLoading(false);
+    };
+    try {
+      func();
+    } catch (e) {
+      setLoading(false);
+    }
+  }, [address, network[0]?.data?.chain?.id]);
+
+  useEffect(() => {
+    if (+ethBalance < 0.05) {
+      setBtnState("nofund");
+    } else {
+      setBtnState("mint");
+    }
+  }, [ethBalance, mintNum]);
 
   const fixedinfo = (
     <>
@@ -114,17 +147,21 @@ const PassNFT = () => {
       </div>
     </>
   );
-  let formatted=passWalletsList.map((item)=>ethers.utils.getAddress(item));
-  let inFreeMint =address? formatted.includes(ethers.utils.getAddress(address)):false;
+
+  let inWhitelist = address
+    ? passWalletsList.includes(address.toLocaleLowerCase())
+    : false;
   let isCorrectNetwork;
   if (process.env.PRODUCTION === "true") {
     isCorrectNetwork = network[0]?.data?.chain?.id === 1;
   } else {
-    isCorrectNetwork = true;
+    isCorrectNetwork = network[0]?.data?.chain?.id === 5;
   }
-address&&console.log("addresss",ethers.utils.getAddress(address))
+
   const getProof = async () => {
-    const apiResult = await axios.post("api/freemint-proof", { address:ethers.utils.getAddress(address) });
+    const apiResult = await axios.post("api/whitelist-proof", {
+      address: address.toLowerCase(),
+    });
     const treeResult = apiResult.data;
     const proof = treeResult.proof;
     const root = treeResult.root;
@@ -133,7 +170,7 @@ address&&console.log("addresss",ethers.utils.getAddress(address))
     return proof;
   };
 
-  const freeminthandler = async () => {
+  const whitelistMintHandler = async () => {
     setBtnState("minting");
     const proof = await getProof();
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -144,7 +181,10 @@ address&&console.log("addresss",ethers.utils.getAddress(address))
         passJSON.abi,
         signer
       );
-      let tx = await nftContract.freeMint(proof, { gasLimit: 700000 });
+      let tx = await nftContract.whitelistMint(proof, {
+        gasLimit: 230000,
+        value: ethers.utils.parseEther("0.05"),
+      });
       await tx.wait();
       setBtnState("mint");
 
@@ -154,7 +194,7 @@ address&&console.log("addresss",ethers.utils.getAddress(address))
           ? "Transaction Successful! You can check NFT in Dashboard / Wallet."
           : "交易成功！您可以到 Dashboard 或錢包查看。"
       );
-      setIsFreeMintClaimed(true);
+      setIsWhitelistMintClaimed(true);
     } catch (error) {
       setBtnState("mint");
 
@@ -176,38 +216,51 @@ address&&console.log("addresss",ethers.utils.getAddress(address))
       provider
     );
     const tokens = await nftContract.mintRecords(address);
-    console.log("tokens", tokens.freemintClaimed);
-    setIsFreeMintClaimed(tokens.freemintClaimed);
+    console.log("tokensClaimed", tokens.whitelistClaimed);
+    setIsWhitelistMintClaimed(tokens.whitelistClaimed);
   };
 
   useEffect(() => {
-    if (address) fetchInitialData();
-    let rpcUrl;
-    if (process.env.PRODUCTION === "true")
-      rpcUrl = `https://mainnet.infura.io/v3/${process.env.infura_key}`;
-    else rpcUrl = `https://goerli.infura.io/v3/${process.env.infura_key}`;
+    if (!address) return;
+    const func = async () => {
+      isCorrectNetwork && setLoading(true);
+      if (address) await fetchInitialData();
+      let rpcUrl;
+      if (process.env.PRODUCTION === "true")
+        rpcUrl = `https://mainnet.infura.io/v3/${process.env.infura_key}`;
+      else rpcUrl = `https://goerli.infura.io/v3/${process.env.infura_key}`;
 
-    console.log("rpcurl", rpcUrl.slice(0, 14));
+      console.log("rpcurl", rpcUrl.slice(0, 14));
 
-    const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
-    const nftContract = new ethers.Contract(
-      passAddress,
-      passJSON.abi,
-      provider
-    );
+      const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+      const nftContract = new ethers.Contract(
+        passAddress,
+        passJSON.abi,
+        provider
+      );
 
-    nftContract
-      .currentTokenId()
-      .then((res) => setTokensAlreadyMinted(+res.toString()))
-      .catch((e) => {
-        console.log(e);
-      });
+      nftContract
+        .currentTokenId()
+        .then((res) => setTokensAlreadyMinted(+res.toString()))
+        .catch((e) => {
+          console.log(e);
+        });
+      setLoading(false);
+    };
+    try {
+      func();
+    } catch (e) {
+      setLoading(false);
+    }
   }, [address, network[0]?.data?.chain?.id]);
 
-  let mintClosed = new Date().getTime() > 1676851200000;
-  let mintNotStarted = new Date().getTime() < 1676246400000;
-  let soldOut = tokensAlreadyMinted >= 100;
-
+  let mintClosed = new Date().getTime() > 1677110400000;
+  let mintNotStarted = new Date().getTime() < 1676851200000;
+  let soldOut = tokensAlreadyMinted >= 400;
+//1.tree change
+//2.time stamp
+//3.mint closed value
+//4.pass wallet list update
   return (
     <div>
       <Navbar headerBackground={headerBackground} />
@@ -254,7 +307,7 @@ address&&console.log("addresss",ethers.utils.getAddress(address))
                             {t("mint_stage")}
                           </p>
                           <p className=" text-base font-semibold text-white ">
-                            {t("early_stage")}
+                            {t("whitelist_stage")}
                           </p>
                         </div>
                         <div className=" mt-4 flex justify-between items-baseline">
@@ -270,7 +323,7 @@ address&&console.log("addresss",ethers.utils.getAddress(address))
                             {t("mint_time")}
                           </p>
                           <p className=" text-base font-semibold text-white max-w-[260px] text-end ">
-                            Feb 13, 00:00 ~ 20, 00:00 UTC
+                            Feb 20, 00:00 ~ 23, 00:00 UTC
                           </p>
                         </div>
                         {!address && (
@@ -288,11 +341,11 @@ address&&console.log("addresss",ethers.utils.getAddress(address))
                     )}
 
                     {address &&
-                      !inFreeMint &&
+                      !inWhitelist &&
                       isCorrectNetwork &&
                       isCorrectNetwork && (
                         <p className="font-normal text-base leading-5 text-invar-validation md:max-w-[327px] mx-auto text-center my-9">
-                          {t("adopter_title")}
+                          {t("whitelist_title")}
                         </p>
                       )}
 
@@ -303,7 +356,7 @@ address&&console.log("addresss",ethers.utils.getAddress(address))
                       </p>
                     )}
 
-                    {address && inFreeMint && isCorrectNetwork && (
+                    {address && inWhitelist && isCorrectNetwork && (
                       <div className="md:max-w-[327px] mx-auto">
                         <>
                           <p className=" mt-3 text-sm font-normal text-invar-light-grey ">
@@ -313,12 +366,15 @@ address&&console.log("addresss",ethers.utils.getAddress(address))
                             <input
                               type="number"
                               onChange={(e) => handleMintNum(e.target.value)}
-                              value={mintNum}
-                              min="0"
-                              required
+                              value={""}
+                              // min="0"
+                              // required
                               disabled
-                              className="appearance-none block mt-1 px-3 h-[48px] bg-invar-main-purple w-full font-semibold text-2xl text-white rounded focus:border border-white text-center"
+                              className="appearance-none disabled:text-white block mt-1 px-3 h-[48px] bg-invar-main-purple w-full font-semibold text-2xl text-white rounded focus:border border-white text-center"
+                              style={{ color: "white" }}
                             />
+                              <p className="text-center absolute top-2 translate-x-[-5px] left-1/2 text-white font-semibold text-2xl">1</p>
+
                             {
                               //mintNum < 1 ?
                               <button className=" w-6 absolute inset-y-0 left-[14px] flex items-center text-white">
@@ -357,25 +413,35 @@ address&&console.log("addresss",ethers.utils.getAddress(address))
                               {t("eth_amount")}
                             </p>
                             <p className=" font-semibold text-white text-base">
-                              0 ETH
+                              0.05 ETH
                             </p>
                           </div>
                           <div className="flex mb-3 items-center">
-                            <Checkbox
-                              size="small"
-                              value={checked}
-                              onChange={(e) => setChecked((v) => !v)}
-                              disableFocusRipple
-                              sx={{
-                                color: checked ? "#00deae" : "#B4B7C0",
-                                "&.Mui-checked": {
-                                  color: checked ? "#00deae" : "#B4B7C0",
-                                },
-                                "&.MuiCheckbox-root": {
-                                  paddingLeft: "0px",
-                                },
-                              }}
-                            />
+                            {!checked ? (
+                              <div
+                                className="border rounded-sm border-accent mr-2 cursor-pointer"
+                                style={{ minWidth: "16px", minHeight: "16px" }}
+                                onClick={() => setChecked((v) => !v)}
+                              />
+                            ) : (
+                              <div
+                                className="rounded-sm flex items-center justify-center select-none mr-2 cursor-pointer"
+                                style={{
+                                  minWidth: "16px",
+                                  minHeight: "16px",
+                                  backgroundColor: "#00DEAE",
+                                }}
+                                onClick={() => setChecked((v) => !v)}
+                              >
+                                <Image
+                                  priority
+                                  src="/icons/tick.svg"
+                                  className="w-3 h-3 select-none"
+                                  width={12}
+                                  height={12}
+                                />
+                              </div>
+                            )}
                             <p className="text-accent font-normal text-xs leading-[18px]">
                               {t("have_read")}
                               <Link href={"/terms"}>
@@ -393,20 +459,30 @@ address&&console.log("addresss",ethers.utils.getAddress(address))
                             </p>
                           </div>
                         </>
+                        {!notification && loading && (
+                          <button className="btn loading bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded">
+                            Loading
+                          </button>
+                        )}
 
-                        {!notification && (
+                        {!notification && !loading && (
                           <>
                             {btnState === "minting" ? (
                               <button className="btn loading bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded">
-                                Minting
+                                {t("minting")}
                               </button>
+                            ) : btnState === "nofund" &&
+                              !isWhitelistMintClaimed ? (
+                              <div className="btn btn-disabled bg-invar-disabled w-full h-[48px] font-semibold text-sm text-invar-light-grey border-none normal-case rounded">
+                                {t("nofund")}
+                              </div>
                             ) : (
                               <button
                                 className="btn bg-invar-dark w-full h-[48px] font-semibold text-sm text-white disabled:bg-invar-grey disabled:text-invar-light-grey border-none normal-case rounded"
-                                onClick={freeminthandler}
+                                onClick={whitelistMintHandler}
                                 disabled={
                                   !checked ||
-                                  isFreeMintClaimed ||
+                                  isWhitelistMintClaimed ||
                                   mintNotStarted
                                 }
                               >
@@ -499,19 +575,19 @@ address&&console.log("addresss",ethers.utils.getAddress(address))
                       </div>
                     )}
 
-                    {address && (!inFreeMint || !isCorrectNetwork) && (
+                    {address && (!inWhitelist || !isCorrectNetwork) && (
                       <div className="md:max-w-[327px] mx-auto">
                         <ul className="list-decimal pl-3 text-xs font-normal text-invar-light-grey mb-3 mx-auto">
-                          <li>{t("adopter_note_1")}</li>
-                          <li>{t("adopter_note_2")}</li>
-                          <li>{t("adopter_note_3")}</li>
+                          <li>{t("whitelist_note_1")}</li>
+                          <li>{t("whitelist_note_2")}</li>
+                          <li>{t("whitelist_note_3")}</li>
                           {readmore && (
                             <>
-                              <li>{t("adopter_note_4")}</li>
-                              <li>{t("adopter_note_5")}</li>
+                              <li>{t("whitelist_note_4")}</li>
+                              <li>{t("whitelist_note_5")}</li>
 
                               <li>
-                                {t("adopter_note_6")} <ButtonMailto />.
+                                {t("whitelist_note_6")} <ButtonMailto />.
                               </li>
                             </>
                           )}

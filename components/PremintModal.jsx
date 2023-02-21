@@ -102,12 +102,12 @@ const PremintModal = () => {
 
     const cuurentDateTime = formatter.format(new Date());
     try {
-   await axios.post("api/updateExcel", {
+      await axios.post("api/updateExcel", {
         address: address,
         promo: promo,
         mintNum: mintNum,
         cuurentDateTime: cuurentDateTime,
-        production: process.env.PRODUCTION==="true"?true:false,
+        production: process.env.PRODUCTION === "true" ? true : false,
       });
     } catch (e) {
       console.log(e);
@@ -238,7 +238,6 @@ const PremintModal = () => {
   } else if (btnState == "minted") {
     btnAction = (
       <div className="w-full h-[76px] mt-6 bg-invar-dark p-4 text-sm text-invar-success font-normal flex justify-between items-center rounded shadow animate-fade-in-left">
-        <p>{t("homepage_pubilcsale_mintsuccess")}</p>
         <button
           className="ml-4 mr-2 h-[24px] w-[24px] min-w-max font-semibold text-sm text-white "
           onClick={() => {
@@ -258,11 +257,11 @@ const PremintModal = () => {
   } else if (btnState == "nofund") {
     btnAction = (
       <div className="btn btn-disabled mt-6 bg-invar-disabled w-full h-[48px] font-semibold text-sm text-invar-light-grey border-none normal-case rounded">
-        Insufficient Fund
+        {t("nofund")}
       </div>
     );
-  } 
-  
+  }
+
   return (
     <Dialog
       sx={{
@@ -275,8 +274,9 @@ const PremintModal = () => {
           marginBottom: "auto",
           marginLeft: "0px",
           maxHeight: "100vh",
-          height:{
-sm:"unset",xs:"100%"
+          height: {
+            sm: "unset",
+            xs: "100%",
           },
           background: "linear-gradient(180deg, #44334C 0%, #1E1722 100%)",
           maxWidth: {
@@ -308,13 +308,16 @@ sm:"unset",xs:"100%"
                       query: { kyc: true },
                     }}
                   >
-                    <button className=" w-[72px] h-[32px] btn btn-sm btn-outline bg-transparent text-white border-white mr-3 rounded normal-case my-3" onClick={()=>modalOpen.setPremintModal(false)}>
+                    <button
+                      className=" w-[72px] h-[32px] btn btn-sm btn-outline bg-transparent text-white border-white mr-3 rounded normal-case my-3"
+                      onClick={() => modalOpen.setPremintModal(false)}
+                    >
                       {t("homepage_pubilcsale_verifykyc")}
                     </button>
                   </Link>
                 </div>
                 <div
-              onClick={()=>modalOpen.setPremintModal(false)}
+                  onClick={() => modalOpen.setPremintModal(false)}
                   className="btn btn-sm p-0 absolute right-[32px] top-[79px] bg-transparent border-none hover:bg-transparent"
                 >
                   <img
@@ -327,7 +330,7 @@ sm:"unset",xs:"100%"
             )}
             {verify !== "Unverified" && (
               <div
-              onClick={()=>modalOpen.setPremintModal(false)}
+                onClick={() => modalOpen.setPremintModal(false)}
                 className="btn btn-sm p-0 absolute right-[32px] top-[23px] bg-transparent border-none hover:bg-transparent"
               >
                 <img
