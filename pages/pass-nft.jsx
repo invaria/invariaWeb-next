@@ -221,7 +221,7 @@ const PassNFT = () => {
   };
 
   useEffect(() => {
-    if (!address) return;
+    //if (!address) return;
     const func = async () => {
       isCorrectNetwork && setLoading(true);
       if (address) await fetchInitialData();
