@@ -18,6 +18,15 @@ import { useAddress, useMetamask } from "@thirdweb-dev/react";
 import axios from "axios";
 //import { Dialog, Slide } from "@mui/material";
 import { ModalContext } from "../context/Modals-context";
+import { ethers } from "ethers";
+import {
+  mintClosed,
+  passAddress,
+  tokensAvailable,
+} from "../src/utils/web3utils";
+import passJSON from "../src/utils/passABI.json";
+import { AppContext } from "../context/app-context";
+
 //import MobileWalletConnect from "../components/MobileWalletConnect";
 
 export const endtimestamp = 1664582400000;
@@ -53,10 +62,12 @@ function App() {
   const { t } = useTranslation(["index", "storyline", "common"]);
   const [origin, setorigin] = useState();
   const modals = useContext(ModalContext);
+  const appCTX = useContext(AppContext);
 
   const router = useRouter();
   const address = useAddress();
   const connectWithMetamask = useMetamask();
+
   let timeout;
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -179,7 +190,7 @@ function App() {
           <p
             className="btn w-[183px] md:w-max btnShadow bg-white 
     opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[168px] md:top-[280px] md:right-1/4 normal-case border-none z-20 md:hidden"
+    rounded absolute md:top-[280px] md:right-1/4 normal-case border-none z-20 md:hidden news-btn"
           >
             News
           </p>
@@ -192,7 +203,7 @@ function App() {
             // onClick={() => modals.setPropertyModal(true)}
             className=" md:hidden btn modal-button w-[183px] md:w-max btnShadow bg-white 
     opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[232px] md:top-[280px] md:right-1/4 normal-case border-none z-20 "
+    rounded absolute md:top-[280px] md:right-1/4 normal-case border-none z-20 learn-btn"
           >
             {t("Learn")}
           </div>
@@ -212,7 +223,7 @@ function App() {
           <div
             className="btn modal-button w-[183px] md:w-max btnShadow bg-white
     opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[296px] md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 "
+    rounded absolute md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 reflector-btn"
           >
             {t("RWA REFLECTOR")}
           </div>
@@ -220,28 +231,36 @@ function App() {
 
         <div
           onClick={() => router.push("/sftdemo")}
-          className="mt-4 z-20 absolute top-[360px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-[#FFC25F] opacity-80 hover:bg-[#FFC25F] hover:opacity-100
-      rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden"
+          className="mt-4 z-20 absolute md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-[#FFC25F] opacity-80 hover:bg-[#FFC25F] hover:opacity-100
+      rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden demo-btn"
         >
           <div className=" text-sm ">SFT Demo</div>
         </div>
-        <Link href="/pass-nft">
-          <div
-            className="mt-4 z-20 absolute top-[424px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-invar-success hover:bg-invar-success opacity-80  hover:opacity-100
-      rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden"
-          >
-            <span
-              className="w-[85px] h-4 bg-invar-error rotate-[19.59deg] absolute text-white font-semibold text-xs leading-4 top-[-2px] right-[-15px] normal-case"
-              style={{
-                clipPath:
-                  "polygon(0% 0%, 100% 0%, 95% 49.5%, 100% 100%, 0% 100%, 0% 50%)",
-              }}
+        {
+          <Link href="/pass-nft">
+            <div
+              className={`mt-4 z-20 absolute md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn pass-btn ${
+                appCTX.passNftSoldOut || mintClosed
+                  ? "bg-white hover:bg-white"
+                  : "bg-invar-success hover:bg-invar-success"
+              } opacity-80  hover:opacity-100
+      rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden`}
             >
-              Whitelist
-            </span>
-            <div className=" text-sm ">PASS: InVariant</div>
-          </div>
-        </Link>
+              {!appCTX.passNftSoldOut && !mintClosed && (
+                <span
+                  className="w-[85px] h-4 bg-invar-error rotate-[19.59deg] absolute text-white font-semibold text-xs leading-4 top-[-2px] right-[-15px] normal-case"
+                  style={{
+                    clipPath:
+                      "polygon(0% 0%, 100% 0%, 95% 49.5%, 100% 100%, 0% 100%, 0% 50%)",
+                  }}
+                >
+                  Public Mint
+                </span>
+              )}
+              <div className=" text-sm ">PASS: InVariant</div>
+            </div>
+          </Link>
+        }
       </div>
 
       <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
@@ -326,21 +345,23 @@ function App() {
             RWA REFLECTOR
           </div>
         </Link>
-        <div
-          onClick={() => modals.setPassBuyModal(true)}
-          className="z-20 w-[154px] h-10 bg-invar-success text-info top-[75%] lg:left-[24%] left-[18%] absolute rounded md:flex items-center justify-center font-semibold text-sm leading-6 btn modal-bottom btnShadow  opacity-80 border-none hover:bg-invar-success hover:opacity-100 hidden normal-case"
-        >
-          <span
-            className="w-[85px] h-4 bg-invar-error rotate-[19.59deg] absolute text-white font-semibold text-xs leading-4 top-[-2px] right-[-15px] normal-case"
-            style={{
-              clipPath:
-                "polygon(0% 0%, 100% 0%, 95% 49.5%, 100% 100%, 0% 100%, 0% 50%)",
-            }}
+        {!appCTX.passNftSoldOut && !mintClosed && (
+          <div
+            onClick={() => modals.setPassBuyModal(true)}
+            className={`z-20 w-[154px] h-10 bg-invar-success hover:bg-invar-success text-info top-[75%] lg:left-[24%] left-[18%] absolute rounded md:flex items-center justify-center font-semibold text-sm leading-6 btn modal-bottom btnShadow  opacity-80 border-none hover:opacity-100 hidden normal-case`}
           >
-            Whitelist
-          </span>
-          PASS: InVariant
-        </div>
+            <span
+              className="w-[85px] h-4 bg-invar-error rotate-[19.59deg] absolute text-white font-semibold text-xs leading-4 top-[-2px] right-[-15px] normal-case"
+              style={{
+                clipPath:
+                  "polygon(0% 0%, 100% 0%, 95% 49.5%, 100% 100%, 0% 100%, 0% 50%)",
+              }}
+            >
+              Public Mint
+            </span>
+            PASS: InVariant
+          </div>
+        )}
         <div className="mt-[88px]  hidden absolute top-0 left-[24px] md:flex flex-row items-start justify-start h-[592px] w-[300px] text-white indent-0.5 font-normal text-sm z-10 animate-fade-in-down">
           <div className="flex flex-col items-center justify-center mr-3 ">
             <span className="flex h-3 w-3 justify-center items-center">
@@ -364,7 +385,10 @@ function App() {
     </div>
   </div> */}
         {router.locale === "en" && (
-          <h3 className="font-semibold md:text-[56px] md:leading-[61px] text-[26px] leading-7 text-invar-dark absolute bottom-[86px] right-6 z-10 text-right">
+          <h3
+            // onClick={() => modals.setPremintModal(true)}
+            className="font-semibold md:text-[56px] md:leading-[61px] text-[26px] leading-7 text-invar-dark absolute bottom-[86px] right-6 z-10 text-right"
+          >
             {t("bring")}
             <br />
             {t("real_world_asset")}

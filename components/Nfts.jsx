@@ -281,7 +281,7 @@ const Nfts = () => {
   };
 
   const fetchInitialData = async () => {
-     
+  
     setPassTokenData([]);
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const nftContract = new ethers.Contract(
@@ -291,8 +291,7 @@ const Nfts = () => {
     );
 
     const userNftCount = await nftContract.balanceOf(address);
-
-
+    console.log("tokenDetails", userNftCount);
     if (+userNftCount.toString() === 0) return;
 
     let tokenPromises = [];
@@ -301,9 +300,7 @@ const Nfts = () => {
       tokenPromises.push(tokenId);
     }
     let tokenIds = await Promise.all(tokenPromises);
-tokenIds = tokenIds.map((t) => t.toString());
-
-
+    tokenIds = tokenIds.map((t) => t.toString());
 
     let tokensData = tokenIds.map((t) =>
       axios.get(
@@ -311,10 +308,11 @@ tokenIds = tokenIds.map((t) => t.toString());
       )
     );
     let tokenDetails = await Promise.all(tokensData);
-    console.log("tokenDetails", tokenDetails)
+    console.log("tokenDetails", tokenDetails);
     tokenDetails = tokenDetails.map((t) => t.data);
     console.log("tokenDetails", tokenDetails);
     if (tokenDetails.length > 0) setPassTokenData(tokenDetails);
+   
   };
 
   useEffect(() => {
@@ -372,7 +370,7 @@ tokenIds = tokenIds.map((t) => t.toString());
                     </div>
                   </div>
                 )}
-{console.log(passTokensData, "passTokensData")}
+                {console.log(passTokensData, "passTokensData")}
                 {passTokensData.length > 0 &&
                   passTokensData.map((token) => {
                     let imgUrl;

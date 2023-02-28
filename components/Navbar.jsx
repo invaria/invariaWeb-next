@@ -12,6 +12,7 @@ import { shortenAddress } from "../src/utils/shortenAddress";
 import { disableScroll, enableScroll } from "../src/utils/disableScroll";
 
 import { getUser } from "../src/utils/storeFirebase";
+import passJSON from "../src/utils/passABI.json"
 
 import {
   Accordion,
@@ -23,7 +24,7 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
-import { checkIfWalletIsConnected } from "../src/utils/web3utils";
+import { checkIfWalletIsConnected, mintClosed, passAddress, tokensAvailable } from "../src/utils/web3utils";
 import { useContext } from "react";
 import { MusicContext } from "../context/music-context";
 import MobileWalletConnect from "./MobileWalletConnect";
@@ -32,6 +33,8 @@ import PropertyModal from "./PropertyModal";
 import PassNFTModal from "./PassNFTModal";
 import PremintModal from "./PremintModal";
 import PassModal from "./PassModal";
+import { AppContext } from "../context/app-context";
+import { ethers } from "ethers";
 
 const menuStyles = {
   paddingY: "16px",
@@ -67,6 +70,7 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
 
   const musicCTX = useContext(MusicContext);
   const modals = useContext(ModalContext);
+  const appCTX = useContext(AppContext);
 
   async function getdata() {
     const state = await getUser(address);
@@ -147,6 +151,40 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
       document.body.style.position = "relative";
     };
   }, [toggleMenu]);
+
+  useEffect(() => {
+    const func = async () => {
+      let rpcUrl;
+      if (process.env.PRODUCTION === "true")
+        rpcUrl = `https://mainnet.infura.io/v3/${process.env.infura_key}`;
+      else rpcUrl = `https://goerli.infura.io/v3/${process.env.infura_key}`;
+
+      const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+      const nftContract = new ethers.Contract(
+        passAddress,
+        passJSON.abi,
+        provider
+      );
+
+      nftContract
+        .currentTokenId()
+        .then((res) => {
+          let tokensAlreadyMinted=+res.toString();
+          appCTX.setTokensAlreadyMinted(tokensAlreadyMinted);
+          if(tokensAlreadyMinted>=tokensAvailable){
+            appCTX.setPassNftSoldOut(true);
+          }else{
+            appCTX.setPassNftSoldOut(false);
+          }
+        })
+        .catch((e) => console.log("infura error", e));
+    };
+    try {
+      func();
+    } catch (e) {}
+  }, [address, network[0]?.data?.chain?.id]);
+
+
   return (
     <>
       {console.log("currentNetwork", typeof network[0]?.data?.chain?.id)}
@@ -396,13 +434,13 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
               RWA REFLECTOR
             </MenuItem>
           </Link>
-          <Link href={"/pass-nft"} className="w-full h-full">
+          {!appCTX.passNftSoldOut&&!mintClosed&& <Link href={"/pass-nft"} className="w-full h-full">
             <div className="w-full">
               <MenuItem sx={{ ...menuStyles, color: "#00DEAE" }}>
                 PASS: InVariant Mint
               </MenuItem>
             </div>
-          </Link>
+          </Link>}
           <Link href={"/sftdemo"} className="w-full h-full text-[#FFC25F]">
             <MenuItem sx={{ ...menuStyles, color: "#FFC25F" }}>
               {" "}

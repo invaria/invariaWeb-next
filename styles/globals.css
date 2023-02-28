@@ -2,20 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://rsms.me/inter/inter.css');
+@import url("https://rsms.me/inter/inter.css");
 
 @supports (font-variation-settings: normal) {
   html {
-    font-family: 'Inter var', sans-serif;
+    font-family: "Inter var", sans-serif;
   }
 }
 
 body,
 html {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   background: hsl(0, 0%, 0%);
 }
-
 
 .flameWidth {
   width: 100%;
@@ -138,7 +137,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
      font-weight: 400;
  } */
 
-
 .errorMessage {
   background-color: white;
   width: 143px;
@@ -161,7 +159,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 
@@ -183,7 +181,14 @@ body {
 
 body::after {
   display: none;
-  content: url("../public/v2imgs/circle_hover.png") url("../public/v2imgs/labs_hover.png") url("../public/v2imgs/flowBay_hover.png") url("../public/v2imgs/headDao_hover.png") url("../public/v2imgs/hashEx_hover.png") url("../public/v2imgs/kryptoGO_hover.png") url("../public/v2imgs/ceres_hover.png") url("../public/v2imgs/router_hover.png");
+  content: url("../public/v2imgs/circle_hover.png")
+    url("../public/v2imgs/labs_hover.png")
+    url("../public/v2imgs/flowBay_hover.png")
+    url("../public/v2imgs/headDao_hover.png")
+    url("../public/v2imgs/hashEx_hover.png")
+    url("../public/v2imgs/kryptoGO_hover.png")
+    url("../public/v2imgs/ceres_hover.png")
+    url("../public/v2imgs/router_hover.png");
 }
 
 a {
@@ -213,17 +218,17 @@ a {
 }
 
 .purpleGrey {
-  color: #8F97A3;
+  color: #8f97a3;
   font-weight: 600 !important;
 }
 
 .purple {
-  color: #752EE5;
+  color: #752ee5;
   font-weight: 600 !important;
 }
 
 .linksColor {
-  color: #752EE5;
+  color: #752ee5;
 }
 
 .purple:hover,
@@ -257,10 +262,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   content: attr(placeholder);
 }
 
-
-
 input[type="date"]:focus::before {
-  content: none
+  content: none;
 }
 
 .non-empty-date input[type="date"]:disabled::before {
@@ -271,9 +274,53 @@ input[type="date"]:focus::before {
   content: attr(data-placeholder);
   width: 100%;
 }
-.page-bg{
-  background: linear-gradient(180deg, #44334C 0%, #1E1722 100%);
+.page-bg {
+  background: linear-gradient(180deg, #44334c 0%, #1e1722 100%);
 }
-.tvl-bg{
-  background: linear-gradient(101.67deg, rgba(24, 20, 27, 0.3) 0%, #18141B 32.81%, #18141B 66.67%, rgba(24, 20, 27, 0.3) 100%);
+.tvl-bg {
+  background: linear-gradient(
+    101.67deg,
+    rgba(24, 20, 27, 0.3) 0%,
+    #18141b 32.81%,
+    #18141b 66.67%,
+    rgba(24, 20, 27, 0.3) 100%
+  );
+}
+
+/* mobile btn positions */
+
+@media (max-width: 768px) {
+  .news-btn {
+    top: 168px;
+  }
+  .learn-btn {
+    top: 232px;
+  }
+  .reflector-btn {
+    top: 296px;
+  }
+  .demo-btn {
+    top: 360px;
+  }
+  .pass-btn {
+    top: 424px;
+  }
+}
+@media (max-height: 700px) {
+  .news-btn {
+    top: 118px;
+  }
+  .learn-btn {
+    top: 182px;
+  }
+  .reflector-btn {
+    top: 246px;
+  }
+  .demo-btn {
+    top: 310px;
+  }
+  .pass-btn {
+    top: 374px;
+  }
+
 }

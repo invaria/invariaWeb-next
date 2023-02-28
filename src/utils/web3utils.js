@@ -46,6 +46,9 @@ let nftAddress;
 let stakeAddress;
 let usdcAddress;
 let passAddress;
+export const tokensAvailable=500;
+export const mintClosed=new Date().getTime() > 1678838400000;
+export const mintNotStarted = new Date().getTime() < 1677628800000;
 
 if (PRODUCTION) {
   nftAddress = "0x502818ec5767570F7fdEe5a568443dc792c4496b";
