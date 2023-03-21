@@ -57,10 +57,22 @@ const Media = () => {
             redirectLink="https://www.theprimedia.com/html/mb/news1555.html"
           />
           <MediaRow
-            about="Bitcoin"
+            about="Bitcoin.com"
             detail="InVar Finance Builds InVaria2222 as the Team Looks to Provide Hybrid Finance Services"
             img={"/v2imgs/bitcoin.png"}
             redirectLink="https://news.bitcoin.com/invar-finance-builds-invaria2222-as-the-team-looks-to-provide-hybrid-finance-services/"
+          />
+          <MediaRow
+            about="Meet"
+            detail="3D Social Platform Linkalive cooperated with RWA project InVaria to hold the first ever Metaverse carnival successfully"
+            img={"/v2imgs/meet.png"}
+            redirectLink="https://meet.bnext.com.tw/blog/view/87591"
+          />
+          <MediaRow
+            about="SFTLabs"
+            detail="Top SFT App You Should Know About In 2023"
+            img={"/v2imgs/sftlabs.png"}
+            redirectLink="https://sftlabs.io/2023/02/06/top-sft-app-you-should-know-about-in-2023/"
           />
         </section>
         <ScrollToTop />

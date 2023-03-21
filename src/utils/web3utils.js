@@ -28,6 +28,7 @@ export const fetchPrice = async (coin) => {
   }
   return price;
 };
+
 export const USDCToWEIConverter = async (usdcAmount) => {
   const prices = await fetchPrice("ethereum");
   if (prices.ethereum.usd == 0)
@@ -46,6 +47,14 @@ let nftAddress;
 let stakeAddress;
 let usdcAddress;
 let passAddress;
+export const tokensAvailable=500;
+export const mintClosed=new Date().getTime() > 167883840000;
+export const mintNotStarted = new Date().getTime() < 1677628800000;
+let rpcUrl;
+if (process.env.PRODUCTION === "true")
+  rpcUrl = `https://mainnet.infura.io/v3/${process.env.infura_key}`;
+else rpcUrl = `https://goerli.infura.io/v3/${process.env.infura_key}`;
+export const RPC_URL=rpcUrl;
 
 if (PRODUCTION) {
   nftAddress = "0x502818ec5767570F7fdEe5a568443dc792c4496b";
@@ -109,13 +118,15 @@ export const checkIfWalletIsConnected = async (
 ) => {
   const { ethereum } = window;
   //console.log("address",address);
+  
   const provider = new ethers.providers.Web3Provider(ethereum);
   //console.log(provider);
   const signer = provider.getSigner();
-  if (!ethereum) {
-    console.log("Make sure you have metamask!");
-    return;
-  }
+  // if (!ethereum) {
+  //   console.log("Make sure you have metamask!");
+  //   return;
+  // }
+
   let chainId = await ethereum.request({ method: "eth_chainId" });
   console.log("Connected to chain " + chainId);
 
@@ -143,9 +154,10 @@ export const checkIfWalletIsConnected = async (
   }
 };
 
+
 export const CheckWalletStatus = async (address) => {
   const { ethereum } = window;
-  window.ethereum.enable();
+  ereum.enable();
   const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
   if (!ethereum) {

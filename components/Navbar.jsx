@@ -1,17 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
-  useNetwork,
-  useAddress,
+  useAccount,
+  useConnect,
   useDisconnect,
-  ChainId,
-} from "@thirdweb-dev/react";
+  useNetwork,
+  useSigner,
+} from "wagmi";
 import ModalStory from "./ModalStory";
 import ModalWallet from "./ModalWallet";
 import { shortenAddress } from "../src/utils/shortenAddress";
 import { disableScroll, enableScroll } from "../src/utils/disableScroll";
+import {
+  ConnectButton,
+  useAccountModal,
+  useChainModal,
+  useConnectModal,
+} from "@rainbow-me/rainbowkit";
 
 import { getUser } from "../src/utils/storeFirebase";
+import passJSON from "../src/utils/passABI.json";
 
 import {
   Accordion,
@@ -23,15 +31,23 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
-import { checkIfWalletIsConnected } from "../src/utils/web3utils";
+import {
+  mintClosed,
+  passAddress,
+  tokensAvailable,
+  usdcAddress,
+} from "../src/utils/web3utils";
 import { useContext } from "react";
 import { MusicContext } from "../context/music-context";
-import MobileWalletConnect from "./MobileWalletConnect";
 import { ModalContext } from "../context/Modals-context";
 import PropertyModal from "./PropertyModal";
 import PassNFTModal from "./PassNFTModal";
-import PremintModal from "./PremintModal";
 import PassModal from "./PassModal";
+import { AppContext } from "../context/app-context";
+import { ethers } from "ethers";
+import erc20ABI from "../src/utils/erc20ABI.json";
+import axios from "axios";
+import NavMobile from "./NavMobile";
 
 const menuStyles = {
   paddingY: "16px",
@@ -47,26 +63,31 @@ const menuStyles = {
     opacity: "0.5",
   },
 };
-let pervState = [];
 
 const Navbar = ({ headerBackground, SFTDemo }) => {
   const router = useRouter();
-  const address = useAddress();
-  const network = useNetwork();
-  const [, switchNetwork] = useNetwork();
-  const isGoerli = network[0]?.data?.chain?.name == "Goerli";
+  const { address } = useAccount();
+  const { chain } = useNetwork();
+  const { data: signer } = useSigner();
+  const { openConnectModal } = useConnectModal();
 
-  const disconnectWallet = useDisconnect();
+  const isGoerli = chain?.name == "Goerli";
 
   const [toggleMenu, setToggleMenu] = useState(false);
   const [toggleWallet, setToggleWallet] = useState(false);
-  const [getCoinPrice, setgetCoinPrice] = useState(0);
-  const [ethBalance, setEthBalance] = useState(0);
-  const [usdcBalance, setUsdcBalance] = useState(0);
   const [verify, setVerify] = useState(false);
 
   const musicCTX = useContext(MusicContext);
   const modals = useContext(ModalContext);
+  const appCTX = useContext(AppContext);
+
+  let chainId = chain?.id;
+  let isCorrectChain = true;
+  if (process.env.PRODUCTION === "true" && chainId !== 1) {
+    isCorrectChain = false;
+  } else if (process.env.PRODUCTION === "false" && chainId !== 5) {
+    isCorrectChain = false;
+  }
 
   async function getdata() {
     const state = await getUser(address);
@@ -74,6 +95,38 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
     setVerify(state);
   }
 
+  const fetchPrice = async () => {
+    try {
+      const fetchIt = await axios.get(
+        `https://api.coingecko.com/api/v3/simple/price?ids=ethereum%2Cusd-coin&vs_currencies=usd`,
+        {}
+      );
+      return fetchIt.data;
+    } catch (error) {
+      console.log("fetch coin price error", error);
+    }
+  };
+
+  const fetchInitialAppData = async () => {
+    if (!isCorrectChain || !address || !signer) return;
+    const balance = (+ethers.utils.formatEther(
+      await signer.getBalance()
+    )).toFixed(3);
+    console.log("balanceis", balance);
+    //await sdk.wallet.balance();
+    appCTX.setEthBalance(balance);
+    //fetching price
+    const price = await fetchPrice();
+    appCTX.setCoinPrice(price);
+    //fetching usdc balance
+    // 6 decimals
+    const usdcContract = new ethers.Contract(usdcAddress, erc20ABI, signer);
+    const usdc = await usdcContract.balanceOf(address);
+    const usdcBalance = ethers.utils.formatUnits(usdc, 6);
+
+    const decimals = await usdcContract.decimals();
+    appCTX.setUsdcBalance(usdcBalance);
+  };
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (!address) return;
@@ -84,79 +137,78 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
   }, [address]);
 
   useEffect(() => {
-    // if (typeof window !== "undefined") {
-    //   // 當scroll時，不知為何network == undefined
-    //   if (network[0].data.chain == undefined) {
-    //     return;
-    //   } else if (
-    //     pervState[0] == network[0].data.chain.name &&
-    //     pervState[1] == address
-    //   ) {
-    //     return;
-    //   } else {
-    // pervState[0] = network[0].data.chain.name;
-    // pervState[1] = address;
-    if(process.env.PRODUCTION==="true"&&network[0]?.data?.chain?.id!==1){
-      setEthBalance(0)
-      setUsdcBalance(0)
-      setgetCoinPrice(0)
+    if (process.env.PRODUCTION === "true" && chain?.id !== 1) {
+      appCTX.setEthBalance(0);
+      appCTX.setUsdcBalance(0);
+      appCTX.setCoinPrice(0);
       return;
     }
-    if(process.env.PRODUCTION==="false"&&network[0]?.data?.chain?.id!==5){
-      setEthBalance(0)
-      setUsdcBalance(0)
-      setgetCoinPrice(0)
+    if (process.env.PRODUCTION === "false" && chain?.id !== 5) {
+      appCTX.setEthBalance(0);
+      appCTX.setUsdcBalance(0);
+      appCTX.setCoinPrice(0);
       return;
     }
-    if (address)
-      checkIfWalletIsConnected(
-        address,
-        setEthBalance,
-        setUsdcBalance,
-        setgetCoinPrice
-      );
- 
-    //   }
-    // }
-  }, [address, network[0]?.data?.chain?.id]);
-
-  useEffect(() => {
-    console.log("ethBalance", ethBalance, address);
-    if (!address) return;
-    checkIfWalletIsConnected(
-      address,
-      setEthBalance,
-      setUsdcBalance,
-      setgetCoinPrice
-    );
-  }, []);
+    if (address) fetchInitialAppData();
+  }, [address, chain?.id, signer]);
 
   const [openLangMenu, setOpenLangMenu] = useState(false);
 
   const toggleDrawerHandler = () => {
     setToggleMenu((s) => !s);
-    // enableScroll();
   };
 
   const { t } = useTranslation("common");
 
-  useEffect(() => {
-    if (toggleMenu) document.body.style.position = "fixed";
+  // useEffect(() => {
+  //   if (toggleMenu) document.body.style.position = "fixed";
+  //   return () => {
+  //     document.body.style.position = "relative";
+  //   };
+  // }, [toggleMenu]);
 
-    return () => {
-      document.body.style.position = "relative";
+  useEffect(() => {
+    const func = async () => {
+      let rpcUrl;
+      if (process.env.PRODUCTION === "true")
+        rpcUrl = `https://mainnet.infura.io/v3/${process.env.infura_key}`;
+      else rpcUrl = `https://goerli.infura.io/v3/${process.env.infura_key}`;
+
+      const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+      const nftContract = new ethers.Contract(
+        passAddress,
+        passJSON.abi,
+        provider
+      );
+
+      nftContract
+        .currentTokenId()
+        .then((res) => {
+          let tokensAlreadyMinted = +res.toString();
+          appCTX.setTokensAlreadyMinted(tokensAlreadyMinted);
+          if (tokensAlreadyMinted >= tokensAvailable) {
+            appCTX.setPassNftSoldOut(true);
+          } else {
+            appCTX.setPassNftSoldOut(false);
+          }
+        })
+        .catch((e) => console.log("infura error", e));
     };
-  }, [toggleMenu]);
+    try {
+      func();
+    } catch (e) {}
+  }, [address, chain?.id]);
+
   return (
     <>
-      {console.log("currentNetwork", typeof network[0]?.data?.chain?.id)}
+      {console.log("currentNetwork", typeof chain?.id)}
       <nav
         className={`fixed flex items-center justify-between w-full h-[3.75rem] bg-invar-dark md:h-[5rem] z-50
         ${headerBackground ? "md:bg-invar-dark" : "md:bg-transparent"}`}
       >
         <PropertyModal />
         <PassNFTModal />
-        <PremintModal />
+
         {modals.passBuyModal && <PassModal />}
 
         <ModalWallet SFTDemo={SFTDemo} />
@@ -256,12 +308,14 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
           </div>
           <div className="navbar-end hidden md:flex flex-row">
             {!address ? (
-              <label
-                htmlFor="my-modal-3"
-                className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[130px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
+              <button
+                //  htmlFor="my-modal-3"
+                onClick={openConnectModal}
+                className="btn btn-sm modal-button btn-outline rounded h-[44px] w-[160px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
               >
                 {t("connect_wallet")}
-              </label>
+                {/* <ConnectButton /> */}
+              </button>
             ) : (
               <>
                 <Link href="/dashboard">
@@ -279,15 +333,19 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                 <label
                   htmlFor="my-modal-4"
                   className="btn btn-sm modal-button btn-outline rounded h-[40px] w-[148px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
+                  style={{ padding: "0" }}
                 >
                   {shortenAddress(address)}
                   {SFTDemo && !isGoerli && (
                     <img src="/icons/ic_warning.svg" className="ml-1" alt="" />
                   )}
-                  {!SFTDemo && network[0]?.data?.chain?.id != 1 && (
+                  {!SFTDemo && chain?.id != 1 && (
                     <img src="/icons/ic_warning.svg" className="ml-1" alt="" />
                   )}
                 </label>
+                {/* <div className="mx-4">
+                <ConnectButton />
+                </div> */}
               </>
             )}
             <div className="relative">
@@ -364,225 +422,12 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
           </div>
         </div>
       </nav>
-      {toggleMenu && (
-        <div
-          style={{ zIndex: "25" }}
-          className=" fixed top-[60px] w-full h-screen pt-4  flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722] overflow-scroll pb-16"
-        >
-          <Link href="/dashboard">
-            <MenuItem
-              sx={{
-                ...menuStyles,
-                fontSize: "20px",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-              onClick={toggleDrawerHandler}
-            >
-              <div> Dashboard</div>
-              {verify == "Unverified" && (
-                <img src="/icons/ic_warning.svg" className="ml-1" alt="" />
-              )}
-            </MenuItem>
-          </Link>
-          <div className="px-4 w-full mb-2.5">
-            <div className=" border-b border-[#37293E] w-full"></div>
-          </div>
-          <p className="font-normal text-xs leading-4 text-neutral ml-4">
-            {t("menu")}
-          </p>
-          <Link href="/rwa-reflector">
-            <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
-              RWA REFLECTOR
-            </MenuItem>
-          </Link>
-          <Link href={"/pass-nft"} className="w-full h-full">
-            <div className="w-full">
-              <MenuItem sx={{ ...menuStyles, color: "#00DEAE" }}>
-                PASS: InVariant Mint
-              </MenuItem>
-            </div>
-          </Link>
-          <Link href={"/sftdemo"} className="w-full h-full text-[#FFC25F]">
-            <MenuItem sx={{ ...menuStyles, color: "#FFC25F" }}>
-              {" "}
-              SFT Demo
-            </MenuItem>
-          </Link>
-
-          <Link href="invaria2222#mindmapoutside">
-            <MenuItem sx={menuStyles} onClick={toggleDrawerHandler}>
-              Mindmap
-            </MenuItem>
-          </Link>
-          <label htmlFor="my-modal-1" className="w-full">
-            <MenuItem sx={menuStyles}>Storyline</MenuItem>
-          </label>
-          <Link href="/media">
-            <MenuItem sx={menuStyles}>News</MenuItem>
-          </Link>
-
-          <MenuItem sx={menuStyles} disabled>
-            Learn
-          </MenuItem>
-
-          <div className="px-4 w-full mb-2.5">
-            <div className=" border-b border-primary w-full"></div>
-          </div>
-          <p className="font-normal text-xs leading-4 text-neutral ml-4">
-            {t("setting")}
-          </p>
-
-          <Accordion
-            sx={{
-              backgroundColor: "transparent",
-              color: "white",
-              width: "100%",
-            }}
-            elevation={0}
-          >
-            <AccordionSummary>
-              <Typography sx={{ fontWeight: "600" }}>
-                {" "}
-                {t("language")}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Typography>
-                <MenuItem
-                  sx={{
-                    ...menuStyles,
-                    color: router.locale === "en" ? "white" : "#B4B7C0",
-                  }}
-                  onClick={toggleDrawerHandler}
-                >
-                  <Link href={router.pathname} locale="en">
-                    English
-                  </Link>
-                </MenuItem>
-                <MenuItem
-                  sx={{
-                    ...menuStyles,
-                    color: router.locale === "tw" ? "white" : "#B4B7C0",
-                  }}
-                  onClick={toggleDrawerHandler}
-                >
-                  <Link href={router.pathname} locale="tw">
-                    繁體中文
-                  </Link>
-                </MenuItem>
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-
-          <div className="px-4 w-full mt-4">
-            {!address && (
-              <button
-                className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple rounded text-center normal-case	text-white mb-6"
-                onClick={() => setToggleWallet(true)}
-              >
-                {t("connect_wallet")}
-              </button>
-            )}
-            {address && (
-              <>
-                <div className="w-full flex flex-row justify-between items-end">
-                  <h3 className="text-base font-semibold text-white py-[16px]">
-                    My Wallet
-                  </h3>
-                  <h3 className="text-sm font-semibold text-white text-end">
-                    {shortenAddress(address)}
-                  </h3>
-                </div>
-                <div className=" border-b border-primary mt-3 w-[324px]"></div>
-                <div className=" w-full mt-[14px] flex justify-between items-center ">
-                  <div className=" flex justify-center items-center text-white font-semibold">
-                    <img
-                      className="h-[32px] w-[32px] mr-[12px]"
-                      src="/icons/ic_eth.png"
-                      alt=""
-                    />
-                    <p>ETH</p>
-                  </div>
-                  {console.log(
-                    "ethbalance",
-                    ethBalance,
-                    "getcoinPrice",
-                    getCoinPrice
-                  )}
-                  {ethBalance && (
-                    <div className=" flex flex-col justify-center items-end text-white font-semibold">
-                      <p>{ethBalance}</p>
-                      <p className=" text-sm font-normal text-neutral">
-                        ${(ethBalance * getCoinPrice?.ethereum?.usd).toFixed(3)}{" "}
-                        USD
-                      </p>
-                    </div>
-                  )}
-                </div>
-                <div className=" w-full mt-[14px] flex justify-between items-center ">
-                  <div className=" flex justify-center items-center text-white font-semibold">
-                    <img
-                      className="h-[32px] w-[32px] mr-[12px]"
-                      src="/icons/ic_usdc.png"
-                      alt=""
-                    />
-                    <p>USDC</p>
-                  </div>
-                  <div className=" flex flex-col justify-center items-end text-white font-semibold">
-                    {usdcBalance && <p className=" text-base">{usdcBalance}</p>}
-                    {getCoinPrice && (
-                      <p className=" text-sm font-normal text-neutral">
-                        $
-                        {(usdcBalance * getCoinPrice["usd-coin"].usd).toFixed(
-                          3
-                        )}{" "}
-                        USD
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {!isGoerli && SFTDemo && address && (
-                  <button
-                    className="btn bg-invar-error relative w-full h-[56px] mt-5 rounded flex justify-center items-center border-none normal-case"
-                    onClick={() => switchNetwork(ChainId.Goerli)}
-                  >
-                    <p className=" font-semibold text-white">
-                      {t("click_switch")}
-                    </p>
-                  </button>
-                )}
-                {network[0]?.data?.chain?.id != 1 && !SFTDemo && address && (
-                  <button
-                    className="btn bg-invar-error relative w-full h-[56px] mt-5 rounded flex justify-center items-center border-none normal-case"
-                    onClick={() => switchNetwork(ChainId.Mainnet)}
-                  >
-                    <p className=" font-semibold text-white">
-                      {t("click_eth")}
-                    </p>
-                  </button>
-                )}
-
-                <button
-                  className="btn btn-primary relative w-full h-[56px] mb-6 mt-[14px] rounded flex justify-center items-center border-none normal-case"
-                  onClick={disconnectWallet}
-                >
-                  <p className=" font-semibold text-white">
-                    {" "}
-                    {t("disconnect")}
-                  </p>
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-      {toggleMenu && toggleWallet && !address && (
-        <>
-          <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />
-        </>
-      )}
+      <NavMobile
+        navOpen={toggleMenu}
+        closeModal={() => setToggleMenu(false)}
+        verify={verify}
+        SFTDemo={SFTDemo}
+      />
     </>
   );
 };

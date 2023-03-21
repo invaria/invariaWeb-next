@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useNetwork, useAddress } from "@thirdweb-dev/react";
+import React, {  useState } from "react";
 import { shortenAddress } from "../src/utils/shortenAddress";
 import { useTranslation } from "next-i18next";
+import { useAccount } from "wagmi";
 
 const His = ({ i }) => {
-  const address = useAddress();
+  const { address } = useAccount();
   const [copy, setCopy] = useState(false);
   const { t } = useTranslation("dashboard");
   function handleCopy() {

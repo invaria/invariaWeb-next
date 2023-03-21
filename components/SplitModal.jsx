@@ -34,7 +34,7 @@ const SplitModal = ({ selectedToken, closeModal, splitFn,tt }) => {
     const index = parseInt(e.target.dataset.index);
     updateInputs(newQuantity, index);
   };
-  const total = 0;
+  let total = 0;
   inputs.forEach((i) => (total += +i.value));
 let valArr=[];
 let outOfRange;

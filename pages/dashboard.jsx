@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useAddress, useNetwork } from "@thirdweb-dev/react";
 import {
   TogActivity,
   TogWhite,
@@ -18,6 +17,7 @@ import Image from "next/image";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { useAccount } from "wagmi";
 export async function getStaticProps({ locale }) {
   return {
     props: {
@@ -35,8 +35,8 @@ export async function getStaticProps({ locale }) {
 const Dashboard = () => {
   const headerBackground = true;
   const [tabState, setTabState] = useState("nfts");
-  const address = useAddress();
-  const network=useNetwork()
+  const { address } = useAccount();
+
   const [verify, setVerify] = useState("Unverified");
   const [allActivityData, setAllActivityData] = useState([]);
   console.log("allActivityData", allActivityData);
@@ -57,11 +57,8 @@ const Dashboard = () => {
 
   async function getdata() {
     const state = await getUser(address);
-    // if (verifyState !== state) {  //useState 會重跑整個程式，觸發useEffect，所以getdata不能放在useEffect，(不對，是useeffect的hook不能放network)
     console.log("state", state);
     setVerify(state);
-    // setVerifyState(state)
-    // }
   }
 
   useEffect(() => {
@@ -70,22 +67,9 @@ const Dashboard = () => {
       return;
     }
     if (router.query.kyc && address) setTabState("profile");
-    // domain = window.location.origin;
-    // if (inputs.address !== address) {
-    //   setInputs((values) => ({ ...values, ["address"]: address, ["domain"]: window.location.href }))
-    // }
-    // provider = new ethers.providers.Web3Provider(window.ethereum);
-    // signer = provider.getSigner()
     getdata();
   }, [address]);
 
-  // useEffect(() => {
-  //   if (!address) {
-  //     setTabState("nfts")
-  //     return
-  //   }
-  //   getdata()
-  // }, []);
 
   let verifySection = (
     <div className="mb-[32px] w-full md:w-[214px] md:min-w-[214px] h-[214px] flex flex-col justify-start items-center rounded overflow-hidden">
@@ -484,7 +468,7 @@ const Dashboard = () => {
                           width={162}
                           height={200}
                           src="/icons/ic_light.png"
-                          alt=""
+                          alt="ic_light.png"
                         />
                         <p className=" text-lg font-normal text-center text-invar-light-grey">
                           {t("dashbaord_activity_presale_nodata")}
@@ -624,7 +608,7 @@ const Dashboard = () => {
                   >
                     <input
                       name="selectStartDate"
-                      disableUnderline
+                      
                       type="date"
                       onChange={handleChange}
                       value={inputs.selectStartDate || ""}
@@ -669,7 +653,7 @@ const Dashboard = () => {
                         padding: "8px 0px",
                         maxWidth: "90px",
                       }}
-                      disableUnderline
+                      
                     />
                   </div>
                 </div>

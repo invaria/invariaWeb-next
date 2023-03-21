@@ -17,8 +17,6 @@ import {
 import { tooltipClasses } from "@mui/material/Tooltip";
 import dragCard from "../public/drag-card.png";
 import factoryImg from "../public/factory.png";
-import { ChainId, useAddress, useNetwork } from "@thirdweb-dev/react";
-// import stakeABI from "../src/utils/invarstaking.json";
 import logicABI from "../src/utils/logicABI.json";
 import RNFTABI from "../src/utils/RNFTABI.json";
 import ERC20ABI_new from "../src/utils/ERC20ABI_new.json";
@@ -29,25 +27,17 @@ import BurnModal from "../components/BurnModal";
 import MergeBurnModal from "../components/MergeBurnModal";
 import { enableScroll } from "../src/utils/disableScroll";
 import IcLight from "../public/icons/ic_light.png";
-import { async } from "@firebase/util";
 import { SFT_ERC_20, SFT_LOGIC, SFT_PUBLIC_NFT } from "../src/utils/web3utils";
+import {
+  useAccount,
+  useNetwork,
+  useSigner,
+} from "wagmi";
+import { useChainModal } from "@rainbow-me/rainbowkit";
 
-const RLOGIC =SFT_LOGIC
-const RNFT = SFT_PUBLIC_NFT
+const RLOGIC = SFT_LOGIC;
+const RNFT = SFT_PUBLIC_NFT;
 const ERC20 = SFT_ERC_20;
-
-let tokenUri = {
-  name: "real estate #1",
-  description: "",
-  external_url: "https://app.invar.finance/sftdemo",
-  image:
-    "https://ipfs.filebase.io/ipfs/QmbNg29bQpr4wC5qDoCzt8uBYKUc5U15uvuarvydLwsTMK",
-  properties: {
-    Factory: "InVaria SFT Factory",
-    Standards: "ERC-3525",
-    NFT_Type: "RWA Tokenization",
-  },
-};
 
 export async function getStaticProps({ locale }) {
   return {
@@ -78,14 +68,16 @@ const SFTDemo = () => {
   const [mintAmount, setMintAmount] = useState("0.1");
   const [marketValueError, setMarketValueError] = useState(false);
   const [alreadyApprovedForAll, setAlreadyApprovedForAll] = useState(false);
-  const [alreadyHaveAllowence,setAlreadyHaveAllowence]=useState(false)
+  const [alreadyHaveAllowence, setAlreadyHaveAllowence] = useState(false);
   const [tokensData, setTokensData] = useState([]);
   const [openSplit, setOpenSplit] = useState(false);
   const [openBurn, setOpenBurn] = useState(false);
   const [selectedToken, setSelectedToken] = useState();
   const [openMerge, setOpenMerge] = useState(false);
   const [openBurnMany, setOpenBurnMany] = useState(false);
-  const [showCard,setShowCard]=useState(true)
+  const [showCard, setShowCard] = useState(true);
+  const { openChainModal } = useChainModal();
+
 
   const [showTotalValTooltip, setShowTotalValTooltip] = useState(false);
   const [showReturnValToolTip, setShowReturnValTooltip] = useState(false);
@@ -94,21 +86,21 @@ const SFTDemo = () => {
   const [showTotalInterestTooltip, setShowTotalInterestTooltip] =
     useState(false);
   const [showUSDCInfoTooltip, setShowUSDCInfoTooltip] = useState(false);
-
   const [assetSnap, setAssetSnap] = useState({
     mintableValue: "",
     rwaValue: "",
   });
-
   const [toast, setToast] = useState({ open: false, error: false, text: "" });
   const [maturity, setMaturity] = useState(600);
-  const network = useNetwork();
-  const address = useAddress();
+
+  const { address } = useAccount();
+  const { chain } = useNetwork();
+  const { data: signer } = useSigner();
+  const provider = signer?.provider;
+
   const { t } = useTranslation("sft");
 
-  const [, switchNetwork] = useNetwork();
-
-  const isGoerli = network[0]?.data?.chain?.name == "Goerli";
+  const isGoerli = chain?.name == "Goerli";
 
   const themes = useTheme();
   const isMobile = useMediaQuery(themes.breakpoints.down("sm"));
@@ -120,14 +112,14 @@ const SFTDemo = () => {
       );
     }
   }, []);
-  const closeAllTooltips=()=>{
+  const closeAllTooltips = () => {
     setShowTotalValTooltip(false);
     setShowReturnValTooltip(false);
     setShowDailyValTooltip(false);
-    setShowBurnableTooltip(false)
-    setShowTotalInterestTooltip(false)
-    setShowUSDCInfoTooltip(false)
-  }
+    setShowBurnableTooltip(false);
+    setShowTotalInterestTooltip(false);
+    setShowUSDCInfoTooltip(false);
+  };
   const dragEnd = ({ source, destination }) => {
     if (!destination || !address || !isGoerli) {
       return;
@@ -146,21 +138,20 @@ const SFTDemo = () => {
       return;
     }
     if (+marketValue < 1 || rwaNameLengthErr) return;
-    if(assetSnap.rwaValue)return
+    if (assetSnap.rwaValue) return;
     if (destination.droppableId === "droppable-2") {
       setShowData(false);
-      setShowCard(false)
+      setShowCard(false);
       createSlot();
     }
   };
 
   const claimUSDC = async () => {
     if (!address) return;
-    const provider = new ethers.providers.Web3Provider(window?.ethereum);
-    const signer = provider.getSigner();
+    console.log("signer", signer)
     const erc20contract = new ethers.Contract(ERC20, ERC20ABI_new.abi, signer);
     try {
-      const res = await erc20contract.claim({ gasLimit: 1359265 });
+      const res = await erc20contract.claim({ gasLimit: 250000 });
       res.wait().then((res) => {
         if (res.blockNumber) {
           setAlreadyClaimedUSDC(true);
@@ -183,9 +174,6 @@ const SFTDemo = () => {
 
   const createSlot = async () => {
     if (!address) return;
-
-    const provider = new ethers.providers.Web3Provider(window?.ethereum);
-    const signer = provider.getSigner();
     const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
 
     try {
@@ -204,18 +192,18 @@ const SFTDemo = () => {
           setRwaType("");
           setMarketValue("1");
           RefreshData();
-          setShowCard(true)
+          setShowCard(true);
         } else {
           setShowData(true);
-          setShowCard(true)
+          setShowCard(true);
           RefreshData();
         }
       });
     } catch (e) {
       console.log(e);
-      console.log("canceled")
+      console.log("canceled");
       setShowData(true);
-      setShowCard(true)
+      setShowCard(true);
       RefreshData();
     }
   };
@@ -230,12 +218,10 @@ const SFTDemo = () => {
       !assetSnap.mintableValue
     )
       return;
-    const provider = new ethers.providers.Web3Provider(window?.ethereum);
-    const signer = provider.getSigner();
     const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
     try {
       const result = await rlogic.mint(mintAmount * 1e6, {
-        gasLimit: 25000000,
+        gasLimit: 800000,
       });
       result.wait().then((receipt) => {
         console.log(receipt);
@@ -266,20 +252,17 @@ const SFTDemo = () => {
   };
   const resetRWAData = async () => {
     if (!address) return;
-
-    const provider = new ethers.providers.Web3Provider(window?.ethereum);
-    const signer = provider.getSigner();
     const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
     try {
-      const result = await rlogic.reset({ gasLimit: 700000 });
+      const result = await rlogic.reset({ gasLimit: 250000 });
       result.wait().then((receipt) => {
         console.log(receipt);
         if (receipt.blockNumber) {
           setAssetSnap({ mintableValue: "", rwaValue: "" });
           setRwaName("");
           setRwaType("");
-          setMarketValue(1)
-          setShowData(true)
+          setMarketValue(1);
+          setShowData(true);
           setTokensData([]);
           RefreshData();
         }
@@ -300,34 +283,37 @@ const SFTDemo = () => {
 
   const approve = async () => {
     if (!address) return;
-
-    const provider = new ethers.providers.Web3Provider(window?.ethereum);
-    const signer = provider.getSigner();
     const erc20contract = new ethers.Contract(ERC20, ERC20ABI_new.abi, signer);
     const rnft = new ethers.Contract(RNFT, RNFTABI.abi, signer);
-    let erc20receiopt=alreadyHaveAllowence;
+    let erc20receiopt = alreadyHaveAllowence;
     try {
-      if(!alreadyHaveAllowence){const result1 = await erc20contract.approve(
-        RLOGIC,
-        ethers.constants.MaxUint256,
-        {
-          gasLimit: 1359265,
-        }
-      );
-      result1.wait().then((receipt) => {
-        if (receipt.blockNumber) {erc20receiopt = true;setAlreadyHaveAllowence(true)}
-      });}
-      
-     if(!alreadyApprovedForAll) {const result2 = await rnft.setApprovalForAll(RLOGIC, true, {
-        gasLimit: 7000000,
-      });
-    
-      result2.wait().then((receipt) => {
-        if (receipt.blockNumber && erc20receiopt) {
-          setAlreadyApprovedForAll(true);
-        }
-      });
-    }
+      if (!alreadyHaveAllowence) {
+        const result1 = await erc20contract.approve(
+          RLOGIC,
+          ethers.constants.MaxUint256,
+          {
+            gasLimit: 250000,
+          }
+        );
+        result1.wait().then((receipt) => {
+          if (receipt.blockNumber) {
+            erc20receiopt = true;
+            setAlreadyHaveAllowence(true);
+          }
+        });
+      }
+
+      if (!alreadyApprovedForAll) {
+        const result2 = await rnft.setApprovalForAll(RLOGIC, true, {
+          gasLimit: 250000,
+        });
+
+        result2.wait().then((receipt) => {
+          if (receipt.blockNumber && erc20receiopt) {
+            setAlreadyApprovedForAll(true);
+          }
+        });
+      }
       RefreshData();
     } catch (e) {
       console.log(e);
@@ -337,9 +323,6 @@ const SFTDemo = () => {
 
   const burnNft = async (id) => {
     if (!address) return;
-
-    const provider = new ethers.providers.Web3Provider(window?.ethereum);
-    const signer = provider.getSigner();
     const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
     try {
       const resulttt = await rlogic["redeem(uint256)"](id, {
@@ -375,8 +358,6 @@ const SFTDemo = () => {
   const splitSFT = async (token, values) => {
     if (!address) return;
 
-    const provider = new ethers.providers.Web3Provider(window?.ethereum);
-    const signer = provider.getSigner();
     const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
     try {
       if (values.length == 1) {
@@ -384,7 +365,7 @@ const SFTDemo = () => {
         const resulttt = await rlogic["split(uint256,uint256)"](
           token.tokenId,
           values[0] * 1e6,
-          { gasLimit: 2500000 }
+          { gasLimit: 500000 }
         );
         resulttt.wait().then((receipt) => {
           console.log(receipt);
@@ -402,7 +383,7 @@ const SFTDemo = () => {
         const resulttt = await rlogic["split(uint256,uint256[])"](
           token.tokenId,
           vals,
-          { gasLimit: 2500000 }
+          { gasLimit: 800000 }
         );
         resulttt.wait().then((receipt) => {
           console.log(receipt);
@@ -429,15 +410,13 @@ const SFTDemo = () => {
   const mergeSFT = async (tokensArr) => {
     if (!address) return;
 
-    const provider = new ethers.providers.Web3Provider(window?.ethereum);
-    const signer = provider.getSigner();
     const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
     try {
       if (tokensArr.length == 2) {
         const resulttt = await rlogic["merge(uint256,uint256)"](
           tokensArr[0],
           tokensArr[1],
-          { gasLimit: 2500000 }
+          { gasLimit: 500000 }
         );
         resulttt.wait().then((receipt) => {
           console.log(receipt);
@@ -455,7 +434,7 @@ const SFTDemo = () => {
         const result = await rlogic["merge(uint256[],uint256)"](
           allTokens.splice(1),
           tokensArr[0],
-          { gasLimit: 2500000 }
+          { gasLimit: 250000 }
         );
         result.wait().then((receipt) => {
           console.log(receipt);
@@ -481,12 +460,10 @@ const SFTDemo = () => {
   const burnMany = async (ids) => {
     if (!address) return;
 
-    const provider = new ethers.providers.Web3Provider(window?.ethereum);
-    const signer = provider.getSigner();
     const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
     try {
       const result = await rlogic["redeem(uint256[])"](ids, {
-        gasLimit: 2500000,
+        gasLimit: 500000,
       });
       result.wait().then((receipt) => {
         console.log(receipt);
@@ -519,11 +496,9 @@ const SFTDemo = () => {
   const claim = async (ids) => {
     if (!address) return;
 
-    const provider = new ethers.providers.Web3Provider(window?.ethereum);
-    const signer = provider.getSigner();
     const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
     try {
-      const result = await rlogic.claim({ gasLimit: 7000000 });
+      const result = await rlogic.claim({ gasLimit: 250000 });
       result.wait().then((receipt) => {
         if (receipt.blockNumber) {
           setToast({
@@ -547,40 +522,34 @@ const SFTDemo = () => {
   let tryCount = 0;
   const RefreshData = async () => {
     if (!address) return;
-
     console.log("refreshed data");
-    const provider = new ethers.providers.Web3Provider(window?.ethereum);
-    const erc20contract = new ethers.Contract(
-      ERC20,
-      ERC20ABI_new.abi,
-      provider
-    );
-    const rnft = new ethers.Contract(RNFT, RNFTABI.abi, provider);
-    const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, provider);
-
+    const erc20contract = new ethers.Contract(ERC20, ERC20ABI_new.abi, signer);
+    const rnft = new ethers.Contract(RNFT, RNFTABI.abi, signer);
+    const rlogic = new ethers.Contract(RLOGIC, logicABI.abi, signer);
+    console.log("address", address, erc20contract.isClaimedAlready);
     const result = await erc20contract.isClaimedAlready(address, {
       gasLimit: 250000,
     });
     setAlreadyClaimedUSDC(result);
 
     const isApprovedForAllForAll = await rnft.isApprovedForAll(address, RLOGIC);
-    const allow=await erc20contract.allowance(address,RLOGIC)
-if(+allow.toString()==0)setAlreadyHaveAllowence(false);else{
-  setAlreadyHaveAllowence(true)
-}  
-  setAlreadyApprovedForAll(isApprovedForAllForAll&&+allow.toString()>0);
-
+    const allow = await erc20contract.allowance(address, RLOGIC);
+    if (+allow.toString() == 0) setAlreadyHaveAllowence(false);
+    else {
+      setAlreadyHaveAllowence(true);
+    }
+    setAlreadyApprovedForAll(isApprovedForAllForAll && +allow.toString() > 0);
 
     try {
       const slot = await rnft.slotByOwner(address);
       const assets = await rnft.getAssetSnapshot(slot.toString());
       setAssetSnap(assets);
-      console.log(assets)
-      if(!assets.rwaValue)setShowData(true)
+      console.log(assets);
+      if (!assets.rwaValue) setShowData(true);
       else {
-        setRwaName(assets.rwaName)
-        setRwaType(assets.category)
-        setMarketValue((assets.rwaValue/1e6)*2)
+        setRwaName(assets.rwaName);
+        setRwaType(assets.category);
+        setMarketValue((assets.rwaValue / 1e6) * 2);
       }
     } catch (e) {
       console.log(e);
@@ -632,7 +601,6 @@ if(+allow.toString()==0)setAlreadyHaveAllowence(false);else{
           RefreshData();
         }, 3000);
     }
-    
   };
   const resetEverything = () => {
     setRwaNameError(false);
@@ -658,11 +626,12 @@ if(+allow.toString()==0)setAlreadyHaveAllowence(false);else{
       rwaValue: "",
     });
   };
-  useEffect(()=>{
-    resetEverything()
-  },[address])
-  
   useEffect(() => {
+    resetEverything();
+  }, [address]);
+
+  useEffect(() => {
+    if (!address || !provider) return;
     enableScroll();
     RefreshData();
     let interval = setInterval(() => {
@@ -670,7 +639,7 @@ if(+allow.toString()==0)setAlreadyHaveAllowence(false);else{
       RefreshData();
     }, 45000);
     return () => clearInterval(interval);
-  }, [address, network[0]?.data?.chain?.name]);
+  }, [address, chain?.name, provider]);
 
   let accDailyInterest = 0;
   let totalTokansVal = 0;
@@ -994,7 +963,7 @@ if(+allow.toString()==0)setAlreadyHaveAllowence(false);else{
             >
               <p>{t("test_usdc_address")} </p>
               <p className="mb-1.5">
-                0xB33b0524B0C48ecB4500227234f364d6FBd7CD15
+                0x6b48d3467de7d45de55a3703d12a1005440edc7b
               </p>
               <p>{t("user_will_get")}</p>
             </div>
@@ -1017,22 +986,20 @@ if(+allow.toString()==0)setAlreadyHaveAllowence(false);else{
       </CustomWidthUSDCTooltip>
     );
   };
-  console.log("rwatype",rwaType)
-  const typeOptions={
-    "select":t("select"),
-    "Real Estate":t("real_estate"),
-    "Artwork":t("artwork"),
-    "Commodity":t("commodity"),
-    "Industrial Equipment":t("industrial_equipment"),
-    "Others":t("others")
-  }
-const test=async()=>{
-  const provider = new ethers.providers.Web3Provider(window?.ethereum);
-  const signer = provider.getSigner();
-  const erc20contract = new ethers.Contract(ERC20, ERC20ABI_new.abi, signer);
- const allow=await erc20contract.allowance(address,RLOGIC)
- console.log("allowence")
-}
+  console.log("rwatype", rwaType);
+  const typeOptions = {
+    select: t("select"),
+    "Real Estate": t("real_estate"),
+    Artwork: t("artwork"),
+    Commodity: t("commodity"),
+    "Industrial Equipment": t("industrial_equipment"),
+    Others: t("others"),
+  };
+  const test = async () => {
+    const erc20contract = new ethers.Contract(ERC20, ERC20ABI_new.abi, signer);
+    const allow = await erc20contract.allowance(address, RLOGIC);
+    console.log("allowence");
+  };
   return (
     <div className={styles.mediaPage} onClick={test}>
       <div className={styles.navWrapper}>
@@ -1042,7 +1009,7 @@ const test=async()=>{
         {!isGoerli && address && (
           <div
             className="fixed w-full py-1.5 bg-invar-error md:top-20 top-[60px] z-20 flex items-center justify-center px-10 text-center cursor-pointer"
-            onClick={() => switchNetwork(ChainId.Goerli)}
+            onClick={openChainModal}
           >
             <p className="text-white font-semibold text-base leading-5 cursor-pointer">
               {t("switch_network")}
@@ -1307,10 +1274,9 @@ const test=async()=>{
                   </div>
                 ) : (
                   <img
-                    src={'/v2imgs/h-arrows.png'}
+                    src={"/v2imgs/h-arrows.png"}
                     className="object-contain"
                     alt="clain eth"
-                    
                   />
                 )}
                 {isMobile && (
@@ -1363,7 +1329,7 @@ const test=async()=>{
                   <div className="text-xs font-normal leading-5 text-invar-light-grey rounded">
                     <p>{t("test_usdc_address")}</p>
                     <p className="mb-1.5">
-                      0xB33b0524B0C48ecB4500227234f364d6FBd7CD15
+                      0x6b48d3467de7d45de55a3703d12a1005440edc7b
                     </p>
                     <p>{t("user_will_get")}</p>
                   </div>
@@ -1379,7 +1345,11 @@ const test=async()=>{
                 {t("enter_data")}
               </p>
               <div className="hidden md:block">
-                <img src={'v2imgs/v-arrows.png'} alt="rwa"  className="w-9 h-[86px]" />
+                <img
+                  src={"v2imgs/v-arrows.png"}
+                  alt="rwa"
+                  className="w-9 h-[86px]"
+                />
               </div>
             </div>
             <div className="flex md:mb-5 mb-6 md:flex-row flex-col md:mt-0">
@@ -1404,7 +1374,7 @@ const test=async()=>{
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
                               >
-                                { showCard&&(
+                                {showCard && (
                                   <div className="w-36 h-20 lg:w-[200px] lg:h-full  md:w-36 md:h-20 lg:flex lg:items-center relative">
                                     <Image
                                       src={dragCard}
@@ -1412,7 +1382,7 @@ const test=async()=>{
                                       className="z-10 select-none h-full w-full"
                                     />
                                     <div className="absolute text-invar-purple z-10 p-2 top-0 lg:top-1 text-xs capitalize">
-                                    <p className="whitespace-nowrap lg:mb-1.5">
+                                      <p className="whitespace-nowrap lg:mb-1.5">
                                         {t("name")}:{" "}
                                         <span className="md:font-semibold">
                                           {rwaName}
@@ -1465,12 +1435,13 @@ const test=async()=>{
                       )}
                     </Droppable>
                   </DragDropContext>
-             
-                   {showCard&& <img
+
+                  {showCard && (
+                    <img
                       src="icons/ic_direction.svg"
                       className="left-[40%] absolute lg:left-[47%] left-[40%] md:left-[40%] lg:left-[45%]  top-1/3 z-0 select-none"
-                    />}
-                
+                    />
+                  )}
                 </div>
               </div>
 
@@ -1482,7 +1453,7 @@ const test=async()=>{
                         {t("rwa_name")}
                       </p>
                       <input
-                      disabled={assetSnap.rwaValue}
+                        disabled={assetSnap.rwaValue}
                         name="inputIDnumber"
                         type="text"
                         required=""
@@ -1507,9 +1478,14 @@ const test=async()=>{
                           {t("long_must_13")}
                         </span>
                       )}
-                      {!isMobile&&!rwaNameError&&!rwaNameLengthErr&&rwaTypeError&& <span className="text-invar-error text-sm invisible">
-                          {t("long_must_13")}
-                        </span>}
+                      {!isMobile &&
+                        !rwaNameError &&
+                        !rwaNameLengthErr &&
+                        rwaTypeError && (
+                          <span className="text-invar-error text-sm invisible">
+                            {t("long_must_13")}
+                          </span>
+                        )}
                     </label>
 
                     <label className="w-full block md:mt-0 mt-4">
@@ -1518,8 +1494,7 @@ const test=async()=>{
                       </p>
                       <div className="relative">
                         <input
-                                              disabled={assetSnap.rwaValue}
-
+                          disabled={assetSnap.rwaValue}
                           name="marketValue"
                           type="text"
                           required=""
@@ -1551,8 +1526,7 @@ const test=async()=>{
                       </p>
                       <div className="relative">
                         <select
-                                              disabled={assetSnap.rwaValue}
-
+                          disabled={assetSnap.rwaValue}
                           name="rwatype"
                           className="appearance-none block bg-invar-main-purple w-full h-12 rounded focus:border border-white focus:outline-none text-white font-normal px-[15px]"
                           value={rwaType}
@@ -1560,7 +1534,7 @@ const test=async()=>{
                             setRwaType(e.target.value);
                             e.target.value != "" && setRwaTypeError(false);
                           }}
-                        >  
+                        >
                           <option value="">{t("select")}</option>
                           <option value="Real Estate">
                             {t("real_estate")}
@@ -1587,11 +1561,13 @@ const test=async()=>{
                           {t("rwa_type_error")}
                         </span>
                       )}
-                         {(!rwaTypeError&&(rwaNameError||rwaNameLengthErr))&&!isMobile&& (
-                        <span className="text-invar-error text-sm invisible">
-                          {t("rwa_type_error")}
-                        </span>
-                      )}
+                      {!rwaTypeError &&
+                        (rwaNameError || rwaNameLengthErr) &&
+                        !isMobile && (
+                          <span className="text-invar-error text-sm invisible">
+                            {t("rwa_type_error")}
+                          </span>
+                        )}
                     </label>
 
                     <label className="w-full block md:mt-0 mt-4">
@@ -1635,11 +1611,11 @@ const test=async()=>{
             >
               {t("reset_data")}
             </button>
-            {assetSnap.rwaValue&&
+            {assetSnap.rwaValue && (
               <>
                 {" "}
                 <div className="hidden md:block md:flex md:justify-center mb-6">
-                  <img src={'v2imgs/v-arrows.png'} className="w-9 h-[86px]" />
+                  <img src={"v2imgs/v-arrows.png"} className="w-9 h-[86px]" />
                 </div>
                 <div className="w-full md:h-[395px] bg-invar-main-purple flex relative rounded md:flex-row flex-col md:px-  lg:px-4 md:px-4 shadow-xl shadow-[rgba(0, 0, 0, 0.12)]">
                   <div className="z-0 w-full h-full absolute left-0 top-0 bg-[#37293E] rounded">
@@ -1782,8 +1758,8 @@ const test=async()=>{
                   </div>
                 </div>
               </>
-            }
-            {assetSnap.rwaValue&&
+            )}
+            {assetSnap.rwaValue && (
               <>
                 {" "}
                 <div className="controls-bar md:h-10 w-full mt-9 md:mb-6 mb-4 flex justify-between md:flex-row flex-col">
@@ -1824,14 +1800,20 @@ const test=async()=>{
                       {t("claim")}
                     </button>
                     <button
-                      onClick={() => {closeAllTooltips();setOpenMerge(true)}}
+                      onClick={() => {
+                        closeAllTooltips();
+                        setOpenMerge(true);
+                      }}
                       disabled={tokensData.length < 2}
                       className=" flex-auto h-10 lg:w-[102px] lg:h-[40px] md:w-[102px] md:h-[40px] rounded disabled:bg-invar-grey font-semibold text-sm leading-4 disabled:text-invar-light-grey bg-invar-dark text-white"
                     >
                       {t("merge")}
                     </button>
                     <button
-                      onClick={() => {closeAllTooltips();setOpenBurnMany(true)}}
+                      onClick={() => {
+                        closeAllTooltips();
+                        setOpenBurnMany(true);
+                      }}
                       disabled={totalBurnable == 0}
                       className="flex-auto lg:block md:block h-10 lg:w-[102px] lg:h-[40px] md:w-[102px] md:h-[40px] rounded disabled:bg-invar-grey font-semibold text-sm leading-4 disabled:text-invar-light-grey bg-invar-dark text-white"
                     >
@@ -1843,7 +1825,12 @@ const test=async()=>{
                 {shortlistedTokens.length === 0 ? (
                   <div className=" mt-16 w-full flex justify-center items-center">
                     <div>
-                      <Image width={162} height={200} src={IcLight} alt="" />
+                      <Image
+                        width={162}
+                        height={200}
+                        src={IcLight}
+                        alt="light"
+                      />
                       <p className=" text-lg font-normal text-center text-invar-light-grey">
                         {t("no_records")}
                       </p>
@@ -1857,7 +1844,10 @@ const test=async()=>{
                         className="md:h-48 md:w-full md:max-w-1/2 rounded border border-invar-main-purple flex md:flex-row flex-col relative md:mb-0 mb-4"
                       >
                         <div className="max-h-[114px] md:w-1/2 md:max-h-[103px] h-[114px] sm:h-auto flex md:flex-col flex-row">
-                          <div className="w-[154px] md:w-full first:block sm:max-h-[103px] max-h-[114px] min-width-[154px]" style={{minWidth:"154px"}}>
+                          <div
+                            className="w-[154px] md:w-full first:block sm:max-h-[103px] max-h-[114px] min-width-[154px]"
+                            style={{ minWidth: "154px" }}
+                          >
                             <img
                               className="sm:w-full w-[154px] block md:max-h-[103px] sm:h-[102px] h-[114px] md:h-28  rounded"
                               src="/rwa-img.png"
@@ -1881,16 +1871,20 @@ const test=async()=>{
                                 year: "numeric",
                                 month: "long",
                                 day: "numeric",
-                              })}&nbsp;
-                              (UTC{
-                                new Date().getTimezoneOffset()/60<0?"+":"-"
-                              }
-                              {Math.abs(new Date().getTimezoneOffset()/60)}
-                              )
+                              })}
+                              &nbsp; (UTC
+                              {new Date().getTimezoneOffset() / 60 < 0
+                                ? "+"
+                                : "-"}
+                              {Math.abs(new Date().getTimezoneOffset() / 60)})
                             </p>
                           </div>
                         </div>
-                        <div className={`md:w-1/2 bg-invar-main-purple border border-invar-main-purple md:block flex ${isMobile&&"h-[115px]"}`}>
+                        <div
+                          className={`md:w-1/2 bg-invar-main-purple border border-invar-main-purple md:block flex ${
+                            isMobile && "h-[115px]"
+                          }`}
+                        >
                           <div className="sm:pl-5 pl-4">
                             <div className="flex sm:mt-11 mt-7">
                               <p className=" w-16 mr-3 mb-5 font-normal text-sm leading-5 text-invar-light-grey inline-block">
@@ -1915,7 +1909,7 @@ const test=async()=>{
                                 className="disabled:bg-invar-grey disabled:text-invar-light-grey mb-0 text-white bg-invar-dark w-[51px]  h-7 rounded sm:w-[102px]  sm:h-10 sm:mr-3 text-sm font-semibold"
                                 onClick={() => {
                                   setSelectedToken(d);
-                                  closeAllTooltips()
+                                  closeAllTooltips();
                                   setOpenSplit(true);
                                 }}
                                 disabled={d.tokenVal <= 0.1 * 1e6}
@@ -1925,7 +1919,7 @@ const test=async()=>{
                               <button
                                 onClick={() => {
                                   setSelectedToken(d);
-                                  closeAllTooltips()
+                                  closeAllTooltips();
                                   setOpenBurn(true);
                                 }}
                                 disabled={!d.burnable}
@@ -1948,7 +1942,6 @@ const test=async()=>{
                                     className="sm:block sm:w-[22px] sm:h-[22px] w-[18px] h-[18px]"
                                   />
                                 )}
-                               
                               </button>
                             </div>
                           </div>
@@ -1958,7 +1951,7 @@ const test=async()=>{
                   </div>
                 )}
               </>
-            }
+            )}
           </section>
         )}
         {!alreadyClaimedUSDC && <div className="h-[140px] w-full"></div>}

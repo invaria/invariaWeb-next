@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { useAddress, useNetwork } from "@thirdweb-dev/react";
 import { SiweMessage } from "siwe";
 import { handleKyc } from "../src/utils/handleKyc";
 import { SelectLocale, SelectCountryRegion } from "./SelectOptions";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { useAccount, useEnsAddress, useNetwork, useSigner } from "wagmi";
 
 const Form = () => {
   const router = useRouter();
-  let domain, provider, signer;
-  const address = useAddress();
-  const network = useNetwork();
+   let domain;
+   // provider, signer;
+  const { address } = useAccount();
+
+  const { chain } = useNetwork();
+
+  const { data: signer } = useSigner();
+
   const [inputs, setInputs] = useState({
     ["address"]: address,
     ["time"]: new Date(Date.now()),
     ["language"]: router.locale,
   });
+
   const [isAdult, setIsAdult] = useState(true);
   const [emailChange, setEmailChange] = useState(false);
   const [submitState, setSubmitState] = useState("");
@@ -34,13 +40,12 @@ const Form = () => {
     return message.prepareMessage();
   }
   async function signInWithEthereum() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
+    // const provider = new ethers.providers.Web3Provider(window.ethereum);
+    // const signer = provider.getSigner();
     const message = createSiweMessage(address, "Sign in with Ethereum.");
     const nonce = { ["nonce"]: await signer.signMessage(message) };
     console.log(nonce);
     console.log("pppaddress", address);
-    console.log("pppnetwork", network);
   }
 
   useEffect(() => {
@@ -54,9 +59,9 @@ const Form = () => {
         ["domain"]: window.location.href,
       }));
     }
-    provider = new ethers.providers.Web3Provider(window.ethereum);
-    signer = provider.getSigner();
-  }, [address, network[0]?.data?.chain?.id]);
+    // provider = new ethers.providers.Web3Provider(window.ethereum);
+    // signer = provider.getSigner();
+  }, [address, chain?.id]);
 
   const handleSubmit = async (event) => {
     //資料符合才會跑以下
@@ -75,7 +80,7 @@ const Form = () => {
     try {
       await signInWithEthereum();
       const kycLink = await handleKyc(inputs);
-      console.log("kycLink", kycLink);
+      console.log("emailTestkyclinkk",kycLink);
       // window.open(kycLink, 'kycLink')
       // var tempwindow = window.open('_blank'); // 先打開頁面
       window.location.href = kycLink; // 後更改頁面地址

@@ -1,11 +1,13 @@
-import { useMetamask, useWalletConnect } from "@thirdweb-dev/react";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useTranslation } from "next-i18next";
+import { useAccount, useConnect } from "wagmi";
 
 const MobileWalletConnect = ({ setToggleWallet }) => {
-    const connectWithMetamask = useMetamask();
-    const connectWithWalletConnect = useWalletConnect();
+    const { address } = useAccount();
     const { t } = useTranslation("common");
+    const { openConnectModal } = useConnectModal();
 
+if(address) setToggleWallet(false)
     return (<>
 
         <div className=" fixed top-[60px] z-40 w-full h-screen py-[34px] px-[16px] flex flex-col justify-start items-start md:hidden text-white bg-gradient-to-b from-primary to-[#1E1722]">
@@ -27,8 +29,9 @@ const MobileWalletConnect = ({ setToggleWallet }) => {
             </h3>
             <button
                 className="btn btn-primary relative w-full h-[56px] rounded flex justify-center items-center border-none normal-case"
-                onClick={connectWithMetamask}
-            >
+                onClick={ openConnectModal}
+
+>
                 <img
                     className="absolute top-[13px] left-4 h-[30px] w-[30px]"
                     src="/icons/ic_metamask.png"
@@ -38,8 +41,7 @@ const MobileWalletConnect = ({ setToggleWallet }) => {
             </button>
             <button
                 className="btn btn-primary mt-3 relative w-full h-[56px] rounded flex justify-center items-center border-none normal-case"
-                onClick={connectWithWalletConnect}
-            >
+                onClick={openConnectModal}            >
                 <img
                     className="absolute top-[13px] left-4 h-[30px] w-[30px]"
                     src="/icons/ic_walletconnect.png"

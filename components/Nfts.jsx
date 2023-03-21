@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { useNetwork, useAddress } from "@thirdweb-dev/react";
 import inVariaJSON from "../src/utils/InVaria.json";
 import stakeABI from "../src/utils/invarstaking.json";
-import { nftAddress, passAddress, stakeAddress } from "../src/utils/web3utils";
+import { nftAddress, passAddress, RPC_URL, stakeAddress } from "../src/utils/web3utils";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import passJSON from "../src/utils/passABI.json";
@@ -11,10 +10,13 @@ import axios from "axios";
 
 import IcLight from "../public/icons/ic_light.png";
 import { useRouter } from "next/router";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 const Nfts = () => {
-  const address = useAddress();
-  const network = useNetwork();
+  const { address } = useAccount();
+  const { chain } = useNetwork();
+  const { data: signer } = useSigner();
+  const provider = signer?.provider;
   const [nfts, setnfts] = useState();
   const [staked, setstaked] = useState();
   const [burnable, setburnable] = useState();
@@ -32,13 +34,6 @@ const Nfts = () => {
   const [passTokensData, setPassTokenData] = useState([]);
   const { t } = useTranslation("dashboard");
   const router = useRouter();
-  useEffect(() => {
-    getNfts();
-    if (!address) {
-      setopeninfo(false);
-      resetAllStates();
-    }
-  }, [address]);
 
   const resetAllStates = () => {
     setnfts();
@@ -56,6 +51,7 @@ const Nfts = () => {
     sett("sdc");
     setstkinfo();
   };
+
 
   let toast = (
     <div className=" z-40 w-screen fixed bottom-20 left-0 right-0 ">
@@ -77,115 +73,141 @@ const Nfts = () => {
     </div>
   );
 
+
   async function getNfts() {
-    // successToast("hoijoijh")
-    console.log("get activity");
-    if (!address) return;
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const nftContract = new ethers.Contract(nftAddress, inVariaJSON, provider);
-    const query = await nftContract["balanceOf(address)"](address);
-    // console.log("query", query.toString());
+    try {
+      console.log("get activity");
+      if (!address || !provider) return;
 
-    let nftBalance = query.toString();
-    setnfts(nftBalance);
+      const nftContract = new ethers.Contract(
+        nftAddress,
+        inVariaJSON,
+        signer?.provider
+      );
+      console.log("test1");
+      const query = await nftContract["balanceOf(address)"](address);
+      let nftBalance = query.toString();
+      console.log("test2");
+      setnfts(nftBalance);
 
-    const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
-    const stakebal = await stakeContract.nftBalance(address);
-    setstaked(stakebal.stakingAmount.toString());
+      const rpcProvider = new ethers.providers.JsonRpcProvider(RPC_URL);
+      const stakeContract = new ethers.Contract(stakeAddress, stakeABI, provider);
+      const stakeRpcContract = new ethers.Contract( stakeAddress, stakeABI, rpcProvider);
+      console.log("test3");
+      const stakebal = await stakeContract.nftBalance(address);
+      console.log("test4");
+      setstaked(stakebal.stakingAmount.toString());
+      console.log("nftBalance", stakebal);
+      console.log("test5");
 
-    const burnbal = (await stakeContract.BurnNftInfo(address)).toString();
-    setburnable(burnbal);
-    console.log("burnbal", burnbal);
+      const burnbal = (await stakeContract.BurnNftInfo(address)).toString();
+      console.log("test6");
 
-    const intersts =
-      +(await stakeContract.CheckClaimValue(address)).toString() / 1000000;
-    setinterest(intersts);
+      setburnable(burnbal);
+      console.log("burnbal", burnbal);
 
-    const filter = stakeContract.filters.stakeInfo(address, null, null, null);
-    const qq = await stakeContract.queryFilter(filter);
+      const intersts =
+        +(await stakeContract.CheckClaimValue(address)).toString() / 1000000;
+      console.log("test7");
 
-    let infosarr = [];
-    let stkarr = [];
+      setinterest(intersts);
+      console.log("test8");
 
-    for (var m = 0; m < 1000; m++) {
-      try {
-        const stakebal = await stakeContract.burningInfo(address, m);
-        console.log("fetching burningInfo", m);
-        let mm = { ...stakebal, m: m };
-        infosarr.push(mm);
-        console.log("mmmm", m);
-      } catch (error) {
-        console.log("fetching burning error", error);
-        break;
+      const qq = await stakeRpcContract
+        .queryFilter(stakeRpcContract.filters.stakeInfo(address, null, null, null));
+        console.log("test10", qq);
+
+      let infosarr = [];
+      let stkarr = [];
+      console.log("test11");
+      for (var m = 0; m < 1000; m++) {
+        try {
+          const stakebal = await stakeContract.burningInfo(address, m);
+          console.log("fetching burningInfo", m);
+          let mm = { ...stakebal, m: m };
+          infosarr.push(mm);
+          console.log("mmmm", m);
+        } catch (error) {
+          console.log("fetching burning error", error);
+          break;
+        }
       }
-    }
-    console.log(
-      "\n\n",
-      "fetcching burning end---------------------------------\n\n"
-    );
+      console.log("test12");
+      console.log(
+        "\n\n",
+        "fetcching burning end---------------------------------\n\n"
+      );
 
-    for (var m = 0; m < 100; m++) {
-      try {
-        const stk = await stakeContract.stakingInfo(address, m);
-        console.log("fetching stakingINFO", m);
-        // console.log("stk wh", stk, stk.isUnstake, m)
-        let mm = { ...stk, m: m };
-        if (stk.isUnstake == false) stkarr.push(mm);
-      } catch (error) {
-        console.log("fetching staking error", error);
-        console.log("error stk");
-        break;
+      for (var m = 0; m < 100; m++) {
+        try {
+          const stk = await stakeContract.stakingInfo(address, m);
+          console.log("fetching stakingINFO", m);
+          // console.log("stk wh", stk, stk.isUnstake, m)
+          let mm = { ...stk, m: m };
+          if (stk.isUnstake == false) stkarr.push(mm);
+        } catch (error) {
+          console.log("fetching staking error", error);
+          console.log("error stk");
+          break;
+        }
       }
+      console.log("infosarr2", stkarr);
+      console.log("test16",qq)
+
+      const items = await Promise.all(
+        qq?.map(async (i, index) => {
+          console.log("test14", i);
+          const blockTime = new Date(i.args.stakeTime * 1000);
+          // numstake = numstake + (i.args.amount).toNumber()
+          const item = {
+            date: blockTime.toString(),
+            year: blockTime.getFullYear(),
+            month: blockTime.getMonth() + 1,
+            day: blockTime.getDate(),
+            amount: i.args.amount.toNumber(),
+            // staked: numstake,
+            // unstaked: numunstake,
+            txid: `${i.transactionHash}`,
+          };
+          return item;
+        })
+      );
+console.log("test13",items);
+      const unfilter = stakeContract.filters.unStakeInfo(address, null, null);
+      const unqq = await stakeRpcContract.queryFilter(unfilter);
+      // console.log("unqq", unqq, stakeAddress, nftAddress)
+      // const unitems = await Promise.all(
+      //   unqq?.map(async (i, index) => {
+      //     const blockTime = new Date(i.args.unstakeTime * 1000);
+      //     console.log("blockTime", blockTime);
+      //     const item = {
+      //       date: blockTime.toString(),
+      //       year: blockTime.getFullYear(),
+      //       month: blockTime.getMonth() + 1,
+      //       day: blockTime.getDate(),
+      //       amount: i.args.amount.toNumber(),
+      //       txid: `${i.transactionHash}`,
+      //     };
+      //     return item;
+      //   })
+      // );
+      const i = [...infosarr].sort((a, b) => b.mm - a.mm);
+      const ii = [...stkarr].sort((a, b) => b.mm - a.mm);
+      setinfos(i);
+      setstkinfo(ii);
+      setevestake(items);
+    } catch (error) {
+      console.log("getNfts error", error);
     }
-    console.log("infosarr2", stkarr);
-
-    const items = await Promise.all(
-      qq?.map(async (i, index) => {
-        const blockTime = new Date(i.args.stakeTime * 1000);
-        // numstake = numstake + (i.args.amount).toNumber()
-        const item = {
-          date: blockTime.toString(),
-          year: blockTime.getFullYear(),
-          month: blockTime.getMonth() + 1,
-          day: blockTime.getDate(),
-          amount: i.args.amount.toNumber(),
-          // staked: numstake,
-          // unstaked: numunstake,
-          txid: `${i.transactionHash}`,
-        };
-        return item;
-      })
-    );
-
-    const unfilter = stakeContract.filters.unStakeInfo(address, null, null);
-    const unqq = await stakeContract.queryFilter(unfilter);
-    // console.log("unqq", unqq, stakeAddress, nftAddress)
-    // const unitems = await Promise.all(
-    //   unqq?.map(async (i, index) => {
-    //     const blockTime = new Date(i.args.unstakeTime * 1000);
-    //     console.log("blockTime", blockTime);
-    //     const item = {
-    //       date: blockTime.toString(),
-    //       year: blockTime.getFullYear(),
-    //       month: blockTime.getMonth() + 1,
-    //       day: blockTime.getDate(),
-    //       amount: i.args.amount.toNumber(),
-    //       txid: `${i.transactionHash}`,
-    //     };
-    //     return item;
-    //   })
-    // );
-    const i = [...infosarr].sort((a, b) => b.mm - a.mm);
-    const ii = [...stkarr].sort((a, b) => b.mm - a.mm);
-    setinfos(i);
-    setstkinfo(ii);
-    setevestake(items);
   }
-
+  useEffect(() => {
+    if (address && provider) getNfts();
+    if (!address) {
+      setopeninfo(false);
+      resetAllStates();
+    }
+  }, [address, provider]);
   const stake = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     try {
       setBtnState("loading");
@@ -205,8 +227,6 @@ const Nfts = () => {
   };
 
   const unstake = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     try {
       setBtnState("loading");
@@ -226,8 +246,6 @@ const Nfts = () => {
   };
 
   const burn = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     try {
       setBtnState("loading");
@@ -253,8 +271,6 @@ const Nfts = () => {
   };
 
   const claim = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     try {
       setBtnState("claiming");
@@ -281,9 +297,7 @@ const Nfts = () => {
   };
 
   const fetchInitialData = async () => {
-     
     setPassTokenData([]);
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
     const nftContract = new ethers.Contract(
       passAddress,
       passJSON.abi,
@@ -291,8 +305,7 @@ const Nfts = () => {
     );
 
     const userNftCount = await nftContract.balanceOf(address);
-
-
+    console.log("tokenDetails", userNftCount);
     if (+userNftCount.toString() === 0) return;
 
     let tokenPromises = [];
@@ -301,9 +314,7 @@ const Nfts = () => {
       tokenPromises.push(tokenId);
     }
     let tokenIds = await Promise.all(tokenPromises);
-tokenIds = tokenIds.map((t) => t.toString());
-
-
+    tokenIds = tokenIds.map((t) => t.toString());
 
     let tokensData = tokenIds.map((t) =>
       axios.get(
@@ -311,15 +322,15 @@ tokenIds = tokenIds.map((t) => t.toString());
       )
     );
     let tokenDetails = await Promise.all(tokensData);
-    console.log("tokenDetails", tokenDetails)
+    console.log("tokenDetails", tokenDetails);
     tokenDetails = tokenDetails.map((t) => t.data);
     console.log("tokenDetails", tokenDetails);
     if (tokenDetails.length > 0) setPassTokenData(tokenDetails);
   };
 
   useEffect(() => {
-    if (address) fetchInitialData();
-  }, [address, network[0]?.data?.chain?.id]);
+    if (address && provider) fetchInitialData();
+  }, [address, chain?.id, provider]);
 
   return (
     <div className="relative flex min-h-[70vh] w-full border-t border-invar-main-purple">
@@ -372,7 +383,7 @@ tokenIds = tokenIds.map((t) => t.toString());
                     </div>
                   </div>
                 )}
-{console.log(passTokensData, "passTokensData")}
+                {console.log(passTokensData, "passTokensData")}
                 {passTokensData.length > 0 &&
                   passTokensData.map((token) => {
                     let imgUrl;
@@ -750,6 +761,8 @@ tokenIds = tokenIds.map((t) => t.toString());
                         </p>
                       </div>
                     </div>
+                    {console.log("evestake", evestake)}
+                    {console.log("infos", infos)}
                     {evestake?.length == 0 ? (
                       <div className=" mt-16 w-full flex justify-center items-center">
                         <div>

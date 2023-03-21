@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useNetwork, useAddress } from "@thirdweb-dev/react";
 import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
 import { shortenAddress } from "../src/utils/shortenAddress";
 import { getWhite } from "../src/utils/storeFirebase";
 import { useTranslation } from "next-i18next";
+import { useAccount, useNetwork } from "wagmi";
 
 const TogWhite = ({ start, end, setAllActivityData }) => {
   const [collapse, setCollapse] = useState(true);
-  const address = useAddress();
-  const network = useNetwork();
+
+  const { address } = useAccount();
+  const { chain } = useNetwork();
+  
   const [transactions, setTransactions] = useState([]);
   const [allTransactions, setAllTransactions] = useState([]);
   const { t } = useTranslation("dashboard");
@@ -32,7 +34,7 @@ const TogWhite = ({ start, end, setAllActivityData }) => {
     });
 
     if (address) getActivity();
-  }, [address, network[0]?.data?.chain?.name]);
+  }, [address, chain?.name]);
 
   useEffect(() => {
     if (address && allTransactions.length > 0) {

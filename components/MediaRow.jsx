@@ -20,7 +20,7 @@ const MediaRow = ({ about, detail, img, redirectLink }) => {
             </p>
           </div>
           <div className={styles.mediaImg}>
-            <Image src={img} width={148} height={84} />
+            <Image src={img} width={148} height={84} alt="img"/>
           </div>
         </div>
       </div>

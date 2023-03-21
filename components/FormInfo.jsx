@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { ethers } from "ethers";
-import { useAddress, useNetwork } from "@thirdweb-dev/react";
 import { SiweMessage } from "siwe";
 import { getUserData } from "../src/utils/storeFirebase";
 import { useTranslation } from "next-i18next";
-
-let pervState = [];
+import { useAccount, useSigner } from "wagmi";
 
 const FormInfo = () => {
-  let domain, provider, signer;
-  const address = useAddress();
-  const network = useNetwork();
+  let domain;
+
   const [signed, setSigned] = useState(false);
   const [data, setData] = useState();
   const { t } = useTranslation("dashboard");
+
+  const { address } = useAccount();
+  const { data: signer } = useSigner();
 
   function createSiweMessage(address, statement) {
     const message = new SiweMessage({
@@ -27,8 +26,6 @@ const FormInfo = () => {
     return message.prepareMessage();
   }
   async function signInWithEthereum() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     const message = createSiweMessage(
       address,
       "Sign to view personal infomation."
@@ -51,10 +48,6 @@ const FormInfo = () => {
     }
   }
 
-  useEffect(() => {
-    if (data == undefined) return;
-    console.log("data", data, signed);
-  }, [data]);
 
   useEffect(() => {
     console.log("formInfo");
@@ -63,10 +56,6 @@ const FormInfo = () => {
     // pervState[0] = address
     setSigned(false);
     domain = window.location.host;
-    provider = new ethers.providers.Web3Provider(window.ethereum);
-    signer = provider.getSigner();
-    console.log("pppaddress", address);
-    console.log("pppnetwork", network);
   }, [address]);
 
   return (

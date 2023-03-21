@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import { Navbar, ScrollToTop } from "../components/";
 import Footer from "../components/Footer";
@@ -7,23 +6,16 @@ import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Checkbox } from "@mui/material";
-import {
-  useAddress,
-  useMetamask,
-  useNetwork,
-  useWalletConnect,
-} from "@thirdweb-dev/react";
 import { getUser } from "../src/utils/storeFirebase";
 import { ethers } from "ethers";
-import {
-  checkIfWalletIsConnected,
-  nftAddress,
-  usdcAddress,
-} from "../src/utils/web3utils";
+import { nftAddress, usdcAddress } from "../src/utils/web3utils";
 import inVariaJSON from "../src/utils/InVaria.json";
 import { ButtonMailto } from "../components/icons/Link";
 import axios from "axios";
 import erc20ABI from "../src/utils/erc20ABI.json";
+import { useAccount, useConnect, useNetwork, useSigner } from "wagmi";
+import { AppContext } from "../context/app-context";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 let allowedPromo =
   process.env.PRODUCTION === "true"
@@ -50,40 +42,30 @@ const PropertyInfo = () => {
   const headerBackground = true;
   const [tabState, setTabState] = useState("property");
   const [verify, setVerify] = useState("Accepted");
-  const { t } = useTranslation("propertyInfo");
   const [checked, setChecked] = useState(false);
   const [notification, setNotification] = useState("");
   const [soldNft, setSoldNft] = useState(0);
   const [notiType, setNotiType] = useState("success");
   const [promo, setPromo] = useState("");
   const [expanded, setExpanded] = useState(false);
-  const [ethBalance, setEthBalance] = useState(0);
-  const [usdcBalance, setUsdcBalance] = useState(0);
-  const [getCoinPrice, setgetCoinPrice] = useState(0);
   const [btnState, setBtnState] = useState("Mint");
   const [usdcAllowance, setUsdcAllowance] = useState(0);
+  const { t } = useTranslation("propertyInfo");
+  const appCTX = useContext(AppContext);
 
-  const connectWithMetamask = useMetamask();
-
-  const address = useAddress();
-  const network = useNetwork();
+  const { connect, connectors } = useConnect();
+  const { address } = useAccount();
+  const { chain } = useNetwork();
+  const { data: signer } = useSigner();
+  const provider = signer?.provider;
 
   let isCorrectNetwork = true;
-  let isGoerli = network[0]?.data?.chain?.name === "Goerli";
-  let isMainnet = network[0]?.data?.chain?.name === "Ethereum Mainnet";
-  let InsufficientFunds = +usdcBalance < +mintNum * 2000;
   let getusdcAllowance = 0;
   const decimal = 6;
-  if (
-    process.env.PRODUCTION === "true" &&
-    network[0]?.data?.chain?.name !== "Ethereum Mainnet"
-  ) {
+  if (process.env.PRODUCTION === "true" && chain?.id != 1) {
     isCorrectNetwork = false;
   }
-  if (
-    process.env.PRODUCTION === "false" &&
-    network[0]?.data?.chain?.name !== "Goerli"
-  ) {
+  if (process.env.PRODUCTION === "false" && chain?.id != 5) {
     isCorrectNetwork = false;
   }
 
@@ -167,8 +149,6 @@ const PropertyInfo = () => {
     if (promo?.length > 0 && !allowedPromo.includes(promo?.toLowerCase()))
       return;
     setBtnState("minting");
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     const nftContract = new ethers.Contract(nftAddress, inVariaJSON, signer);
     try {
       const mint = await nftContract.PublicMintNFT(mintNum);
@@ -177,6 +157,7 @@ const PropertyInfo = () => {
       await updateExcel();
       setPromo("");
       setNotiType("success");
+      appCTX.setUsdcBalance(+appCTX.usdcBalance - +mintNum * 2000);
       setMintNum(0);
       setNotification(router.locale === "en" ? en_Noti_suc : tw_Noti_suc);
     } catch (error) {
@@ -188,10 +169,8 @@ const PropertyInfo = () => {
   };
 
   const checkAllowance = async () => {
-    if (!address) return;
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const usdcContract = new ethers.Contract(usdcAddress, erc20ABI, signer);
+    if (!address || !provider) return;
+    const usdcContract = new ethers.Contract(usdcAddress, erc20ABI, provider);
     getusdcAllowance = +ethers.utils.formatUnits(
       await usdcContract.allowance(address, nftAddress),
       decimal
@@ -200,8 +179,6 @@ const PropertyInfo = () => {
   };
   const approveUsdc = async () => {
     setBtnState("approving");
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     const usdcContract = new ethers.Contract(usdcAddress, erc20ABI, signer);
     try {
       const approveAmount = 2000 * 1000 * Math.pow(10, decimal);
@@ -219,28 +196,22 @@ const PropertyInfo = () => {
   };
 
   useEffect(() => {
-    if (address == undefined) return;
-    checkIfWalletIsConnected(
-      address,
-      setEthBalance,
-      setUsdcBalance,
-      setgetCoinPrice
-    );
+    if (!address || !provider) return;
     checkAllowance();
     getdata();
-  }, [address, network[0]?.data?.chain?.id]);
+  }, [address, chain?.id, provider]);
 
-  console.log("usdcAllowance", usdcBalance);
+  console.log("usdcAllowance", appCTX.usdcBalance);
   useEffect(() => {
     if (usdcAllowance == null) return;
-    if (+usdcBalance < mintNum * 2000&&verify === "Accepted") {
+    if (+appCTX.usdcBalance < mintNum * 2000 && verify === "Accepted") {
       setBtnState("nofund");
     } else if (+usdcAllowance < 2000) {
       setBtnState("approve");
     } else {
       setBtnState("mint");
     }
-  }, [usdcAllowance, usdcBalance, mintNum]);
+  }, [usdcAllowance, appCTX.usdcBalance, mintNum]);
 
   let btnAction;
   if (!address) {
@@ -288,13 +259,7 @@ const PropertyInfo = () => {
         <button
           className="ml-4 mr-2 h-[24px] w-[24px] min-w-max font-semibold text-sm text-white "
           onClick={() => {
-            setBtnState("mint"),
-              checkIfWalletIsConnected(
-                address,
-                setEthBalance,
-                setUsdcBalance,
-                setgetCoinPrice
-              );
+            setBtnState("mint");
           }}
         >
           <img className="h-[24px] w-[24px]" src="/icons/ic_close.svg" alt="" />
@@ -353,6 +318,9 @@ const PropertyInfo = () => {
       </div>
     </>
   );
+
+  const { openConnectModal } = useConnectModal();
+
   return (
     <div>
       <Navbar headerBackground={headerBackground} />
@@ -403,9 +371,9 @@ const PropertyInfo = () => {
                   </div>
                 )}
               </div>
-
+              {console.log("chainid", chain?.id)}
               {process.env.PRODUCTION === "true" &&
-                network[0]?.data?.chain?.name !== "Ethereum Mainnet" &&
+                chain?.id != 1 &&
                 address && (
                   <>
                     <p className="font-normal text-base leading-6 text-center text-white mt-28 mb-12">
@@ -470,7 +438,7 @@ const PropertyInfo = () => {
                 )}
 
               {process.env.PRODUCTION === "false" &&
-                network[0]?.data?.chain?.name !== "Goerli" &&
+                chain?.id != 5 &&
                 address && (
                   <>
                     <p className="font-normal text-base leading-6 text-center text-white mt-28 mb-12">
@@ -755,7 +723,7 @@ const PropertyInfo = () => {
                 )}
                 {!address && (
                   <button
-                    onClick={connectWithMetamask}
+                    onClick={openConnectModal}
                     className="mt-[195px] btn mb-[18px] bg-invar-dark w-full h-[52px] font-semibold text-sm text-white border-none normal-case rounded"
                   >
                     {t("connect_wallet")}

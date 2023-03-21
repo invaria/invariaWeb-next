@@ -3,14 +3,13 @@ import styles from "../styles/reflector.module.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ModalContext } from "../context/Modals-context";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useAddress, useMetamask, useWalletConnect } from "@thirdweb-dev/react";
 import { ethers, utils } from "ethers";
 import { nftAddress } from "../src/utils/web3utils";
 import inVariaJSON from "../src/utils/InVaria.json";
 import { getUser } from "../src/utils/storeFirebase";
+import { useAccount } from "wagmi";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -30,7 +29,7 @@ export async function getStaticProps({ locale }) {
 const RwaReflector = () => {
   const [headerBackground, setHeaderBackground] = useState(false);
   const [soldNft, setSoldNft] = useState(0);
-  const address = useAddress();
+  const { address } = useAccount();
 
   const router = useRouter();
   const { t } = useTranslation("reflector");

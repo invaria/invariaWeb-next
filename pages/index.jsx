@@ -18,11 +18,9 @@ function App() {
   const [openLangMenu, setOpenLangMenu] = useState(false);
   const router = useRouter();
 
-  
-
   const { t } = useTranslation("landingPage");
   return (
-    <div className="relative overscroll-none allflame overflow-hidden h-full" onClick={()=>console.log(window.ethereum, "window.ethereum")}>
+    <div className="relative overscroll-none allflame overflow-hidden h-full">
       <div className="relative z-40">
         {openLangMenu && (
           <ClickAwayListener onClickAway={() => setOpenLangMenu(false)}>
@@ -77,7 +75,7 @@ function App() {
         )}
       </div>
       <div className="absolute top-20 xl:top-20 left-0 right-0 ml-auto mr-auto w-[134px] md:w-[223.33px] ">
-        <Image width={223.33} height={80} src="/logo_white.svg" />
+        <Image width={223.33} height={80} src="/logo_white.svg"  alt="modal-img"  />
       </div>
       <button
         onClick={() => setOpenLangMenu((v) => !v)}
@@ -101,11 +99,9 @@ function App() {
           {t("image_title")}
         </p>
         <Link href="/invaria2222" target="_blank">
-          <a target="_blank">
             <button className="z-50 btn w-max h-12 text-center bg-invar-dark hover:bg-invar-dark normal-case text-sm md:text-base text-white font-semibold mt-6 md:mt-4 px-7 rounded border-none">
               {t("image_launchapp")}
             </button>
-          </a>
         </Link>
       </div>
 

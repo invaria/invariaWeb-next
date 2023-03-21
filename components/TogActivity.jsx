@@ -1,32 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { useNetwork, useAddress } from "@thirdweb-dev/react";
 import inVariaJSON from "../src/utils/InVaria.json";
-import { nftAddress } from "../src/utils/web3utils";
+import { nftAddress, RPC_URL } from "../src/utils/web3utils";
 import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
 import { ItemActivity } from "../components";
 import { useTranslation } from "next-i18next";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 const TogActivity = ({ setAllActivityData, start, end }) => {
   const [collapse, setCollapse] = useState(true);
-  const address = useAddress();
-  const network = useNetwork();
+
+  const { address } = useAccount();
+  const { chain } = useNetwork();
+  const { data: signer } = useSigner();
+  const provider=signer?.provider;
+
   const [transactions, setTransactions] = useState([]);
   const [allTransactions, setAllTransactions] = useState([]);
 
   async function getActivity() {
-    if (!address) return;
+    if (!address||!provider) return;
     let etherScan, openSea;
-    if (network[0].data.chain.name == "Goerli") {
+    if (chain.name == "Goerli") {
       etherScan = "https://goerli.etherscan.io/tx/";
       openSea = `https://testnets.opensea.io/assets/goerli/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`;
-    } else if (network[0].data.chain.name == "Ethereum Mainnet") {
+    } else if (chain.name == "Ethereum Mainnet") {
       etherScan = "https://etherscan.io/tx/";
       openSea = `https://opensea.io/assets/ethereum/${process.env.NEXT_PUBLIC_NFT_ADDRESS}/1`;
     }
-
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const nftContract = new ethers.Contract(nftAddress, inVariaJSON, provider);
+    const nftContract = new ethers.Contract(nftAddress, inVariaJSON, signer);
     const filter = nftContract.filters.TransferSingle(
       null,
       "0x0000000000000000000000000000000000000000",
@@ -34,12 +36,16 @@ const TogActivity = ({ setAllActivityData, start, end }) => {
       null,
       null
     );
-    const query = await nftContract.queryFilter(filter);
+    const rpcProvider = new ethers.providers.JsonRpcProvider(RPC_URL);
+    const rpcNftContract = new ethers.Contract( nftAddress, inVariaJSON, rpcProvider);
+
+    const query = await rpcNftContract.queryFilter(filter);
+
     let arr = [];
     await Promise.all(
       query?.map(async (i) => {
         const block = await provider.getBlock(i.blockHash);
-        const blockTime = new Date(block.timestamp * 1000);
+        const blockTime = new Date(block?.timestamp * 1000);
         if (i.args.id.toNumber() == 1) {
           const item = {
             date: blockTime.toString(),
@@ -66,26 +72,26 @@ const TogActivity = ({ setAllActivityData, start, end }) => {
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 
-    if(arr.length>0) setAllActivityData((d) => [...d, "activity"]);
+    if (arr.length > 0) setAllActivityData((d) => [...d, "activity"]);
     setAllTransactions(arr);
   }
 
   useEffect(() => {
     setTransactions([]);
     setAllTransactions([]);
-    setAllActivityData(prev=>{
-      let index=prev.indexOf("activity");
-      if (index > -1) { 
-        prev.splice(index, 1); 
+    setAllActivityData((prev) => {
+      let index = prev.indexOf("activity");
+      if (index > -1) {
+        prev.splice(index, 1);
       }
       return prev;
     });
-    if (address) {
+    if (address&&provider) {
       console.log("test unstake mounted");
       getActivity();
     }
-    console.log("network name",network[0]?.data?.chain?.name)
-  }, [address, network[0]?.data?.chain?.name]);
+    console.log("network name", chain?.name);
+  }, [address, chain?.name,provider]);
 
   useEffect(() => {
     if (address && allTransactions.length > 0) {
@@ -97,11 +103,10 @@ const TogActivity = ({ setAllActivityData, start, end }) => {
             new Date(t.date).getTime() < end
         );
       }
-      
+
       setTransactions(tx);
     }
   }, [start, end, allTransactions]);
-
 
   const { t } = useTranslation("dashboard");
   return (
