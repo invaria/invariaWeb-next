@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-
 
 import { Twitter, Discord } from "../components/icons/Link";
 import { ScrollToTop, Footer, Navbar } from "../components";
@@ -22,6 +20,7 @@ import { mintClosed } from "../src/utils/web3utils";
 import { AppContext } from "../context/app-context";
 import { useAccount, useConnect } from "wagmi";
 import MobileWalletConnect from "../components/MobileWalletConnect";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 export const endtimestamp = 1664582400000;
 
@@ -100,18 +99,22 @@ function App() {
     }
   }, []);
 
-const [toggleWallet2, setToggleWallet2] = useState(false);
+  const [toggleWallet2, setToggleWallet2] = useState(false);
+  const { openConnectModal } = useConnectModal();
+
   return (
     <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
-      {toggleWallet2&&<MobileWalletConnect setToggleWallet={(e) => setToggleWallet2(e)} />}
+      {toggleWallet2 && (
+        <MobileWalletConnect setToggleWallet={(e) => setToggleWallet2(e)} />
+      )}
       <Navbar headerBackground={headerBackground} />
 
       {!address && (
         <button
-          className="btn connect-btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple text-center normal-case	text-white absolute top-[60px] z-10 rounded-none md:hidden">
-        
-          <ConnectButton label={t("connect_wallet", { ns: "common" })}/>
-
+          onClick={openConnectModal}
+          className="btn connect-btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple text-center normal-case	text-white absolute top-[60px] z-10 rounded-none md:hidden"
+        >
+          {t("connect_wallet", { ns: "common" })}
         </button>
       )}
       {/* {address && showConnected && (

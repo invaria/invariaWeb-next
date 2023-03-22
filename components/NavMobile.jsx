@@ -419,9 +419,7 @@ const NavMobile = ({ navOpen, verify, SFTDemo, closeModal }) => {
                 {t("connect_wallet")}
               </button>
             )}
-            {/* {!address &&
-              <ConnectButton label={t("connect_wallet")}/>
-            } */}
+        
             {address && (
               <>
                 <div className="w-full flex flex-row justify-between items-end">

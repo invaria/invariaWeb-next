@@ -12,7 +12,6 @@ import ModalWallet from "./ModalWallet";
 import { shortenAddress } from "../src/utils/shortenAddress";
 import { disableScroll, enableScroll } from "../src/utils/disableScroll";
 import {
-  ConnectButton,
   useAccountModal,
   useChainModal,
   useConnectModal,
@@ -314,7 +313,6 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                 className="btn btn-sm modal-button btn-outline rounded h-[44px] w-[160px] px-[11px] py-[1px] m-[12px] font-semibold text-sm text-white border-[#44334C] normal-case hover:border-none hover:bg-primary "
               >
                 {t("connect_wallet")}
-                {/* <ConnectButton /> */}
               </button>
             ) : (
               <>
@@ -344,7 +342,6 @@ const Navbar = ({ headerBackground, SFTDemo }) => {
                   )}
                 </label>
                 {/* <div className="mx-4">
-                <ConnectButton />
                 </div> */}
               </>
             )}

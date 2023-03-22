@@ -4,7 +4,7 @@ import { addTokenFunction } from "../src/utils/web3utils";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { AppContext } from "../context/app-context";
-import { ConnectButton, useChainModal, useConnectModal } from "@rainbow-me/rainbowkit";
+import {  useChainModal, useConnectModal } from "@rainbow-me/rainbowkit";
 
 import { useAccount, useConnect, useDisconnect, useNetwork } from "wagmi";
 
@@ -55,7 +55,6 @@ const ModalWallet = ({ SFTDemo }) => {
                 />
                 <p className=" font-semibold text-accent">MetaMask</p>
               </button> */}
-              <ConnectButton />
               <button
                 className="btn btn-primary mt-3 relative w-[327px] h-[56px] rounded flex justify-center items-center border-none normal-case"
                 onClick={openConnectModal}
