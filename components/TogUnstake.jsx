@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { useNetwork, useAddress } from "@thirdweb-dev/react";
 import stakeABI from "../src/utils/invarstaking.json";
-import { stakeAddress } from "../src/utils/web3utils";
+import { RPC_URL, stakeAddress } from "../src/utils/web3utils";
 import { MinusIcon, PlusIcon } from "@heroicons/react/outline";
 import { His } from ".";
 import { useTranslation } from "next-i18next";
+import { useAccount, useNetwork, useSigner } from "wagmi";
 
 const TogUnstake = ({ start, end, setAllActivityData }) => {
-  const [collapse, setCollapse] = useState(true);
-  const address = useAddress();
-  const network = useNetwork();
+  const [collapse, setCollapse] = useState(true);  
+  const { address } = useAccount();
+  const { chain } = useNetwork();
+  const { data: signer } = useSigner();
+  const provider=signer?.provider;
+
   const [allTransactions, setAllTransactions] = useState([]);
   const [transactions, setTransactions] = useState([]);
   console.log("test unstake component main");
   async function getActivity() {
     if (!address) return;
-    console.log("test unstake activity called");
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     const filter = stakeContract.filters.unStakeInfo(address, null, null);
-    const unstake = await stakeContract.queryFilter(filter);
+
+    const rpcProvider = new ethers.providers.JsonRpcProvider(RPC_URL);
+    const rpcNftContract = new ethers.Contract( stakeAddress, stakeABI, rpcProvider);
+    const unstake = await rpcNftContract.queryFilter(filter);
+
     console.log("unstake");
     let unitems = await Promise.all(
       unstake?.map(async (i, index) => {
@@ -57,11 +60,11 @@ const TogUnstake = ({ start, end, setAllActivityData }) => {
       return prev;
     });
 
-    if (address) {
+    if (address&&provider) {
       console.log("test unstake mounted");
       getActivity();
     }
-  }, [address, network[0]?.data?.chain?.name]);
+  }, [address, chain?.name, provider]);
 
   useEffect(() => {
     if (address && allTransactions.length > 0) {

@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { useNetwork, useAddress } from "@thirdweb-dev/react";
 import inVariaJSON from "../src/utils/InVaria.json";
 import stakeABI from "../src/utils/invarstaking.json";
-import { nftAddress, passAddress, stakeAddress } from "../src/utils/web3utils";
+import {
+  nftAddress,
+  passAddress,
+  RPC_URL,
+  stakeAddress,
+} from "../src/utils/web3utils";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import passJSON from "../src/utils/passABI.json";
@@ -11,10 +15,22 @@ import axios from "axios";
 
 import IcLight from "../public/icons/ic_light.png";
 import { useRouter } from "next/router";
+import { useAccount, useNetwork, useSigner } from "wagmi";
+import PassFactory from "./PassFactory";
+import {
+  ClickAwayListener,
+  styled,
+  Tooltip,
+  tooltipClasses,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 
 const Nfts = () => {
-  const address = useAddress();
-  const network = useNetwork();
+  const { address } = useAccount();
+  const { chain } = useNetwork();
+  const { data: signer } = useSigner();
+  const provider = signer?.provider;
   const [nfts, setnfts] = useState();
   const [staked, setstaked] = useState();
   const [burnable, setburnable] = useState();
@@ -30,15 +46,11 @@ const Nfts = () => {
   const [tt, sett] = useState("sdc");
   const [stkinfo, setstkinfo] = useState();
   const [passTokensData, setPassTokenData] = useState([]);
+  const [passFactoryOpened, setPassFactoryOpened] = useState(false);
+  const [openAprModal, setOpenAprModal] = useState(false);
+  const [openBurnModal, setOpenBurnModal] = useState(false);
   const { t } = useTranslation("dashboard");
   const router = useRouter();
-  useEffect(() => {
-    getNfts();
-    if (!address) {
-      setopeninfo(false);
-      resetAllStates();
-    }
-  }, [address]);
 
   const resetAllStates = () => {
     setnfts();
@@ -78,114 +90,246 @@ const Nfts = () => {
   );
 
   async function getNfts() {
-    // successToast("hoijoijh")
-    console.log("get activity");
-    if (!address) return;
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    const nftContract = new ethers.Contract(nftAddress, inVariaJSON, provider);
-    const query = await nftContract["balanceOf(address)"](address);
-    // console.log("query", query.toString());
+    try {
+      console.log("get activity");
+      if (!address || !provider) return;
 
-    let nftBalance = query.toString();
-    setnfts(nftBalance);
+      const nftContract = new ethers.Contract(
+        nftAddress,
+        inVariaJSON,
+        signer?.provider
+      );
+      console.log("test1");
+      const query = await nftContract["balanceOf(address)"](address);
+      let nftBalance = query.toString();
+      console.log("test2");
+      setnfts(nftBalance);
 
-    const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
-    const stakebal = await stakeContract.nftBalance(address);
-    setstaked(stakebal.stakingAmount.toString());
+      const rpcProvider = new ethers.providers.JsonRpcProvider(RPC_URL);
+      const stakeContract = new ethers.Contract(
+        stakeAddress,
+        stakeABI,
+        provider
+      );
+      const stakeRpcContract = new ethers.Contract(
+        stakeAddress,
+        stakeABI,
+        rpcProvider
+      );
+      console.log("test3");
+      const stakebal = await stakeContract.nftBalance(address);
+      console.log("test4");
+      setstaked(stakebal.stakingAmount.toString());
+      console.log("nftBalance", stakebal);
+      console.log("test5");
 
-    const burnbal = (await stakeContract.BurnNftInfo(address)).toString();
-    setburnable(burnbal);
-    console.log("burnbal", burnbal);
+      const burnbal = (await stakeContract.BurnNftInfo(address)).toString();
+      console.log("test6");
 
-    const intersts =
-      +(await stakeContract.CheckClaimValue(address)).toString() / 1000000;
-    setinterest(intersts);
+      setburnable(burnbal);
+      console.log("burnbal", burnbal);
 
-    const filter = stakeContract.filters.stakeInfo(address, null, null, null);
-    const qq = await stakeContract.queryFilter(filter);
+      const intersts =
+        +(await stakeContract.CheckClaimValue(address)).toString() / 1000000;
+      console.log("test7");
 
-    let infosarr = [];
-    let stkarr = [];
+      setinterest(intersts);
+      console.log("test8");
 
-    for (var m = 0; m < 1000; m++) {
-      try {
-        const stakebal = await stakeContract.burningInfo(address, m);
-        console.log("fetching burningInfo", m);
-        let mm = { ...stakebal, m: m };
-        infosarr.push(mm);
-        console.log("mmmm", m);
-      } catch (error) {
-        console.log("fetching burning error", error);
-        break;
+      const qq = await stakeRpcContract.queryFilter(
+        stakeRpcContract.filters.stakeInfo(address, null, null, null)
+      );
+      console.log("test10", qq);
+
+      let infosarr = [];
+      let stkarr = [];
+      console.log("test11");
+      for (var m = 0; m < 1000; m++) {
+        try {
+          const stakebal = await stakeContract.burningInfo(address, m);
+          console.log("fetching burningInfo", m);
+          let mm = { ...stakebal, m: m };
+          infosarr.push(mm);
+          console.log("mmmm", m);
+        } catch (error) {
+          console.log("fetching burning error", error);
+          break;
+        }
       }
-    }
-    console.log(
-      "\n\n",
-      "fetcching burning end---------------------------------\n\n"
-    );
+      console.log("test12");
+      console.log(
+        "\n\n",
+        "fetcching burning end---------------------------------\n\n"
+      );
 
-    for (var m = 0; m < 100; m++) {
-      try {
-        const stk = await stakeContract.stakingInfo(address, m);
-        console.log("fetching stakingINFO", m);
-        // console.log("stk wh", stk, stk.isUnstake, m)
-        let mm = { ...stk, m: m };
-        if (stk.isUnstake == false) stkarr.push(mm);
-      } catch (error) {
-        console.log("fetching staking error", error);
-        console.log("error stk");
-        break;
+      for (var m = 0; m < 100; m++) {
+        try {
+          const stk = await stakeContract.stakingInfo(address, m);
+          console.log("fetching stakingINFO", m);
+          // console.log("stk wh", stk, stk.isUnstake, m)
+          let mm = { ...stk, m: m };
+          if (stk.isUnstake == false) stkarr.push(mm);
+        } catch (error) {
+          console.log("fetching staking error", error);
+          console.log("error stk");
+          break;
+        }
       }
+      console.log("infosarr2", stkarr);
+      console.log("test16", qq);
+
+      const items = await Promise.all(
+        qq?.map(async (i, index) => {
+          console.log("test14", i);
+          const blockTime = new Date(i.args.stakeTime * 1000);
+          // numstake = numstake + (i.args.amount).toNumber()
+          const item = {
+            date: blockTime.toString(),
+            year: blockTime.getFullYear(),
+            month: blockTime.getMonth() + 1,
+            day: blockTime.getDate(),
+            amount: i.args.amount.toNumber(),
+            // staked: numstake,
+            // unstaked: numunstake,
+            txid: `${i.transactionHash}`,
+          };
+          return item;
+        })
+      );
+      console.log("test13", items);
+      const unfilter = stakeContract.filters.unStakeInfo(address, null, null);
+      const unqq = await stakeRpcContract.queryFilter(unfilter);
+      // console.log("unqq", unqq, stakeAddress, nftAddress)
+      // const unitems = await Promise.all(
+      //   unqq?.map(async (i, index) => {
+      //     const blockTime = new Date(i.args.unstakeTime * 1000);
+      //     console.log("blockTime", blockTime);
+      //     const item = {
+      //       date: blockTime.toString(),
+      //       year: blockTime.getFullYear(),
+      //       month: blockTime.getMonth() + 1,
+      //       day: blockTime.getDate(),
+      //       amount: i.args.amount.toNumber(),
+      //       txid: `${i.transactionHash}`,
+      //     };
+      //     return item;
+      //   })
+      // );
+      const i = [...infosarr].sort((a, b) => b.mm - a.mm);
+      const ii = [...stkarr].sort((a, b) => b.mm - a.mm);
+      setinfos(i);
+      setstkinfo(ii);
+      setevestake(items);
+    } catch (error) {
+      console.log("getNfts error", error);
     }
-    console.log("infosarr2", stkarr);
-
-    const items = await Promise.all(
-      qq?.map(async (i, index) => {
-        const blockTime = new Date(i.args.stakeTime * 1000);
-        // numstake = numstake + (i.args.amount).toNumber()
-        const item = {
-          date: blockTime.toString(),
-          year: blockTime.getFullYear(),
-          month: blockTime.getMonth() + 1,
-          day: blockTime.getDate(),
-          amount: i.args.amount.toNumber(),
-          // staked: numstake,
-          // unstaked: numunstake,
-          txid: `${i.transactionHash}`,
-        };
-        return item;
-      })
-    );
-
-    const unfilter = stakeContract.filters.unStakeInfo(address, null, null);
-    const unqq = await stakeContract.queryFilter(unfilter);
-    // console.log("unqq", unqq, stakeAddress, nftAddress)
-    // const unitems = await Promise.all(
-    //   unqq?.map(async (i, index) => {
-    //     const blockTime = new Date(i.args.unstakeTime * 1000);
-    //     console.log("blockTime", blockTime);
-    //     const item = {
-    //       date: blockTime.toString(),
-    //       year: blockTime.getFullYear(),
-    //       month: blockTime.getMonth() + 1,
-    //       day: blockTime.getDate(),
-    //       amount: i.args.amount.toNumber(),
-    //       txid: `${i.transactionHash}`,
-    //     };
-    //     return item;
-    //   })
-    // );
-    const i = [...infosarr].sort((a, b) => b.mm - a.mm);
-    const ii = [...stkarr].sort((a, b) => b.mm - a.mm);
-    setinfos(i);
-    setstkinfo(ii);
-    setevestake(items);
   }
+  useEffect(() => {
+    if (address && provider) {
+      getNfts();
+    }
+    if (!address) {
+      setopeninfo(false);
+      resetAllStates();
+    }
+  }, [address, provider]);
+  const theme = useTheme();
 
+  const CustomWidthUSDCTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))({
+    [`& .${tooltipClasses.tooltip}`]: {
+      maxWidth: "292px",
+      width: "292px",
+      background: "linear-gradient(180deg, #44334C 0%, #1E1722 100%)",
+      padding: "28px 24px 20px 24px",
+      borderRadius: "4px",
+    },
+    [`& .${tooltipClasses.arrow}`]: {
+      color: "rgb(25, 20, 28,0.8)",
+      "&::before": {
+        backgroundColor: "rgb(25, 20, 28,0.8)",
+        border: "rgb(25, 20, 28,0.8)",
+      },
+    },
+    "& .MuiTooltip-tooltip": {
+      padding: "0px",
+      maxWidth: "292px",
+    },
+  });
+
+  const USDCInfoTooltip = (props) => {
+    const { t } = useTranslation("dashboard");
+    return (
+      <CustomWidthUSDCTooltip
+        open={openAprModal}
+        title={
+          <ClickAwayListener onClickAway={() => setOpenAprModal(false)}>
+            <div
+              className="text-xs font-normal leading-5 text-invar-light-grey rounded py-2 px-3"
+              style={{ background: "rgb(25, 20, 28,0.8)" }}
+            >
+              <p className="font-normal text-xs leading-[18px]">
+                {t("apr_warning")}
+                <a
+                  href={
+                    router.locale === "en"
+                      ? "https://docs.invar.finance/security-and-risk/risk-framework"
+                      : "https://docs.invar.finance/v/tong-guo-xian-shi-zi-chan-shi-jie-chuang-zao-zhen-shi-jia-zhi/an-quan-feng-xian/feng-xian-kuang-jia"
+                  }
+                  rel="noreferrer"
+                  target="_blank"
+                  className="underline"
+                >
+                  {t("apr_link")}
+                </a>
+              </p>
+            </div>
+          </ClickAwayListener>
+        }
+        arrow
+      >
+        <div
+          onClick={() => {
+            setOpenAprModal(true);
+          }}
+        >
+          {props.children}
+        </div>
+      </CustomWidthUSDCTooltip>
+    );
+  };
+
+  const BurnInfoTooltip = (props) => {
+    const { t } = useTranslation("dashboard");
+    return (
+      <CustomWidthUSDCTooltip
+        open={openBurnModal}
+        title={
+          <ClickAwayListener onClickAway={() => setOpenBurnModal(false)}>
+            <div
+              className="text-xs font-normal leading-5 text-invar-light-grey rounded py-2 px-3"
+              style={{ background: "rgb(25, 20, 28,0.8)" }}
+            >
+              <p className="font-normal text-xs leading-[18px]">
+                {t("burn_warning")}
+              </p>
+            </div>
+          </ClickAwayListener>
+        }
+        arrow
+      >
+        <div
+          onClick={() => {
+            setOpenBurnModal(true);
+          }}
+        >
+          {props.children}
+        </div>
+      </CustomWidthUSDCTooltip>
+    );
+  };
   const stake = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     try {
       setBtnState("loading");
@@ -205,8 +349,6 @@ const Nfts = () => {
   };
 
   const unstake = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     try {
       setBtnState("loading");
@@ -226,8 +368,6 @@ const Nfts = () => {
   };
 
   const burn = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     try {
       setBtnState("loading");
@@ -253,8 +393,6 @@ const Nfts = () => {
   };
 
   const claim = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     const stakeContract = new ethers.Contract(stakeAddress, stakeABI, signer);
     try {
       setBtnState("claiming");
@@ -281,9 +419,7 @@ const Nfts = () => {
   };
 
   const fetchInitialData = async () => {
-     
-    setPassTokenData([]);
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    console.log("fetching Data Again");
     const nftContract = new ethers.Contract(
       passAddress,
       passJSON.abi,
@@ -291,8 +427,7 @@ const Nfts = () => {
     );
 
     const userNftCount = await nftContract.balanceOf(address);
-
-
+    console.log("tokenDetails", userNftCount);
     if (+userNftCount.toString() === 0) return;
 
     let tokenPromises = [];
@@ -301,9 +436,7 @@ const Nfts = () => {
       tokenPromises.push(tokenId);
     }
     let tokenIds = await Promise.all(tokenPromises);
-tokenIds = tokenIds.map((t) => t.toString());
-
-
+    tokenIds = tokenIds.map((t) => t.toString());
 
     let tokensData = tokenIds.map((t) =>
       axios.get(
@@ -311,16 +444,16 @@ tokenIds = tokenIds.map((t) => t.toString());
       )
     );
     let tokenDetails = await Promise.all(tokensData);
-    console.log("tokenDetails", tokenDetails)
+    console.log("tokenDetails", tokenDetails);
     tokenDetails = tokenDetails.map((t) => t.data);
     console.log("tokenDetails", tokenDetails);
     if (tokenDetails.length > 0) setPassTokenData(tokenDetails);
   };
 
   useEffect(() => {
-    if (address) fetchInitialData();
-  }, [address, network[0]?.data?.chain?.id]);
-
+    if (address && provider) fetchInitialData();
+  }, [address, chain?.id, provider]);
+  if (passFactoryOpened) return <PassFactory passTokens={passTokensData} />;
   return (
     <div className="relative flex min-h-[70vh] w-full border-t border-invar-main-purple">
       {showtoast && <div className=" absolute bg-black w-screen">{toast}</div>}
@@ -372,7 +505,6 @@ tokenIds = tokenIds.map((t) => t.toString());
                     </div>
                   </div>
                 )}
-{console.log(passTokensData, "passTokensData")}
                 {passTokensData.length > 0 &&
                   passTokensData.map((token) => {
                     let imgUrl;
@@ -385,9 +517,10 @@ tokenIds = tokenIds.map((t) => t.toString());
                     return (
                       <div
                         key={token.name}
-                        className="flex flex-col items-center relative w-[300px] h-[382px] bg-black rounded overflow-hidden shadow "
+                        className="flex flex-col items-center relative w-[300px] h-[382px] bg-black rounded overflow-hidden shadow cursor-pointer "
                       >
-                        <img
+                        <Image
+                          onClick={() => setPassFactoryOpened(true)}
                           className=" w-[300px] min-h-[310px] object-cover"
                           src={imgUrl}
                           width={300}
@@ -427,8 +560,17 @@ tokenIds = tokenIds.map((t) => t.toString());
                       </p>
                     </div>
                     <div className=" w-full md:w-60 md:mr-6">
-                      <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">
+                      <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey flex items-center">
                         {t("dashbaord_nfts_info_apr")}
+                        <USDCInfoTooltip>
+                          <img
+                            src="/icons/grey-i.svg"
+                            className="cursor-pointer ml-2"
+                            alt="info"
+                            width={16}
+                            height={16}
+                          />
+                        </USDCInfoTooltip>
                       </p>
                       <p className=" text-center font-semibold text-3xl ">
                         12%
@@ -650,8 +792,17 @@ tokenIds = tokenIds.map((t) => t.toString());
                         </div>
                       ) : (
                         <div className=" w-full md:w-60 mr-6 mt-9">
-                          <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey">
+                          <p className=" mb-2 text-center font-normal text-sm text-invar-light-grey flex items-center justify-center">
                             {t("dashbaord_nfts_info_burnable")}
+                            <BurnInfoTooltip>
+                              <img
+                                src="/icons/grey-i.svg"
+                                className="cursor-pointer ml-2"
+                                alt="info"
+                                width={16}
+                                height={16}
+                              />
+                            </BurnInfoTooltip>
                           </p>
                           <p
                             className={
@@ -750,6 +901,7 @@ tokenIds = tokenIds.map((t) => t.toString());
                         </p>
                       </div>
                     </div>
+                    {console.log("infos", infos)}
                     {evestake?.length == 0 ? (
                       <div className=" mt-16 w-full flex justify-center items-center">
                         <div>
@@ -872,6 +1024,19 @@ tokenIds = tokenIds.map((t) => t.toString());
                 )}
               </>
             )}
+          </>
+        )}
+        {openinfo && (
+          <>
+            <p className="text-[#B4B7C0] italic text-sm mt-8">
+              {t("disclaimer_heading")}
+            </p>
+            <p className="text-[#B4B7C0] italic text-sm mt-2">
+              {t("disclaimer_1")}
+            </p>
+            <p className="mt-2 text-[#B4B7C0] italic text-sm">
+              {t("disclaimer_2")}
+            </p>
           </>
         )}
       </div>

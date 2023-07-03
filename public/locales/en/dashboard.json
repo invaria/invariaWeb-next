@@ -180,7 +180,13 @@
 
   "marketplace": "Marketplace",
   "Rejected": "Rejected",
-  "staking-redemption-no-data":"No Records Found",
-  "loading":"Loading",
-  "detail":"Detail"
+  "staking-redemption-no-data": "No Records Found",
+  "loading": "Loading",
+  "detail": "Detail",
+  "apr_warning": "Estimate return is the annualized average APY based on the information provided by asset originator. ",
+  "apr_link": "Check doc to learn associated risks. ",
+  "burn_warning": "NFT allow to burn when reach correlated redemption time in addition to have sufficient USDC balance in staking contract.",
+  "disclaimer_heading": "Disclaimer",
+  "disclaimer_1": "Nothing contained in this website is to be construed as a solicitation or offer, or recommendation, to buy or sell any interest in any note or other security, or to engage in any other transaction, and the content herein does not constitute, and should not be considered to constitute, an offer of securities. No statement herein made constitutes an offer to sell or a solicitation of an offer to buy a note or other security. All information on this Web page is provided and maintained by the issuers of the respective NFT. The issuers have full responsibility. Please contact the respective issuer in case of any inquiries. InVaria2222 and its affiliates are not liable nor responsible for the information provided hereby.",
+  "disclaimer_2": "Before minting any of each NFT, please check the issuer's offering materials to understand the terms, conditions, and investment risks of each NFT. The issuer provides investment risk factors which are important to understand when you consider whether to invest in an NFT. You alone assume the sole responsibility of evaluating the merits and risks associated with the use of any information or other content before making any decisions based on such information or other content."
 }

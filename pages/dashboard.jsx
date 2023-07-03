@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useAddress, useNetwork } from "@thirdweb-dev/react";
 import {
   TogActivity,
   TogWhite,
@@ -18,6 +17,7 @@ import Image from "next/image";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { useAccount } from "wagmi";
 export async function getStaticProps({ locale }) {
   return {
     props: {
@@ -27,6 +27,7 @@ export async function getStaticProps({ locale }) {
         "propertyInfo",
         "sale",
         "dashboard",
+        "passnft",
       ])),
     },
   };
@@ -35,16 +36,18 @@ export async function getStaticProps({ locale }) {
 const Dashboard = () => {
   const headerBackground = true;
   const [tabState, setTabState] = useState("nfts");
-  const address = useAddress();
-  const network=useNetwork()
+  const { address } = useAccount();
+
   const [verify, setVerify] = useState("Unverified");
   const [allActivityData, setAllActivityData] = useState([]);
+  const [showProfile, setShowProfile] = useState(false);
   console.log("allActivityData", allActivityData);
 
   const [inputs, setInputs] = useState({
     ["address"]: address,
     ["time"]: new Date(Date.now()),
     selectType: "All",
+    selectIDtype: "All",
   });
   const [showtog, setshowtog] = useState("All");
   const [starttime, setstarttime] = useState("");
@@ -57,11 +60,8 @@ const Dashboard = () => {
 
   async function getdata() {
     const state = await getUser(address);
-    // if (verifyState !== state) {  //useState 會重跑整個程式，觸發useEffect，所以getdata不能放在useEffect，(不對，是useeffect的hook不能放network)
     console.log("state", state);
     setVerify(state);
-    // setVerifyState(state)
-    // }
   }
 
   useEffect(() => {
@@ -70,22 +70,8 @@ const Dashboard = () => {
       return;
     }
     if (router.query.kyc && address) setTabState("profile");
-    // domain = window.location.origin;
-    // if (inputs.address !== address) {
-    //   setInputs((values) => ({ ...values, ["address"]: address, ["domain"]: window.location.href }))
-    // }
-    // provider = new ethers.providers.Web3Provider(window.ethereum);
-    // signer = provider.getSigner()
     getdata();
-  }, [address]);
-
-  // useEffect(() => {
-  //   if (!address) {
-  //     setTabState("nfts")
-  //     return
-  //   }
-  //   getdata()
-  // }, []);
+  }, [address, router.query.kyc]);
 
   let verifySection = (
     <div className="mb-[32px] w-full md:w-[214px] md:min-w-[214px] h-[214px] flex flex-col justify-start items-center rounded overflow-hidden">
@@ -248,7 +234,7 @@ const Dashboard = () => {
               >
                 Activity
               </button>
-              {address && (
+              {address && verify == "Accepted" && (
                 <button
                   className={
                     "pb-2 mr-9 mt-[29px] text-sm font-semibold text-center" +
@@ -264,9 +250,9 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="border-t-2 border-invar-main-purple">
-            <div className="lg:max-w-[980px] m-auto px-4 lg:px-0">
+            <div className="lg:max-w-[1010px] m-auto  lg:px-0">
               {tabState == "activity" && (
-                <div className="relative min-h-[70vw] w-full">
+                <div className="relative px-4 min-h-[70vw] w-full">
                   {console.log("test tabstate is activity")}
                   <div
                     className=" md:hidden max-w-full mt-4 h-10 bg-invar-main-purple rounded flex justify-center items-center text-sm font md:mx-[130px] lg:mx-[230px] cursor-pointer"
@@ -286,7 +272,7 @@ const Dashboard = () => {
                   >
                     <div className=" flex flex-wrap">
                       <div className="flex w-full lg:w-fit">
-                        <label className="lg:max-w-[238px] w-full mb-6 block mr-4">
+                        <label className="lg:max-w-[228px] w-full mb-6 block mr-4">
                           <div className="relative flex bg-invar-main-purple rounded items-center">
                             <p className=" ml-3 text-invar-light-grey font-normal text-sm whitespace-nowrap	">
                               {t("dashbaord_activity_searchbar_nft_item")}
@@ -296,7 +282,7 @@ const Dashboard = () => {
                               onChange={handleChange}
                               value={inputs.selectIDtype || ""}
                               required
-                              className="appearance-none block bg-invar-main-purple w-full h-10 rounded 
+                              className="min-w-[163px] appearance-none block bg-invar-main-purple w-full h-10 rounded text-[15px]
                      cursor-pointer focus:outline-none text-white font-normal pl-[15px] pr-[40px] text-end"
                             >
                               <option value="All">
@@ -305,6 +291,7 @@ const Dashboard = () => {
                               <option value="Amwaj20">
                                 {t("dashbaord_activity_presale_nftname")}
                               </option>
+                              <option value="pass">PASS: InVariant</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
                               <svg
@@ -427,19 +414,19 @@ const Dashboard = () => {
                   <div className=" mt-3"></div>
                   {address &&
                     (inputs.selectType == "All" ||
-                      inputs.selectType == "Unstake") && (
+                      inputs.selectType == "Unstake") &&
+                    inputs.selectIDtype !== "pass" && (
                       <TogUnstake
                         start={starttime}
                         end={endtime}
                         setAllActivityData={setAllActivityData}
                         key="TogUnstake"
-                        
-                        
                       />
                     )}
                   {address &&
                     (inputs.selectType == "All" ||
-                      inputs.selectType == "Claim") && (
+                      inputs.selectType == "Claim") &&
+                    inputs.selectIDtype !== "pass" && (
                       <TogClaim
                         start={starttime}
                         end={endtime}
@@ -455,11 +442,13 @@ const Dashboard = () => {
                         start={starttime}
                         end={endtime}
                         key="TogActivity"
+                        type={inputs.selectIDtype}
                       />
                     )}
                   {address &&
                     (inputs.selectType == "All" ||
-                      inputs.selectType == "Redemption") && (
+                      inputs.selectType == "Redemption") &&
+                    inputs.selectIDtype !== "pass" && (
                       <TogRedeem
                         setAllActivityData={setAllActivityData}
                         start={starttime}
@@ -469,7 +458,8 @@ const Dashboard = () => {
                     )}
                   {address &&
                     (inputs.selectType == "All" ||
-                      inputs.selectType == "Whitelist") && (
+                      inputs.selectType == "Whitelist") &&
+                    inputs.selectIDtype !== "pass" && (
                       <TogWhite
                         setAllActivityData={setAllActivityData}
                         start={starttime}
@@ -484,7 +474,7 @@ const Dashboard = () => {
                           width={162}
                           height={200}
                           src="/icons/ic_light.png"
-                          alt=""
+                          alt="ic_light.png"
                         />
                         <p className=" text-lg font-normal text-center text-invar-light-grey">
                           {t("dashbaord_activity_presale_nodata")}
@@ -554,6 +544,7 @@ const Dashboard = () => {
                     <option value="Amwaj20">
                       {t("dashbaord_activity_presale_nftname")}
                     </option>
+                    <option value="pass">Pass Invariant</option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
                     <svg
@@ -624,7 +615,6 @@ const Dashboard = () => {
                   >
                     <input
                       name="selectStartDate"
-                      disableUnderline
                       type="date"
                       onChange={handleChange}
                       value={inputs.selectStartDate || ""}
@@ -669,7 +659,6 @@ const Dashboard = () => {
                         padding: "8px 0px",
                         maxWidth: "90px",
                       }}
-                      disableUnderline
                     />
                   </div>
                 </div>

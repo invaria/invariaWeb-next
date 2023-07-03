@@ -21,7 +21,7 @@ const Footer = ({ c }) => {
               />
             </a>
           </div>
-          <ul>
+          <ul className="text-sm font-semibold">
             <a
               href="https://github.com/InVarFinance/invaria2222"
               rel="noopener noreferrer"
@@ -29,26 +29,14 @@ const Footer = ({ c }) => {
             >
               <li>Github </li>
             </a>
-            <li>Docs</li>
             <a
-              href="https://github.com/HashEx/public_audits/blob/master/InVaria2222/InVaria2222.pdf"
+              href="https://docs.invar.finance/road-to-web3"
               rel="noopener noreferrer"
               target="_blank"
             >
-              <li>Audit </li>
+              <li>Docs </li>
             </a>
     
-            {/* <ScrollLink
-                    activeClass="active"
-                    offset={-100}
-                    smooth
-                    spy
-                    to="faq"
-                  > */}
-            <Link href="invaria2222#faqoutside">
-              <li> Learn</li>
-            </Link>
-            {/* </ScrollLink> */}
             <Link href="/privacy">
               <li>{t("privacy_policy")}</li>
             </Link>
@@ -116,17 +104,17 @@ const Footer = ({ c }) => {
               </div>
             </a>
           </div>
-          <p>
-            © 2022 InVaria 2222 | Supported by{" "}
-            <span className={styles.pivoterra}>
+          <p className="text-sm">
+            © 2022 InVaria2222 | {" "}
+            
               <a
-                href="https://pivoterra.notion.site/"
+                href="https://invar.finance/"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                PivoTerra
+                InVar Finance
               </a>
-            </span>
+            
           </p>
         </div>
       </div>

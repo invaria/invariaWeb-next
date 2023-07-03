@@ -25,7 +25,8 @@ module.exports = {
         'invar-validation': '#FFC25F',
         'invar-error': '#F04679',
         'invar-success': '#00DEAE',
-        'B4B7C0': "B4B7C0;"
+        'B4B7C0': "B4B7C0;",
+        'bg-color':"#1E1E1E",
       },
       spacing: {
         '960': '240rem',

@@ -35,10 +35,10 @@
   "property_details_info_others_developer": "開發商",
   "property_details_info_others_developer_mannaigroup": "Mannai Group",
   "property_details_info_others_manager": "物業管理",
-  "property_details_info_others_manager_flowbay": "FlowBay Property Management",
+  "property_details_info_others_manager_flowbay": "FlowBay Property Management, Bitlnno Property WLL",
   "property_details_info_notice1": "須知",
   "property_details_info_notice2": "所有財物數據是基於當前條件以及過往財務報表所估計，可能隨市場情況變動或更改。",
-  "property_details_info_notice3": "以上信息由 FlowBay Property Management 提供；此處包含的某些信息來自我們認為可靠的來源，但並不意味著任何保證並且可能會發生變化；此外，這不能一定保證您將獲得任何投資回報，並且所有投資您都可能會面臨損失。",
+  "property_details_info_notice3": "以上信息由 Bitlnno Property WLL；此處包含的某些信息來自我們認為可靠的來源，但並不意味著任何保證並且可能會發生變化；此外，這不能一定保證您將獲得任何投資回報，並且所有投資您都可能會面臨損失。",
   "property_bahrain_title": "關於巴林",
   "property_bahrain_desc1": "進入發展中海灣經濟體的最佳市場鏈接渠道，以及為世界帶來房地產革命的新興機會。",
   "property_bahrain_desc2_1": "巴林，名稱寓意為「兩個海」，是一個由阿拉伯灣 33 個島嶼組成的群島，巴林為企業提供了寶貴的機會，並為進入海灣經濟體及其他地區提供了最佳市場鏈接渠道。",
@@ -100,5 +100,10 @@
 
   "network_error_title": "錯誤的網絡!",
   "network_error_note": "請切換到以太坊主網",
-  "minting":"鑄造"
+  "minting": "鑄造",
+  "mint_close": "NFT 鑄造關閉，",
+  "check_opensea": "前往 Opensea 查看",
+
+  "est_return": "預估收益是根據資產發起方提供的信息計算出的年化平均APY。",
+  "est_warning": "檢查文檔以了解相關風險。"
 }

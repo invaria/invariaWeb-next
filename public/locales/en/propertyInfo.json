@@ -35,10 +35,10 @@
   "property_details_info_others_developer": "Developer",
   "property_details_info_others_developer_mannaigroup": "Mannai Group",
   "property_details_info_others_manager": "Manager",
-  "property_details_info_others_manager_flowbay": "FlowBay Property Management",
+  "property_details_info_others_manager_flowbay": "FlowBay Property Management, Bitlnno Property WLL",
   "property_details_info_notice1": "Notice",
   "property_details_info_notice2": "All financial statements of property yield are best estimates based on current conditions, and may change at any time.",
-  "property_details_info_notice3": "The information above is provided from FlowBay Property Management; some of the information contained herein has been derived from sources that we believe to be reliable but which do not mean any guarantee and is subject to change; however, no assurance can be given you will obtain any return on investment, and there is a risk that you may lose your entire investment.",
+  "property_details_info_notice3": "The information above is provided from Bitlnno Property WLL; some of the information contained herein has been derived from sources that we believe to be reliable but which do not mean any guarantee and is subject to change; however, no assurance can be given you will obtain any return on investment, and there is a risk that you may lose your entire investment.",
   "property_bahrain_title": "About Bahrain",
   "property_bahrain_desc1": "The best market access to growing Gulf economies, and emerging opportunities to bring real estate revolution to the world.",
   "property_bahrain_desc2_1": "Bahrain, which name means “two seas”, was an archipelago made up of 33 islands in the Arabian Gulf, Bahrain offers valuable opportunities for businesses and the best market access to growing Gulf economies and beyond.",
@@ -99,5 +99,9 @@
 
   "network_error_title": "Wrong Network!",
   "network_error_note": "Please Switch to Ethereum Mainnet",
-  "minting":"Minting"
+  "minting": "Minting",
+  "mint_close": "NFT mint close,",
+  "check_opensea": "check it on Opensea.",
+  "est_return": "Estimate return is the annualized average APY based on the information provided by asset originator. ",
+  "est_warning": "Check doc to learn associated risks. "
 }

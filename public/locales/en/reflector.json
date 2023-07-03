@@ -10,7 +10,7 @@
   "sec_first": "Security First",
   "security": "Security",
   "first": "First",
-  "legal_regulate": "Legal and Compliance Oriented, a platform with strong regulatory and compliance requirements.",
+  "legal_regulate": "Legal and Compliance Oriented, a platform designed to have regulatory and compliance requirements.",
   "connecting_connecting": "Connecting…Connecting…, Connect to Real World, the Reflector Indicates Power…",
   "read_learn": "*Please read and learn the informations and mechanism of RWA before minting, the return is generated from targeted asset and protected through on/off-chain coordination.",
   "name_type": "Name & Type",
@@ -19,5 +19,6 @@
   "real_estate": "Real Estate",
   "backed_nft": "Property-Backed Fractionalized NFT",
   "behrain_amwaj": "Bahrain Amwaj20",
-  "click_mint": "Click to Mint"
+  "click_mint": "Click to Mint",
+  "close": "Close"
 }

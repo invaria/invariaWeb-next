@@ -11,5 +11,6 @@
   "click_switch": "Switch Network",
   "click_eth": "Switch to Ethereum",
   "menu": "Menu",
-  "setting": "Setting"
+  "setting": "Setting",
+  "go_kyc":"Go KYC"
 }

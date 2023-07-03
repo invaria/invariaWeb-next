@@ -12,9 +12,12 @@
     "@heroicons/react": "^1.0.6",
     "@mui/material": "^5.10.8",
     "@openzeppelin/merkle-tree": "^1.0.2",
+    "@rainbow-me/rainbowkit": "^0.12.1",
     "@sendgrid/mail": "^7.7.0",
-    "@thirdweb-dev/react": "^2.4.7",
-    "@thirdweb-dev/sdk": "^2.3.23",
+    "@walletconnect/client": "^1.8.0",
+    "@web3auth/modal": "^5.2.1",
+    "@web3auth/torus-wallet-connector-plugin": "^6.0.0-alpha.0",
+    "@web3auth/web3auth-wagmi-connector": "^3.0.2",
     "daisyui": "^2.19.0",
     "ethers": "^5.7.2",
     "firebase": "^9.9.0",
@@ -32,18 +35,16 @@
     "sharp": "^0.30.7",
     "siwe": "^1.1.6",
     "tailwind-scrollbar-hide": "^1.1.7",
+    "tslib": "^2.5.2",
     "uuidv4": "^6.2.13",
+    "wagmi": "^0.12.1",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@types/node": "17.0.35",
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "18.0.5",
     "autoprefixer": "^10.4.7",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.0",
     "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.2",
-    "typescript": "4.7.2"
+    "tailwindcss": "^3.1.2"
   }
 }

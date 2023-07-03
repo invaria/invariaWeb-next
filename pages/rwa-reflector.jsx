@@ -3,14 +3,13 @@ import styles from "../styles/reflector.module.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { ModalContext } from "../context/Modals-context";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useAddress, useMetamask, useWalletConnect } from "@thirdweb-dev/react";
 import { ethers, utils } from "ethers";
 import { nftAddress } from "../src/utils/web3utils";
 import inVariaJSON from "../src/utils/InVaria.json";
 import { getUser } from "../src/utils/storeFirebase";
+import { useAccount } from "wagmi";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -30,7 +29,7 @@ export async function getStaticProps({ locale }) {
 const RwaReflector = () => {
   const [headerBackground, setHeaderBackground] = useState(false);
   const [soldNft, setSoldNft] = useState(0);
-  const address = useAddress();
+  const { address } = useAccount();
 
   const router = useRouter();
   const { t } = useTranslation("reflector");
@@ -46,10 +45,9 @@ const RwaReflector = () => {
     let rpcUrl;
     if (process.env.PRODUCTION === "true")
       rpcUrl = `https://mainnet.infura.io/v3/${process.env.infura_key}`;
-    else
-      rpcUrl = `https://goerli.infura.io/v3/${process.env.infura_key}`;
+    else rpcUrl = `https://goerli.infura.io/v3/${process.env.infura_key}`;
 
-      console.log("rpcurl", rpcUrl.slice(0, 14))
+    console.log("rpcurl", rpcUrl.slice(0, 14));
 
     const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
 
@@ -58,7 +56,7 @@ const RwaReflector = () => {
       setSoldNft(Number(+res.toString()));
       console.log("soldNft", res.toString());
     });
-    
+
     if (typeof window !== "undefined") {
       window.addEventListener("scroll", () =>
         setHeaderBackground(window.pageYOffset > 20)
@@ -121,7 +119,10 @@ const RwaReflector = () => {
               alt="reflector-img"
               className="h-100 object-cover overflow-x-hidden min-h-100"
             />
-            <p className="absolute top-[39%] sm:right-[34%] right-[31%] rotate-[-39deg] font-extrabold text-[10px] leading-[15px] w-[135px] text-invar-light-purple" style={{fontSize:"10px"}}>
+            <p
+              className="absolute top-[39%] sm:right-[34%] right-[31%] rotate-[-39deg] font-black text-[10px] leading-[15px] w-[137px] text-[#E3D5FA]"
+              style={{ fontSize: "10px" }}
+            >
               {t("connecting_connecting")}
             </p>
           </div>
@@ -142,7 +143,7 @@ const RwaReflector = () => {
             <div className={`${styles.lastCol} flex-auto text-right`}>
               {t("avlbl_tokens")}
             </div>
-          </div>   
+          </div>
 
           {/* nft bars */}
           <div className="md:block hidden">
@@ -158,6 +159,8 @@ const RwaReflector = () => {
                 rel="noopener noreferrer"
                 target="_blank"
                 onClick={(e) => e.stopPropagation()}
+                className="absolute right-0 top-4 z-10"
+
               >
                 <img
                   src="/opensea.png"
@@ -165,7 +168,6 @@ const RwaReflector = () => {
                   width={26}
                   height={26}
                   style={{ height: "26px", width: "26px" }}
-                  className="absolute right-0 top-4 z-10"
                 />
               </a>
               <div className="flex">
@@ -184,8 +186,8 @@ const RwaReflector = () => {
                   <h5 className="font-semibold text-2xl leading-7">
                     {t("behrain_amwaj")}
                   </h5>
-                  <p className="font-normal text-base leading-6 text-invar-success">
-                    {t("click_mint")}
+                  <p className="font-normal text-base leading-6 text-invar-error">
+                    {t("close")}
                   </p>
                 </div>
               </div>
@@ -193,7 +195,7 @@ const RwaReflector = () => {
               <p className={`${styles.percentVal} px-3`}>12.00%</p>
 
               <p className={`${styles.percentVal}  ${styles.tokenVal}`}>
-                ${(20000000-(soldNft * 2000)).toLocaleString()} / $20,000,000
+                $0 / $20,000,000
               </p>
             </div>
           </div>
@@ -221,7 +223,7 @@ const RwaReflector = () => {
                 <p className="font-normal text-xs leading-[18px] text-invar-grey mb-0.5">
                   Available (USDC)
                 </p>
-                <p className="font-semibold text-base leading-5">$10,000,000</p>
+                <p className="font-semibold text-base leading-5">$0</p>
               </div>
             </div>
 
@@ -235,26 +237,24 @@ const RwaReflector = () => {
                 </p>
               </div>
               <div className="flex justify-between mt-[7px] relative">
-             
-                <p className="text-invar-success font-normal text-sm leading-6">
-                  {t("click_mint")}
+                <p className="text-invar-error font-normal text-sm leading-6">
+                  {t("close")}
                 </p>
                 <a
-                href="https://opensea.io/collection/invaria-2222"
-                rel="noopener noreferrer"
-                target="_blank"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <img
-                  src="/opensea.png"
-                  alt="opensea-img"
-                  width={26}
-                  height={26}
-                  style={{ height: "26px", width: "26px" }}
-                  className="absolute right-0 bottom-2 z-10"
-                />
-              </a>
-
+                  href="https://opensea.io/collection/invaria-2222"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <img
+                    src="/opensea.png"
+                    alt="opensea-img"
+                    width={26}
+                    height={26}
+                    style={{ height: "26px", width: "26px" }}
+                    className="absolute right-0 bottom-2 z-10"
+                  />
+                </a>
               </div>
             </div>
           </div>

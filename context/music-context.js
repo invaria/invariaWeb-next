@@ -1,4 +1,4 @@
-import { createContext, useState,useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 const MusicContext = createContext({ isMusicOn: true, setIsMusicOn: () => {} });
 const { Provider } = MusicContext;
@@ -13,13 +13,14 @@ const MusicProvider = ({ children }) => {
   useEffect(() => {
     if (isMusicOn) document.getElementById("audio")?.play();
     else document.getElementById("audio")?.pause();
-    if(document.getElementById("audio")?.paused&&isMusicOn)document.getElementById("audio")?.play()
-
+    if (document.getElementById("audio")?.paused && isMusicOn)
+      document.getElementById("audio")?.play();
+    if (document.getElementById("audio").volume)
+      document.getElementById("audio").volume = 0.2;
     return () => {
       document.getElementById("audio")?.pause();
     };
   }, [isMusicOn]);
-
 
   return (
     <Provider value={obj}>

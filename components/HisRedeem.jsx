@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useNetwork, useAddress } from "@thirdweb-dev/react";
+import React, {  useState } from "react";
 import { shortenAddress } from "../src/utils/shortenAddress";
 import { useTranslation } from "next-i18next";
+import { useAccount } from "wagmi";
 
 const His = ({ i }) => {
-  const address = useAddress();
+  const { address } = useAccount();
   const [copy, setCopy] = useState(false);
   const { t } = useTranslation("dashboard");
   function handleCopy() {
@@ -16,10 +16,10 @@ const His = ({ i }) => {
 
   return (
     <div className="py-6 min-h-max w-full flex flex-col md:flex-row border-t border-[#37293E] ">
-      <div className=" m-0 w-full md:w-[214px] md:h-[187px]">
+      <div className=" m-0 w-full h-[270px] md:w-[214px] md:h-[187px]">
         {/* <Image className=" rounded" layout='fixed' width={214} height={187} src='/bg/bg_building.jpeg' /> */}
         <img
-          className="w-full md:w-[214px] md:h-[187px] rounded"
+          className="w-full h-full object-fill md:w-[214px] md:h-[187px] rounded"
           src="/bg/bg_building.jpeg"
         />
       </div>

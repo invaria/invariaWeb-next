@@ -1,7 +1,9 @@
 .headerWrapper {
-  background: radial-gradient(64.06% 64.06% at 50% 35.94%,
-      #55465d 0%,
-      #000000 100%);
+  background: radial-gradient(
+    64.06% 64.06% at 50% 35.94%,
+    #55465d 0%,
+    #000000 100%
+  );
 }
 
 .headerBg {
@@ -69,7 +71,7 @@
 }
 
 .introSection {
-  padding: 64px 0 44px 0;
+  padding: 88px 0 44px 0;
 }
 
 .exploreContWrapper {
@@ -133,7 +135,7 @@
 }
 
 .phase2Left {
-  width: 50%;
+  width: 55%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -183,8 +185,8 @@
 }
 
 .partnersSection {
-  margin-top: 64px;
-  padding-bottom: 143px;
+  padding-top: 64px;
+  padding-bottom: 220px;
   position: relative;
 }
 
@@ -192,12 +194,13 @@
   padding: 28px 36px;
   display: inline-flex;
   flex-wrap: wrap;
-  justify-content: center;
-  background: linear-gradient(101.67deg,
-      rgba(24, 20, 27, 0.3) 0%,
-      #18141b 32.81%,
-      #18141b 66.67%,
-      rgba(24, 20, 27, 0.3) 100%);
+  background: linear-gradient(
+    101.67deg,
+    rgba(24, 20, 27, 0.3) 0%,
+    #18141b 32.81%,
+    #18141b 66.67%,
+    rgba(24, 20, 27, 0.3) 100%
+  );
 }
 
 .logoCont {
@@ -290,8 +293,19 @@
 }
 
 .stripBG {
-  background: linear-gradient(101.67deg, rgba(24, 20, 27, 0.3) 0%, #18141B 32.81%, #18141B 66.67%, rgba(24, 20, 27, 0.3) 100%);
+  background: linear-gradient(
+    101.67deg,
+    rgba(24, 20, 27, 0.3) 0%,
+    #18141b 32.81%,
+    #18141b 66.67%,
+    rgba(24, 20, 27, 0.3) 100%
+  );
   border-radius: 4px;
+}
+
+.realNftBgImage {
+  position: absolute;
+  transform: translate(26%, 14%);
 }
 
 @media (max-width: 768px) {
@@ -400,7 +414,6 @@
   .logo8:hover {
     background-image: url("../public/v2imgs/router_hover.png");
   }
-  
 }
 
 @media (max-width: 1050px) {
@@ -430,6 +443,9 @@
     width: 50%;
     display: flex;
     align-items: center;
+  }
+  .partnerSectionWrapper {
+    justify-content: center;
   }
 }
 
@@ -487,7 +503,7 @@
 
   .introSection,
   .phase2 {
-    padding: 44px 0px 36px 0px;
+    padding: 44px 0px 35px 0px;
   }
 
   .exploreLeft,
@@ -589,8 +605,8 @@
   }
 
   .partnersSection {
-    margin-top: 44px;
-    padding-bottom: 143px;
+    padding-top: 110px;
+    padding-bottom: 130px;
   }
 
   .headerIconContainer {
@@ -616,6 +632,13 @@
   }
 }
 
+.circleLgTitle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 @media (max-width: 600px) {
   .logoCont {
     width: 164px;
@@ -635,7 +658,7 @@
   }
 
   .partnersSection {
-    padding-bottom: 90px;
+    padding-bottom: 110px;
   }
 
   .logo1 {
@@ -693,7 +716,7 @@
   }
 
   .mindmapSection {
-    margin-bottom: 44px;
+    padding-bottom: 44px;
   }
 
   .h5 {
@@ -721,11 +744,13 @@
   }
 
   .partnerSectionWrapper {
-    background: linear-gradient(101.67deg,
-        rgba(24, 20, 27, 0.3) 0%,
-        #18141b 32.81%,
-        #18141b 66.67%,
-        rgba(24, 20, 27, 0.3) 100%);
+    background: linear-gradient(
+      101.67deg,
+      rgba(24, 20, 27, 0.3) 0%,
+      #18141b 32.81%,
+      #18141b 66.67%,
+      rgba(24, 20, 27, 0.3) 100%
+    );
   }
 }
 

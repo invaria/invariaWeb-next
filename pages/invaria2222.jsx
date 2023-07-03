@@ -10,22 +10,29 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 //import { Link as ScrollLink } from "react-scroll";
 
 import styles from "../styles/Home.module.css";
-
-import CollapseMenu from "../components/CollapseMenu";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useAddress, useMetamask } from "@thirdweb-dev/react";
 import axios from "axios";
-//import { Dialog, Slide } from "@mui/material";
 import { ModalContext } from "../context/Modals-context";
-//import MobileWalletConnect from "../components/MobileWalletConnect";
+import { mintClosed } from "../src/utils/web3utils";
+import { AppContext } from "../context/app-context";
+import { useAccount, useConnect } from "wagmi";
+import MobileWalletConnect from "../components/MobileWalletConnect";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
+import male from "../public/male.png";
+import HeaderOld from "../components/HeaderOld";
+import HeaderNew from "../components/HeaderNew";
+import realWorldImage from "../public/v2imgs/image_intro_en.png";
+import trustMinimized from "../public/v2imgs/trust-minimized.png";
+import nftImage from "../public/v2imgs/nft.png";
+import nftbgImg from "../public/v2imgs/nft-bg.png";
+import nftImageSm from "../public/v2imgs/real-nft-sm.png";
+import circleLg1 from "../public/v2imgs/circle/circle-lg1.png";
+import circleLg2 from "../public/v2imgs/circle/circle-lg2.png";
+import circleLg3 from "../public/v2imgs/circle/circle-lg3.png";
+import circleLg4 from "../public/v2imgs/circle/circle-lg4.png";
 
 export const endtimestamp = 1664582400000;
-
-// const typewriterTW =
-//   "資產碎片化 NFT 如何運用、與資產價值連結變成後續的問題，部落正在研擬解決方案…財務工程師多雷米拉提出將 Amwaj20 資產統一由專業領袖管理，並將產出的價值分配給 NFT 持有者；而持有者可以通過協議質押 NFT 獲取對應的價值。";
-// const typewriterEN =
-//   "How to utilize the NFT, which is a fractionalization of the property, and the correlated values attribute to it have become follow-up concerns. The tribe is working on a solution... Dyoremira, a financial engineer, proposed to unify the management of Amwaj20 to professional leaders for creating stable returns, and distribute the consecutive values to NFT holders; holders are allowed to stake NFT through the protocol to obtain the corresponding values.";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -46,25 +53,22 @@ function App() {
   const [headerBackground, setHeaderBackground] = useState(false);
   const [currentTVL, setCurrentTVL] = useState("");
   const [interestAccured, setInterestAccured] = useState("");
+  const [changeHeaderStart, setChangeHeaderStart] = useState(false);
+  const [toggleHeader, setToggleHeader] = useState(false);
 
   const [toggleWallet, setToggleWallet] = useState(false);
   const [showConnected, setShowConnected] = useState(false);
 
   const { t } = useTranslation(["index", "storyline", "common"]);
-  const [origin, setorigin] = useState();
-  const modals = useContext(ModalContext);
-
   const router = useRouter();
-  const address = useAddress();
-  const connectWithMetamask = useMetamask();
+  const { address } = useAccount();
+
   let timeout;
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setorigin(window.location.origin);
       window.addEventListener("scroll", () =>
         setHeaderBackground(window.pageYOffset > 20)
       );
-      //check if page is not scrolled
       if (window.pageYOffset < 10) {
         setShowConnected(true);
       }
@@ -80,27 +84,6 @@ function App() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const node = document.getElementById("typeWriter");
-  //   if (!node) return;
-  //   let timer;
-  //   let text;
-  //   let i = 0;
-  //   node.textContent = "";
-  //   if (router.locale === "tw") text = typewriterTW;
-  //   else text = typewriterEN;
-  //   function typeWriter() {
-  //     if (i < text.length) {
-  //       node.innerHTML += text.charAt(i);
-  //       i++;
-  //       timer = setTimeout(typeWriter, 20);
-  //     }
-  //   }
-  //   typeWriter();
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [router.locale]);
   useEffect(() => {
     if (!address && toggleWallet) setToggleWallet(false);
     if (!currentTVL) {
@@ -114,7 +97,7 @@ function App() {
 
       axios
         .get(
-          "https://us-central1-invaria2222.cloudfunctions.net/total-interest-accrued"
+          "https://asia-east1-invaria2222.cloudfunctions.net/total-interest-accrued"
         )
         .then((response) => {
           console.log("interestaccured", response.data.totalInterestAccrued);
@@ -124,314 +107,109 @@ function App() {
     }
   }, []);
 
-  const headerWalletConnector = () => {
-    setShowConnected(true);
-    connectWithMetamask();
-    setTimeout(() => {
-      setShowConnected(false);
-    }, 5000);
-  };
+  const [toggleWallet2, setToggleWallet2] = useState(false);
+  const { openConnectModal } = useConnectModal();
 
+  let typewriterTW =
+    "”完成了！“ 多雷米拉盯著凌亂的電纜纏繞在一起的量子機器，“PASS” 字樣閃閃發光顯現著。多雷米拉花了數週時間與科學團隊合作，為部落治理和經濟公平分配製造特殊憑證，目的是創造一種可識別的方式，讓更多人體驗到在 InVaria 探索中的收穫，也是給先行者的額外獎勵。";
+  let typewriterEN =
+    "“It’s complete!”. Dyoremira staring at the quantum machine intertwined by messy cables, the “PASS” shining aside it. Dyoremira spends several weeks with science team to manufacture special credentials for tribes governance and fair economic distribution. Purpose is for creating an identifiable method to let more people experience the acquisition from InVaria exploration, as well as rewarding to the pioneers.";
+  useEffect(() => {
+    const node = document.getElementById("typeWriter");
+    if (!node) return;
+    let timer;
+    let text;
+    let i = 0;
+    node.textContent = "";
+    if (router.locale === "tw") text = typewriterTW;
+    else text = typewriterEN;
+    function typeWriter() {
+      if (i < text.length) {
+        node.innerHTML += text.charAt(i);
+        i++;
+        timer = setTimeout(typeWriter, 20);
+      }
+    }
+    typeWriter();
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [router.locale, toggleHeader]);
+  const toggleClickHandler = () => {
+    setChangeHeaderStart(true);
+    setTimeout(() => {
+      setToggleHeader((prevState) => !prevState);
+      setChangeHeaderStart(false);
+    }, 4000);
+  };
+  const CIRCLE_LG = [
+    {
+      name: t("do_kyc_first"),
+      description: t("do_kyc_first_desc"),
+      image: circleLg1,
+      width: "193px",
+      height: "186px",
+    },
+    {
+      name: t("mint_rwa_nft"),
+      description: t("mint_rwa_nft_desc"),
+      image: circleLg2,
+      width: "225px",
+      height: "216px",
+    },
+    {
+      name: t("finance_investment"),
+      description: t("finance_investment_desc"),
+      image: circleLg3,
+      width: "225px",
+      height: "216px",
+    },
+    {
+      name: t("hold_sell_redeem"),
+      description: t("hold_sell_redeem_desc"),
+      image: circleLg4,
+      width: "193px",
+      height: "186px",
+    },
+  ];
   return (
     <div className=" min-w-full max-w-full relative overscroll-none overflow-hidden h-full scrollbar-hide">
+      {toggleWallet2 && (
+        <MobileWalletConnect setToggleWallet={(e) => setToggleWallet2(e)} />
+      )}
       <Navbar headerBackground={headerBackground} />
 
-      {!address && (
-        <button
-          className="btn btn-primary w-full h-[48px] font-semibold text-base bg-invar-main-purple text-center normal-case	text-white absolute top-[60px] z-10 rounded-none md:hidden"
-          onClick={headerWalletConnector}
-        >
-          {t("connect_wallet", { ns: "common" })}
-        </button>
-      )}
-      {address && showConnected && (
+      {/* {address && showConnected && (
         <button className="w-full h-[48px] font-semibold text-base text-invar-success text-center normal-case absolute top-[60px] z-10 rounded-none md:hidden pointer-events-none">
           {t("connected_wallet", { ns: "common" })}
         </button>
-      )}
-      {/* {!address && toggleWallet && (
-        <MobileWalletConnect setToggleWallet={(e) => setToggleWallet(e)} />
       )} */}
-      <div className="w-full flex flex-col justify-center items-center h-0 ">
-        {/* <label
-          htmlFor="my-modal-1"
-          onClick={() => disableScroll()}
-          className="btn modal-button w-[183px] md:w-min btnShadow bg-white 
-      opacity-80 hover:bg-white hover:opacity-100 px-6  text-sm text-info rounded absolute 
-      top-[188px] md:top-[408px] md:left-[245px] z-[21] normal-case border-none md:hidden"
-        >
-          Storyline
-        </label> */}
-        {/* <ScrollLink
-          activeClass="active"
-          offset={-100}
-          smooth
-          spy
-          to="mindmap"
-          className="btn w-[183px] md:w-max btnShadow bg-white 
-    opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info rounded 
-    absolute top-[236px] md:top-[232px] md:right-1/2 normal-case border-none z-20 md:hidden"
-        >
-          <p>Mindmap</p>
-        </ScrollLink> */}
 
-        <Link href="/media">
-          <p
-            className="btn w-[183px] md:w-max btnShadow bg-white 
-    opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[168px] md:top-[280px] md:right-1/4 normal-case border-none z-20 md:hidden"
-          >
-            News
-          </p>
-        </Link>
-
-        <Link href="invaria2222#faqoutside">
-          <div
-            // htmlFor="property-modal"
-            // onClick={() => disableScroll()}
-            // onClick={() => modals.setPropertyModal(true)}
-            className=" md:hidden btn modal-button w-[183px] md:w-max btnShadow bg-white 
-    opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[232px] md:top-[280px] md:right-1/4 normal-case border-none z-20 "
-          >
-            {t("Learn")}
-          </div>
-        </Link>
-        {/* {Date.now() >= 1665936000000 && (
-          <div
-            onClick={() => modals.setPremintModal(true)}
-            className="btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
-    opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[312px] md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 "
-          >
-            {t("public_sale")}
-          </div>
-        )} */}
-
-        <Link href="/rwa-reflector">
-          <div
-            className="btn modal-button w-[183px] md:w-max btnShadow bg-white
-    opacity-80 hover:bg-white hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded absolute top-[296px] md:top-[449px] md:hidden  md:left-[450px] normal-case border-none z-20 "
-          >
-            {t("RWA REFLECTOR")}
-          </div>
-        </Link>
-
-        <div
-          onClick={() => router.push("/sftdemo")}
-          className="mt-4 z-20 absolute top-[360px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-[#FFC25F] opacity-80 hover:bg-[#FFC25F] hover:opacity-100
-      rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden"
-        >
-          <div className=" text-sm ">SFT Demo</div>
-        </div>
-        <Link href="/pass-nft">
-          <div
-            className="mt-4 z-20 absolute top-[424px] md:top-[375px] md:left-[738px] w-[183px] h-[48px] md:w-max btnShadow btn bg-invar-success hover:bg-invar-success opacity-80  hover:opacity-100
-      rounded normal-case border-none text-base font-semibold px-[21px] flex flex-col text-[#31135E] md:hidden"
-          >
-            <span
-              className="w-[85px] h-4 bg-invar-error rotate-[19.59deg] absolute text-white font-semibold text-xs leading-4 top-[-2px] right-[-15px] normal-case"
-              style={{
-                clipPath:
-                  "polygon(0% 0%, 100% 0%, 95% 49.5%, 100% 100%, 0% 100%, 0% 50%)",
-              }}
-            >
-              Whitelist
-            </span>
-            <div className=" text-sm ">PASS: InVariant</div>
-          </div>
-        </Link>
-      </div>
-
-      <div className=" w-full min-w-full max-w-full relative bg-gradient-radial from-[#55465D] to-black ">
-        {/* <img className=' z-0 h-screen min-h-screen w-full object-cover overflow-hidden' draggable="false" src='/bg/bg.png' alt="bg" /> */}
-
-        <img
-          className=" cloud1 absolute top-56 md:top-[161px] -left-16 md:left-0 right-0 w-[500px] md:w-[600px] object-contain z-10 "
-          draggable="false"
-          src="/cloud1.png"
-          alt="cloud1"
+      {toggleHeader && (
+        <HeaderOld toggleClick={() => setToggleHeader((s) => !s)} />
+      )}
+      {!toggleHeader && (
+        <HeaderNew
+          toggleClick={toggleClickHandler}
+          animateStart={changeHeaderStart}
         />
+      )}
 
-        <img
-          className=" cloud2 absolute top-[430px] -right-20 md:right-0 w-[600px] md:w-[600px] object-contain z-10 "
-          draggable="false"
-          src="/cloud2.png"
-          alt="cloud2"
-        />
-        <div className=" relative z-0 h-screen min-h-screen w-full object-cover overflow-hidden">
-          <Image
-            layout="fill"
-            objectFit="cover"
-            draggable="false"
-            src="/bg/bg.png"
-          />
-        </div>
-        {/* <img
-    className=" w-[23%] hidden absolute bottom-0 left-14 z-20 md:block overflow-hidden animate-fade-in-left"
-    draggable="false"
-    src="/bg/bg_1.png"
-    alt="bg"
-  /> */}
-        <label
-          // htmlFor="property-modal"
-          // onClick={() => disableScroll()}
-          onClick={() => modals.setPropertyModal(true)}
-          className=" hidden z-10 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[62%] right-[51%] md:flex justify-end items-start"
-        >
-          <div className=" hidden md:flex justify-center items-center z-10">
-            <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
-          </div>
-        </label>
-
-        <Link href={"/sftdemo"}>
-          <div className="z-30 hover:cursor-pointer absolute top-[46%] right-[53.5%] hidden md:flex">
-            <span className="animate-ping z-[1] absolute inline-flex h-[16px] bottom-1 left-0.5 w-[16px] rounded-full bg-[#ffc25f] opacity-75"></span>
-
-            <Image
-              src="/icons/ic_arrow.svg"
-              width={21}
-              height={19}
-              alt="arrow icon"
-            />
-          </div>
-        </Link>
-
-        {/* <div className=" hidden md:flex justify-center items-center z-10">
-            <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
-          </div> */}
-
-        <div>
-          <Link href={"/sftdemo"}>
-            <div className="z-10 hover:cursor-pointer absolute top-[47%] lg:right-[55%] right-[57%] hidden md:flex w-14 h-24"></div>
-          </Link>
-        </div>
-        {/* {Date.now() >= 1665936000000 && (
-          <div className="absolute top-[72%] lg:right-[75%] right-[83%] hidden md:flex">
-            <div
-              onClick={() => modals.setPremintModal(true)}
-              className="btn modal-button w-[183px] md:w-max btnShadow bg-invar-success 
-    opacity-80 hover:bg-invar-success hover:opacity-100 px-6 py-3 mt-4 md:mt-0 text-sm text-info 
-    rounded  normal-case border-none z-20 relative left-[9rem] top-7"
-            >
-              {t("public_sale")}
-            </div>
-          </div>
-        )} */}
-        <Link href="/rwa-reflector">
-          <div className=" z-10 w-[154px] h-10 bg-white text-info top-[54%] right-[39%] absolute rounded md:flex items-center justify-center font-semibold text-sm leading-6 btn modal-bottom btnShadow  opacity-80 border-none hover:bg-white hover:opacity-100 hidden">
-            RWA REFLECTOR
-          </div>
-        </Link>
-        <div
-          onClick={() => modals.setPassBuyModal(true)}
-          className="z-20 w-[154px] h-10 bg-invar-success text-info top-[75%] lg:left-[24%] left-[18%] absolute rounded md:flex items-center justify-center font-semibold text-sm leading-6 btn modal-bottom btnShadow  opacity-80 border-none hover:bg-invar-success hover:opacity-100 hidden normal-case"
-        >
-          <span
-            className="w-[85px] h-4 bg-invar-error rotate-[19.59deg] absolute text-white font-semibold text-xs leading-4 top-[-2px] right-[-15px] normal-case"
-            style={{
-              clipPath:
-                "polygon(0% 0%, 100% 0%, 95% 49.5%, 100% 100%, 0% 100%, 0% 50%)",
-            }}
-          >
-            Whitelist
-          </span>
-          PASS: InVariant
-        </div>
-        <div className="mt-[88px]  hidden absolute top-0 left-[24px] md:flex flex-row items-start justify-start h-[592px] w-[300px] text-white indent-0.5 font-normal text-sm z-10 animate-fade-in-down">
-          <div className="flex flex-col items-center justify-center mr-3 ">
-            <span className="flex h-3 w-3 justify-center items-center">
-              <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-white opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-            </span>
-            <div className="h-[540px] w-[1px] border-l bg-white -mt-1 z-0"></div>
-          </div>
-          {t("storyline_popup_story7", { ns: "storyline" })}
-        </div>
-        {/* 
-        <div className=" hidden absolute bottom-0 left-0 right-0 z-10 md:flex justify-center items-center">
-    <div
-      style={{ height: router.locale === 'en' ? "145px" : "99px" }}
-      className=" flex justify-start items-start text-start w-[826px] m-6 p-6 px-[87px] bg-invar-main-purple 
-      bg-opacity-60 text-white text-sm font-normal leading-[19.6px] rounded-lg animate-fade-in-up"
-    >
-      <div className="text-start flex justify-start" id="typeWriter">
-   
-      </div>
-    </div>
-  </div> */}
-        {router.locale === "en" && (
-          <h3 className="font-semibold md:text-[56px] md:leading-[61px] text-[26px] leading-7 text-invar-dark absolute bottom-[86px] right-6 z-10 text-right">
-            {t("bring")}
-            <br />
-            {t("real_world_asset")}
-            <br />
-            {t("generate")}
-            <br />
-            {t("real_value")}
-          </h3>
-        )}
-        {router.locale === "tw" && (
-          <h3 className="font-semibold md:text-[56px] md:leading-[61px] text-2xl leading-7 text-invar-dark absolute bottom-[86px] right-6 z-10 text-right">
-            通過 現實世界資產，
-            <br />
-            創造 真實價值
-          </h3>
-        )}
-
-        <div
-          onClick={() => modals.setPassNFTModal(true)}
-          className=" hidden z-10 pr-8 w-48 h-32 hover:cursor-pointer absolute top-[81%] right-[55%] lg:right-[56%] md:right-[58%] md:flex justify-end items-start"
-        >
-          <div className=" hidden md:flex justify-center items-center z-10">
-            <span className="animate-ping absolute inline-flex h-[14px] w-[14px] rounded-full bg-invar-error opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-[10px] w-[10px] bg-invar-error"></span>
-          </div>
-        </div>
-
-        <div className="m-6 flex justify-between absolute bottom-[0px] right-0 z-20">
-          <Twitter />
-          <Discord />
-        </div>
-      </div>
-
-      {/* <div className={`w-full md:h-[108px] z-20 relative pt-11 md:pt-0 ${styles.stripBG}`}>
-        <div className={`${styles.sidesSpacing} flex justify-between h-full md:flex-row flex-col md:items-end items-center`} >
-          <div className="my-auto md:flex-col flex-row flex">
-            <p className={`${styles.stripHeadingInfo} md:mr-0 sm:mr-5 mr-4`}>Current TVL</p>
-            <p className={styles.stripHeading}>$224,000</p>
-          </div>
-
-
-          <div className="my-auto md:flex-col flex-row flex">
-            <p className={`${styles.stripHeadingInfo} md:mr-0 sm:mr-5 mr-4`}>Interest Accrued</p>
-            <p className={styles.stripHeading}>$x,xxx</p>
-          </div>
-
-          <div className="flex items-end relative">
-            <Image src="/bg/lama.png" width={96} height={101} alt="lama-img" />
-            <span className="xl:absolute left-24 bottom-4 xl:mb-0 mb-4 text-[#E3D5FA] text-base font-normal rotate-[7.6deg]">We’re in<br />DefiLlama</span>
-          </div>
-        </div>
-      </div> */}
-      <div className="tvl-bg ">
+      {/* <div className="tvl-bg ">
         <div className="relative mx-auto max-w-[1112px] lg:h-[265px] h-[380px] w-full px-4 lg:pt-6 pt-4 lg:pb-7 pb-4 ">
           <div className="hidden lg:flex">
             <div className="flex items-center border border-[#413148] flex-1 relative">
               <Link href="/propertyinfo">
-                <label
-                  // htmlFor="property-modal"
-                  // onClick={() => disableScroll()}
-                  // onClick={() => modals.setPropertyModal(true)}
-                  className="w-full h-full top-0 right-0 absolute cursor-pointer z-[1]"
-                ></label>
+                <label className="w-full h-full top-0 right-0 absolute cursor-pointer z-[1]"></label>
               </Link>
               <div className="w-6 h-[109px] bg-invar-success roounded mr-6 hidden lg:block"></div>
               <div className="w-[89px] h-[91px] mr-4 ">
-                <Image width={89} height={91} src="/amwaj-sm.png" />
+                <Image
+                  width={89}
+                  height={91}
+                  src="/amwaj-sm.png"
+                  alt="modal-img"
+                />
               </div>
               <div className="flex justify-between items-center lg:mr-12 flex-1 lg:flex-row flex-col">
                 <div>
@@ -497,17 +275,10 @@ function App() {
                 {t("interest_accured")}
               </p>
               <p className="font-semibold text-[44px] leading-[52px]">
-                {
-                  interestAccured.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }) //("en-US", {
-                  //   style: "currency",
-                  //   currency: "USD",
-                  //   maximumSignificantDigits: 3
-
-                  //.slice(0, -3)
-                }
+                {interestAccured.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
               </p>
             </div>
 
@@ -536,28 +307,29 @@ function App() {
             <div className="h-3 w-full rounded bg-invar-success"></div>
             <div className="flex px-4 relative">
               <Link href="/propertyinfo">
-                <label
-                  // htmlFor="property-modal"
-                  // onClick={() => disableScroll()}
-                  // onClick={() => modals.setPropertyModal(true)}
-                  className="w-full h-full top-0 right-0 absolute cursor-pointer z-[1]"
-                ></label>
+                <label className="w-full h-full top-0 right-0 absolute cursor-pointer z-[1]"></label>
               </Link>
 
               <div className="w-[122px] h-[125px] mr-4 mt-2.5 mb-6">
-                <Image width={122} height={125} src="/amwaj-sm.png" />
+                <Image
+                  width={122}
+                  height={125}
+                  src="/amwaj-sm.svg"
+                  // src="/amwaj-sm.png"
+                  alt="modal-img"
+                />
               </div>
               <div>
-                <h6 className="font-normal text-xs leading-4 mt-1">
+                <h6 className="font-normal text-xs leading-[18px] mt-1">
                   {t("b_real_estate")}
                 </h6>
                 <p className="font-semibold text-xl leading-6 mb-1">Amwaj20</p>
-                <h6 className="font-normal text-xs leading-4">
+                <h6 className="font-normal text-xs leading-[18px]">
                   {t("est_apr")}
                 </h6>
                 <p className="font-semibold text-xl leading-6 mb-1">12%</p>
 
-                <h6 className="font-normal text-xs leading-4">
+                <h6 className="font-normal text-xs leading-[18px]">
                   {t("token_val")}
                 </h6>
                 <p className="font-semibold text-xl leading-6 mb-1">
@@ -588,15 +360,10 @@ function App() {
                 {t("interest_accured")}
               </p>
               <p className="font-semibold text-[30px] leading-[38px]">
-                {
-                  interestAccured.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  }) //("en-US", {
-                  //console.log(number.toLocaleString('en-US', { style: 'currency', currency: 'USD' }))
-
-                  //.slice(0, -3)
-                }
+                {interestAccured.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
               </p>
             </div>
             <div className="relative bottom-2">
@@ -606,9 +373,10 @@ function App() {
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <div className="relative bottom-1">
+                  <div className="relative bottom-0">
                     <Image
-                      src="/bg/lama.png"
+                      src="/lama.svg"
+                      // src="/bg/lama.png"
                       width={116}
                       height={75}
                       alt="lama-img"
@@ -624,14 +392,31 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className={styles.firstHalfbg}>
         <section className={`${styles.introSection} ${styles.sidesSpacing}`}>
           <div className={styles.exploreContWrapper}>
             <div className={styles.exploreLeft}>
-              <h3 className={styles.h3}>{t("homepage_intro_title")}</h3>
-              <p className={styles.p}>
+              <h3 className={`${styles.h3} hidden md:block`}>
+                {t("explore_benefit1")}
+                <br
+                  className={router.locale == "tw" ? "hidden" : "block"}
+                />{" "}
+                {t("explore_benefit2")}
+                <br
+                  className={router.locale == "tw" ? "hidden" : "block"}
+                />{" "}
+                {t("explore_benefit3")}
+              </h3>
+              <h3
+                className={`${styles.h3} ${
+                  router.locale == "tw" ? "!w-[100%]" : "!w-[90%]"
+                } md:hidden`}
+              >
+                {t("explore_benefit_sm")}
+              </h3>
+              <p className={`${styles.p}`}>
                 {t("homepage_intro_desc1")}
                 <br />
                 <br />
@@ -639,22 +424,29 @@ function App() {
               </p>
             </div>
             <div className={styles.exploreRight}>
+              {/* <Image
+                src={realWorldImage}
+                alt={t("homepage_intro_desc1")}
+                width={558}
+                height={448}
+              /> */}
               <div className="relative">
                 <Image
                   src={
                     router.locale === "tw"
-                      ? "/v2imgs/explore_tw.png"
-                      : "/v2imgs/explore.png"
+                      ? "/v2imgs/explore-nft-tw.png"
+                      : "/v2imgs/image_intro_en.png"
                   }
                   width={558}
                   height={448}
+                  alt="modal-img"
                 />
                 <div className="absolute w-20 h-[75px] flex items-center flex-col sm:left-[40%] sm:bottom-[25%] left-[35%] bottom-[18%]">
                   <span className="wm:text-base sm:text-base text-xs">
                     Youtube
                   </span>
                   <a
-                    href="https://www.youtube.com/watch?v=JYqibpdg-Yk"
+                    href="https://www.youtube.com/watch?v=ECLc-XO6VTA"
                     rel="noopener noreferrer"
                     target="_blank"
                   >
@@ -663,6 +455,7 @@ function App() {
                         src="/icons/ic_play.svg"
                         width={23}
                         height={23}
+                        alt="invar youtube"
                         className="sm:w-[23px] sm:h-[23px] w-4 h-4 ml-auto sm:mr-[18px] mr-[11px]"
                       />
                     </div>
@@ -672,10 +465,98 @@ function App() {
             </div>
           </div>
         </section>
+        <section className="hidden md:block mini-modal-section max-w-[1270px] m-auto px-5 w-full mt-10 mb-20 md:mb-[100px] md:mt-[66px]">
+          <h3 className={`${styles.h3} text-center w-full`}>
+            {t("how_it_works")}
+          </h3>
+          <div className="flex gap-5 justify-center items-center [&>*:first-child]:pt-[18px] [&>*:last-child]:pt-[18px]">
+            {CIRCLE_LG.map((item, index) => (
+              <div
+                key={item.name}
+                className="flex flex-col items-center justify-between h-[325px] relative"
+              >
+                {index !== CIRCLE_LG.length - 1 && (
+                  <img
+                    src="/arrow-right.png"
+                    className="absolute top-[6.5rem] right-[-3rem] w-[25%] h-2"
+                  />
+                )}
+                <div className={`relative`}>
+                  <Image
+                    src={item.image}
+                    alt={item.description}
+                    width={item.width}
+                    height={item.height}
+                  />
+                  <h4
+                    className={`${
+                      router.locale == "tw" ? "text-lg" : "text-2xl"
+                    } font-semibold ${styles.circleLgTitle} w-full text-center`}
+                  >
+                    {item.name}
+                  </h4>
+                </div>
+                <p className="w-[100%]">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+        <section className=" mt-7 mb-[90px] md:hidden">
+          <h2 className="font-semibold text-2xl leading-7 text-center mb-[28px]">
+            {t("how_it_works")}
+          </h2>
 
-        <section className=" hidden md:flex mini-modal-section max-w-[1270px] m-auto px-5 w-full mt-10 mb-20">
+          <div className="flex justify-center items-center px-1">
+            <div className="w-[360px] h-[1170px] relative">
+              <Image
+                src="/verticle-circles.png"
+                alt="circle img"
+                width={360}
+                height={1010}
+              />
+              <h5 className="text-xl font-semibold absolute top-[70px] left-[26px] w-[35%] text-center">
+                {t("do_kyc_first")}
+              </h5>
+              <p className="text-sm font-normal absolute top-[155px] right-0 w-[60%]">
+                {t("do_kyc_first_desc")}
+              </p>
+              <h5 className="text-xl font-semibold absolute top-[348px] right-[28px] w-[40%] text-center">
+                {t("mint_rwa_nft")}
+              </h5>
+              <p className="text-sm font-normal absolute top-[445px] left-0 w-[60%]">
+                {t("mint_rwa_nft_desc")}
+              </p>
+              <h5 className="text-xl font-semibold absolute top-[644px] left-[32px] w-[40%] text-center">
+                {t("finance_investment")}
+              </h5>
+              <p className="text-sm font-normal absolute top-[766px] right-0 w-[60%]">
+                {t("finance_investment_desc")}
+              </p>
+              <h5 className="text-xl font-semibold absolute top-[950px] right-[56px] w-[40%] text-center">
+                {t("hold_sell_redeem")}
+              </h5>
+              <p className="text-sm font-normal absolute bottom-[25px] left-0 w-[60%]">
+                {t("hold_sell_redeem_desc")}
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-end mr-10">
+            <button
+              onClick={() => router.push("/dashboard")}
+              className="w-[130px] h-[45px] rounded-3xl bg-white text-black font-semibold"
+            >
+              {t("get_started")}
+            </button>
+          </div>
+        </section>
+        <section className="hidden md:flex mini-modal-section max-w-[1270px] m-auto px-5 w-full mt-10 pb-20 md:pb-[152px]">
           <div className="w-[63.7%] relative flex items-center">
-            <Image src="/mini-modal.png" width={785} height={413} />
+            <Image
+              src={trustMinimized}
+              width={785}
+              height={413}
+              alt="modal-img"
+            />
           </div>
           <div
             className={`flex-1  ${
@@ -694,55 +575,74 @@ function App() {
             <div className="mt-9 ml-[52px] font-normal text-base leading-6">
               <p className="mb-10">{t("invaria_open_platform")}</p>
               <p>{t("trust_min")}</p>
+              <button
+                onClick={() => router.push("/dashboard")}
+                className="hidden md:flex justify-center items-center w-[130px] h-12 text-black bg-white text-base font-semibold rounded-3xl mt-[20px]"
+              >
+                {t("get_started")}
+              </button>
             </div>
           </div>
         </section>
-        <section className="mini-modal-mob mb-10 md:hidden">
-          <h3
+        <section className="mini-modal-mob md:mb-10 md:hidden">
+          {/* <h3
             className={`font-semibold text-2xl leading-7 text-center mb-6 px-4 ${
               router.locale === "tw" && "w-3/4 m-auto sm:block hidden"
             }`}
           >
             {t("trust_minimized")}
+          </h3> */}
+          <h3
+            className={`font-semibold text-2xl leading-7 mb-6 px-4 text-center`}
+          >
+            {t("trust_minimized_sm1")}
+            <br />
+            {t("trust_minimized_sm2")}
           </h3>
-          {router.locale === "tw" && (
-            <h3
-              className={`font-semibold text-2xl leading-7 mb-6 px-4 sm:hidden text-center`}
-            >
-              信任最小化模型
-              <br />
-              促進更美好的加密世界
-            </h3>
-          )}
-          <p className="font-normal text-base leading-6 mb-6 px-4">
+          <p className="font-normal text-sm leading-6 mb-6 px-4">
             {t("invaria_open_platform")}
           </p>
           <div className="flex flex-col relative sm:h-auto h-[630px]">
             <div className="w-[327px] h-[312px]">
-              <Image src="/modal-img-3.png" width={327} height={312} />
+              <Image
+                src="/modal-img-3.png"
+                width={327}
+                height={312}
+                alt="modal-img"
+              />
             </div>
             <div className="absolute w-[261px] h-[386px] left-32 top-28">
-              <Image src="/modal-img-2.png" width={261} height={386} />
+              <Image
+                src="/modal-img-2.png"
+                width={261}
+                height={386}
+                alt="modal-img"
+              />
             </div>
             <div className="w-[152px] h-[384px] relative bottom-16">
-              <Image src="/modal-img-1.png" width={152} height={384} />
+              <Image
+                src="/modal-img-1.png"
+                width={152}
+                height={384}
+                alt="modal-img"
+              />
             </div>
           </div>
-          <p className="font-normal text-base leading-6 mt-2 px-4">
+          <p className="font-normal text-sm leading-6 mt-2 px-4">
             {t("trust_min")}{" "}
           </p>
         </section>
 
-        <span id="mindmapoutside" className="relative bottom-28"></span>
+        {/* <span id="mindmapoutside" className="relative bottom-28"></span>
         <section
           id="mindmap"
           className={`${styles.mindmapSection} ${styles.sidesSpacing}`}
         >
           <h3 className={styles.h3}>{t("homepage_mindmap_title")}</h3>
-          <p className={styles.p}>{t("homepage_mindmap_desc")}</p>
-        </section>
+          <p className={`${styles.p}`}>{t("homepage_mindmap_desc")}</p>
+        </section> */}
 
-        <section id="storyline" className={styles.phase1}>
+        {/* <section id="storyline" className={styles.phase1}>
           <div className={`${styles.phase1Content} ${styles.sidesSpacing}`}>
             <div className={styles.phase1Left}></div>
 
@@ -760,10 +660,10 @@ function App() {
               </ul>
             </div>
           </div>
-        </section>
+        </section> */}
       </div>
       <div className={styles.secondHalfbg}>
-        <section className={styles.phase2}>
+        {/* <section className={styles.phase2}>
           <div className={`${styles.phase2Content} ${styles.sidesSpacing}`}>
             <div className={styles.phase2Left}>
               <h5 className={styles.h5}>{t("homepage_mindmap_phasetwo")}</h5>
@@ -771,7 +671,7 @@ function App() {
                 {t("homepage_mindmap_phasetwo_title")}
               </h3>
               <p className={styles.p}>{t("homepage_mindmap_phasetwo_desc")}</p>
-              <ul className={styles.ul}>
+              <ul className={`${styles.ul} text-sm md:text-base`}>
                 <li>{t("homepage_mindmap_phasetwo_point1")}</li>
                 <li>{t("homepage_mindmap_phasetwo_point2")}</li>
                 <li>{t("homepage_mindmap_phasetwo_point3")}</li>
@@ -779,9 +679,9 @@ function App() {
             </div>
             <div className={styles.phase2Right}></div>
           </div>
-        </section>
+        </section> */}
 
-        <section className={styles.phase3}>
+        {/* <section className={`${styles.phase3} md:mb-[120px]`}>
           <div className={`${styles.phase1Content} ${styles.sidesSpacing}`}>
             <div className={styles.phase3Left}></div>
             <div className={`${styles.phase1Right} ${styles.phase3Right}`}>
@@ -793,13 +693,15 @@ function App() {
                 {t("homepage_mindmap_phasethree_desc")}
               </p>
               <ul className={styles.ul}>
-                <li>{t("homepage_mindmap_phasethree_point1")}</li>
+                <li className="text-sm md:text-base">
+                  {t("homepage_mindmap_phasethree_point1")}
+                </li>
               </ul>
             </div>
           </div>
-        </section>
+        </section> */}
         <span id="faqoutside" className="relative bottom-28"></span>
-        <section
+        {/* <section
           id="faq"
           className={`${styles.faqSection} ${styles.sidesSpacing}`}
         >
@@ -1050,11 +952,23 @@ function App() {
             heading={t("tutorials_5_title")}
             para={<p className={styles.p}>{t("tutorials_5_desc_1")}</p>}
           />
-        </section>
+        </section> */}
 
         <section className={`${styles.partnersSection} ${styles.sidesSpacing}`}>
-          <h3 className={`${styles.h3} text-center`}>Partners</h3>
+          <h3 className={`${styles.h3} text-center`}>{t("partners_title")}</h3>
           <div className={styles.partnerSectionWrapper}>
+            <a
+              href="https://www.affluxcon.com/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <div className={`${styles.logoCont} `}>
+                <div className="flex items-center">
+                  <div className="sm:w-[150px] sm:h-[76px] w-[120px] h-[74px] bg-[url('/affux.png')] sm:hover:bg-[url('/affux_hover.png')]  bg-cover" />
+                </div>
+              </div>
+            </a>
+
             <a
               href="https://www.circle.com/en/"
               rel="noopener noreferrer"
@@ -1064,6 +978,19 @@ function App() {
                 <div className={styles.logo1}></div>
               </div>
             </a>
+
+            <a
+              href="https://app.crossspace.io/login"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <div className={`${styles.logoCont} `}>
+                <div className="flex items-center">
+                  <div className="sm:w-[150px] sm:h-[60px] w-[120px] h-[74px] bg-[url('/CrossSpace.png')] sm:hover:bg-[url('/CrossSpace_hover.png')]  bg-cover" />
+                </div>
+              </div>
+            </a>
+
             <a
               href="https://www.catchonlabs.xyz/"
               rel="noopener noreferrer"
@@ -1129,14 +1056,27 @@ function App() {
                 </div>
               </div>
             </a>
+
             <a
-              href="https://twitter.com/_ORCTrade"
+              href="https://moledao.io/#/starter"
               rel="noopener noreferrer"
               target="_blank"
             >
               <div className={`${styles.logoCont} `}>
                 <div className="flex items-center">
-                  <div className="sm:w-[150px] sm:h-[76px] w-[88px] h-[67px] bg-[url('/orc-black.png')] sm:hover:bg-[url('/orc.png')]  bg-cover" />
+                  <div className="sm:w-[150px] sm:h-[76px] w-[88px] h-[67px] bg-[url('/moledao.png')] sm:hover:bg-[url('/moledao_hover.png')]  bg-cover" />
+                </div>
+              </div>
+            </a>
+
+            <a
+              href="https://www.okx.com/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <div className={`${styles.logoCont} `}>
+                <div className="flex items-center">
+                  <div className="sm:w-[150px] sm:h-[76px] w-[88px] h-[67px] bg-[url('/okx_img.png')] sm:hover:bg-[url('/okx_img_hover.png')]  bg-cover" />
                 </div>
               </div>
             </a>
@@ -1175,6 +1115,72 @@ function App() {
             </a>
           </div>
         </section>
+        {/* <section className="hidden md:flex mini-modal-section max-w-[1270px] m-auto px-5 w-full mt-10 mb-[130px] relative">
+          <div>
+            <div
+              className={`${styles.h3} absolute ${
+                router.locale == "tw" ? "right-[240px]" : "right-[148px]"
+              }  top-[80px] z-[2] flex flex-col items-end`}
+            >
+              <h3>{t("nft_real1")}</h3>
+              <h3 className="ml-9">{t("nft_real2")}</h3> */}
+        {/* <button
+                onClick={() =>
+                  router.push({
+                    pathname: "/dashboard",
+                    query: {
+                      kyc: true,
+                    },
+                  })
+                }
+                className="hidden md:flex justify-center items-center w-[130px] h-12 text-black bg-white text-base font-semibold rounded-3xl mt-[20px]"
+              >
+                {t("go_kyc")}
+              </button> */}
+        {/* </div>
+            <div className="relative">
+              <Image
+                src={nftbgImg}
+                alt="invar nft"
+                width={504}
+                height={393}
+                className={styles.realNftBgImage}
+              />
+              <Image
+                src={nftImage}
+                alt={"nft image"}
+                width={688}
+                height={388}
+                className="relative z-[1]"
+              />
+            </div>
+          </div>
+        </section> */}
+        {/* <section className="mb-[80px] relative h-[440px] md:hidden">
+          <div className="flex justify-center">
+            <h3
+              className={`${styles.h3} text-center w-[80%] min-[380px]:w-[70%]`}
+            >
+              {t("nft_real1")} {t("nft_real2")}
+            </h3>
+          </div>
+          <Image src={nftImageSm} alt="invar nft" width={511} height={287} />
+          <button
+            onClick={() =>
+              router.push({
+                pathname: "/dashboard",
+                query: {
+                  kyc: true,
+                },
+              })
+            }
+            className={`absolute ${
+              router.locale == "tw" ? "top-[223px]" : "top-[250px]"
+            }  right-[28px] flex justify-center items-center w-[130px] h-[46px] text-black bg-white text-base font-semibold rounded-3xl mt-[20px] md:hidden`}
+          >
+            {t("go_kyc")}
+          </button>
+        </section> */}
         <ScrollToTop />
         <Footer />
       </div>

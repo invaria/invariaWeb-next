@@ -14,8 +14,10 @@ export default async function handler(req, res) {
         if(!language)language="en";
 
         sgMail.setApiKey(
-          "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"
+          "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"
         ); //kyc2
+        console.log("Audit status is", req.body.audit_status);
+        console.log("sgMail",sgMail)
         let msg;
         if (req.body.audit_status == "Pending") {
           msg = {
@@ -53,7 +55,7 @@ export default async function handler(req, res) {
           })
           .catch((error) => {
             console.error(error);
-            res.status(201).json("err");
+            res.status(417).json("err");
           });
       }
       // res.status(201).json("created")

@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { shortenAddress } from "../src/utils/shortenAddress";
-import Image from "next/image";
 import { useTranslation } from "next-i18next";
 
 const ItemActivity = ({ i }) => {
@@ -16,11 +15,11 @@ const ItemActivity = ({ i }) => {
   }
   return (
     <div className="py-6 min-h-max w-full flex flex-col md:flex-row border-t border-[#37293E] ">
-      <div className=" m-0 w-full md:w-[214px] md:h-[187px]">
+      <div className=" m-0 md:w-[214px] md:h-[187px] w-full h-[270px]">
         {/* <Image className=" rounded" layout='fixed' width={214} height={187} src='/bg/bg_building.jpeg' /> */}
         <img
-          className="w-full md:w-[214px] md:h-[187px] rounded"
-          src="/bg/bg_building.jpeg"
+          className="md:w-[214px] md:h-[187px] object-fill rounded  w-full h-full"
+          src={i.img}
         />
       </div>
       <div className=" grow mt-6 md:mt-0 md:ml-12 grid grid-cols-2 md:grid-cols-3 gap-0 font-[350] font tracking-wider">
@@ -28,20 +27,14 @@ const ItemActivity = ({ i }) => {
           <p className=" text-sm text-invar-light-grey mb-1 ">
             {t("dashbaord_activity_whitemint_nft")}
           </p>
-          <p className=" text-base text-white font-light ">
-            {t("dashbaord_activity_whitemint_nftname")}
-          </p>
+          <p className=" text-base text-white font-light ">{i.name}</p>
         </div>
         <div className=" h-[45px] ">
-          <p className=" text-sm text-invar-light-grey mb-1 ">
-            {t("dashbaord_activity_whitemint_address")}
-          </p>
-          <p className=" text-base text-white font-light ">
-            {i.to ? shortenAddress(i.to) : ""}
-          </p>
+          <p className=" text-sm text-invar-light-grey mb-1 ">Token ID</p>
+          <p className=" text-base text-white font-light ">#{i.tokenId}</p>
         </div>
         <div className=" h-[45px] ">
-          <p className=" text-sm text-invar-light-grey mb-1 ">
+          <p className=" text-sm text-invar-light-grey mb-1 md:mt-0 mt-5 ">
             {t("dashbaord_activity_whitemint_result")}
           </p>
           <p className=" text-base text-white font-light ">
@@ -52,15 +45,18 @@ const ItemActivity = ({ i }) => {
           <p className=" text-sm text-invar-light-grey mb-1 ">
             {t("dashbaord_activity_whitemint_amount")}
           </p>
-          <p className=" text-base text-white font-light ">{i.value}</p>
+          <p className=" text-base text-white font-light ">{i.amount}</p>
         </div>
         <div className=" h-[45px] mt-[20px] ">
           <p className=" text-sm text-invar-light-grey mb-1 ">
             {t("dashbaord_activity_whitemint_value")}
           </p>
           <p className=" text-base text-white font-light ">
-            {(2000 * i.value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
-            USDC
+            {i.value.includes("0.0")
+              ? "🚀"
+              : i.value.includes("0.")
+              ? "0.1 ETH"
+              : i.value}
           </p>
         </div>
         <div className=" md:h-[45px] mt-[20px] md:w-[180px] ">

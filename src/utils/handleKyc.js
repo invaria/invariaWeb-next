@@ -48,6 +48,7 @@ export const handleKyc = async (formdata) => {
     await createUser(resJSON.idv_task_id, formdata)
 
     kycURL = resJSON.url
+    console.log("emailTesturl",kycURL)
 
   } catch (error) {
     console.log(error);

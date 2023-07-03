@@ -1,20 +1,23 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import Link from "next/link";
 import { Navbar, ScrollToTop } from "../components/";
 import Footer from "../components/Footer";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Checkbox } from "@mui/material";
-import { useAddress, useMetamask, useNetwork } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 import { ButtonMailto } from "../components/icons/Link";
-import passWalletsList from "../src/utils/passWalletsList";
-import { passAddress } from "../src/utils/web3utils";
+import {
+  mintClosed,
+  mintNotStarted,
+  passAddress,
+  tokensAvailable,
+} from "../src/utils/web3utils";
 import passJSON from "../src/utils/passABI.json";
-import axios from "axios";
-import { checkIfWalletIsConnected } from "../src/utils/web3utils";
 import Image from "next/image";
+import { AppContext } from "../context/app-context";
+import { useAccount, useConnect, useNetwork, useSigner } from "wagmi";
+import { useConnectModal } from "@rainbow-me/rainbowkit";
 
 export async function getStaticProps({ locale }) {
   return {
@@ -37,23 +40,22 @@ const PassNFT = () => {
   const { t } = useTranslation(["passnft", "sale"]);
   const [checked, setChecked] = useState(false);
   const [readmore, setReadmore] = useState(false);
-  const [isWhitelistMintClaimed, setIsWhitelistMintClaimed] = useState(true);
-  const [tokensAlreadyMinted, setTokensAlreadyMinted] = useState(0);
   const [notification, setNotification] = useState("");
   const [notiType, setNotiType] = useState("success");
   const [btnState, setBtnState] = useState();
-  const [ethBalance, setEthBalance] = useState(0);
-  const [usdcBalance, setUsdcBalance] = useState(0);
-  const [getCoinPrice, setgetCoinPrice] = useState(0);
   const [loading, setLoading] = useState(false);
+  const allowedToMint = useRef(0);
 
-  const connectWithMetamask = useMetamask();
-  const address = useAddress();
-  const network = useNetwork();
+  const { address } = useAccount();
+  const { connect, connectors } = useConnect();
+  const { chain } = useNetwork();
+  const { data: signer } = useSigner();
+  const provider = signer?.provider;
 
+  const appCTX = useContext(AppContext);
   function handleMintNum(c) {
     if (c == "+") {
-      if (mintNum < 1000) setMintNum(+mintNum + 1);
+      if (mintNum < allowedToMint.current) setMintNum(+mintNum + 1);
       return;
     } else if (c == "-") {
       if (mintNum > 0) setMintNum(+mintNum - 1);
@@ -61,40 +63,39 @@ const PassNFT = () => {
     } else {
       if (c < 0) {
         setMintNum(0);
-      } else if (c > 1000) {
-        setMintNum(1000);
+      } else if (c > allowedToMint.current) {
+        setMintNum(allowedToMint.current);
       } else {
         setMintNum(+c);
       }
     }
   }
 
-  useEffect(() => {
-    if (address == undefined) return;
-    const func = async () => {
-      isCorrectNetwork && setLoading(true);
-      await checkIfWalletIsConnected(
-        address,
-        setEthBalance,
-        setUsdcBalance,
-        setgetCoinPrice
-      );
-      setLoading(false);
-    };
-    try {
-      func();
-    } catch (e) {
-      setLoading(false);
-    }
-  }, [address, network[0]?.data?.chain?.id]);
+  useEffect(
+    () => {
+      const func = async () => {
+        isCorrectNetwork && setLoading(true);
+        if (address && provider) await fetchInitialData();
+        setMintNum(0);
+        setLoading(false);
+      };
+      try {
+        func();
+      } catch (e) {
+        setLoading(false);
+      }
+    },
+    [address, chain?.id, provider],
+    provider
+  );
 
   useEffect(() => {
-    if (+ethBalance < 0.05) {
+    if (+appCTX.ethBalance < +mintNum * 0.1) {
       setBtnState("nofund");
     } else {
       setBtnState("mint");
     }
-  }, [ethBalance, mintNum]);
+  }, [appCTX.ethBalance, mintNum]);
 
   const fixedinfo = (
     <>
@@ -138,63 +139,54 @@ const PassNFT = () => {
         <div
           className="bg-invar-success h-[30px] w-[73px] rounded absolute top-0 left-0"
           style={{
-            width: `${(tokensAlreadyMinted / 500) * 100}%`,
+            width: `${(appCTX.tokensAlreadyMinted / 500) * 100}%`,
           }}
         ></div>
         <p className="font-normal text-sm leading-5 text-white mt-[6px] mr-1.5 relative z-10">
-          {500 - tokensAlreadyMinted} / 500
+          {500 - appCTX.tokensAlreadyMinted} / 500
         </p>
       </div>
     </>
   );
 
-  let inWhitelist = address
-    ? passWalletsList.includes(address.toLocaleLowerCase())
-    : false;
   let isCorrectNetwork;
   if (process.env.PRODUCTION === "true") {
-    isCorrectNetwork = network[0]?.data?.chain?.id === 1;
+    isCorrectNetwork = chain?.id === 1;
   } else {
-    isCorrectNetwork = network[0]?.data?.chain?.id === 5;
+    isCorrectNetwork = chain?.id === 5;
   }
 
-  const getProof = async () => {
-    const apiResult = await axios.post("api/whitelist-proof", {
-      address: address.toLowerCase(),
-    });
-    const treeResult = apiResult.data;
-    const proof = treeResult.proof;
-    const root = treeResult.root;
-    console.log("root\n", root);
-    console.log("proof", proof);
-    return proof;
-  };
-
-  const whitelistMintHandler = async () => {
+  const publicMintHandler = async () => {
     setBtnState("minting");
-    const proof = await getProof();
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
     try {
       const nftContract = new ethers.Contract(
         passAddress,
         passJSON.abi,
         signer
       );
-      let tx = await nftContract.whitelistMint(proof, {
-        gasLimit: 230000,
-        value: ethers.utils.parseEther("0.05"),
+      let fee;
+      if (mintNum === 1) {
+        fee = 210000;
+      } else if (mintNum === 2) {
+        fee = 350000;
+      } else if (mintNum === 3) {
+        fee = 500000;
+      }
+      let tx = await nftContract.publicMint(mintNum, {
+        value: ethers.utils.parseEther(`${mintNum * 0.1}`),
+        gasLimit: fee,
       });
       await tx.wait();
       setBtnState("mint");
-
       setNotiType("success");
       setNotification(
         router.locale === "en"
           ? "Transaction Successful! You can check NFT in Dashboard / Wallet."
           : "交易成功！您可以到 Dashboard 或錢包查看。"
       );
-      setIsWhitelistMintClaimed(true);
+      appCTX.setTokensAlreadyMinted(appCTX.tokensAlreadyMinted + mintNum);
+
+      fetchInitialData();
     } catch (error) {
       setBtnState("mint");
 
@@ -209,58 +201,22 @@ const PassNFT = () => {
   };
 
   const fetchInitialData = async () => {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const nftContract = new ethers.Contract(
-      passAddress,
-      passJSON.abi,
-      provider
-    );
-    const tokens = await nftContract.mintRecords(address);
-    console.log("tokensClaimed", tokens.whitelistClaimed);
-    setIsWhitelistMintClaimed(tokens.whitelistClaimed);
+    console.log("fetchInitialData");
+    const nftContract = new ethers.Contract(passAddress, passJSON.abi, signer);
+    try {
+      const tokens = await nftContract.mintRecords(address);
+      console.log("tokensAlready", tokens);
+      allowedToMint.current = 3 - +tokens.publicMinted;
+      if (+tokens.publicMinted === 3) setMintNum(0);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  useEffect(() => {
-    //if (!address) return;
-    const func = async () => {
-      isCorrectNetwork && setLoading(true);
-      if (address) await fetchInitialData();
-      let rpcUrl;
-      if (process.env.PRODUCTION === "true")
-        rpcUrl = `https://mainnet.infura.io/v3/${process.env.infura_key}`;
-      else rpcUrl = `https://goerli.infura.io/v3/${process.env.infura_key}`;
+  let limitExceeded = appCTX.tokensAlreadyMinted + mintNum > tokensAvailable;
+  // let allowedToMint.current = 3 - mintedCount;
+  const { openConnectModal } = useConnectModal();
 
-      console.log("rpcurl", rpcUrl.slice(0, 14));
-
-      const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
-      const nftContract = new ethers.Contract(
-        passAddress,
-        passJSON.abi,
-        provider
-      );
-
-      nftContract
-        .currentTokenId()
-        .then((res) => setTokensAlreadyMinted(+res.toString()))
-        .catch((e) => {
-          console.log(e);
-        });
-      setLoading(false);
-    };
-    try {
-      func();
-    } catch (e) {
-      setLoading(false);
-    }
-  }, [address, network[0]?.data?.chain?.id]);
-
-  let mintClosed = new Date().getTime() > 1677110400000;
-  let mintNotStarted = new Date().getTime() < 1676851200000;
-  let soldOut = tokensAlreadyMinted >= 400;
-//1.tree change
-//2.time stamp
-//3.mint closed value
-//4.pass wallet list update
   return (
     <div>
       <Navbar headerBackground={headerBackground} />
@@ -281,12 +237,12 @@ const PassNFT = () => {
         <div className="md:pt-[152px] pt-[90px] px-4 max-w-[1010px] lg:mx-auto md:ml-12 relative">
           <div className="flex w-full md:justify-between md:flex-row flex-col mb-10">
             <div className="md:max-w-[466px]">{fixedinfo}</div>
-            {soldOut && (
+            {appCTX.passNftSoldOut && (
               <div className="lg:min-w-[466px] max-w-[466px] md:flex md:max-h-[486px] md:h-[486px] lg:ml-0 md:ml-2 md:min-w-[340px] hidden items-center justify-center">
                 <p>SOLD OUT!</p>
               </div>
             )}
-            {!soldOut && (
+            {!appCTX.passNftSoldOut && (
               <div className="lg:min-w-[466px] max-w-[466px] md:max-h-[486px] md:h-[486px] bg-[#37293E] mt-6 md:mt-12 lg:ml-0 md:ml-2 md:min-w-[340px] lg:px-0 px-4">
                 {mintClosed && (
                   <div className="md:flex justify-center hidden mt-[318px]">
@@ -307,7 +263,7 @@ const PassNFT = () => {
                             {t("mint_stage")}
                           </p>
                           <p className=" text-base font-semibold text-white ">
-                            {t("whitelist_stage")}
+                            {t("public_stage")}
                           </p>
                         </div>
                         <div className=" mt-4 flex justify-between items-baseline">
@@ -323,12 +279,12 @@ const PassNFT = () => {
                             {t("mint_time")}
                           </p>
                           <p className=" text-base font-semibold text-white max-w-[260px] text-end ">
-                            Feb 20, 00:00 ~ 23, 00:00 UTC
+                            Mar 1, 00:00 ~ 15, 00:00 UTC
                           </p>
                         </div>
                         {!address && (
                           <button
-                            onClick={connectWithMetamask}
+                            onClick={openConnectModal}
                             className="mt-[195px] btn mb-[18px] bg-invar-dark w-full h-[52px] font-semibold text-sm text-white border-none normal-case rounded"
                           >
                             {t("connect_wallet")}
@@ -336,18 +292,13 @@ const PassNFT = () => {
                         )}
                       </div>
                     )}
-                    {address && !isCorrectNetwork && (
-                      <div className="w-full h-32"></div>
-                    )}
+                    {!isCorrectNetwork && <div className="w-full h-32"></div>}
 
-                    {address &&
-                      !inWhitelist &&
-                      isCorrectNetwork &&
-                      isCorrectNetwork && (
-                        <p className="font-normal text-base leading-5 text-invar-validation md:max-w-[327px] mx-auto text-center my-9">
-                          {t("whitelist_title")}
-                        </p>
-                      )}
+                    {/* {isCorrectNetwork && (
+                      <p className="font-normal text-base leading-5 text-invar-validation md:max-w-[327px] mx-auto text-center my-9">
+                        {t("public_title")}
+                      </p>
+                    )} */}
 
                     {address && !isCorrectNetwork && (
                       <p className="text-center font-normal text-base leading-5 md:max-w-[327px] mx-auto my-9">
@@ -356,7 +307,7 @@ const PassNFT = () => {
                       </p>
                     )}
 
-                    {address && inWhitelist && isCorrectNetwork && (
+                    {address && isCorrectNetwork && (
                       <div className="md:max-w-[327px] mx-auto">
                         <>
                           <p className=" mt-3 text-sm font-normal text-invar-light-grey ">
@@ -366,17 +317,14 @@ const PassNFT = () => {
                             <input
                               type="number"
                               onChange={(e) => handleMintNum(e.target.value)}
-                              value={""}
-                              // min="0"
-                              // required
-                              disabled
+                              value={mintNum}
+                              min="0"
+                              required
                               className="appearance-none disabled:text-white block mt-1 px-3 h-[48px] bg-invar-main-purple w-full font-semibold text-2xl text-white rounded focus:border border-white text-center"
                               style={{ color: "white" }}
                             />
-                              <p className="text-center absolute top-2 translate-x-[-5px] left-1/2 text-white font-semibold text-2xl">1</p>
 
-                            {
-                              //mintNum < 1 ?
+                            {mintNum < 1 ? (
                               <button className=" w-6 absolute inset-y-0 left-[14px] flex items-center text-white">
                                 <img
                                   className=" w-6 "
@@ -384,28 +332,40 @@ const PassNFT = () => {
                                   alt=""
                                 />
                               </button>
-                              //  : (
-                              //   <button
-                              //     className=" w-6 cursor-pointer absolute inset-y-0 left-[14px] flex items-center text-white"
-                              //     onClick={() => handleMintNum("-")}
-                              //   >
-                              //     <img
-                              //       className=" w-6 "
-                              //       src="/icons/ic_minus.svg"
-                              //       alt=""
-                              //     />
-                              //   </button>
-                              // )
-                            }
+                            ) : (
+                              <button
+                                className=" w-6 cursor-pointer absolute inset-y-0 left-[14px] flex items-center text-white"
+                                onClick={() => handleMintNum("-")}
+                              >
+                                <img
+                                  className=" w-6 "
+                                  src="/icons/ic_minus.svg"
+                                  alt=""
+                                />
+                              </button>
+                            )}
+                            {console.log(
+                              "allowedToMint.current",
+                              allowedToMint.current
+                            )}
                             <button
                               className=" w-6 cursor-pointer absolute inset-y-0 right-[14px] flex items-center text-white"
-                              //   onClick={() => handleMintNum("+")}
+                              onClick={() => handleMintNum("+")}
                             >
-                              <img
-                                className=" w-6 "
-                                src="/icons/ic_plus_disabled.svg"
-                                alt=""
-                              />
+                              {allowedToMint.current == 0 ||
+                              mintNum == allowedToMint.current ? (
+                                <img
+                                  className="w-6 "
+                                  src="/icons/ic_plus_disabled.svg"
+                                  alt=""
+                                />
+                              ) : (
+                                <img
+                                  className=" w-6 "
+                                  src="/icons/ic_plus.svg"
+                                  alt=""
+                                />
+                              )}
                             </button>
                           </div>
                           <div className=" mt-4 flex justify-between items-baseline">
@@ -413,7 +373,7 @@ const PassNFT = () => {
                               {t("eth_amount")}
                             </p>
                             <p className=" font-semibold text-white text-base">
-                              0.05 ETH
+                              {(mintNum * 0.1).toFixed(2)} ETH
                             </p>
                           </div>
                           <div className="flex mb-3 items-center">
@@ -442,6 +402,7 @@ const PassNFT = () => {
                                 />
                               </div>
                             )}
+
                             <p className="text-accent font-normal text-xs leading-[18px]">
                               {t("have_read")}
                               <Link href={"/terms"}>
@@ -471,19 +432,19 @@ const PassNFT = () => {
                               <button className="btn loading bg-invar-dark w-full h-[48px] font-semibold text-sm text-white border-none normal-case rounded">
                                 {t("minting")}
                               </button>
-                            ) : btnState === "nofund" &&
-                              !isWhitelistMintClaimed ? (
+                            ) : btnState === "nofund" ? (
                               <div className="btn btn-disabled bg-invar-disabled w-full h-[48px] font-semibold text-sm text-invar-light-grey border-none normal-case rounded">
                                 {t("nofund")}
                               </div>
                             ) : (
                               <button
                                 className="btn bg-invar-dark w-full h-[48px] font-semibold text-sm text-white disabled:bg-invar-grey disabled:text-invar-light-grey border-none normal-case rounded"
-                                onClick={whitelistMintHandler}
+                                onClick={publicMintHandler}
                                 disabled={
                                   !checked ||
-                                  isWhitelistMintClaimed ||
-                                  mintNotStarted
+                                  mintNotStarted ||
+                                  mintNum < 1 ||
+                                  limitExceeded
                                 }
                               >
                                 {`${t("mint")} (${mintNum})`}
@@ -575,19 +536,19 @@ const PassNFT = () => {
                       </div>
                     )}
 
-                    {address && (!inWhitelist || !isCorrectNetwork) && (
+                    {address && !isCorrectNetwork && (
                       <div className="md:max-w-[327px] mx-auto">
                         <ul className="list-decimal pl-3 text-xs font-normal text-invar-light-grey mb-3 mx-auto">
-                          <li>{t("whitelist_note_1")}</li>
-                          <li>{t("whitelist_note_2")}</li>
-                          <li>{t("whitelist_note_3")}</li>
+                          <li>{t("public_notice_1")}</li>
+                          <li>{t("public_notice_2")}</li>
+                          <li>{t("public_notice_3")}</li>
                           {readmore && (
                             <>
-                              <li>{t("whitelist_note_4")}</li>
-                              <li>{t("whitelist_note_5")}</li>
+                              <li>{t("public_notice_4")}</li>
+                              <li>{t("public_notice_5")}</li>
 
                               <li>
-                                {t("whitelist_note_6")} <ButtonMailto />.
+                                {t("public_notice_6")} <ButtonMailto />.
                               </li>
                             </>
                           )}
@@ -619,10 +580,10 @@ const PassNFT = () => {
           <div className="flex z-10 border-b-2 border-invar-main-purple">
             <button
               className={
-                "pb-2 mr-9 h-[36px] w-[110px] text-sm font-semibold text-center text-white border-b-2 border-t-2 border-t-transparent"
+                "pb-2 mr-9 h-[36px] min-w-[120px] text-sm font-semibold text-center text-white border-b-2 border-t-2 border-t-transparent"
               }
             >
-              {t("about")}
+              <span className="whitespace-nowrap"> {t("about")}</span>
             </button>
           </div>
           <div className="max-w-[938px] md:min-h-[630px] min-h-[555px] px-4 relative ml-auto min-w-[375px] ">
