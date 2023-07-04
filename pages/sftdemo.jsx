@@ -1047,8 +1047,10 @@ const SFTDemo = () => {
               <div className="relative lg:h-72 md:h-[14rem] lg:max-w-[1020px] md:w-11/12 m-auto bg-[url('/bg/sft-landscape-bg.png')] bg-contain bg-no-repeat bg-center sm:bg-contain">
                 <div className="lg:w-[1020px] max-w-full m-auto px-5 relative bottom-4 font-semibold md:text-xl leading-6 md:flex justify-between hidden">
                   <p> {t("100x")}</p>
-                  <p>{t("real_world_asset")}</p>
-                  <p>{t("fraction")}</p>
+                  <p className="relative lg:right-4 md:right-3">
+                    {t("real_world_asset")}
+                  </p>
+                  <p className="relative lg:right-6 ">{t("fraction")}</p>
                 </div>
                 <div className="absolute top-[44%] flex">
                   <img
