@@ -14,7 +14,7 @@ export default async function handler(req, res) {
         if(!language)language="en";
 
         sgMail.setApiKey(
-          "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"
+          "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"
         ); //kyc2
         console.log("Audit status is", req.body.audit_status);
         console.log("sgMail",sgMail)
